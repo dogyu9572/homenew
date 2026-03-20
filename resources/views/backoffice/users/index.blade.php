@@ -3,37 +3,36 @@
 @section('title', $pageTitle ?? '')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/common/buttons.css') }}">
+<link rel="stylesheet" href="{{ asset('css/backoffice/boards.css') }}">
 <link rel="stylesheet" href="{{ asset('css/backoffice/users.css') }}">
 @endsection
 
 @section('content')
-<div class="board-container users-page">
-    <div class="board-header">
-        <h1>회원 관리</h1>
-        <a href="{{ route('backoffice.users.create') }}" class="btn btn-success">
-            <i class="fas fa-plus"></i> 새 회원 추가
-        </a>
-    </div>
-
-    @if(session('success'))
-        <div class="alert alert-success">
+@if(session('success'))
+        <div class="alert alert-success board-hidden-alert">
             {{ session('success') }}
         </div>
-    @endif
+@endif
 
-    @if(session('error'))
-        <div class="alert alert-danger">
+@if(session('error'))
+        <div class="alert alert-danger board-hidden-alert">
             {{ session('error') }}
         </div>
-    @endif
+@endif
+
+<div class="board-container">
+    <div class="board-page-header">
+        <div class="board-page-buttons">
+            <a href="{{ route('backoffice.users.create') }}" class="btn btn-success">
+                <i class="fas fa-plus"></i> 신규등록
+            </a>
+        </div>
+    </div>
 
     <div class="board-card">
         <div class="board-card-body">
-            <!-- 검색 필터 -->
-            <div class="user-filter">
+            <div class="board-filter">
                 <form method="GET" action="{{ route('backoffice.users.index') }}" class="filter-form">
-                    <!-- 첫 번째 줄 -->
                     <div class="filter-row">
                         <div class="filter-group">
                             <label for="name" class="filter-label">이름</label>
@@ -59,8 +58,7 @@
                             </select>
                         </div>
                     </div>
-                    
-                    <!-- 두 번째 줄 -->
+
                     <div class="filter-row">
                         <div class="filter-group">
                             <label for="created_from" class="filter-label">가입일</label>
@@ -87,8 +85,7 @@
             </div>
 
             @if($users->count() > 0)
-                <!-- 목록 개수 선택 -->
-                <div class="user-list-header">
+                <div class="board-list-header">
                     <div class="list-info">
                         <span class="list-count">Total : {{ $users->total() }}</span>
                     </div>
@@ -97,12 +94,12 @@
                             @foreach(request()->except('per_page') as $key => $value)
                                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                             @endforeach
-                            <label for="per_page" class="per-page-label">목록 개수:</label>
+                            <label for="per_page" class="per-page-label">표시 개수:</label>
                             <select id="per_page" name="per_page" class="per-page-select" onchange="this.form.submit()">
-                                <option value="10" @selected(request('per_page', 10) == 10)>10</option>
-                                <option value="20" @selected(request('per_page') == 20)>20</option>
-                                <option value="50" @selected(request('per_page') == 50)>50</option>
-                                <option value="100" @selected(request('per_page') == 100)>100</option>
+                                <option value="10" @selected(request('per_page', 10) == 10)>10개</option>
+                                <option value="20" @selected(request('per_page') == 20)>20개</option>
+                                <option value="50" @selected(request('per_page') == 50)>50개</option>
+                                <option value="100" @selected(request('per_page') == 100)>100개</option>
                             </select>
                         </form>
                     </div>
@@ -114,6 +111,7 @@
                                 <th>번호</th>
                                 <th>이름</th>
                                 <th>이메일</th>
+                                <th>로그인 ID</th>
                                 <th>가입일</th>
                                 <th>상태</th>
                                 <th>관리</th>
@@ -125,17 +123,13 @@
                                     <td>{{ $users->total() - ($users->currentPage() - 1) * $users->perPage() - $loop->index }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $user->login_id ?? '-' }}</td>
+                                    <td>{{ $user->created_at->format('Y.m.d H:i') }}</td>
                                     <td>
-                                        <span class="status-badge {{ $user->is_active ? 'status-active' : 'status-inactive' }}">
-                                            {{ $user->is_active ? '활성화' : '비활성화' }}
-                                        </span>
+                                        {{ $user->is_active ? '활성화' : '비활성화' }}
                                     </td>
                                     <td>
                                         <div class="board-btn-group">
-                                            <a href="{{ route('backoffice.users.show', $user) }}" class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i> 보기
-                                            </a>
                                             <a href="{{ route('backoffice.users.edit', $user) }}" class="btn btn-primary btn-sm">
                                                 <i class="fas fa-edit"></i> 수정
                                             </a>

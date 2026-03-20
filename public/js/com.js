@@ -1,7 +1,19 @@
 $(document).ready(function(){
 //헤더
 	function checkHeader() {
-		if ($(window).scrollTop() > 50) {
+		const $intro      = $(".intro");
+		const $mainVisual = $(".main_visual");
+		const isMain      = $intro.length > 0;
+
+		let threshold = 50;
+
+		if (isMain) {
+			const introH      = $intro.outerHeight()      || 0;
+			const mainVisualH = $mainVisual.outerHeight()  || 0;
+			threshold = introH + mainVisualH;
+		}
+
+		if ($(window).scrollTop() > threshold) {
 			$(".header").addClass("fixed");
 		} else {
 			$(".header").removeClass("fixed");
@@ -15,6 +27,27 @@ $(document).ready(function(){
 	$(".header").mouseleave(function(){
 		$(".header").stop(false,true).removeClass("hover");
 	});
+//헤더 색상별 클래스
+	function checkHeaderBg() {
+		const headerH = $(".header").outerHeight();
+		const checkY  = $(window).scrollTop() + headerH / 2;
+
+		$("section, div[data-header]").each(function () {
+			const top    = $(this).offset().top;
+			const bottom = top + $(this).outerHeight();
+
+			if (checkY >= top && checkY <= bottom) {
+				const mode = $(this).data("header");
+				$(".header").removeClass("bg_white bg_black");
+				if (mode === "light") $(".header").addClass("bg_black");
+				if (mode === "dark")  $(".header").addClass("bg_white");
+				return false; // each 중단
+			}
+		});
+	}
+
+	$(window).on("scroll", checkHeaderBg);
+	checkHeaderBg();
 //접근성 헤더 메뉴
     const $menuItems = $('.gnb .menu');
     function openSnb($menu) {

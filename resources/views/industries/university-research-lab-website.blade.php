@@ -8,7 +8,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head industry_head main_service" aria-labelledby="industry-head-title">
+	<section class="infopage_head industry_head main_service" aria-labelledby="industry-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="industry-head-title">대학·연구실 홈페이지 제작, <br class="pc_vw">홈페이지코리아는 지식의 가치까지 높입니다. </h1>
 			<p class="tb">27년 업력의 홈페이지코리아가 대학·연구 행정의 <br class="pc_vw">모든 과정을 디지털로 전환합니다.</p>
@@ -58,7 +58,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title">
+	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="industry-solution-title"><strong>홈페이지코리아는 대학·연구실 홈페이지를</strong> <br class="pc_vw">체계적으로 구현합니다.</h2>
@@ -79,7 +79,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_how industry_process" aria-labelledby="industry-process-title">
+	<section class="infopage_how industry_process" aria-labelledby="industry-process-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">Process</p>
 			<h2 id="industry-process-title"><strong>대학·연구실 홈페이지 제작</strong>, 이렇게 진행됩니다</h2>
@@ -128,7 +128,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_review industry_review bg_white" aria-labelledby="industry-review-title">
+	<section class="infopage_review industry_review bg_white" aria-labelledby="industry-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -159,7 +159,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title">
+	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="industry-contact-title" class="port_tit"><strong>지식의 가치를 높이는 웹사이트,</strong> <br class="pc_vw">홈페이지코리아와 상의하세요</h2>

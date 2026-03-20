@@ -1,4 +1,87 @@
 /* 회원 관리 페이지 스타일 */
+/* 레퍼런스 members 화면과 동일한 톤으로 맞춤 */
+
+/* 수신동의 체크박스 그룹 스타일 (필터 내) */
+.board-filter .checkbox-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.board-filter .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* member 스타일 form 레이아웃 */
+.member-form-list {
+    width: 100%;
+}
+
+.member-form-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.member-form-row:last-child {
+    border-bottom: none;
+}
+
+.member-form-row:hover {
+    background-color: #fafafa;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 4px;
+}
+
+.member-form-label {
+    width: 150px;
+    min-width: 150px;
+    padding: 8px 0;
+    font-weight: 600;
+    color: #495057;
+    text-align: left;
+    flex-shrink: 0;
+}
+
+.member-form-field {
+    flex: 1;
+    min-width: 0;
+}
+
+.member-form-field .board-form-control {
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #e0e0e0;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.member-form-field .board-form-control:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.member-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.member-form-section {
+    margin-bottom: 30px;
+}
 
 /* 회원 검색 필터 스타일 */
 .user-filter {
@@ -101,6 +184,10 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.board-form-actions {
+    margin-top: 20px;
 }
 
 .per-page-form {

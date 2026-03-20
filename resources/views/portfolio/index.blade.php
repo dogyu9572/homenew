@@ -35,20 +35,22 @@
 <main class="sub_contents_wrap">
 
 	<section class="svisual g{{ $gNum }}" aria-labelledby="sub-visual-title">
-		<div class="inner">
-			{{-- 현재 위치 정보를 제공하는 내비게이션 --}}
-			<nav class="location" aria-label="현재 위치">
-				<a href="/" class="home" aria-label="홈으로 이동">HOME</a>
-				<span>{{ $gName }}</span>
-				@if(isset($gNum) && ($gNum == '01' || $gNum == '02'))<span aria-current="location">{{ $sName }}</span>@endif
-			</nav>
-			<h1 class="sound_only">홈페이지코리아 포트폴리오</h1>
-			<div id="sub-visual-title" class="title" aria-hidden="true">{{ $sName ?? '' }}</div>
-			<h2 class="h2">홈페이지코리아와 함께 성장한 1,100개의 기업·기관을 확인하세요.</h2>
+		<div class="bg_box">
+			<div class="inner">
+				{{-- 현재 위치 정보를 제공하는 내비게이션 --}}
+				<nav class="location" aria-label="현재 위치">
+					<a href="/" class="home" aria-label="홈으로 이동">HOME</a>
+					<span>{{ $gName }}</span>
+					@if(isset($gNum) && ($gNum == '01' || $gNum == '02'))<span aria-current="location">{{ $sName }}</span>@endif
+				</nav>
+				<h1 class="sound_only">홈페이지코리아 포트폴리오</h1>
+				<div id="sub-visual-title" class="title" aria-hidden="true">{{ $sName ?? '' }}</div>
+				<h2 class="h2">홈페이지코리아와 함께 성장한 1,100개의 기업·기관을 확인하세요.</h2>
+			</div>
 		</div>
 	</section>
 
-	<section class="board_wrap" aria-label="Portfolio-list">
+	<section class="board_wrap" aria-label="Portfolio-list" data-header="light">
 		<div class="inner">
 			<h2 id="Portfolio-list" class="sound_only">전체 포트폴리오 목록</h2>
 			
@@ -61,6 +63,7 @@
 						<li><a href="/portfolio/">공공기관</a></li>
 						<li><a href="/portfolio/">병원/의료</a></li>
 						<li><a href="/portfolio/">대학/학원</a></li>
+						<li><a href="/portfolio/">일반</a></li>
 					</ul>
 				</nav>
 				<div class="search_area">

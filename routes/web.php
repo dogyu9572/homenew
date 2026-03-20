@@ -37,7 +37,7 @@ Route::prefix('industries')->name('industries.')->group(function () {
 
 Route::prefix('portfolio')->name('portfolio.')->group(function () {
     Route::get('/', [SubController::class, 'portfolio_list'])->name('portfolio_list');
-    Route::get('/view', [SubController::class, 'portfolio_view'])->name('portfolio_view');
+    Route::get('/view/{portfolio?}', [SubController::class, 'portfolio_view'])->name('portfolio_view');
 });
 
 Route::prefix('blog')->name('blog.')->group(function () {

@@ -64,7 +64,7 @@
 	?>
     <link rel="preload" href="/css/font/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/css/font/Pretendard-Bold.woff2" as="font" type="font/woff2" crossorigin>
-	
+	<link rel="stylesheet" href="/css/font.css" media="all">
     <link rel="stylesheet" href="/css/styles.css?v=<?=$ver_styles?>">
 	<link rel="stylesheet" href="/css/reactive.css?v=<?=$ver_reactive?>">
     <!-- page Styles -->

@@ -8,7 +8,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head industry_head main_service" aria-labelledby="industry-head-title">
+	<section class="infopage_head industry_head main_service" aria-labelledby="industry-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="industry-head-title">대기업과 중견기업 IT팀을 위한 <br class="pc_vw">엔터프라이즈급 기업 홈페이지 제작</h1>
 			<p class="tb"><strong>복잡한 요구사항과 높은 보안 수준을 충족하는 맞춤형 웹사이트 구축,</strong> <br class="pc_vw">홈페이지코리아가 귀사의 IT 팀원이 되어드립니다.</p>
@@ -58,7 +58,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title">
+	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="industry-solution-title">어떤 복잡한 요구사항도 <br class="pc_vw"><strong>홈페이지코리아가 안정적으로 구현합니다.</strong></h2>
@@ -79,7 +79,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_why industry_why" aria-labelledby="industry-why-title">
+	<section class="infopage_why industry_why" aria-labelledby="industry-why-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">WHY HOMEPAGEKOREA?</p>
 			<h2 id="industry-why-title">왜 대기업/중견기업이 <br class="pc_vw"><strong>홈페이지코리아를 선택했을까요?</strong></h2>
@@ -124,7 +124,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_expertise industry_expertise" aria-labelledby="industry-expertisetitle">
+	<section class="infopage_expertise industry_expertise" aria-labelledby="industry-expertisetitle" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">EXPERTISE</p>
 			<h2 id="industry-expertisetitle"><strong>홈페이지코리아를 우리 인하우스 IT팀으로!</strong><br/> 다양한 IT 프로젝트가 가능합니다.</h2>
@@ -149,7 +149,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_review industry_review bg_white" aria-labelledby="industry-review-title">
+	<section class="infopage_review industry_review bg_white" aria-labelledby="industry-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -187,7 +187,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title">
+	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="industry-contact-title" class="port_tit"><strong>대기업과 중견기업을 위한 맞춤형 홈페이지 제작</strong> <br class="pc_vw">홈페이지코리아와 상담하세요.</h2>

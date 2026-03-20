@@ -27,41 +27,45 @@
 		</div>
 	</section>
 	
+	
 	<!-- Service -->
-	<section class="main_service" aria-labelledby="service-title">
-		<div class="marquee_banner">
-			<ul class="slide" aria-label="주요 고객사 목록">
-				<li><img src="/images/main_service_01.svg" alt="United Nations"></li>
-				<li><img src="/images/main_service_02.svg" alt="서울대학교 농생명과학공동기기원"></li>
-				<li><img src="/images/main_service_03.svg" alt="파크랜드"></li>
-				<li><img src="/images/main_service_04.svg" alt="국립스포츠박물관"></li>
-				<li><img src="/images/main_service_05.svg" alt="KB부동산신탁"></li>
-				<li><img src="/images/main_service_06.svg" alt="PARADISE CITY"></li>
-				<li><img src="/images/main_service_07.svg" alt="CJ Innovation"></li>
-				<li><img src="/images/main_service_08.svg" alt="한양대학교"></li>
-				<li><img src="/images/main_service_09.svg" alt="세종대학교"></li>
-			</ul>
-		</div>
-		<div class="inner">
-			<div class="bg_gradient"></div>
-			<div class="bg_round"></div>
-			<div class="service">
-				<h2 id="service-title" class="main_title"><span>HOMEPAGEKOREA</span><strong>SERVICE</strong></h2>
-				<p class="tb">각 서비스는 고객의 비즈니스 목표에 맞춰 <strong>최적화된 솔루션</strong>을 제공하며,<br/><strong>기획부터 디자인, 개발, 운영까지</strong> 전 과정을 지원합니다.</p>
-				<ul class="list">
-					<li class="i1"><a href="/service/homepage-development" aria-label="홈페이지 제작 서비스 바로가기"><h3>홈페이지 제작</h3><p aria-hidden="true">비즈니스를 성장시키는 <br class="pc_vw">홈페이지 제작</p></a></li>
-					<li class="i2"><a href="/service/website-maintenance" aria-label="홈페이지 유지보수 서비스 바로가기"><h3>홈페이지 유지보수</h3><p aria-hidden="true">전문가가 직접 관리하는 <br class="pc_vw">홈페이지 유지보수</p></a></li>
-					<li class="i3"><a href="/service/ecommerce-website-development" aria-label="온라인 쇼핑몰 제작 서비스 바로가기"><h3>온라인 쇼핑몰 제작</h3><p aria-hidden="true">매출 성장을 만드는 <br class="pc_vw">맞춤형 자사몰</p></a></li>
-					<li class="i4"><a href="/service/integrated-si-system-development" aria-label="통합 SI 시스템 개발 서비스 바로가기"><h3>통합 SI 시스템 개발</h3><p aria-hidden="true">운영 효율을 높이는 <br class="pc_vw">예약, 결제, 연동 시스템 개발</p></a></li>
-					<li class="i5"><a href="/service/mobile-app-development" aria-label="앱 개발 서비스 바로가기"><h3>앱 개발</h3><p aria-hidden="true">설계부터 스토어 출시까지 <br class="pc_vw">책임지는 앱 개발</p></a></li>
-					<li class="i6"><a href="/service/ai-solution" aria-label="맞춤형 AI 솔루션 서비스 바로가기"><h3>맞춤형 AI 솔루션</h3><p aria-hidden="true">기업 생산성을 혁신하는 <br class="pc_vw">AI 솔루션</p></a></li>
+	<div class="main_service_blank" aria-hidden="true" data-header="dark"></div>
+	<section class="main_service" aria-labelledby="service-title" data-header="dark">
+		<div class="content_area">
+			<div class="marquee_banner">
+				<ul class="slide" aria-label="주요 고객사 목록">
+					<li><img src="/images/main_service_01.svg" alt="United Nations"></li>
+					<li><img src="/images/main_service_02.svg" alt="서울대학교 농생명과학공동기기원"></li>
+					<li><img src="/images/main_service_03.svg" alt="파크랜드"></li>
+					<li><img src="/images/main_service_04.svg" alt="국립스포츠박물관"></li>
+					<li><img src="/images/main_service_05.svg" alt="KB부동산신탁"></li>
+					<li><img src="/images/main_service_06.svg" alt="PARADISE CITY"></li>
+					<li><img src="/images/main_service_07.svg" alt="CJ Innovation"></li>
+					<li><img src="/images/main_service_08.svg" alt="한양대학교"></li>
+					<li><img src="/images/main_service_09.svg" alt="세종대학교"></li>
 				</ul>
+			</div>
+			<div class="inner">
+				<div class="bg_gradient"></div>
+				<div class="bg_round"></div>
+				<div class="service">
+					<h2 id="service-title" class="main_title"><span>HOMEPAGEKOREA</span><strong>SERVICE</strong></h2>
+					<p class="tb">각 서비스는 고객의 비즈니스 목표에 맞춰 <strong>최적화된 솔루션</strong>을 제공하며,<br/><strong>기획부터 디자인, 개발, 운영까지</strong> 전 과정을 지원합니다.</p>
+					<ul class="list">
+						<li class="i1"><a href="/service/homepage-development" aria-label="홈페이지 제작 서비스 바로가기"><h3>홈페이지 제작</h3><p aria-hidden="true">비즈니스를 성장시키는 <br class="pc_vw">홈페이지 제작</p></a></li>
+						<li class="i2"><a href="/service/website-maintenance" aria-label="홈페이지 유지보수 서비스 바로가기"><h3>홈페이지 유지보수</h3><p aria-hidden="true">전문가가 직접 관리하는 <br class="pc_vw">홈페이지 유지보수</p></a></li>
+						<li class="i3"><a href="/service/ecommerce-website-development" aria-label="온라인 쇼핑몰 제작 서비스 바로가기"><h3>온라인 쇼핑몰 제작</h3><p aria-hidden="true">매출 성장을 만드는 <br class="pc_vw">맞춤형 자사몰</p></a></li>
+						<li class="i4"><a href="/service/integrated-si-system-development" aria-label="통합 SI 시스템 개발 서비스 바로가기"><h3>통합 SI 시스템 개발</h3><p aria-hidden="true">운영 효율을 높이는 <br class="pc_vw">예약, 결제, 연동 시스템 개발</p></a></li>
+						<li class="i5"><a href="/service/mobile-app-development" aria-label="앱 개발 서비스 바로가기"><h3>앱 개발</h3><p aria-hidden="true">설계부터 스토어 출시까지 <br class="pc_vw">책임지는 앱 개발</p></a></li>
+						<li class="i6"><a href="/service/ai-solution" aria-label="맞춤형 AI 솔루션 서비스 바로가기"><h3>맞춤형 AI 솔루션</h3><p aria-hidden="true">기업 생산성을 혁신하는 <br class="pc_vw">AI 솔루션</p></a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</section>
 	
 	<!-- STRENGTH -->
-	<section class="page_rotate main_strength" aria-labelledby="strength-title">
+	<section class="page_rotate main_strength" aria-labelledby="strength-title" data-header="dark">
 		<div class="outbox">
 			<div class="inbox">
 				<div class="left">
@@ -81,7 +85,7 @@
 	</section>
 	
 	<!-- PORTFOLIO -->
-	<section class="page_rotate main_portfolio" aria-labelledby="Portfolio-title">
+	<section class="page_rotate main_portfolio" aria-labelledby="Portfolio-title" data-header="light">
 		<div class="outbox">
 			<i class="svg_t"></i>
 			<i class="svg_b"></i>
@@ -178,7 +182,7 @@
 	</section>
 	
 	<!-- 문의하기 -->
-	<section class="main_experience" aria-labelledby="experience-title">
+	<section class="main_experience" aria-labelledby="experience-title" data-header="dark">
 		<video class="bg_video" autoplay muted loop playsinline aria-hidden="true">
 			<source src="/video/video_main_experience.mp4" type="video/mp4">
 		</video>
@@ -196,7 +200,7 @@
 	</section>
 	
 	<!-- FAQ -->
-	<section class="main_contact" aria-labelledby="faq-title">
+	<section class="main_contact" aria-labelledby="faq-title" data-header="dark">
 		<div class="inbox">
 			<div class="left">
 				<div class="main_title_flex">
@@ -258,7 +262,7 @@ $(document).ready(function () {
 		const endFade   = introHeight * 0.8;
 		const hidePoint = introHeight * 1.0;
 		const scaleProgress = Math.min(scrollTop / introHeight, 1);
-		const scale = 1 + scaleProgress * 20;
+		const scale = 1 + scaleProgress * 40;
 		let opacity = 1;
 		if (scrollTop >= startFade) {
 			const fadeProgress = (scrollTop - startFade) / (endFade - startFade);
@@ -327,12 +331,13 @@ $(document).ready(function () {
         const translateY   = initY + (-initY * progress);
         const scale        = 1 + 3 * progress;
         const brBottom     = 50 * (1 - progress);
+		const aspectW      = 1 + 1 * progress;
         const borderRadius = `50% 50% ${brBottom}% ${brBottom}%`;
         if (scrollTop >= scrollStart) {
-            $bgRound.css({ "transform": `translate(-50%, ${translateY}px) scale(${scale})`, "border-radius": borderRadius });
-        } else {
-            $bgRound.css({ "transform": `translate(-50%, ${initY}px) scale(1)`, "border-radius": "50%" });
-        }
+			$bgRound.css({ "transform"    : `translate(-50%, ${translateY}px) scale(${scale})`, "border-radius": borderRadius, "aspect-ratio" : `${aspectW} / 1` });
+		} else {
+			$bgRound.css({ "transform"    : `translate(-50%, ${initY}px) scale(1)`, "border-radius": "50%", "aspect-ratio" : "1 / 1" });
+		}
     }
     $(window).on("scroll", bgRoundScroll);
     bgRoundScroll();

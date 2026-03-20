@@ -52,7 +52,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title">
+	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="service-head-title">매출 성장을 만드는 온라인 쇼핑몰 홈페이지 코리아에서 맞춤형 자사몰 시작하세요.</h1>
 			<div class="btns flex_center">
@@ -98,7 +98,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title">
+	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="service-solution-title">온라인 쇼핑몰도 이제 <br/><strong>맞춤형 자사몰로 구축해야 성장합니다.</strong></h2>
@@ -119,7 +119,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_how service_how" aria-labelledby="service-how-title">
+	<section class="infopage_how service_how" aria-labelledby="service-how-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">HOW</p>
 			<h2 id="service-how-title">이커머스를 위한 자사몰, <br/><strong>27년 경력 홈페이지 코리아에서 제작하세요.</strong></h2>
@@ -149,7 +149,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_review service_review bg_white" aria-labelledby="service-review-title">
+	<section class="infopage_review service_review bg_white" aria-labelledby="service-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -180,7 +180,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title">
+	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="service-contact-title" class="port_tit"><strong>매출이 성장하는 온라인 쇼핑몰 제작,</strong><br/> 홈페이지 코리아에게 문의하세요.</h2>
@@ -191,7 +191,7 @@
 		</div>
 	</section>
 
-	<section class="infopage_faq service_faq" aria-label="service-faq-title">
+	<section class="infopage_faq service_faq" aria-label="service-faq-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">FAQ</p>
 			<h2 id="service-faq-title"><strong>자주 묻는 질문</strong></h2>

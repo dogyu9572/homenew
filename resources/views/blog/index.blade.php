@@ -34,25 +34,27 @@
 @section('content')
 <main class="sub_contents_wrap">
 
-	<section class="svisual g{{ $gNum }}" aria-labelledby="sub-visual-title">
-		<div class="inner">
-			{{-- 현재 위치 정보를 제공하는 내비게이션 --}}
-			<nav class="location" aria-label="현재 위치">
-				<a href="/" class="home" aria-label="홈으로 이동">HOME</a>
-				<span>{{ $gName }}</span>
-				@if(isset($gNum) && ($gNum == '01' || $gNum == '02'))<span aria-current="location">{{ $sName }}</span>@endif
-			</nav>
-			<h1 class="sound_only">홈페이지코리아 블로그</h1>
-			<div id="sub-visual-title" class="title" aria-hidden="true">{{ $sName ?? '' }}</div>
-			<h2 class="h2">홈페이지 제작부터 SEO/GEO, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 인사이트를 만나보세요.</h2>
+	<section class="svisual g{{ $gNum }}" aria-labelledby="sub-visual-title" data-header="light">
+		<div class="bg_box mojo_aos">
+			<div class="inner">
+				{{-- 현재 위치 정보를 제공하는 내비게이션 --}}
+				<nav class="location" aria-label="현재 위치">
+					<a href="/" class="home" aria-label="홈으로 이동">HOME</a>
+					<span>{{ $gName }}</span>
+					@if(isset($gNum) && ($gNum == '01' || $gNum == '02'))<span aria-current="location">{{ $sName }}</span>@endif
+				</nav>
+				<h1 class="sound_only">홈페이지코리아 블로그</h1>
+				<div id="sub-visual-title" class="title" aria-hidden="true">{{ $sName ?? '' }}</div>
+				<h2 class="h2">홈페이지 제작부터 SEO/GEO, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 인사이트를 만나보세요.</h2>
+			</div>
 		</div>
 	</section>
 
-	<section class="board_wrap" aria-label="blog-list">
+	<section class="board_wrap" aria-label="blog-list" data-header="light">
 		<div class="inner">
 			<h2 id="blog-list" class="sound_only">전체 블로그 목록</h2>
 			
-			<a href="/blog/view" class="blog_main_banner flex">
+			<a href="/blog/view" class="blog_main_banner flex mojo_aos">
 				<span class="imgfit" aria-hidden="true"><img src="/images/img_blog_top_sample.jpg" alt=""></span>
 				<span class="txt">
 					<span class="type">웹 개발 인사이트</span>
@@ -62,8 +64,8 @@
 				</span>
 			</a>
 			
-			<div class="blog_tit">홈페이지코리아의 소식을 만나보세요.</div>
-			<div class="board_top">
+			<div class="blog_tit" data-aos="fade-up">홈페이지코리아의 소식을 만나보세요.</div>
+			<div class="board_top" data-aos="fade-up">
 				<nav aria-label="블로그 카테고리 필터">
 					<ul class="tabs">
 						<li class="on"><a href="/blog/" aria-current="page">전체</a></li>
@@ -85,7 +87,7 @@
 			</div>
 			
 			<ul class="blog_list">
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -95,7 +97,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -105,7 +107,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -115,7 +117,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -125,7 +127,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -135,7 +137,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -145,7 +147,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -155,7 +157,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -165,7 +167,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -175,7 +177,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -185,7 +187,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -195,7 +197,7 @@
 						</span>
 					</a>
 				</li>
-				<li>
+				<li data-aos="fade-up">
 					<a href="/blog/view">
 						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
 						<span class="txt">
@@ -221,4 +223,13 @@
 	</section>
 
 </main>
+
+<link href="/css/aos.css" rel="stylesheet">
+<script src="/js/aos.js"></script>
+<script>
+//AOS
+	AOS.init({
+		duration: 2000,
+	});
+</script>
 @endsection

@@ -68,7 +68,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title">
+	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="service-head-title">SEO · GEO 최적화<br/>홈페이지코리아와 함께하세요.</h1>
 			<p class="tb"><strong>검색엔진과 AI가 이해하고 인용하는 홈페이지</strong>를 개발합니다.</p>
@@ -116,7 +116,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title">
+	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="service-solution-title">홈페이지코리아는 <br/><strong>기획 단계부터 SEO·GEO 구조를 함께 설계 합니다.</strong></h2>
@@ -137,7 +137,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_how service_how" aria-labelledby="service-how-title">
+	<section class="infopage_how service_how" aria-labelledby="service-how-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">HOW</p>
 			<h2 id="service-how-title"><strong>홈페이지코리아의 SEO·GEO 최적화</strong><br/> 이렇게 다릅니다</h2>
@@ -231,7 +231,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_review service_review bg_white" aria-labelledby="service-review-title">
+	<section class="infopage_review service_review bg_white" aria-labelledby="service-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -262,7 +262,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title">
+	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="service-contact-title" class="port_tit"><strong>검색엔진과 AI가 이해하는 홈페이지,</strong><br/>지금 홈페이지코리아와 시작하세요.</h2>
@@ -273,7 +273,7 @@
 		</div>
 	</section>
 
-	<section class="infopage_faq service_faq" aria-label="service-faq-title">
+	<section class="infopage_faq service_faq" aria-label="service-faq-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">FAQ</p>
 			<h2 id="service-faq-title"><strong>자주 묻는 질문</strong></h2>

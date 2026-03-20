@@ -60,7 +60,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title">
+	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="service-head-title">앱 개발, 맞춤형 설계부터 스토어 출시까지 홈페이지코리아가 끝까지 책임집니다.</h1>
 			<div class="btns flex_center">
@@ -106,7 +106,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title">
+	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="service-solution-title"><strong>비즈니스 모델을 이해하는 앱 개발 파트너</strong>는 다릅니다.</h2>
@@ -127,7 +127,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_how service_how" aria-labelledby="service-how-title">
+	<section class="infopage_how service_how" aria-labelledby="service-how-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">HOW</p>
 			<h2 id="service-how-title"><strong>사용자 경험을 극대화</strong>하는 홈페이지코리아의 핵심 기술</h2>
@@ -164,7 +164,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_review service_review bg_white" aria-labelledby="service-review-title">
+	<section class="infopage_review service_review bg_white" aria-labelledby="service-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -195,7 +195,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title">
+	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="service-contact-title" class="port_tit"><strong>준비부터 출시, 안정적인 운영까지 성공하는 앱 개발</strong>,<br/> 홈페이지코리아와 시작하세요.</h2>
@@ -206,7 +206,7 @@
 		</div>
 	</section>
 
-	<section class="infopage_faq service_faq" aria-label="service-faq-title">
+	<section class="infopage_faq service_faq" aria-label="service-faq-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">FAQ</p>
 			<h2 id="service-faq-title"><strong>자주 묻는 질문</strong></h2>

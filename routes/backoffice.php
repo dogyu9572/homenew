@@ -17,6 +17,7 @@ use App\Http\Controllers\Backoffice\AdminGroupController;
 use App\Http\Controllers\Backoffice\BannerController;
 use App\Http\Controllers\Backoffice\PopupController;
 use App\Http\Controllers\Backoffice\AccessStatisticsController;
+use App\Http\Controllers\Backoffice\PortfolioController;
 
 // =============================================================================
 // 백오피스 인증 라우트
@@ -226,6 +227,15 @@ Route::prefix('backoffice')->middleware(['backoffice'])->group(function () {
         'names' => 'backoffice.popups'
     ]);
     Route::post('popups/update-order', [PopupController::class, 'updateOrder'])->name('backoffice.popups.update-order');
+
+    // 포트폴리오 관리
+    Route::resource('portfolio', PortfolioController::class, [
+        'names' => 'backoffice.portfolio'
+    ])->except(['show']);
+    Route::post('portfolio/update-order', [PortfolioController::class, 'updateOrder'])
+        ->name('backoffice.portfolio.update-order');
+    Route::post('portfolio/delete-multiple', [PortfolioController::class, 'deleteMultiple'])
+        ->name('backoffice.portfolio.delete-multiple');
 
     // 세션 연장
     Route::post('session/extend', [App\Http\Controllers\Backoffice\SessionController::class, 'extend'])

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portfolio;
 use Illuminate\Http\Request;
 
 class SubController extends Controller
@@ -71,12 +72,34 @@ class SubController extends Controller
     public function portfolio_list()
     {
         $gNum = "03"; $sNum = "01"; $gName = "Portfolio"; $sName = "포트폴리오"; $gSlug = 'portfolio';
-        return view('portfolio.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        $query = Portfolio::query()->where('is_active', true);
+
+        if (request()->filled('category')) {
+            $query->where('category', request('category'));
+        }
+        if (request()->filled('q')) {
+            $q = request('q');
+            $query->where(function ($sub) use ($q) {
+                $sub->where('title', 'like', '%' . $q . '%')
+                    ->orWhere('development_summary', 'like', '%' . $q . '%')
+                    ->orWhereJsonContains('keywords', '#' . ltrim($q, '#'));
+            });
+        }
+
+        $portfolios = $query->orderBy('sort_order', 'desc')->orderBy('id', 'desc')->paginate(12)->withQueryString();
+        $portfolioCount = $portfolios->total();
+
+        return view('portfolio.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'portfolios', 'portfolioCount'));
     }
-    public function portfolio_view()
+    public function portfolio_view(?Portfolio $portfolio = null)
     {
         $gNum = "03"; $sNum = "01"; $gName = "Portfolio"; $sName = "포트폴리오 상세"; $page = "view"; $gSlug = 'portfolio';
-        return view('portfolio.view', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'page'));
+        if (!$portfolio) {
+            $portfolio = Portfolio::where('is_active', true)->orderBy('sort_order', 'desc')->firstOrFail();
+        }
+        $portfolio->load(['featureImages', 'reviews']);
+
+        return view('portfolio.view', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'page', 'portfolio'));
     }
 	
     public function blog_list()

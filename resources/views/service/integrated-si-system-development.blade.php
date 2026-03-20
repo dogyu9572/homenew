@@ -52,7 +52,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title">
+	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="service-head-title">운영 효율을 높이는 시스템 개발,<br/> {예약페이지, 백오피스, ERP, CMS,  LMS}<br/> 홈페이지 코리아에서 해결하세요.</h1>
 			<div class="btns flex_center">
@@ -98,7 +98,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title">
+	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="service-solution-title">홈페이지코리아와 함께하면 <strong>시스템의 수준이 달라집니다.</strong></h2>
@@ -119,7 +119,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_how service_how" aria-labelledby="service-how-title">
+	<section class="infopage_how service_how" aria-labelledby="service-how-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">HOW</p>
 			<h2 id="service-how-title">홈페이지코리아는 <strong>맞춤형 SI 시스템 개발 전문</strong> 기업입니다.</h2>
@@ -173,7 +173,7 @@
 		</div>
 	</section>
 	
-	<!-- <section class="infopage_review service_review bg_white" aria-labelledby="service-review-title">
+	<!-- <section class="infopage_review service_review bg_white" aria-labelledby="service-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -204,7 +204,7 @@
 		</div>
 	</section> -->
 	
-	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title">
+	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="service-contact-title" class="port_tit"><strong>업무 효율을 바꾸는 통합 시스템 구축</strong>, <br/>지금 홈페이지코리아와 상담하세요.</h2>
@@ -215,7 +215,7 @@
 		</div>
 	</section>
 
-	<section class="infopage_faq service_faq" aria-label="service-faq-title">
+	<section class="infopage_faq service_faq" aria-label="service-faq-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">FAQ</p>
 			<h2 id="service-faq-title"><strong>자주 묻는 질문</strong></h2>

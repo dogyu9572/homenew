@@ -8,7 +8,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head industry_head main_service" aria-labelledby="industry-head-title">
+	<section class="infopage_head industry_head main_service" aria-labelledby="industry-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="industry-head-title">공공기관 홈페이지 제작, <br class="pc_vw">홈페이지코리아가 함께합니다. </h1>
 			<p class="tb"><strong>기술 요구사항이 중요한 공공기관 홈페이지</strong>, <br class="pc_vw">홈페이지코리아에게 맡기세요.</p>
@@ -58,7 +58,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title">
+	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="industry-solution-title"><strong>공공기관 프로젝트만 27년 이상</strong> <br class="pc_vw">경험한 홈페이지코리아는 다릅니다</h2>
@@ -79,7 +79,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_why industry_why" aria-labelledby="industry-why-title">
+	<section class="infopage_why industry_why" aria-labelledby="industry-why-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">WHY HOMEPAGEKOREA?</p>
 			<h2 id="industry-why-title">왜 공공기관이 <br class="pc_vw"><strong>홈페이지코리아를 선택했을까요?</strong></h2>
@@ -117,7 +117,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_how industry_process" aria-labelledby="industry-process-title">
+	<section class="infopage_how industry_process" aria-labelledby="industry-process-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">Process</p>
 			<h2 id="industry-process-title"><strong>공공기관 홈페이지 제작</strong>, 이렇게 진행됩니다</h2>
@@ -166,7 +166,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_review industry_review bg_white" aria-labelledby="industry-review-title">
+	<section class="infopage_review industry_review bg_white" aria-labelledby="industry-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -197,7 +197,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title">
+	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="industry-contact-title" class="port_tit"><strong>공공기관 홈페이지 제작 경험 많은</strong> <br class="pc_vw">홈페이지코리아와 상의하세요</h2>

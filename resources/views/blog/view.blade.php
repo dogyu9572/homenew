@@ -23,9 +23,9 @@
 @section('content')
 <main class="sub_contents_wrap">
 
-	<section class="blog_view_wrap" aria-labelledby="blog-view-title">
+	<section class="blog_view_wrap" aria-labelledby="blog-view-title" data-header="light">
 		
-		<div class="index_area" aria-label="목차">
+		<div class="index_area open_opacity" aria-label="목차">
 			<div class="tit">CONTENTS</div>
 			<ul class="index_list">
 				<li><a href="#blog-h2-1">👋 프로젝트는 어떻게 시작될까? 웹사이트 제작의 첫 단계</a></li>
@@ -36,7 +36,7 @@
 			</ul>
 		</div>
 	
-		<div class="blog_view_con">
+		<div class="blog_view_con mojo_aos">
 			<div class="blog_view_head">
 				<div class="imgfit" aria-hidden="true"><img src="/images/img_blog_view_sample.jpg" alt=""></div>
 				<p class="type">팀스토리</p>
@@ -123,7 +123,7 @@
 			</div>
 		</div>
 		
-		<div class="recommended_area">
+		<div class="recommended_area open_opacity">
 			<div class="tit">추천 콘텐츠</div>
 			<ul class="recommended_list">
 				<li><a href="#this"><span class="imgfit" aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span><span class="txt">우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</span></a></li>

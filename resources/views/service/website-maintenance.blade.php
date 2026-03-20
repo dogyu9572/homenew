@@ -3,8 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '구축부터 운영까지 책임지는 홈페이지 유지보수 서비스. 홈페이지코리아입니다.')
-@section('keywords', '홈페이지 유지보수(386), 홈페이지 관리업체(113), 홈페이지 유지보수 업체(76), 홈페이지 수정(213), 홈페이지 오류(50)
-웹사이트 관리(356)')
+@section('keywords', '홈페이지 유지보수(386), 홈페이지 관리업체(113), 홈페이지 유지보수 업체(76), 홈페이지 수정(213), 홈페이지 오류(50), 웹사이트 관리(356)')
 @section('sga_plus')
 ,"mainEntity": [
     {
@@ -61,7 +60,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title">
+	<section class="infopage_head service_head main_service" aria-labelledby="service-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="service-head-title">개발사가 직접 관리하는 홈페이지 유지보수 <br/>홈페이지코리아에게 맡기세요</h1>
 			<p class="tb"><strong>27년 업력의 홈페이지코리아가 홈페이지 제작뿐만 아니라 유지보수,</strong> 운영까지 책임집니다.</p>
@@ -108,7 +107,7 @@
 		</div>
 	</section>
 
-	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title">
+	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="service-solution-title"><strong>홈페이지 제작, 끝이 아닙니다 지속적인 관리로</strong><br/> 비즈니스를 성장시키세요</h2>
@@ -129,7 +128,7 @@
 		</div>
 	</section>
 
-	<section class="infopage_how service_how" aria-labelledby="service-how-title">
+	<section class="infopage_how service_how" aria-labelledby="service-how-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">HOW</p>
 			<h2 id="service-how-title"><strong>제작만큼 중요한 홈페이지 유지보수, 홈페이지코리아가</strong><br/> 이렇게 책임집니다</h2>
@@ -166,7 +165,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_review service_review bg_white" aria-labelledby="service-review-title">
+	<section class="infopage_review service_review bg_white" aria-labelledby="service-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -197,7 +196,7 @@
 		</div>
 	</section>
 
-	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title">
+	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="service-contact-title" class="port_tit"><strong>홈페이지 제작부터 유지보수까지 </strong><br/>홈페이지코리아와 상의하세요</h2>
@@ -208,7 +207,7 @@
 		</div>
 	</section>
 
-	<section class="infopage_faq service_faq" aria-label="service-faq-title">
+	<section class="infopage_faq service_faq" aria-label="service-faq-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">FAQ</p>
 			<h2 id="service-faq-title"><strong>자주 묻는 질문</strong></h2>

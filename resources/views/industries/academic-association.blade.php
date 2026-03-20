@@ -8,7 +8,7 @@
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
 
-	<section class="infopage_head industry_head main_service" aria-labelledby="industry-head-title">
+	<section class="infopage_head industry_head main_service" aria-labelledby="industry-head-title" data-header="dark">
 		<div class="inner">
 			<h1 id="industry-head-title">학회/협회 홈페이지 제작, 학술 생태계를 이해하는 <br class="pc_vw">파트너 홈페이지코리아에게 맡기세요</h1>
 			<p class="tb"><strong>의료, 공학, 법조계 등 학회/협회 웹사이트 구축을 경험한</strong> <br class="pc_vw">홈페이지코리아가 꼭 맞는 시스템을 설계합니다. </p>
@@ -58,7 +58,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title">
+	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
 			<p class="tit_label">SOLUTION</p>
 			<h2 id="industry-solution-title"><strong>학술 생태계를 이해하는</strong> <br class="pc_vw">홈페이지코리아가 시작부터 끝까지 책임집니다</h2>
@@ -79,7 +79,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_why industry_why" aria-labelledby="industry-why-title">
+	<section class="infopage_why industry_why" aria-labelledby="industry-why-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">WHY HOMEPAGEKOREA?</p>
 			<h2 id="industry-why-title">왜 학회/협회가 <br class="pc_vw"><strong>홈페이지코리아를 선택했을까요?</strong></h2>
@@ -117,7 +117,7 @@
 		</div>
 	</section>
 	
-	<!-- <section class="infopage_expertise industry_expertise" aria-labelledby="industry-expertisetitle">
+	<!-- <section class="infopage_expertise industry_expertise" aria-labelledby="industry-expertisetitle" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">EXPERTISE</p>
 			<h2 id="industry-expertisetitle"><strong>홈페이지코리아를 우리 인하우스 IT팀으로!</strong><br/> 다양한 IT 프로젝트가 가능합니다.</h2>
@@ -142,7 +142,7 @@
 		</div>
 	</section> -->
 	
-	<section class="infopage_how industry_how" aria-labelledby="industry-how-title">
+	<section class="infopage_how industry_how" aria-labelledby="industry-how-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label">HOW</p>
 			<h2 id="industry-how-title"><strong>학회/협회 홈페이지 제작,</strong> 이렇게 진행됩니다</h2>
@@ -190,7 +190,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_review industry_review bg_white" aria-labelledby="industry-review-title">
+	<section class="infopage_review industry_review bg_white" aria-labelledby="industry-review-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<svg class="line_svg" aria-hidden="true"></svg>
@@ -227,7 +227,7 @@
 		</div>
 	</section>
 	
-	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title">
+	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="industry-contact-title" class="port_tit"><strong>학회/협회 홈페이지 제작, 경험 많은</strong> <br class="pc_vw">홈페이코리아와 상담하세요</h2>

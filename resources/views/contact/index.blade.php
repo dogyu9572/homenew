@@ -32,33 +32,35 @@
 @section('content')
 <main class="sub_contents_wrap">
 
-	<section class="svisual g{{ $gNum }}" aria-labelledby="sub-visual-title">
-		<div class="inner">
-			{{-- 현재 위치 정보를 제공하는 내비게이션 --}}
-			<nav class="location" aria-label="현재 위치">
-				<a href="/" class="home" aria-label="홈으로 이동">HOME</a>
-				<span>{{ $gName }}</span>
-				@if(isset($gNum) && ($gNum == '01' || $gNum == '02'))<span aria-current="location">{{ $sName }}</span>@endif
-			</nav>
-			<h1 class="sound_only">홈페이지코리아 문의하기</h1>
-			<div id="sub-visual-title" class="title" aria-hidden="true">{{ $sName ?? '' }}</div>
-			<h2 class="h2">25년 노하우로 최적의 방향을 제시해드립니다.</h2>
+	<section class="svisual g{{ $gNum }}" aria-labelledby="sub-visual-title" data-header="light">
+		<div class="bg_box mojo_aos">
+			<div class="inner">
+				{{-- 현재 위치 정보를 제공하는 내비게이션 --}}
+				<nav class="location" aria-label="현재 위치">
+					<a href="/" class="home" aria-label="홈으로 이동">HOME</a>
+					<span>{{ $gName }}</span>
+					@if(isset($gNum) && ($gNum == '01' || $gNum == '02'))<span aria-current="location">{{ $sName }}</span>@endif
+				</nav>
+				<h1 class="sound_only">홈페이지코리아 문의하기</h1>
+				<div id="sub-visual-title" class="title" aria-hidden="true">{{ $sName ?? '' }}</div>
+				<h2 class="h2">25년 노하우로 최적의 방향을 제시해드립니다.</h2>
+			</div>
 		</div>
 	</section>
 
-	<section class="contact_us_wrap" aria-labelledby="contact-us-title">
+	<section class="contact_us_wrap" aria-labelledby="contact-us-title" data-header="light">
 		<div class="inner">
 			<div class="contact_us_inputs">
 				<div class="tit">
-					<h2 id="contact-us-title">궁금하신 사항을 남겨주시면<br>최대 2일 내 연락 드립니다.</h2>
-					<p>어떤 프로젝트를 계획중이신가요?</p>
-					<ul class="imgs">
+					<h2 id="contact-us-title" class="mojo_aos">궁금하신 사항을 남겨주시면<br>최대 2일 내 연락 드립니다.</h2>
+					<p class="mojo_aos">어떤 프로젝트를 계획중이신가요?</p>
+					<ul class="imgs mojo_aos">
 						<li class="i1"><img src="/images/img_contact_us01.png" alt="" aria-hidden="true"><span>UI/UX Design</span></li>
 						<li class="i2"><img src="/images/img_contact_us02.png" alt="" aria-hidden="true"><span>Development</span></li>
 						<li class="i3"><img src="/images/img_contact_us03.png" alt="" aria-hidden="true"><span>Solution</span></li>
 					</ul>
 				</div>
-				<div class="con">
+				<div class="con mojo_aos">
 					<form action="#" method="post" novalidate id="contact_form">
 						<div class="flex">
 							<dl class="w100p">
@@ -120,6 +122,7 @@
 	</div>
 
 </main>
+
 
 <script>
 //첨부파일

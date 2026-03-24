@@ -43,7 +43,13 @@ Route::prefix('portfolio')->name('portfolio.')->group(function () {
 
 Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/', [SubController::class, 'blog_list'])->name('blog_list');
-    Route::get('/view/{slug?}', [SubController::class, 'blog_view'])->name('blog_view');
+    Route::get('/view/{blogPost?}', [SubController::class, 'blog_view'])->name('blog_view');
+    Route::post('/{blogPost}/event', [SubController::class, 'blog_event'])
+        ->middleware('throttle:60,1')
+        ->name('event');
+    Route::post('/{blogPost}/like', [SubController::class, 'blog_like'])
+        ->middleware('throttle:60,1')
+        ->name('like');
 });
 
 Route::prefix('contact')->name('contact.')->group(function () {

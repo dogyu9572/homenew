@@ -39,7 +39,7 @@
 				<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
 			</ul>
 		</div>
-		<div class="inner" data-aos="fade-up">
+		<div class="inner bg_round_start" data-aos="fade-up">
 			<div class="bg_round"><div class="in_gradient"></div></div>
 			<div class="problem service">
 				<p class="tit_label" data-aos="zoom-out-up">PROBLEM</p>
@@ -323,40 +323,54 @@ $(document).ready(function(){
     })();
 // bg_round
     function bgRoundScroll() {
-		const $mainIndustry = $(".infopage_head");
+		const $startTrigger = $(".bg_round_start");
+		if (!$startTrigger.length) return;
+
+		const $mainService  = $(".infopage_head");
 		const $bgRound      = $(".bg_round");
 		const $marquee      = $(".infopage_head .marquee_banner");
+		
 		const scrollTop     = $(window).scrollTop();
 		const windowHeight  = $(window).height();
-		const serviceTop    = $mainIndustry.offset().top;
-		const paddingTop    = parseInt($mainIndustry.css("padding-top"));
+		const triggerTop    = $startTrigger.offset().top;
+		
+		const paddingTop    = parseInt($mainService.css("padding-top"));
 		const marqueeHeight = $marquee.outerHeight();
 		const marqueeMargin = parseInt($marquee.css("margin-bottom"));
 		const initY         = -(paddingTop + marqueeHeight + marqueeMargin);
 
-		// bg_round가 화면에 보이기 시작하는 시점 기준
-		const bgRoundTop   = $bgRound.offset().top;
-		const scrollStart  = bgRoundTop - windowHeight;  // bg_round 상단이 뷰포트 하단에 닿는 시점
-		const scrollEnd    = bgRoundTop;                  // bg_round 상단이 뷰포트 상단에 닿는 시점
+		const offset        = -100; 
+		const scrollStart   = triggerTop - windowHeight + offset;
+		const scrollEnd     = triggerTop - 400; 
 
 		if (scrollTop >= scrollStart) {
-			$mainIndustry.addClass("start");
+			$mainService.addClass("start");
 		} else {
-			$mainIndustry.removeClass("start");
+			$mainService.removeClass("start");
 		}
 
-		const progress     = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-		const translateY   = initY + (-initY * progress);
-		const scale        = 1 + 3 * progress;
-		const brBottom     = 50 * (1 - progress);
-		const borderRadius = `50% 50% ${brBottom}% ${brBottom}%`;
+		const progress      = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
+		const translateY    = initY + (-initY * progress);
+		const scale         = 1 + 3 * progress;
+		const brBottom      = 50 * (1 - progress);
+		const aspectW       = 1 + 1 * progress; 
+		const borderRadius  = `50% 50% ${brBottom}% ${brBottom}%`;
 
 		if (scrollTop >= scrollStart) {
-			$bgRound.css({ "transform": `translate(-50%, ${translateY}px) scale(${scale})`, "border-radius": borderRadius });
+			$bgRound.css({
+				"transform"    : `translate(-50%, ${translateY}px) scale(${scale})`,
+				"border-radius": borderRadius,
+				"aspect-ratio" : `${aspectW} / 1`
+			});
 		} else {
-			$bgRound.css({ "transform": `translate(-50%, ${initY}px) scale(1)`, "border-radius": "50%" });
+			$bgRound.css({
+				"transform"    : `translate(-50%, ${initY}px) scale(1)`,
+				"border-radius": "50%",
+				"aspect-ratio" : "1 / 1"
+			});
 		}
 	}
+
 	$(window).on("scroll", bgRoundScroll);
 	bgRoundScroll();
 // Portfolio marquee

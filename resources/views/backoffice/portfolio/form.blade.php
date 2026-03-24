@@ -13,11 +13,17 @@
                     ? $portfolio->featureDevelopments->map(fn($item) => [
                         'title' => $item->title,
                         'content' => $item->content,
+                        'background_text' => $item->background_text,
                         'existing_image_path' => $item->image_path,
                     ])->toArray()
-                    : [['title' => $portfolio->feature_title ?? '', 'content' => $portfolio->feature_content ?? '', 'existing_image_path' => null]]
+                    : [[
+                        'title' => $portfolio->feature_title ?? '',
+                        'content' => $portfolio->feature_content ?? '',
+                        'background_text' => null,
+                        'existing_image_path' => null,
+                    ]]
             )
-            : [['title' => '', 'content' => '', 'existing_image_path' => null]]
+            : [['title' => '', 'content' => '', 'background_text' => '', 'existing_image_path' => null]]
     );
 @endphp
 
@@ -261,6 +267,7 @@
                         <input type="text" class="board-form-control" name="feature_developments[{{ $idx }}][title]" placeholder="제목" value="{{ $feature['title'] ?? '' }}">
                     </div>
                     <textarea class="board-form-control board-textarea" name="feature_developments[{{ $idx }}][content]" rows="3" placeholder="내용">{{ $feature['content'] ?? '' }}</textarea>
+                    <input type="text" class="board-form-control" name="feature_developments[{{ $idx }}][background_text]" placeholder="Background text (예시: Design)" value="{{ $feature['background_text'] ?? '' }}">
                     <div class="feature-file-row">
                         <input type="hidden" name="feature_developments[{{ $idx }}][existing_image_path]" value="{{ $feature['existing_image_path'] ?? '' }}">
                         <input type="hidden" name="feature_developments[{{ $idx }}][remove_image]" value="0" class="remove-feature-image-flag">

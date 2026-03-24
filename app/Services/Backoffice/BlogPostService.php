@@ -29,8 +29,7 @@ class BlogPostService
             $perPage = 10;
         }
 
-        return $query->orderByDesc('is_notice')
-            ->orderByDesc('sort_order')
+        return $query->orderByDesc('created_at')
             ->orderByDesc('id')
             ->paginate($perPage)
             ->withQueryString();

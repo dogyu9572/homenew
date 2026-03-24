@@ -5,29 +5,10 @@
 @section('sga_plus')
 ,"mainEntity": {
 	"@@type": "ItemList",
-	"name": "@yield('title', '')",
-	"description": "@yield('description')",
-	"numberOfItems": "999",
-	"itemListElement": [
-		{
-			"@@type": "ListItem",
-			"position": 1,
-			"name": "토스 MOU를 통한 PG사 연동 관련 (최저 수수료 제안)",
-			"url": "https://homepagekorea.com/blog/view"
-		},
-		{
-			"@@type": "ListItem",
-			"position": 2,
-			"name": "우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정",
-			"url": "https://homepagekorea.com/blog/view"
-		},
-		{
-			"@@type": "ListItem",
-			"position": 3,
-			"name": "우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정",
-			"url": "https://homepagekorea.com/blog/view"
-		}
-	]
+	"name": @json($sName),
+	"description": @json('홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.'),
+	"numberOfItems": @json($posts->total()),
+	"itemListElement": @json($listItems)
 },
 @endsection
 
@@ -37,7 +18,6 @@
 	<section class="svisual g{{ $gNum }}" aria-labelledby="sub-visual-title" data-header="light">
 		<div class="bg_box mojo_aos">
 			<div class="inner">
-				{{-- 현재 위치 정보를 제공하는 내비게이션 --}}
 				<nav class="location" aria-label="현재 위치">
 					<a href="/" class="home" aria-label="홈으로 이동">HOME</a>
 					<span>{{ $gName }}</span>
@@ -53,181 +33,110 @@
 	<section class="board_wrap" aria-label="blog-list" data-header="light">
 		<div class="inner">
 			<h2 id="blog-list" class="sound_only">전체 블로그 목록</h2>
-			
-			<a href="/blog/view" class="blog_main_banner flex mojo_aos">
-				<span class="imgfit" aria-hidden="true"><img src="/images/img_blog_top_sample.jpg" alt=""></span>
+
+            @if($featuredPost)
+			<a href="{{ route('blog.blog_view', ['blogPost' => $featuredPost->id]) }}" class="blog_main_banner flex mojo_aos">
+                @if($featuredPost->thumbnail_path)
+				<span class="imgfit" aria-hidden="true">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($featuredPost->thumbnail_path) }}" alt="">
+                </span>
+                @endif
 				<span class="txt">
-					<span class="type">웹 개발 인사이트</span>
-					<h3>토스 MOU를 통한 PG사 연동 관련 (최저 수수료 제안)</h3>
-					<p>○○○ 쇼핑몰은 토스 PG 도입 후 월 평균 25만원의 수수료를 절약하고 있습니다. 1일 정산으로 현금 흐름도 개선되었죠. ○○○ 쇼핑몰은 토스 PG 도입 후 월 평균 25만원의 수수료를 절약하고 있습니다. 1일 정산으로 현금 흐름도 개선되었죠. ○○○ 쇼핑몰은 토스 PG 도입 후 월 평균 25만원의 수수료를 절약하고 있습니다. 1일 정산으로 현금 흐름도 개선되었죠. </p>
-					<time class="date" datetime="2026-03-10">2026.03.10</time>
+					<span class="type">{{ $featuredPost->category_label }}</span>
+					<h3>{{ $featuredPost->title }}</h3>
+					<p>{{ $featuredExcerpt }}</p>
+					<time class="date" datetime="{{ optional($featuredPost->published_at)->toDateString() }}">{{ optional($featuredPost->published_at)->format('Y.m.d') }}</time>
 				</span>
 			</a>
-			
+            @endif
+
 			<div class="blog_tit" data-aos="fade-up">홈페이지코리아의 소식을 만나보세요.</div>
 			<div class="board_top" data-aos="fade-up">
 				<nav aria-label="블로그 카테고리 필터">
 					<ul class="tabs">
-						<li class="on"><a href="/blog/" aria-current="page">전체</a></li>
-						<li><a href="/blog/">팀스토리</a></li>
-						<li><a href="/blog/">웹 개발 인사이트</a></li>
-						<li><a href="/blog/">홈페이지 트렌드</a></li>
-						<li><a href="/blog/">성공사례</a></li>
+						<li class="{{ $category === '' ? 'on' : '' }}">
+                            <a href="{{ route('blog.blog_list', array_filter(['keyword' => $keyword])) }}" @if($category === '') aria-current="page" @endif>전체</a>
+                        </li>
+                        @foreach(\App\Models\BlogPost::CATEGORIES as $value => $label)
+						<li class="{{ $category === $value ? 'on' : '' }}">
+                            <a href="{{ route('blog.blog_list', array_filter(['category' => $value, 'keyword' => $keyword])) }}" @if($category === $value) aria-current="page" @endif>{{ $label }}</a>
+                        </li>
+                        @endforeach
 					</ul>
 				</nav>
 				<div class="search_area">
-					<form action="" role="search">
+					<form action="{{ route('blog.blog_list') }}" method="GET" role="search">
 						<label for="blog-search" class="sound_only">블로그 검색</label>
 						<div class="flex">
-							<input type="text" id="blog-search" class="text" placeholder="검색어를 입력해 주세요.">
+							<input type="text" id="blog-search" name="keyword" class="text" placeholder="검색어를 입력해 주세요." value="{{ $keyword }}">
+                            @if($category !== '')
+                            <input type="hidden" name="category" value="{{ $category }}">
+                            @endif
 							<button type="submit" class="btn">검색</button>
 						</div>
 					</form>
 				</div>
 			</div>
-			
+
 			<ul class="blog_list">
+                @forelse($posts as $post)
 				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
+					<a href="{{ route('blog.blog_view', ['blogPost' => $post->id]) }}">
+                        @if($post->thumbnail_path)
+						<span class="imgfit" aria-hidden="true"><img src="{{ \Illuminate\Support\Facades\Storage::url($post->thumbnail_path) }}" alt=""></span>
+                        @endif
 						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
+							<span class="type">{{ $post->category_label }}</span>
+							<h3>{{ $post->title }}</h3>
+							<time class="date" datetime="{{ optional($post->published_at)->toDateString() }}">{{ optional($post->published_at)->format('Y.m.d') }}</time>
 						</span>
 					</a>
 				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/blog/view">
-						<span class="imgfit"aria-hidden="true"><img src="/images/img_blog_sample.jpg" alt=""></span>
-						<span class="txt">
-							<span class="type">팀스토리</span>
-							<h3>우리 팀은 어떻게 웹사이트를 만들까? 디자인부터 개발까지의 협업 과정</h3>
-							<time class="date" datetime="2026-03-10">2026.03.10</time>
-						</span>
-					</a>
-				</li>
+                @empty
+                <li data-aos="fade-up">
+                    <span class="txt">
+                        <h3>등록된 블로그가 없습니다.</h3>
+                    </span>
+                </li>
+                @endforelse
 			</ul>
-			
+
+            @if($posts->lastPage() > 1)
 			<div class="board-pagination">
 				<ul class="pagination">
-					<li class="page-item arw_item"><a href="#this" class="page-link" title="첫 페이지로"><i class="arrow two first"></i></a></li>
-					<li class="page-item arw_item"><a href="#this" class="page-link" rel="prev" title="이전 페이지"><i class="arrow one prev"></i></a></li>
-					<li class="page-item active"><span class="page-link">1</span></li>
-					<li class="page-item"><a class="page-link" href="#this">2</a></li>
-					<li class="page-item arw_item"><a href="#this" class="page-link" title="다음 페이지"><i class="arrow one next"></i></a></li>
-					<li class="page-item arw_item"><a href="#this" class="page-link" title="끝 페이지로"><i class="arrow two last"></i></a></li>
+					<li class="page-item arw_item {{ $posts->onFirstPage() ? 'disabled' : '' }}">
+                        <a href="{{ $posts->url(1) ?: '#' }}" class="page-link" title="첫 페이지로"><i class="arrow two first"></i></a>
+                    </li>
+					<li class="page-item arw_item {{ $posts->onFirstPage() ? 'disabled' : '' }}">
+                        <a href="{{ $posts->previousPageUrl() ?: '#' }}" class="page-link" rel="prev" title="이전 페이지"><i class="arrow one prev"></i></a>
+                    </li>
+                    @for($page = 1; $page <= $posts->lastPage(); $page++)
+                    @if($page === 1 || $page === $posts->lastPage() || abs($posts->currentPage() - $page) <= 1)
+					<li class="page-item {{ $posts->currentPage() === $page ? 'active' : '' }}">
+                        @if($posts->currentPage() === $page)
+						<span class="page-link">{{ $page }}</span>
+                        @else
+						<a class="page-link" href="{{ $posts->url($page) }}">{{ $page }}</a>
+                        @endif
+                    </li>
+                    @endif
+                    @endfor
+					<li class="page-item arw_item {{ $posts->hasMorePages() ? '' : 'disabled' }}">
+                        <a href="{{ $posts->nextPageUrl() ?: '#' }}" class="page-link" title="다음 페이지"><i class="arrow one next"></i></a>
+                    </li>
+					<li class="page-item arw_item {{ $posts->hasMorePages() ? '' : 'disabled' }}">
+                        <a href="{{ $posts->url($posts->lastPage()) ?: '#' }}" class="page-link" title="끝 페이지로"><i class="arrow two last"></i></a>
+                    </li>
 				</ul>
 			</div>
+            @endif
 		</div>
 	</section>
 
 </main>
 
-<script>
-//AOS
-	AOS.init({
-		duration: 2000,
-	});
-</script>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/blog-index.js') }}"></script>
+@endpush

@@ -20,4 +20,4 @@ Artisan::command('blog:aggregate-stats {--date=}', function (BlogService $blogSe
 })->purpose('블로그 이벤트 로그를 일 집계로 변환합니다.');
 
 Schedule::command('blog:aggregate-stats')
-    ->dailyAt('03:00');
+    ->hourly();

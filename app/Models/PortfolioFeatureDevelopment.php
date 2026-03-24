@@ -11,6 +11,7 @@ class PortfolioFeatureDevelopment extends Model
         'portfolio_id',
         'title',
         'content',
+        'background_text',
         'image_path',
         'sort_order',
     ];

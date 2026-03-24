@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <input type="text" class="board-form-control" name="feature_developments[${idx}][title]" placeholder="제목">
         </div>
         <textarea class="board-form-control board-textarea" name="feature_developments[${idx}][content]" rows="3" placeholder="내용"></textarea>
+        <input type="text" class="board-form-control" name="feature_developments[${idx}][background_text]" placeholder="Background text (예시: Design)">
         <div class="feature-file-row">
           <input type="hidden" name="feature_developments[${idx}][existing_image_path]" value="">
           <input type="file" class="board-form-control" name="feature_developments[${idx}][image]" accept="image/*">

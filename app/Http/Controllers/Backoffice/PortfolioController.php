@@ -110,6 +110,7 @@ class PortfolioController extends Controller
             'feature_developments' => 'nullable|array',
             'feature_developments.*.title' => 'nullable|string|max:255',
             'feature_developments.*.content' => 'nullable|string',
+            'feature_developments.*.background_text' => 'nullable|string|max:255',
             'feature_developments.*.existing_image_path' => 'nullable|string|max:255',
             'feature_developments.*.remove_image' => 'nullable|boolean',
             'feature_developments.*.image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
@@ -174,6 +175,7 @@ class PortfolioController extends Controller
         foreach ($featureRows as $idx => $row) {
             $title = trim((string) ($row['title'] ?? ''));
             $content = trim((string) ($row['content'] ?? ''));
+            $backgroundText = trim((string) ($row['background_text'] ?? ''));
             $existingImagePath = $row['existing_image_path'] ?? null;
             $removeExistingImage = filter_var($row['remove_image'] ?? false, FILTER_VALIDATE_BOOLEAN);
             $uploadedImagePath = null;
@@ -183,13 +185,14 @@ class PortfolioController extends Controller
             }
 
             $imagePath = $removeExistingImage ? null : ($uploadedImagePath ?? $existingImagePath);
-            if ($title === '' && $content === '' && ! $imagePath) {
+            if ($title === '' && $content === '' && $backgroundText === '' && ! $imagePath) {
                 continue;
             }
 
             $featureDevelopments[] = [
                 'title' => $title !== '' ? $title : null,
                 'content' => $content !== '' ? $content : null,
+                'background_text' => $backgroundText !== '' ? $backgroundText : null,
                 'image_path' => $imagePath,
             ];
         }

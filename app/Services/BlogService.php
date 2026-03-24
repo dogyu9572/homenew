@@ -27,9 +27,8 @@ class BlogService
         }
 
         return $query
-            ->orderByDesc('is_notice')
-            ->orderByDesc('score_30d')
-            ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->paginate(12)
             ->withQueryString();
     }
@@ -194,38 +193,22 @@ class BlogService
 
     public function getAutoRecommendedPosts(BlogPost $blogPost): Collection
     {
-        $tags = $blogPost->tags ?? [];
-
-        $baseQuery = BlogPost::query()
+        return BlogPost::query()
             ->where('id', '!=', $blogPost->id)
             ->where('is_published', true)
-            ->whereNull('deleted_at');
-
-        $candidateQuery = (clone $baseQuery)->where(function ($query) use ($blogPost, $tags) {
-            $query->where('category', $blogPost->category);
-            foreach ($tags as $tag) {
-                $query->orWhereJsonContains('tags', $tag);
-            }
-        });
-
-        $candidates = $candidateQuery
+            ->whereNull('deleted_at')
             ->orderByDesc('score_30d')
             ->orderByDesc('published_at')
             ->limit(5)
             ->get();
+    }
 
-        if ($candidates->count() >= 5) {
-            return $candidates;
-        }
-
-        $fallback = (clone $baseQuery)
-            ->whereNotIn('id', $candidates->pluck('id')->all())
-            ->orderByDesc('score_30d')
-            ->orderByDesc('published_at')
-            ->limit(5 - $candidates->count())
-            ->get();
-
-        return $candidates->concat($fallback);
+    public function getLikeCount(BlogPost $blogPost): int
+    {
+        return BlogPostEventLog::query()
+            ->where('blog_post_id', $blogPost->id)
+            ->where('event_type', BlogPostEventLog::EVENT_LIKE)
+            ->count();
     }
 
     private function latestLogsBySession(Collection $logs, string $eventType): Collection

@@ -69,38 +69,69 @@
 		</div>
 	</section>
 	
-	<section class="portfolio_padding portfolio_production_composition tac pb0" aria-label="portfolio-production-composition-title">
-		<div class="inner">
-			<h3 id="portfolio-production-composition-title" class="sound_only">제작 구성 및 수행 영역</h3>
-			<ul class="production_setting_area">
-				<li class="feature_development">
-					<div class="imgfit" aria-hidden="true"><img src="/images/img_production_composition1.png" alt=""></div>
-					<div class="txt">
-						<h4 class="port_tit">기능 개발</h4>
-						<p><strong>복잡한 검사 항목을 카테고리별로 재구성하여 <br class="pc_vw">필요한 정보를 빠르게 찾을 수 있도록 개선했습니다.</strong> 
-						간편한 온라인 예약과 보안 강화된 결과 조회 기능으로 편의성을 향상시켰으며, <br class="pc_vw">모든 디바이스에서 최적화된 사용자 경험을 제공합니다.</p>
-						<div class="slide_txt" aria-hidden="true"></div>
-					</div>
-				</li>
-				<li class="design">
-					<div class="imgfit" aria-hidden="true"><img src="/images/img_production_composition2.png" alt=""></div>
-					<div class="txt">
-						<h4 class="port_tit">디자인</h4>
-						<p><strong>다양한 디바이스와 브라우저 환경에서도 <br class="pc_vw">일관된 브랜드 경험을 제공하기 위해 <br class="pc_vw">표준성이 높은 프리텐다드를 사용했습니다.</strong> 
-						의료 기관 특유의 전문성이 느껴지도록 여백과 세련된 컬러 시스템을 구축했습니다. <br>또한 정제된 디자인 톤앤매너를 통해 신원의료재단이 지향하는 정밀 의료의 가치를 <br class="pc_vw">사용자에게 직관적으로 전달하고자 했습니다.</p>
-						<div class="slide_txt" aria-hidden="true"></div>
-					</div>
-				</li>
-				<li class="mobile_ui">
-					<div class="imgfit" aria-hidden="true"><img src="/images/img_production_composition3.png" alt=""></div>
-					<div class="txt">
-						<h4 class="port_tit">모바일 UI</h4>
-						<p><strong>다양한 접속 환경에서도 동일한 브랜드 경험을 제공하기 위해 <br class="pc_vw">유연한 그리드 시스템 기반의 반응형 레이아웃을 적용했습니다.</strong> 
-						간편한 온라인 예약과 보안 강화된 결과 조회 기능으로 편의성을 향상시켰으며, <br class="pc_vw">모든 디바이스에서 최적화된 사용자 경험을 제공합니다.</p>
-						<div class="slide_txt" aria-hidden="true"></div>
-					</div>
-				</li>
+	<section class="portfolio_padding portfolio_feature_development tac" aria-label="portfolio-feature-development-title">
+		<h4 id="portfolio-feature-development-title" class="tit_label">Feature development</h4>
+		<h3 class="port_tit">복잡한 검사 항목을 카테고리별로 재구성하여 <br class="pc_vw">필요한 정보를 빠르게 찾을 수 있도록 개선했습니다.</h3>
+		<p>간편한 온라인 예약과 보안 강화된 결과 조회 기능으로 편의성을 향상시켰으며, <br class="pc_vw">모든 디바이스에서 최적화된 사용자 경험을 제공합니다.</p>
+		<!-- 관리자에서 탭 제목/이미지 삽입 가능하도록, 영역 확보 필요 -->
+		<div class="wrap-tab-container">
+			<ul class="wrap-tab-list" role="tablist" aria-label="탭 목록">
+				<li role="presentation"><button id="tab1" class="tab-list" role="tab" aria-controls="tab-panel1" aria-selected="false" tabindex="-1">검사항목조회</button></li>
+				<li role="presentation"><button id="tab2" class="tab-list" role="tab" aria-controls="tab-panel2" aria-selected="false" tabindex="-1">검사결과 조회</button></li>
+				<li role="presentation"><button id="tab3" class="tab-list" role="tab" aria-controls="tab-panel3" aria-selected="false" tabindex="-1">검사의뢰 절차</button></li>
+				<li role="presentation"><button id="tab4" class="tab-list" role="tab" aria-controls="tab-panel4" aria-selected="false" tabindex="-1">검사 예약</button></li>
 			</ul>
+			<div class="wrap-tab-contents">
+				<div id="tab-panel1" class="tab-contents" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden><img src="/images/img_portfolio_feature_development_sample.jpg" alt=""></div>
+				<div id="tab-panel2" class="tab-contents" role="tabpanel" aria-labelledby="tab2" tabindex="-1" hidden><img src="/images/img_portfolio_feature_development_sample.jpg" alt=""></div>
+				<div id="tab-panel3" class="tab-contents" role="tabpanel" aria-labelledby="tab3" tabindex="-1" hidden><img src="/images/img_portfolio_feature_development_sample.jpg" alt=""></div>
+				<div id="tab-panel4" class="tab-contents" role="tabpanel" aria-labelledby="tab4" tabindex="-1" hidden><img src="/images/img_portfolio_feature_development_sample.jpg" alt=""></div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="portfolio_design" aria-label="portfolio-design-title">
+		<div class="bg_img">
+			<div class="bg imgfit" aria-hidden="true"><img src="/images/img_portfolio_design_sample.jpg" alt=""></div>
+			<div class="inner">
+				<div class="left">
+					<h4 id="portfolio-design-title" class="tit_label">DESIGN</h4>
+					<p class="port_tit">다양한 디바이스와 브라우저 환경에서도 <br class="pc_vw">일관된 브랜드 경험을 제공하기 위해 <br class="pc_vw">표준성이 높은 프리텐다드를 사용했습니다.</p>
+					<p>의료 기관 특유의 전문성이 느껴지도록 여백과 세련된 컬러 시스템을 구축했습니다. <br/>또한 정제된 디자인 톤앤매너를 통해 신원의료재단이 지향하는 <br class="pc_vw">정밀 의료의 가치를 사용자에게 직관적으로 전달하고자 했습니다.</p>
+				</div>
+				<div class="right img"><img src="/images/img_design_sample_mo.png" alt="신원의료재단 모바일 디자인 시안"></div>
+			</div>
+		</div>
+		<div class="bg_white">
+			<div class="inner">
+				<div class="img"><img src="/images/img_design_sample_pc.png" alt="신원의료재단 PC 디자인 시안"></div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="portfolio_padding portfolio_mobile_ui" aria-label="portfolio-mobile-ui-title">
+		<div class="inner">
+			<h4 id="portfolio-mobile-ui-title" class="tit_label">MOBILE UI</h4>
+			<p class="port_tit">다양한 접속 환경에서도 동일한 브랜드 경험을 제공하기 위해 <br class="pc_vw">유연한 그리드 시스템 기반의 <br class="pc_vw">반응형 레이아웃을 적용했습니다.</p>
+			<div class="mobile_view_wrap">
+				<div class="mobile_view_area">
+					<ul class="mobile_view mobile_view1">
+						<li><img src="/images/img_portfolio_mobile_ui_sample1.jpg" alt="" aria-hidden="true"></li>
+						<li><img src="/images/img_portfolio_mobile_ui_sample2.jpg" alt="" aria-hidden="true"></li>
+						<li><img src="/images/img_portfolio_mobile_ui_sample3.jpg" alt="" aria-hidden="true"></li>
+					</ul>
+					<ul class="mobile_view mobile_view2">
+						<li><img src="/images/img_portfolio_mobile_ui_sample4.jpg" alt="" aria-hidden="true"></li>
+						<li><img src="/images/img_portfolio_mobile_ui_sample5.jpg" alt="" aria-hidden="true"></li>
+						<li><img src="/images/img_portfolio_mobile_ui_sample6.jpg" alt="" aria-hidden="true"></li>
+					</ul>
+					<ul class="mobile_view mobile_view3">
+						<li><img src="/images/img_portfolio_mobile_ui_sample7.jpg" alt="" aria-hidden="true"></li>
+						<li><img src="/images/img_portfolio_mobile_ui_sample8.jpg" alt="" aria-hidden="true"></li>
+						<li><img src="/images/img_portfolio_mobile_ui_sample9.jpg" alt="" aria-hidden="true"></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</section>
 	
@@ -210,30 +241,102 @@
 	$(window).on('resize', function() {
 		drawLines();
 	});
-// portfolio_production_composition
-	var speedFactor = 0.5; 
-    $('.production_setting_area li .txt .slide_txt').each(function() {
-        var $this = $(this);
-        var $li = $this.closest('li');
-        var textContent = "";
-        if ($li.hasClass('feature_development')) {
-            textContent = "FEATURE DEVELOPMENT ";
-        } else if ($li.hasClass('design')) {
-            textContent = "DESIGN ";
-        } else if ($li.hasClass('mobile_ui')) {
-            textContent = "MOBILE UI ";
-        }
-        var $temp = $('<span style="position:absolute; visibility:hidden; white-space:nowrap; font-size:100px; font-weight:900;">' + textContent + '</span>').appendTo('body');
-        var textWidth = $temp.outerWidth();
-        $temp.remove();
-        var windowWidth = $(window).width();
-        var repeatCount = Math.ceil(windowWidth / textWidth); 
-        var repeatedText = textContent.repeat(repeatCount + 1); 
-        var totalWidth = textWidth * (repeatCount + 1);
-        var duration = (totalWidth / 100) * speedFactor; 
-        var marqueeHtml = '<div class="marquee_inner" style="animation-duration: ' + duration + 's;">' + repeatedText + '</div>' + '<div class="marquee_inner" style="animation-duration: ' + duration + 's;">' + repeatedText + '</div>';
-        $this.html(marqueeHtml);
-    });
+// portfolio_feature_development 접근성 호환 탭
+	const $tabs    = $(".wrap-tab-container .tab-list");
+	const $panels  = $(".wrap-tab-container .tab-contents");
+	function activateTab($tab) {
+		$tabs.attr({ "aria-selected": "false", "tabindex": "-1" }).removeClass("active");
+		$panels.attr("tabindex", "-1").removeClass("active").attr("hidden", true);
+		$tab.attr({ "aria-selected": "true", "tabindex": "0" }).addClass("active");
+		$("#" + $tab.attr("aria-controls"))
+			.removeAttr("hidden")
+			.attr("tabindex", "0")
+			.addClass("active");
+	}
+	activateTab($tabs.first());
+	$tabs.on("click", function () {
+		activateTab($(this));
+		$(this).focus();
+	});
+	$tabs.on("keydown", function (e) {
+		const keycode = e.keyCode || e.which;
+		const $all    = $tabs;
+		const $current = $(this);
+		let $target;
+
+		switch (keycode) {
+			case 37: // 좌
+				$target = $current.parent().prev().find("[role='tab']");
+				if (!$target.length) $target = $all.last();
+				activateTab($target);
+				$target.focus();
+				e.preventDefault();
+				break;
+
+			case 39: // 우
+				$target = $current.parent().next().find("[role='tab']");
+				if (!$target.length) $target = $all.first();
+				activateTab($target);
+				$target.focus();
+				e.preventDefault();
+				break;
+
+			case 13: // Enter
+			case 32: // Space
+				activateTab($current);
+				e.preventDefault();
+				break;
+
+			case 9: // Tab — 패널로 포커스 이동
+				if (!e.shiftKey) {
+					const $panel = $("#" + $current.attr("aria-controls"));
+					if ($panel.length) {
+						$panel.focus();
+						e.preventDefault();
+					}
+				}
+				break;
+		}
+	});
+// portfolio_mobile_ui 세로 marquee
+	function initMobileMarquee() {
+		const marqueeList = [
+			{ selector: '.mobile_view1', speed: 0.5 },
+			{ selector: '.mobile_view2', speed: 0.8 },
+			{ selector: '.mobile_view3', speed: 0.6 }
+		];
+
+		marqueeList.forEach(function(item) {
+			const $el = $(item.selector);
+
+			// 무한 루프를 위해 내용 복제
+			$el.append($el.html());
+
+			const singleHeight = $el.find('li').length / 2 * $el.find('li').first().outerHeight(true);
+			let pos = 0;
+			let animId;
+
+			function move() {
+				pos -= item.speed;
+				if (Math.abs(pos) >= singleHeight) {
+					pos = 0;
+				}
+				$el.css('transform', 'translateY(' + pos + 'px)');
+				animId = requestAnimationFrame(move);
+			}
+
+			animId = requestAnimationFrame(move);
+
+			// 호버 시 일시정지
+			/*$el.closest('.mobile_view_wrap')
+				.on('mouseenter', function() { cancelAnimationFrame(animId); })
+				.on('mouseleave', function() { animId = requestAnimationFrame(move); });*/
+		});
+	}
+
+	$(window).on('load', function() {
+		initMobileMarquee();
+	});	
 // contact
 	const observerContact = new IntersectionObserver(function(entries) {
 		entries.forEach(function(entry) {

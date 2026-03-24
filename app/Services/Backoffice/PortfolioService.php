@@ -149,6 +149,7 @@ class PortfolioService
             $portfolio->featureDevelopments()->create([
                 'title' => $featureDevelopment['title'] ?? null,
                 'content' => $featureDevelopment['content'] ?? null,
+                'background_text' => $featureDevelopment['background_text'] ?? null,
                 'image_path' => $featureDevelopment['image_path'] ?? null,
                 'sort_order' => $idx,
             ]);

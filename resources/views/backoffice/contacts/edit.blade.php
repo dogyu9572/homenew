@@ -94,17 +94,20 @@
                             <label class="member-form-label">첨부파일</label>
                             <div class="member-form-field">
                                 @if(!empty($contact->attachments) && is_array($contact->attachments))
-                                    <ul>
+                                    <div class="board-existing-files" style="margin: 0;">
+                                        <div class="board-attachment-list">
                                         @foreach($contact->attachments as $idx => $file)
-                                            <li>
-                                                <a href="{{ route('backoffice.contacts.attachments.download', ['contact' => $contact, 'index' => $idx]) }}">
+                                            <div class="board-attachment-item">
+                                                <i class="fas fa-paperclip"></i>
+                                                <a class="board-attachment-link" href="{{ route('backoffice.contacts.attachments.download', ['contact' => $contact, 'index' => $idx]) }}">
                                                     {{ $file['original_name'] ?? '파일' }}
                                                 </a>
-                                            </li>
+                                            </div>
                                         @endforeach
-                                    </ul>
+                                        </div>
+                                    </div>
                                 @else
-                                    <span>없음</span>
+                                    <span class="text-muted">없음</span>
                                 @endif
                             </div>
                         </div>

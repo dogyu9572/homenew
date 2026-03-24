@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
+use App\Models\BlogPostEventLog;
 use App\Models\Portfolio;
 use App\Services\BlogService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SubController extends Controller
 {
@@ -182,7 +188,7 @@ class SubController extends Controller
         return view('portfolio.view', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'page', 'portfolio'));
     }
 
-    public function blog_list()
+    public function blog_list(Request $request, BlogService $blogService)
     {
         $gNum = '04';
         $sNum = '01';
@@ -190,10 +196,30 @@ class SubController extends Controller
         $sName = '블로그';
         $gSlug = 'blog';
 
-        return view('blog.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        $category = (string) $request->input('category', '');
+        $keyword = (string) $request->input('keyword', '');
+
+        $posts = $blogService->getList($category, $keyword);
+        $featuredPost = $blogService->getFeaturedPost($category);
+        $listItems = [];
+        foreach (array_values($posts->items()) as $index => $item) {
+            $listItems[] = [
+                '@type' => 'ListItem',
+                'position' => (($posts->currentPage() - 1) * $posts->perPage()) + $index + 1,
+                'name' => $item->title,
+                'url' => route('blog.blog_view', ['blogPost' => $item->id]),
+            ];
+        }
+        $featuredExcerpt = null;
+        if ($featuredPost) {
+            $firstSection = $featuredPost->sections()->first();
+            $featuredExcerpt = Str::limit(strip_tags((string) ($firstSection->content ?? '')), 220);
+        }
+
+        return view('blog.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'posts', 'featuredPost', 'category', 'keyword', 'listItems', 'featuredExcerpt'));
     }
 
-    public function blog_view(BlogService $blogService, ?string $slug = null)
+    public function blog_view(BlogService $blogService, ?BlogPost $blogPost = null)
     {
         $gNum = '04';
         $sNum = '01';
@@ -201,14 +227,103 @@ class SubController extends Controller
         $page = 'view';
         $gSlug = 'blog';
 
-        $post = $slug !== null && $slug !== ''
-            ? $blogService->getPostBySlugOrFail($slug)
-            : ($blogService->getFeaturedPost('') ?? abort(404));
+        $post = $blogPost ?? ($blogService->getFeaturedPost('') ?? abort(404));
+        if (! $post->is_published) {
+            abort(404);
+        }
 
         $sName = $post->title;
         $recommended = $blogService->getAutoRecommendedPosts($post);
+        $likeCount = BlogPostEventLog::query()
+            ->where('blog_post_id', $post->id)
+            ->where('event_type', BlogPostEventLog::EVENT_LIKE)
+            ->count();
+        $heroImage = $post->thumbnail_path ? Storage::url($post->thumbnail_path) : null;
+        $publishedIso = $post->published_at?->toAtomString() ?? '';
+        $publishedDate = $post->published_at?->format('Y.m.d') ?? '';
+        $canonicalUrl = strtok(url()->current(), '?');
+        $tocSections = $post->sections->filter(fn ($section) => !empty($section->subtitle))->values();
 
-        return view('blog.view', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'page', 'post', 'recommended'));
+        return view('blog.view', compact(
+            'gNum',
+            'sNum',
+            'gName',
+            'sName',
+            'gSlug',
+            'page',
+            'post',
+            'recommended',
+            'likeCount',
+            'heroImage',
+            'publishedIso',
+            'publishedDate',
+            'canonicalUrl',
+            'tocSections'
+        ));
+    }
+
+    public function blog_event(Request $request, BlogPost $blogPost, BlogService $blogService): JsonResponse
+    {
+        $validated = $request->validate([
+            'event_type' => ['required', 'string', 'in:'.implode(',', BlogPostEventLog::EVENTS)],
+            'session_key' => ['required', 'string', 'max:128'],
+            'dwell_seconds' => ['nullable', 'integer', 'min:0', 'max:7200'],
+            'scroll_depth' => ['nullable', 'integer', 'min:0', 'max:100'],
+        ]);
+
+        if ($validated['event_type'] === BlogPostEventLog::EVENT_VIEW) {
+            $blogService->recordView($blogPost, $validated['session_key']);
+        } else {
+            $blogService->recordEvent(
+                $blogPost,
+                $validated['session_key'],
+                $validated['event_type'],
+                [
+                    'dwell_seconds' => $validated['dwell_seconds'] ?? null,
+                    'scroll_depth' => $validated['scroll_depth'] ?? null,
+                ]
+            );
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function blog_like(Request $request, BlogPost $blogPost, BlogService $blogService): JsonResponse
+    {
+        $validated = $request->validate([
+            'session_key' => ['required', 'string', 'max:128'],
+        ]);
+
+        $alreadyLiked = BlogPostEventLog::query()
+            ->where('blog_post_id', $blogPost->id)
+            ->where('event_type', BlogPostEventLog::EVENT_LIKE)
+            ->where('session_key', $validated['session_key'])
+            ->exists();
+
+        $liked = false;
+        if (! $alreadyLiked) {
+            $blogService->recordEvent(
+                $blogPost,
+                $validated['session_key'],
+                BlogPostEventLog::EVENT_LIKE
+            );
+            $liked = true;
+        } else {
+            BlogPostEventLog::query()
+                ->where('blog_post_id', $blogPost->id)
+                ->where('event_type', BlogPostEventLog::EVENT_LIKE)
+                ->where('session_key', $validated['session_key'])
+                ->delete();
+        }
+
+        return response()->json([
+            'success' => true,
+            'liked' => $liked,
+            'like_count' => BlogPostEventLog::query()
+                ->where('blog_post_id', $blogPost->id)
+                ->where('event_type', BlogPostEventLog::EVENT_LIKE)
+                ->count(),
+        ]);
     }
 
     public function contact()

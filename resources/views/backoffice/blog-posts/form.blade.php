@@ -38,14 +38,12 @@
             <div class="member-form-row">
                 <label class="member-form-label">카테고리 <span class="required">*</span></label>
                 <div class="member-form-field">
-                    <div class="board-checkbox-group">
+                    <select class="board-form-control" name="category" required>
+                        <option value="">카테고리 선택</option>
                         @foreach($categories as $value => $label)
-                            <label class="checkbox-label">
-                                <input type="radio" name="category" value="{{ $value }}" @checked(old('category', $blogPost->category ?? '') === $value) required>
-                                <span>{{ $label }}</span>
-                            </label>
+                            <option value="{{ $value }}" @selected(old('category', $blogPost->category ?? '') === $value)>{{ $label }}</option>
                         @endforeach
-                    </div>
+                    </select>
                 </div>
             </div>
 

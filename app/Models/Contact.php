@@ -30,12 +30,17 @@ class Contact extends Model
     protected $fillable = [
         'company',
         'contact_person',
+        'phone',
         'email',
         'services',
         'current_site',
         'message',
         'budget',
         'attachments',
+        'source_type',
+        'source_id',
+        'source_url',
+        'source_title',
         'status',
         'admin_memo',
     ];
@@ -45,6 +50,30 @@ class Contact extends Model
         return [
             'services' => 'array',
             'attachments' => 'array',
+            'source_id' => 'integer',
         ];
+    }
+
+    /**
+     * 관리자 상세 등 단건 화면용: 저장된 제목 없으면 포트폴리오에서 조회
+     */
+    public function resolvedSourceTitle(): ?string
+    {
+        if ($this->source_title !== null && $this->source_title !== '') {
+            return $this->source_title;
+        }
+        if ($this->source_type === 'portfolio' && $this->source_id) {
+            return Portfolio::query()->whereKey($this->source_id)->value('title');
+        }
+
+        return null;
+    }
+
+    public static function sourceTypeAdminLabel(?string $type): string
+    {
+        return match ($type) {
+            'portfolio' => '포트폴리오',
+            default => $type !== null && $type !== '' ? $type : '',
+        };
     }
 }

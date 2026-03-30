@@ -52,7 +52,7 @@ class PortfolioService
 
     public function delete(Portfolio $portfolio): void
     {
-        foreach ([$portfolio->thumbnail_image, $portfolio->solution_before_image, $portfolio->solution_after_image] as $file) {
+        foreach ([$portfolio->thumbnail_image, $portfolio->top_image, $portfolio->solution_before_image, $portfolio->solution_after_image] as $file) {
             if ($file) {
                 Storage::disk('public')->delete($file);
             }
@@ -70,12 +70,14 @@ class PortfolioService
 
     public function updateOrder(array $payload): void
     {
-        foreach ($payload as $row) {
-            if (! isset($row['id'], $row['order'])) {
-                continue;
+        DB::transaction(function () use ($payload) {
+            foreach ($payload as $row) {
+                if (! isset($row['id'], $row['order'])) {
+                    continue;
+                }
+                Portfolio::where('id', $row['id'])->update(['sort_order' => (int) $row['order']]);
             }
-            Portfolio::where('id', $row['id'])->update(['sort_order' => (int) $row['order']]);
-        }
+        });
     }
 
     public function deleteMultiple(array $ids): int
@@ -94,10 +96,12 @@ class PortfolioService
         return [
             'category' => $data['category'],
             'categories' => $data['categories'] ?? [],
+            'service_subcategories' => $data['service_subcategories'] ?? [],
             'development_summary' => $data['development_summary'] ?? null,
             'title' => $data['title'],
             'keywords' => $data['keywords'] ?? [],
             'thumbnail_image' => $data['thumbnail_image'] ?? null,
+            'top_image' => $data['top_image'] ?? null,
             'sort_order' => (int) ($data['sort_order'] ?? 0),
             'is_main_display' => (bool) ($data['is_main_display'] ?? false),
             'is_active' => (bool) ($data['is_active'] ?? true),
@@ -131,13 +135,7 @@ class PortfolioService
 
     private function syncFeatureDevelopments(Portfolio $portfolio, array $featureDevelopments): void
     {
-        foreach ($portfolio->featureDevelopments as $featureDevelopment) {
-            if ($featureDevelopment->image_path) {
-                Storage::disk('public')->delete($featureDevelopment->image_path);
-            }
-        }
-        $portfolio->featureDevelopments()->delete();
-
+        $nextRows = [];
         foreach (array_values($featureDevelopments) as $idx => $featureDevelopment) {
             if (
                 empty($featureDevelopment['title']) &&
@@ -146,13 +144,36 @@ class PortfolioService
             ) {
                 continue;
             }
-            $portfolio->featureDevelopments()->create([
+            $nextRows[] = [
                 'title' => $featureDevelopment['title'] ?? null,
                 'content' => $featureDevelopment['content'] ?? null,
                 'background_text' => $featureDevelopment['background_text'] ?? null,
                 'image_path' => $featureDevelopment['image_path'] ?? null,
                 'sort_order' => $idx,
-            ]);
+            ];
+        }
+
+        $keptImagePaths = collect($nextRows)
+            ->pluck('image_path')
+            ->filter(fn ($path) => is_string($path) && $path !== '')
+            ->unique()
+            ->values()
+            ->all();
+
+        // 다음 저장 목록에 없는 기존 이미지만 삭제 (유지 이미지까지 삭제되어 엑박이 나는 문제 방지)
+        foreach ($portfolio->featureDevelopments as $featureDevelopment) {
+            $oldPath = $featureDevelopment->image_path;
+            if (! $oldPath) {
+                continue;
+            }
+            if (! in_array($oldPath, $keptImagePaths, true)) {
+                Storage::disk('public')->delete($oldPath);
+            }
+        }
+
+        $portfolio->featureDevelopments()->delete();
+        foreach ($nextRows as $row) {
+            $portfolio->featureDevelopments()->create($row);
         }
     }
 }

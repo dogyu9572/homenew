@@ -5,10 +5,16 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/backoffice/boards.css') }}">
 <link rel="stylesheet" href="{{ asset('css/backoffice/portfolio.css') }}">
+@if($portfolios->count())
+<link rel="stylesheet" href="{{ asset('css/backoffice/sorting.css') }}">
+@endif
 @endsection
 
 @section('scripts')
 <script src="{{ asset('js/backoffice/portfolio-index.js') }}"></script>
+@if($portfolios->count())
+<script src="{{ asset('js/backoffice/sorting.js') }}"></script>
+@endif
 @endsection
 
 @section('content')
@@ -83,31 +89,37 @@
             <form id="bulkDeleteForm" method="POST" action="{{ route('backoffice.portfolio.delete-multiple') }}">
                 @csrf
                 <div class="table-responsive">
-                    <table class="board-table">
+                    <table class="board-table @if($portfolios->count()) sortable-table @endif">
                         <thead>
                             <tr>
                                 <th class="w5 board-checkbox-column">
                                     <input type="checkbox" id="select-all" class="form-check-input">
                                 </th>
+                                @if($portfolios->count())
+                                <th class="w5">순서</th>
+                                @endif
                                 <th>No</th>
                                 <th>카테고리</th>
                                 <th>제목</th>
-                                <th>노출순서</th>
                                 <th>메인표시</th>
                                 <th>상태</th>
                                 <th>관리</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody @if($portfolios->count()) id="sortable-tbody" data-sort-endpoint="{{ route('backoffice.portfolio.update-order') }}" @endif>
                         @forelse($portfolios as $index => $portfolio)
-                            <tr>
+                            <tr @if($portfolios->count()) data-post-id="{{ $portfolio->id }}" @endif>
                                 <td>
                                     <input type="checkbox" name="ids[]" value="{{ $portfolio->id }}" class="form-check-input portfolio-checkbox">
                                 </td>
+                                @if($portfolios->count())
+                                <td class="sort-handle-cell">
+                                    <i class="fas fa-grip-vertical sort-handle" title="드래그하여 순서 변경"></i>
+                                </td>
+                                @endif
                                 <td>{{ $portfolios->total() - ($portfolios->currentPage() - 1) * $portfolios->perPage() - $index }}</td>
                                 <td>{{ implode(', ', $portfolio->categories ?? array_filter([$portfolio->category])) }}</td>
                                 <td>{{ $portfolio->title }}</td>
-                                <td>{{ $portfolio->sort_order }}</td>
                                 <td>{{ $portfolio->is_main_display ? 'Y' : 'N' }}</td>
                                 <td>{{ $portfolio->is_active ? '노출' : '숨김' }}</td>
                                 <td>
@@ -122,7 +134,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="8" class="text-center">데이터가 없습니다.</td></tr>
+                            <tr><td colspan="7" class="text-center">데이터가 없습니다.</td></tr>
                         @endforelse
                         </tbody>
                     </table>

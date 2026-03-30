@@ -88,35 +88,35 @@
 				<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
 			</ul>
 		</div>
-		<div class="inner bg_round_start" data-aos="fade-up">
+		<div class="inner bg_round_start" data-aos="fade-up" data-aos-offset="200">
 			<div class="bg_round"><div class="in_gradient"></div></div>
 			<div class="problem service">
-				<p class="tit_label" data-aos="zoom-out-up">PROBLEM</p>
-				<h2 id="service-problem-title" data-aos="zoom-out-up">홈페이지 배포는 됐는데<br/> <strong>이런 문제를 경험하셨나요?</strong></h2>
+				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
+				<h2 id="service-problem-title" data-aos="fade-up">홈페이지 배포는 됐는데<br/> <strong>이런 문제를 경험하셨나요?</strong></h2>
 				<ul class="problem_list">
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>긴급 오류가 발생했는데 개발사 연락이 안 돼요 <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>갑작스러운 서버 다운, 결제 오류, 페이지 접속 불가. 비즈니스가 멈추는 순간을 경험했어요.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>자체 개발팀이 없어서 작은 수정도 어려워요 <img src="/images/emoji_sad.png" alt="" aria-hidden="true"></h3>
 						<p>텍스트 하나, 이미지 하나 바꾸는데도 외주 의뢰가 필요합니다.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>보안 업데이트와 성능 관리가 불안해요 <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>문제가 생긴 뒤에 대응하면 이미 늦습니다. 전문가의 선제적인 점검과 관리가 필요합니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="zoom-out-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 
 	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">SOLUTION</p>
-			<h2 id="service-solution-title" data-aos="zoom-out-up">홈페이지 제작, 끝이 아닙니다.<br/> <strong>지속적인 관리로 비즈니스를 성장시키세요.</strong></h2>
-			<ul class="solution_list" data-aos="zoom-out-up">
+			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
+			<h2 id="service-solution-title" data-aos="fade-up">홈페이지 제작, 끝이 아닙니다.<br/> <strong>지속적인 관리로 비즈니스를 성장시키세요.</strong></h2>
+			<ul class="solution_list" data-aos="fade-up">
 				<li class="i_c1">
 					<h3>긴급 대응 및 홈페이지 오류 처리</h3>
 					<p>모든 홈페이지 유지보수 요청은 <br class="pc_vw">영업일 기준 24시간 이내에 <br class="pc_vw">1차적으로 확인하고 처리합니다.</p>
@@ -135,17 +135,17 @@
 
 	<section class="infopage_how service_how" aria-labelledby="service-how-title" data-header="dark">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">HOW</p>
-			<h2 id="service-how-title" data-aos="zoom-out-up"><strong>제작만큼 중요한 홈페이지 유지보수,</strong><br/>홈페이지코리아가 이렇게 책임집니다</h2>
+			<p class="tit_label">HOW</p>
+			<h2 id="service-how-title"><strong>제작만큼 중요한 홈페이지 유지보수,</strong><br/>홈페이지코리아가 이렇게 책임집니다</h2>
 			<ul class="how_step_list">
-				<li class="i_c1" data-aos="zoom-out-up">
+				<li class="i_c1">
 					<span>STEP 01</span>
 					<h3>문제 발생 및 유지보수 요청</h3>
 					<ul>
 						<li>유지보수 전담 PM이 직접 요청 접수하여 불필요한 커뮤니케이션 비용 최소화</li>
 					</ul>
 				</li>
-				<li class="i_c2" data-aos="zoom-out-up">
+				<li class="i_c2">
 					<span>STEP 02</span>
 					<h3>유지보수 접수 및 안내</h3>
 					<ul>
@@ -153,7 +153,7 @@
 						<li>유지보수 범위를 넘어서는 작업은 건별 개발로 분리하여 별도 안내</li>
 					</ul>
 				</li>
-				<li class="i_c3" data-aos="zoom-out-up">
+				<li class="i_c3">
 					<span>STEP 03</span>
 					<h3>유지보수 처리</h3>
 					<ul>
@@ -170,24 +170,24 @@
 			<svg class="line_svg" aria-hidden="true"></svg>
 		</div>
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">REVIEW</p>
-			<h2 id="service-review-title" data-aos="zoom-out-up">1,100개+ 고객사가 <br/><strong>홈페이지코리아를 추천합니다.</strong></h2>
+			<p class="tit_label">REVIEW</p>
+			<h2 id="service-review-title">1,100개+ 고객사가 <br/><strong>홈페이지코리아를 추천합니다.</strong></h2>
 			<ul class="review_list">
-				<li data-aos="zoom-out-up">
+				<li>
 					<h3 class="sound_only">공공기관</h3>
 					<div class="flex_tit">
 						<h4>박물관 특성상 주말에도 운영되는데, 갑자기 예약  시스템에 오류가 발생했을 때 즉시 대응해주셔서 관람객 불편을 최소화할 수 있었어요. <strong>전담 PM이 배정</strong>되어 있어 <strong>매번 상황을 새로 설명할 필요 없이 빠르게 소통</strong>할 수 있는 점이 가장 만족스럽습니다.</h4>
 					</div>
 					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00박물관<span aria-hidden="true">공공기관</span></p>
 				</li>
-				<li data-aos="zoom-out-up">
+				<li>
 					<h3 class="sound_only">재단</h3>
 					<div class="flex_tit">
 						<h4>B2B 거래 특성상 고객사별 맞춤 가격 설정, 재고 관리 등 복잡한 시스템을 운영하고 있는데요. 홈페이지코리아가 구축 당시부터 <strong>우리 업무 프로세스를 완벽히 이해</strong>하고 있어서, <strong>작은 수정이나 개선 사항도 정확하게 반영</strong>됩니다.</h4>
 					</div>
 					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00기업<span aria-hidden="true">재단</span></p>
 				</li>
-				<li data-aos="zoom-out-up">
+				<li>
 					<h3 class="sound_only">학회</h3>
 					<div class="flex_tit">
 						<h4>연구 장비 예약 시스템이라 보안이 무엇보다 중요한데, 정기적으로 보안 점검 결과를 리포트로 받고 있어요. <strong>문제가 생기기 전에 미리 조치</strong>해주셔서 지금까지 큰 장애 없이 <strong>안정적으로 운영하고 있습니다.</strong></h4>
@@ -195,52 +195,29 @@
 					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00학교<span aria-hidden="true">학회</span></p>
 				</li>
 			</ul>
-			<div class="flex_center" data-aos="zoom-out-up">
+			<div class="flex_center">
 				<a href="/portfolio/" class="btn_link slim">유지 보수 사례 더보기</a>
 			</div>
 		</div>
 	</section>
 
 	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title" data-header="dark">
-		<div class="inner">
+		<div class="inner" data-aos="fade-up">
 			<p class="tit_label sound_only">CTA</p>
-			<h2 id="service-contact-title" class="port_tit" data-aos="zoom-out-up"><strong>홈페이지 제작부터 유지보수까지 </strong><br/>홈페이지코리아와 상의하세요</h2>
+			<h2 id="service-contact-title" class="port_tit"><strong>홈페이지 제작부터 유지보수까지 </strong><br/>홈페이지코리아와 상의하세요</h2>
 			<div class="btns flex_center">
-				<a href="/portfolio/" class="btn_link" data-aos="zoom-out-up">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link" data-aos="zoom-out-up">프로젝트 문의하기</a>
+				<a href="/portfolio/" class="btn_link">포트폴리오 보러가기</a>
+				<a href="/contact/" class="btn_link">프로젝트 문의하기</a>
 			</div>
 		</div>
 	</section>
 
 	<section class="infopage_faq service_faq" aria-label="service-faq-title" data-header="dark">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">FAQ</p>
-			<h2 id="service-faq-title" data-aos="zoom-out-up"><strong>자주 묻는 질문</strong></h2>
-			<ul class="faq_list" data-aos="zoom-out-up">
-				<li>
-					<h3><button type="button">홈페이지 유지보수 계약 없이 건별로 의뢰할 수 있나요?</button></h3>
-					<div class="con">건별로는 진행이 어렵습니다. 월 50만 원부터 최대 500만 원까지 고객사별 시스템 규모, 요청 빈도, 월 투입 공수를 기준으로 유지보수 요금을 산정하여 운영하고 있습니다.</div>
-				</li>
-				<li>
-					<h3><button type="button">다른 업체에서 제작한 홈페이지도 유지보수가 가능한가요?</button></h3>
-					<div class="con">네, 가능합니다.<br>
-						타 업체에서 제작된 홈페이지라도 구조와 개발 환경을 검토한 후 유지보수 진행이 가능합니다.<br>
-						기존 소스 코드의 구조나 사용된 기술 스택, 관리자 기능 구성 등에 따라 일부 기능은 수정 난이도가 높거나 추가 개발이 필요할 수 있습니다.<br>
-						초기 검토를 통해 유지보수 가능 범위와 개선이 필요한 부분을 함께 안내드리며 필요 시 안정적인 운영을 위한 리뉴얼 또는 구조 개선도 제안드립니다.
-					</div>
-				</li>
-				<li>
-					<h3><button type="button">긴급 상황 발생 시 얼마나 빨리 대응하나요?</button></h3>
-					<div class="con">영업일 기준 24시간 이내 1차 확인 및 처리를 원칙으로 합니다. 서버 다운, 결제 오류 등 치명적 오류는 즉시 대응하여 비즈니스 중단 시간을 최소화합니다.</div>
-				</li>
-				<li>
-					<h3><button type="button">유지보수 범위에 포함되지 않는 작업은 무엇인가요?</button></h3>
-					<div class="con">신규 페이지 추가, 대규모 기능 개발, 디자인 전면 개편 등 구조 변경을 동반하는 작업은 별도 개발 프로젝트로 진행됩니다. 유지보수는 기존 기능 수정, 오류 대응, 경미한 개선에 한정되며, 작업 전 범위와 비용을 사전 안내드립니다.</div>
-				</li>
-				<li>
-					<h3><button type="button">유지보수 관리 계약 방식은 어떻게 되나요?</button></h3>
-					<div class="con">월 단위 또는 연간 계약으로 진행되며, 실제 투입된 작업 공수를 기준으로 관리합니다. 계약 조건에 따라 디자인·퍼블리싱 공수만 포함하거나, 기획·디자인·퍼블리싱·개발 공수를 모두 포함하는 방식으로 구성할 수 있습니다. 월별 작업 내역과 공수는 투명하게 리포트로 제공됩니다.</div>
-				</li>
+			<p class="tit_label">FAQ</p>
+			<h2 id="service-faq-title"><strong>자주 묻는 질문</strong></h2>
+			<ul class="faq_list">
+				@include('partials.public-faq-list', ['faqItems' => $faqItems, 'idPrefix' => 'service-faq-maintenance', 'variant' => 'service'])
 			</ul>
 		</div>
 	</section>
@@ -270,61 +247,9 @@ $(document).ready(function(){
         /*$banner.on("mouseenter", function () { isPaused = true; })
                .on("mouseleave", function () { isPaused = false; });*/
     })();
-// bg_round
-    function bgRoundScroll() {
-		const $startTrigger = $(".bg_round_start");
-		if (!$startTrigger.length) return;
-
-		const $mainService  = $(".infopage_head");
-		const $bgRound      = $(".bg_round");
-		const $marquee      = $(".infopage_head .marquee_banner");
-		
-		const scrollTop     = $(window).scrollTop();
-		const windowHeight  = $(window).height();
-		const triggerTop    = $startTrigger.offset().top;
-		
-		const paddingTop    = parseInt($mainService.css("padding-top"));
-		const marqueeHeight = $marquee.outerHeight();
-		const marqueeMargin = parseInt($marquee.css("margin-bottom"));
-		const initY         = -(paddingTop + marqueeHeight + marqueeMargin);
-
-		const offset        = -100; 
-		const scrollStart   = triggerTop - windowHeight + offset;
-		const scrollEnd     = triggerTop - 400; 
-
-		if (scrollTop >= scrollStart) {
-			$mainService.addClass("start");
-		} else {
-			$mainService.removeClass("start");
-		}
-
-		const progress      = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-		const translateY    = initY + (-initY * progress);
-		const scale         = 1 + 3 * progress;
-		const brBottom      = 50 * (1 - progress);
-		const aspectW       = 1 + 1 * progress; 
-		const borderRadius  = `50% 50% ${brBottom}% ${brBottom}%`;
-
-		if (scrollTop >= scrollStart) {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${translateY}px) scale(${scale})`,
-				"border-radius": borderRadius,
-				"aspect-ratio" : `${aspectW} / 1`
-			});
-		} else {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${initY}px) scale(1)`,
-				"border-radius": "50%",
-				"aspect-ratio" : "1 / 1"
-			});
-		}
-	}
-
-	$(window).on("scroll", bgRoundScroll);
-	bgRoundScroll();
 // step_list
     const $items   = $(".how_step_list > li");
-    const interval = 3000;
+    const interval = 2000;
     let current    = 0;
     let timer      = null;
     let started    = false;
@@ -451,14 +376,6 @@ $(document).ready(function(){
 
 	const contactTarget = document.querySelector('.infopage_contact');
 	if (contactTarget) observerContact.observe(contactTarget);
-// FAQ
-	$(".faq_list button").click(function(){
-		$(this).parent().next(".con").stop(true,true).slideToggle("fast").parent().stop(true,true).toggleClass("on").siblings().removeClass("on").children(".con").slideUp("fast");
-		$(".faq_list li").removeClass("on_before");
-		$(".faq_list li.on").prev("li").addClass("on_before");
-	});
-	$(".faq_list li:first-child").addClass("on").children(".con").show();
-	$(".faq_list li:first-child").prev("li").addClass("on_before");
 // AOS
 	AOS.init({
 		duration: 1000,
@@ -466,4 +383,8 @@ $(document).ready(function(){
 });
 </script>
 
+
+@push('scripts')
+<script src="{{ asset('js/faq-accordion.js') }}"></script>
+@endpush
 @endsection

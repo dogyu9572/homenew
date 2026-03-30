@@ -2,7 +2,7 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '비즈니스 생산성을 높이는 맞춤형 AI 솔루션. 4,400개 조직이 선택한 홈페이지코리아가 27년 경험으로 AI 챗봇·QA 자동화·기업용 AI 구축까지 책임집니다.')
+@section('description', '비즈니스 생산성을 높이는 맞춤형 AI 솔루션. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 AI 챗봇·QA 자동화·기업용 AI 구축까지 책임집니다.')
 @section('keywords', 'AI 솔루션(6천), AI 챗봇 (7천), AI QA ( 90), AX 솔루션 (69), 기업용 llm (13), 기업용 ai (180)')
 @section('sga_plus')
 ,"mainEntity": [
@@ -79,35 +79,35 @@
 				<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
 			</ul>
 		</div>
-		<div class="inner bg_round_start" data-aos="fade-up">
+		<div class="inner bg_round_start" data-aos="fade-up" data-aos-offset="200">
 			<div class="bg_round"><div class="in_gradient"></div></div>
 			<div class="problem service">
-				<p class="tit_label" data-aos="zoom-out-up">PROBLEM</p>
-				<h2 id="service-problem-title" data-aos="zoom-out-up">기업용 AI 솔루션 도입이 <br class="pc_vw"><strong>필요하신가요?</strong></h2>
+				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
+				<h2 id="service-problem-title" data-aos="fade-up">기업용 AI 솔루션 도입이 <br class="pc_vw"><strong>필요하신가요?</strong></h2>
 				<ul class="problem_list">
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>기존 AI 상담 챗봇 답변이 부정확할 때가 많아요. <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>일반 AI는 내부 규정을 몰라 엉뚱한 답(할루시네이션)을 내놓아 브랜드 신뢰도를 떨어뜨리고 고객을 혼란에 빠뜨립니다.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>웹사이트 출시 전, 테스트할 인력과 시간이 부족합니다. <img src="/images/emoji_sad.png" alt="" aria-hidden="true"></h3>
 						<p>사람이 일일이 모든 기능을 검증하는 방식은 막대한 시간이 소요될 뿐만 아니라, 테스터가 놓치는 휴먼 에러의 위험이 항상 존재합니다.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>사내 정보를 찾는 데 많은 시간을 허비하고 있어요. <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>사내 메신저, 노션, PDF에 흩어진 방대한 자료를 찾기 위해 매번 담당자에게 묻거나 직접 검색하느라 업무 흐름이 끊깁니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="zoom-out-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">SOLUTION</p>
-			<h2 id="service-solution-title" data-aos="zoom-out-up">홈페이지코리아는 기업의 실무 환경에 최적화된 <br class="pc_vw"><strong>맞춤형 AX 솔루션을 구축합니다.</strong></h2>
-			<ul class="solution_list" data-aos="zoom-out-up">
+			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
+			<h2 id="service-solution-title" data-aos="fade-up">홈페이지코리아는 기업의 실무 환경에 최적화된 <br class="pc_vw"><strong>맞춤형 AX 솔루션을 구축합니다.</strong></h2>
+			<ul class="solution_list" data-aos="fade-up">
 				<li class="i_g1">
 					<h3>맞춤형 AI 챗봇 솔루션</h3>
 					<p>정해진 답만 하는 기존 챗봇과 다릅니다. <br/>브랜드의 성격에 맞춰 답변 품질을 최적화하고, <br class="pc_vw">난수(Temperature) 제어 기술을 통해 오답 없는 정확한 정보로 24시간 끊김 없는 고품질 상담 환경을 제공합니다.</p>
@@ -126,8 +126,8 @@
 	
 	<section class="infopage_how service_how" aria-labelledby="service-how-title" data-header="dark">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">HOW</p>
-			<h2 id="service-how-title" data-aos="zoom-out-up">27년 웹 구축 기술력으로<br/> <strong>빠르고 안전한 기업용 AX 구축 프로세스</strong></h2>
+			<p class="tit_label">HOW</p>
+			<h2 id="service-how-title">27년 웹 구축 기술력으로<br/> <strong>빠르고 안전한 기업용 AX 구축 프로세스</strong></h2>
 			<ul class="how_list">
 				<li class="i_g1">
 					<div class="imgfit"><img src="/images/img_service_how_g01.png" alt="" aria-hidden="true"></div>
@@ -153,132 +153,75 @@
 			<svg class="line_svg" aria-hidden="true"></svg>
 		</div>
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">REVIEW</p>
-			<h2 id="service-review-title" data-aos="zoom-out-up"><strong>성공적인 AI 솔루션 개발</strong><br class="pc_vw"> 홈페이지코리아와 함께하세요.</h2>
+			<p class="tit_label">REVIEW</p>
+			<h2 id="service-review-title"><strong>성공적인 AI 솔루션 개발</strong><br class="pc_vw"> 홈페이지코리아와 함께하세요.</h2>
 		</div>
 		<div class="portfolio_marquee">
 			<ul class="list">
+				@forelse($aiPortfolioItems ?? collect() as $item)
+				@php
+					$marqueeIndustry = $item->category ?: ($item->categories[0] ?? '');
+					$marqueeTypeLabel = $marqueeIndustry !== '' ? $marqueeIndustry : '-';
+					if (filled($item->development_summary)) {
+						$marqueeTypeLabel .= ' / ' . $item->development_summary;
+					}
+					$marqueeDesc = \Illuminate\Support\Str::limit(strip_tags($item->detail_summary ?? $item->development_summary ?? ''), 180);
+					$marqueeThumb = ! empty($item->thumbnail_image)
+						? \Illuminate\Support\Facades\Storage::url($item->thumbnail_image)
+						: null;
+				@endphp
 				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
+					<a href="{{ route('portfolio.portfolio_view', ['portfolio' => $item->id]) }}" class="box" aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
 						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
+							<span class="before" aria-hidden="true">@if($marqueeThumb)<img src="{{ $marqueeThumb }}" alt="" class="bg">@endif<img src="/images/main_service_08.svg" alt="" class="logo"></span>
 							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
+								<span class="type">{{ $marqueeTypeLabel }}</span>
+								<span class="tit">{{ $item->title }}</span>
+								@if($marqueeDesc !== '')<p>{{ $marqueeDesc }}</p>@endif
 								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
 							</span>
 						</span>
 					</a>
 				</li>
+				@empty
 				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
+					<span class="box" tabindex="-1" aria-hidden="true">
 						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
+							<span class="before" aria-hidden="true"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
 							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
+								<span class="type">-</span>
+								<span class="tit">등록된 포트폴리오가 없습니다.</span>
+								<p>곧 다양한 개발 사례를 이곳에서 만나보실 수 있습니다.</p>
 								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
 							</span>
 						</span>
-					</a>
+					</span>
 				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
+				@endforelse
 			</ul>
 		</div>
-		<div class="flex_center" data-aos="zoom-out-up">
+		<div class="flex_center">
 			<a href="/portfolio/" class="btn_link slim">앱 개발 사례 더보기</a>
 		</div>
 	</section>
 	
 	<section class="infopage_contact service_contact page_contact" aria-label="service-contact-title" data-header="dark">
-		<div class="inner">
+		<div class="inner" data-aos="fade-up">
 			<p class="tit_label sound_only">CTA</p>
-			<h2 id="service-contact-title" class="port_tit" data-aos="zoom-out-up"><strong>우리 기업에 꼭 맞는 AI 솔루션</strong>, <br class="pc_vw">지금 상담해 보세요.</h2>
+			<h2 id="service-contact-title" class="port_tit"><strong>우리 기업에 꼭 맞는 AI 솔루션</strong>, <br>지금 상담해 보세요.</h2>
 			<div class="btns flex_center">
-				<a href="/portfolio/" class="btn_link" data-aos="zoom-out-up">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link" data-aos="zoom-out-up">쇼핑몰 제작 문의하기</a>
+				<a href="/portfolio/" class="btn_link">포트폴리오 보러가기</a>
+				<a href="/contact/" class="btn_link">쇼핑몰 제작 문의하기</a>
 			</div>
 		</div>
 	</section>
 
 	<section class="infopage_faq service_faq" aria-label="service-faq-title" data-header="dark">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">FAQ</p>
-			<h2 id="service-faq-title" data-aos="zoom-out-up"><strong>자주 묻는 질문</strong></h2>
-			<ul class="faq_list" data-aos="zoom-out-up">
-				<li>
-					<h3><button type="button">AI 솔루션 구축 기간은 얼마나 걸리나요?</button></h3>
-					<div class="con">프로젝트 규모와 요구사항에 따라 다르지만, 기본적인 AI 챗봇은 2~4주, RAG 기반 기업용 AI는 1~2개월, AI QA 자동화 시스템은 2~3개월 정도 소요됩니다. 홈페이지코리아는 초기 컨설팅 단계에서 명확한 일정과 단계별 목표를 제시하며, 정기적인 진행 상황 공유를 통해 투명하게 프로젝트를 진행합니다.</div>
-				</li>
-				<li>
-					<h3><button type="button">기존 시스템과 연동이 가능한가요?</button></h3>
-					<div class="con">네, 가능합니다. 슬랙, 지메일, 노션, 사내 메신저, ERP, CRM 등 기존에 사용 중인 시스템과 API 연동을 통해 seamless하게 통합할 수 있습니다. 홈페이지코리아는 27년간의 시스템 구축 경험을 바탕으로 레거시 시스템과의 안정적인 연동을 보장하며, 데이터 마이그레이션도 안전하게 처리합니다.</div>
-				</li>
-				<li>
-					<h3><button type="button">AI 챗봇이 잘못된 답변을 하면 어떻게 하나요?</button></h3>
-					<div class="con">홈페이지코리아의 AI 챗봇은 Temperature(난수) 제어 기술과 프롬프트 엔지니어링을 통해 할루시네이션(오답)을 최소화합니다. 또한 답변 로그를 실시간으로 모니터링하고, 지속적인 학습 데이터 업데이트를 통해 답변 정확도를 개선합니다. 만약 오답이 발생하더라도 즉시 수정하고 재학습하여 같은 실수가 반복되지 않도록 관리합니다.</div>
-				</li>
-				<li>
-					<h3><button type="button">데이터 보안은 어떻게 보장되나요?</button></h3>
-					<div class="con">기업의 민감한 내부 데이터는 철저한 보안 프로토콜로 보호됩니다. 온프레미스(On-premise) 구축 또는 프라이빗 클라우드 환경을 제공하며, 데이터 암호화, 접근 권한 관리, 정기적인 보안 감사를 통해 외부 유출 위험을 차단합니다. 홈페이지코리아는 정보보호 관리체계(ISMS) 인증 기업으로, 엄격한 보안 기준을 준수합니다.</div>
-				</li>
-				<li>
-					<h3><button type="button">AI 솔루션 도입 후 유지보수는 어떻게 진행되나요?</button></h3>
-					<div class="con">구축을 담당한 PM이 직접 유지보수를 담당하여 시스템 구조를 완벽히 이해한 상태에서 신속한 대응이 가능합니다. 월 단위 유지보수 계약을 통해 AI 모델 업데이트, 데이터 추가 학습, 성능 최적화, 오류 수정을 지속적으로 지원합니다. 또한 새로운 비즈니스 요구사항에 맞춰 기능 확장도 유연하게 진행할 수 있습니다.</div>
-				</li>
+			<p class="tit_label">FAQ</p>
+			<h2 id="service-faq-title"><strong>자주 묻는 질문</strong></h2>
+			<ul class="faq_list">
+				@include('partials.public-faq-list', ['faqItems' => $faqItems, 'idPrefix' => 'service-faq-ai', 'variant' => 'service'])
 			</ul>
 		</div>
 	</section>
@@ -289,77 +232,50 @@
 $(document).ready(function(){
 // marquee
     (function () {
-        const $banner    = $(".infopage_head .marquee_banner");
-        const $origSlide = $banner.find(".slide");
-        const speed      = 2;
+        const $banner = $(".infopage_head .marquee_banner");
+        const $slide  = $banner.find(".slide").first();
+        if (! $slide.length || ! $slide.children("li").length) {
+            return;
+        }
+        let speed = 1;
+		function updateSpeed() {
+			if ($(window).width() < 768) {
+				speed = 1; // 768px 미만
+			} else {
+				speed = 2; // 768px 이상
+			}
+		}
+		updateSpeed();
         let posX         = 0;
         let isPaused     = false;
-        $banner.append($origSlide.clone().removeAttr("aria-label").attr("aria-hidden", "true"));
-        const totalWidth = $origSlide.outerWidth(true);
+        let totalWidth   = 0;
+        function measure() {
+            const el = $slide.get(0);
+            totalWidth = el && el.scrollWidth > 0 ? el.scrollWidth : $slide.outerWidth(true);
+        }
+        measure();
         function marqueeLoop() {
-            if (!isPaused) {
+            if (!isPaused && totalWidth > 0) {
                 posX -= speed;
-                if (Math.abs(posX) >= totalWidth) posX = 0;
-                $banner.find(".slide").css("transform", `translateX(${posX}px)`);
+                if (posX <= -totalWidth) posX = 0;
+                $slide.css("transform", `translateX(${posX}px)`);
             }
             requestAnimationFrame(marqueeLoop);
         }
         marqueeLoop();
+		let lastWidth = $(window).width();
+		$(window).on("resize", function () {
+			const currentWidth = $(window).width();
+			if (currentWidth !== lastWidth) {
+				lastWidth = currentWidth;
+				updateSpeed();
+                measure();
+			}
+		});
+        $(window).on("load", measure);
         /*$banner.on("mouseenter", function () { isPaused = true; })
                .on("mouseleave", function () { isPaused = false; });*/
     })();
-// bg_round
-    function bgRoundScroll() {
-		const $startTrigger = $(".bg_round_start");
-		if (!$startTrigger.length) return;
-
-		const $mainService  = $(".infopage_head");
-		const $bgRound      = $(".bg_round");
-		const $marquee      = $(".infopage_head .marquee_banner");
-		
-		const scrollTop     = $(window).scrollTop();
-		const windowHeight  = $(window).height();
-		const triggerTop    = $startTrigger.offset().top;
-		
-		const paddingTop    = parseInt($mainService.css("padding-top"));
-		const marqueeHeight = $marquee.outerHeight();
-		const marqueeMargin = parseInt($marquee.css("margin-bottom"));
-		const initY         = -(paddingTop + marqueeHeight + marqueeMargin);
-
-		const offset        = -100; 
-		const scrollStart   = triggerTop - windowHeight + offset;
-		const scrollEnd     = triggerTop - 400; 
-
-		if (scrollTop >= scrollStart) {
-			$mainService.addClass("start");
-		} else {
-			$mainService.removeClass("start");
-		}
-
-		const progress      = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-		const translateY    = initY + (-initY * progress);
-		const scale         = 1 + 3 * progress;
-		const brBottom      = 50 * (1 - progress);
-		const aspectW       = 1 + 1 * progress; 
-		const borderRadius  = `50% 50% ${brBottom}% ${brBottom}%`;
-
-		if (scrollTop >= scrollStart) {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${translateY}px) scale(${scale})`,
-				"border-radius": borderRadius,
-				"aspect-ratio" : `${aspectW} / 1`
-			});
-		} else {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${initY}px) scale(1)`,
-				"border-radius": "50%",
-				"aspect-ratio" : "1 / 1"
-			});
-		}
-	}
-
-	$(window).on("scroll", bgRoundScroll);
-	bgRoundScroll();
 // review 사선
 	function drawLines() {
 		const $wrap = $('.line_wrap');
@@ -431,18 +347,33 @@ $(document).ready(function(){
 	});
 // Portfolio marquee
     (function () {
-        const $banner    = $(".service_review .portfolio_marquee");
-        const $origSlide = $banner.find(".list");
-        const speed      = 1;
-        let posX         = 0;
-        let isPaused     = false;
-        $banner.append($origSlide.clone().removeAttr("aria-label").attr("aria-hidden", "true"));
-        const totalWidth = $origSlide.outerWidth(true);
+        const $banner = $(".service_review .portfolio_marquee");
+        const $list   = $banner.find(".list").first();
+        if (! $list.length || ! $list.children("li").length) {
+            return;
+        }
+        const speed       = 1;
+        let posX          = 0;
+        let isPaused      = false;
+        let totalWidth    = 0;
+        let marqueeResizeTimer;
+        function measure() {
+            const el = $list.get(0);
+            totalWidth = el && el.scrollWidth > 0 ? el.scrollWidth : $list.outerWidth(true);
+        }
+        measure();
+        $(window).on("load", measure);
+        $(window).on("resize", function () {
+            clearTimeout(marqueeResizeTimer);
+            marqueeResizeTimer = setTimeout(measure, 100);
+        });
         function marqueeLoop() {
-            if (!isPaused) {
+            if (!isPaused && totalWidth > 0) {
                 posX -= speed;
-                if (Math.abs(posX) >= totalWidth) posX = 0;
-                $banner.find(".list").css("transform", `translateX(${posX}px)`);
+                if (posX <= -totalWidth) {
+                    posX = 0;
+                }
+                $list.css("transform", `translateX(${posX}px)`);
             }
             requestAnimationFrame(marqueeLoop);
         }
@@ -468,14 +399,6 @@ $(document).ready(function(){
 
 	const contactTarget = document.querySelector('.infopage_contact');
 	if (contactTarget) observerContact.observe(contactTarget);
-// FAQ
-	$(".faq_list button").click(function(){
-		$(this).parent().next(".con").stop(true,true).slideToggle("fast").parent().stop(true,true).toggleClass("on").siblings().removeClass("on").children(".con").slideUp("fast");
-		$(".faq_list li").removeClass("on_before");
-		$(".faq_list li.on").prev("li").addClass("on_before");
-	});
-	$(".faq_list li:first-child").addClass("on").children(".con").show();
-	$(".faq_list li:first-child").prev("li").addClass("on_before");
 // AOS
 	AOS.init({
 		duration: 1000,
@@ -483,4 +406,8 @@ $(document).ready(function(){
 });
 </script>
 
+
+@push('scripts')
+<script src="{{ asset('js/faq-accordion.js') }}"></script>
+@endpush
 @endsection

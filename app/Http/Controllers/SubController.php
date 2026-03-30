@@ -6,6 +6,7 @@ use App\Models\BlogPost;
 use App\Models\BlogPostEventLog;
 use App\Models\Portfolio;
 use App\Services\BlogService;
+use App\Services\FaqPublicService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +14,21 @@ use Illuminate\Support\Str;
 
 class SubController extends Controller
 {
+    private const SI_SUBCATEGORY_MAP = [
+        'reservation' => '서비스-통합SI시스템 개발(예약)',
+        'erp' => '통합SI시스템 개발(ERP)',
+        'backoffice' => '통합SI시스템 개발(백오피스)',
+        'cms' => '통합SI시스템 개발(CMS)',
+        'lms' => '통합SI시스템 개발(LMS)',
+    ];
+
+    private const APP_SUBCATEGORY = '서비스-앱';
+    private const AI_SUBCATEGORY = '서비스-AI';
+
+    public function __construct(
+        private FaqPublicService $faqPublicService
+    ) {}
+
     public function homepage_seo_geo()
     {
         $gNum = '01';
@@ -20,8 +36,9 @@ class SubController extends Controller
         $gName = 'Service';
         $sName = 'SEO·GEO 최적화';
         $gSlug = 'service';
+        $faqItems = $this->faqPublicService->forServiceMenuLabel($sName);
 
-        return view('service.homepage-seo-geo', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('service.homepage-seo-geo', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'faqItems'));
     }
 
     public function homepage_development()
@@ -31,8 +48,9 @@ class SubController extends Controller
         $gName = 'Service';
         $sName = '홈페이지 제작';
         $gSlug = 'service';
+        $faqItems = $this->faqPublicService->forServiceMenuLabel($sName);
 
-        return view('service.homepage-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('service.homepage-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'faqItems'));
     }
 
     public function website_maintenance()
@@ -42,8 +60,9 @@ class SubController extends Controller
         $gName = 'Service';
         $sName = '홈페이지 유지보수';
         $gSlug = 'service';
+        $faqItems = $this->faqPublicService->forServiceMenuLabel($sName);
 
-        return view('service.website-maintenance', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('service.website-maintenance', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'faqItems'));
     }
 
     public function ecommerce_website_development()
@@ -53,8 +72,9 @@ class SubController extends Controller
         $gName = 'Service';
         $sName = '온라인 쇼핑몰 제작';
         $gSlug = 'service';
+        $faqItems = $this->faqPublicService->forServiceMenuLabel($sName);
 
-        return view('service.ecommerce-website-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('service.ecommerce-website-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'faqItems'));
     }
 
     public function integrated_si_system_development()
@@ -64,8 +84,26 @@ class SubController extends Controller
         $gName = 'Service';
         $sName = '통합 SI 시스템 개발';
         $gSlug = 'service';
+        $faqItems = $this->faqPublicService->forServiceMenuLabel($sName);
+        $siPortfolioItemsReservation = $this->getServicePortfolioItems(self::SI_SUBCATEGORY_MAP['reservation']);
+        $siPortfolioItemsErp = $this->getServicePortfolioItems(self::SI_SUBCATEGORY_MAP['erp']);
+        $siPortfolioItemsBackoffice = $this->getServicePortfolioItems(self::SI_SUBCATEGORY_MAP['backoffice']);
+        $siPortfolioItemsCms = $this->getServicePortfolioItems(self::SI_SUBCATEGORY_MAP['cms']);
+        $siPortfolioItemsLms = $this->getServicePortfolioItems(self::SI_SUBCATEGORY_MAP['lms']);
 
-        return view('service.integrated-si-system-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('service.integrated-si-system-development', compact(
+            'gNum',
+            'sNum',
+            'gName',
+            'sName',
+            'gSlug',
+            'faqItems',
+            'siPortfolioItemsReservation',
+            'siPortfolioItemsErp',
+            'siPortfolioItemsBackoffice',
+            'siPortfolioItemsCms',
+            'siPortfolioItemsLms'
+        ));
     }
 
     public function mobile_app_development()
@@ -75,8 +113,10 @@ class SubController extends Controller
         $gName = 'Service';
         $sName = '앱 개발';
         $gSlug = 'service';
+        $faqItems = $this->faqPublicService->forServiceMenuLabel($sName);
+        $mobileAppPortfolioItems = $this->getServicePortfolioItems(self::APP_SUBCATEGORY, 6);
 
-        return view('service.mobile-app-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('service.mobile-app-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'faqItems', 'mobileAppPortfolioItems'));
     }
 
     public function ai_solution()
@@ -86,8 +126,21 @@ class SubController extends Controller
         $gName = 'Service';
         $sName = '맞춤형 AI 솔루션';
         $gSlug = 'service';
+        $faqItems = $this->faqPublicService->forServiceMenuLabel($sName);
+        $aiPortfolioItems = $this->getServicePortfolioItems(self::AI_SUBCATEGORY, 6);
 
-        return view('service.ai-solution', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('service.ai-solution', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'faqItems', 'aiPortfolioItems'));
+    }
+
+    private function getServicePortfolioItems(string $serviceSubcategory, int $limit = 3)
+    {
+        return Portfolio::query()
+            ->where('is_active', true)
+            ->whereJsonContains('service_subcategories', $serviceSubcategory)
+            ->orderBy('sort_order', 'desc')
+            ->orderBy('id', 'desc')
+            ->limit($limit)
+            ->get(['id', 'title', 'category', 'categories', 'development_summary', 'detail_summary', 'thumbnail_image']);
     }
 
     public function enterprise()
@@ -145,7 +198,7 @@ class SubController extends Controller
         return view('industries.university-research-lab-website', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
     }
 
-    public function portfolio_list()
+    public function portfolio_list(Request $request)
     {
         $gNum = '03';
         $sNum = '01';
@@ -153,23 +206,48 @@ class SubController extends Controller
         $sName = '포트폴리오';
         $gSlug = 'portfolio';
         $query = Portfolio::query()->where('is_active', true);
+        $category = (string) $request->input('category', '');
+        $keyword = trim((string) $request->input('q', ''));
+        $keywordLike = $keyword !== '' ? '%'.addcslashes($keyword, '%_\\').'%' : '';
+        $keywordTag = $keyword !== '' ? '#'.ltrim($keyword, '#') : '';
 
-        if (request()->filled('category')) {
-            $query->whereJsonContains('categories', request('category'));
+        if ($category !== '') {
+            $query->whereJsonContains('categories', $category);
         }
-        if (request()->filled('q')) {
-            $q = request('q');
-            $query->where(function ($sub) use ($q) {
-                $sub->where('title', 'like', '%'.$q.'%')
-                    ->orWhere('development_summary', 'like', '%'.$q.'%')
-                    ->orWhereJsonContains('keywords', '#'.ltrim($q, '#'));
+        if ($keyword !== '') {
+            $query->where(function ($sub) use ($keywordLike, $keywordTag) {
+                $sub->where('title', 'like', $keywordLike)
+                    ->orWhere('development_summary', 'like', $keywordLike)
+                    ->orWhere('category', 'like', $keywordLike)
+                    ->orWhere('categories', 'like', $keywordLike)
+                    ->orWhere('keywords', 'like', $keywordLike)
+                    ->orWhere('detail_summary', 'like', $keywordLike)
+                    ->orWhere('detail_editor', 'like', $keywordLike)
+                    ->orWhere('problem_title', 'like', $keywordLike)
+                    ->orWhere('problem_content', 'like', $keywordLike)
+                    ->orWhere('solution_title', 'like', $keywordLike)
+                    ->orWhere('solution_content', 'like', $keywordLike)
+                    ->orWhereJsonContains('keywords', $keywordTag)
+                    ->orWhereHas('featureDevelopments', function ($fq) use ($keywordLike) {
+                        $fq->where('title', 'like', $keywordLike)
+                            ->orWhere('content', 'like', $keywordLike);
+                    });
             });
         }
 
         $portfolios = $query->orderBy('sort_order', 'desc')->orderBy('id', 'desc')->paginate(12)->withQueryString();
         $portfolioCount = $portfolios->total();
+        $listItems = [];
+        foreach (array_values($portfolios->items()) as $index => $item) {
+            $listItems[] = [
+                '@type' => 'ListItem',
+                'position' => (($portfolios->currentPage() - 1) * $portfolios->perPage()) + $index + 1,
+                'name' => $item->title,
+                'url' => route('portfolio.portfolio_view', ['portfolio' => $item->id]),
+            ];
+        }
 
-        return view('portfolio.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'portfolios', 'portfolioCount'));
+        return view('portfolio.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'portfolios', 'portfolioCount', 'category', 'keyword', 'listItems'));
     }
 
     public function portfolio_view(?Portfolio $portfolio = null)
@@ -184,8 +262,10 @@ class SubController extends Controller
             $portfolio = Portfolio::where('is_active', true)->orderBy('sort_order', 'desc')->firstOrFail();
         }
         $portfolio->load(['featureDevelopments', 'reviews']);
+        $canonicalUrl = strtok(url()->current(), '?');
+        $primaryCategory = $portfolio->category ?: ($portfolio->categories[0] ?? '');
 
-        return view('portfolio.view', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'page', 'portfolio'));
+        return view('portfolio.view', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'page', 'portfolio', 'canonicalUrl', 'primaryCategory'));
     }
 
     public function blog_list(Request $request, BlogService $blogService)
@@ -335,5 +415,16 @@ class SubController extends Controller
         $gSlug = 'contact';
 
         return view('contact.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+    }
+
+    public function privacy_policy()
+    {
+        $gNum = '09';
+        $sNum = '01';
+        $gName = '개인정보처리방침';
+        $sName = '개인정보처리방침';
+        $gSlug = 'terms';
+
+        return view('terms.privacy_policy', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
     }
 }

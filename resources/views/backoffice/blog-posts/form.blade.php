@@ -114,7 +114,7 @@
                     <div class="review-row-grid">
                         <input type="text" class="board-form-control" name="sections[{{ $index }}][subtitle]" value="{{ $section['subtitle'] ?? '' }}" placeholder="목차 제목 (CONTENTS에 표시)">
                     </div>
-                    <textarea class="board-form-control board-textarea" name="sections[{{ $index }}][content]" rows="5" placeholder="본문 (해당 위치에 출력)">{{ $section['content'] ?? '' }}</textarea>
+                    <textarea class="board-form-control board-textarea" name="sections[{{ $index }}][content]" rows="5" placeholder="본문 (해당 위치에 출력)" data-backoffice-ckeditor data-source-editing="true">{{ $section['content'] ?? '' }}</textarea>
                     <button type="button" class="btn btn-danger btn-sm remove-blog-section">구간 삭제</button>
                 </div>
             @endforeach

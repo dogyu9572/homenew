@@ -39,35 +39,35 @@
 				<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
 			</ul>
 		</div>
-		<div class="inner bg_round_start" data-aos="fade-up">
+		<div class="inner bg_round_start" data-aos="fade-up" data-aos-offset="200">
 			<div class="bg_round"><div class="in_gradient"></div></div>
 			<div class="problem service">
-				<p class="tit_label" data-aos="zoom-out-up">PROBLEM</p>
-				<h2 id="industry-problem-title" data-aos="zoom-out-up">공공기관 담당자님, <br class="pc_vw"><strong> 이런 고민 있으신가요?</strong></h2>
+				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
+				<h2 id="industry-problem-title" data-aos="fade-up">공공기관 담당자님, <br class="pc_vw"><strong> 이런 고민 있으신가요?</strong></h2>
 				<ul class="problem_list">
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>전자정부프레임워크 기반 개발할 수 있는 업체가 필요해요 <img src="/images/emoji_worry.png" alt="" aria-hidden="true"></h3>
 						<p>전자정부법에 따라 공공기관은 전자정부 프레임워크 기반 구축이 필수입니다.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>웹접근성 인증부터 웹표준까지, 법적 요구사항이 너무 많습니다 <img src="/images/emoji_quake.png" alt="" aria-hidden="true"></h3>
 						<p>공공기관 웹사이트는 다양한 법규를 준수해야 하는데, 이런 상황을 이해하는 업체가 필요해요.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>기술 용어가 어렵고, 서류 작업이 복잡합니다 <img src="/images/emoji_whirl.png" alt="" aria-hidden="true"></h3>
 						<p>홈페이지 제작 업체에서 소통하는 기술 용어가 어렵게 느껴지고, 복잡한 서류 작업으로 프로젝트 진행이 부담스럽습니다. </p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="zoom-out-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">SOLUTION</p>
-			<h2 id="industry-solution-title" data-aos="zoom-out-up">공공기관 프로젝트만 27년 이상 경험한 <br class="pc_vw"><strong>홈페이지코리아는 다릅니다.</strong></h2>
-			<ul class="solution_list" data-aos="zoom-out-up">
+			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
+			<h2 id="industry-solution-title" data-aos="fade-up">공공기관 프로젝트만 27년 이상 경험한 <br class="pc_vw"><strong>홈페이지코리아는 다릅니다.</strong></h2>
+			<ul class="solution_list" data-aos="fade-up">
 				<li class="i_c1">
 					<h3>전자정부 프레임워크 기반 <br class="pc_vw">표준 구축</h3>
 					<p>기관의 보안 정책과 업무 환경에 맞춰 <br class="pc_vw">코어 구조부터 설계합니다.</p>
@@ -86,8 +86,8 @@
 	
 	<section class="infopage_why industry_why" aria-labelledby="industry-why-title" data-header="dark">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">WHY HOMEPAGEKOREA?</p>
-			<h2 id="industry-why-title" data-aos="zoom-out-up">왜 공공기관이 <br class="pc_vw"><strong>홈페이지코리아를 선택했을까요?</strong></h2>
+			<p class="tit_label">WHY HOMEPAGEKOREA?</p>
+			<h2 id="industry-why-title">왜 공공기관이 <br class="pc_vw"><strong>홈페이지코리아를 선택했을까요?</strong></h2>
 			<ul class="why_list">
 				<li>
 					<div class="imgfit"><img src="/images/industry_way_c01.png" alt="" aria-hidden="true"></div>
@@ -203,17 +203,17 @@
 			</ul>
 		</div>
 		
-		<div class="flex_center" data-aos="zoom-out-up">
+		<div class="flex_center">
 			<a href="/portfolio/" class="btn_link slim white">공공기관 개발 사례 더보기</a>
 		</div>
 	</section>
 	
 	<section class="infopage_expertise industry_expertise" aria-labelledby="industry-how-title" data-header="dark">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">HOW</p>
+			<p class="tit_label">HOW</p>
 			<h2 id="industry-how-title" aria-hidden="true"><strong>공공기관 홈페이지 제작,</strong> <br class="pc_vw">이렇게 진행됩니다.</h2>
 			<ul class="expertise_list step_list">
-				<li class="i_b1" data-aos="zoom-out-up">
+				<li class="i_b1">
 					<span>STEP 01</span>
 					<h3>요구사항 분석</h3>
 					<ul>
@@ -221,14 +221,14 @@
 						<li>요구사항 정리</li>
 					</ul>
 				</li>
-				<li class="i_b2" data-aos="zoom-out-up">
+				<li class="i_b2">
 					<span>STEP 02</span>
 					<h3>맞춤 제안서 및 견적 제공</h3>
 					<ul>
 						<li>학회에 맞는 기능 제안</li>
 					</ul>
 				</li>
-				<li class="i_b3" data-aos="zoom-out-up">
+				<li class="i_b3">
 					<span>STEP 03</span>
 					<h3>기획 및 디자인</h3>
 					<ul>
@@ -236,7 +236,7 @@
 						<li>확정 후 디자인 진행</li>
 					</ul>
 				</li>
-				<li class="i_b4" data-aos="zoom-out-up">
+				<li class="i_b4">
 					<span>STEP 04</span>
 					<h3>개발 및 배포</h3>
 					<ul>
@@ -254,9 +254,9 @@
 			<svg class="line_svg" aria-hidden="true"></svg>
 		</div>
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">REVIEW</p>
-			<h2 id="industry-review-title" data-aos="zoom-out-up"><strong>이미 많은 공공기관이</strong> <br class="pc_vw">홈페이지코리아를 선택했습니다</h2>
-			<ul class="review_list" data-aos="zoom-out-up">
+			<p class="tit_label">REVIEW</p>
+			<h2 id="industry-review-title"><strong>이미 많은 공공기관이</strong> <br class="pc_vw">홈페이지코리아를 선택했습니다</h2>
+			<ul class="review_list">
 				<li>
 					<h3 class="sound_only">공공기관</h3>
 					<div class="flex_tit">
@@ -283,12 +283,12 @@
 	</section>
 	
 	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
-		<div class="inner">
+		<div class="inner" data-aos="fade-up">
 			<p class="tit_label sound_only">CTA</p>
-			<h2 id="industry-contact-title" class="port_tit" data-aos="zoom-out-up"><strong>공공기관 홈페이지 제작</strong> <br class="pc_vw">경험 많은 홈페이지코리아와 상의하세요</h2>
+			<h2 id="industry-contact-title" class="port_tit"><strong>공공기관 홈페이지 제작</strong> <br class="pc_vw">경험 많은 홈페이지코리아와 상의하세요</h2>
 			<div class="btns flex_center">
-				<a href="/portfolio/" class="btn_link" data-aos="zoom-out-up">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link" data-aos="zoom-out-up">프로젝트 문의하기</a>
+				<a href="/portfolio/" class="btn_link">포트폴리오 보러가기</a>
+				<a href="/contact/" class="btn_link">프로젝트 문의하기</a>
 			</div>
 		</div>
 	</section>
@@ -318,58 +318,6 @@ $(document).ready(function(){
         /*$banner.on("mouseenter", function () { isPaused = true; })
                .on("mouseleave", function () { isPaused = false; });*/
     })();
-// bg_round
-    function bgRoundScroll() {
-		const $startTrigger = $(".bg_round_start");
-		if (!$startTrigger.length) return;
-
-		const $mainService  = $(".infopage_head");
-		const $bgRound      = $(".bg_round");
-		const $marquee      = $(".infopage_head .marquee_banner");
-		
-		const scrollTop     = $(window).scrollTop();
-		const windowHeight  = $(window).height();
-		const triggerTop    = $startTrigger.offset().top;
-		
-		const paddingTop    = parseInt($mainService.css("padding-top"));
-		const marqueeHeight = $marquee.outerHeight();
-		const marqueeMargin = parseInt($marquee.css("margin-bottom"));
-		const initY         = -(paddingTop + marqueeHeight + marqueeMargin);
-
-		const offset        = -100; 
-		const scrollStart   = triggerTop - windowHeight + offset;
-		const scrollEnd     = triggerTop - 400; 
-
-		if (scrollTop >= scrollStart) {
-			$mainService.addClass("start");
-		} else {
-			$mainService.removeClass("start");
-		}
-
-		const progress      = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-		const translateY    = initY + (-initY * progress);
-		const scale         = 1 + 3 * progress;
-		const brBottom      = 50 * (1 - progress);
-		const aspectW       = 1 + 1 * progress; 
-		const borderRadius  = `50% 50% ${brBottom}% ${brBottom}%`;
-
-		if (scrollTop >= scrollStart) {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${translateY}px) scale(${scale})`,
-				"border-radius": borderRadius,
-				"aspect-ratio" : `${aspectW} / 1`
-			});
-		} else {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${initY}px) scale(1)`,
-				"border-radius": "50%",
-				"aspect-ratio" : "1 / 1"
-			});
-		}
-	}
-
-	$(window).on("scroll", bgRoundScroll);
-	bgRoundScroll();
 // Portfolio marquee
     (function () {
         const $banner    = $(".portfolio_marquee");
@@ -393,7 +341,7 @@ $(document).ready(function(){
     })();
 // step_list
     const $items   = $(".expertise_list.step_list > li");
-    const interval = 3000;
+    const interval = 2000;
     let current    = 0;
     let timer      = null;
     let started    = false;

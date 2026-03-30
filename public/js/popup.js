@@ -17,8 +17,12 @@
                 PopupManager.closePopup(popupId);
             });
 
-            $(document).on('click', '.popup-today-label', function() {
-                const popupId = $(this).data('popup-id');
+            // 체크박스 클릭 즉시 "오늘 하루 보지 않기" 저장 후 닫기
+            $(document).on('change', '.popup-today-close', function() {
+                const popupId = $(this).data('popup-id') || $(this).closest('.popup-today-label').data('popup-id');
+                if (!popupId || !this.checked) {
+                    return;
+                }
                 PopupManager.setTodayCookie(popupId);
                 PopupManager.closePopup(popupId);
             });
@@ -47,7 +51,7 @@
             const expires = new Date();
             expires.setHours(23, 59, 59, 999);
             
-            document.cookie = cookieName + '=true; expires=' + expires.toUTCString() + '; path=/';
+            document.cookie = cookieName + '=1; expires=' + expires.toUTCString() + '; path=/';
         },
 
         // 쿠키 가져오기

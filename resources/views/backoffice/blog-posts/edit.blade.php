@@ -24,5 +24,6 @@
 @endsection
 
 @section('scripts')
+<x-backoffice-ckeditor-assets />
 <script src="{{ asset('js/backoffice/blog-post-form.js') }}"></script>
 @endsection

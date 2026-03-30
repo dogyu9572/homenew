@@ -52,3 +52,6 @@ docs/
 backup/
 deploy/
 storage/
+
+# 대용량 원본 영상(GitHub 100MB 제한) — 서버에는 별도 배포
+public/video/*.mov

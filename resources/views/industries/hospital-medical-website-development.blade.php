@@ -39,35 +39,35 @@
 				<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
 			</ul>
 		</div>
-		<div class="inner bg_round_start" data-aos="fade-up">
+		<div class="inner bg_round_start" data-aos="fade-up" data-aos-offset="200">
 			<div class="bg_round"><div class="in_gradient"></div></div>
 			<div class="problem service">
-				<p class="tit_label" data-aos="zoom-out-up">PROBLEM</p>
-				<h2 id="industry-problem-title" data-aos="zoom-out-up">대형·상급의료기관의 복잡한 시스템, <br class="pc_vw"><strong>일반적인 웹 개발사는 이해하기 어렵습니다.</strong></h2>
+				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
+				<h2 id="industry-problem-title" data-aos="fade-up">대형·상급의료기관의 복잡한 시스템, <br class="pc_vw"><strong>일반적인 웹 개발사는 이해하기 어렵습니다.</strong></h2>
 				<ul class="problem_list">
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>수많은 진료과와 교수진 데이터를 관리하기가 너무 힘듭니다. <img src="/images/emoji_whirl.png" alt="" aria-hidden="true"></h3>
 						<p>의료진이 너무 많아서 프로필이랑 진료 스케줄 관리하기가 정말 어렵고, 환자들이 원하는 선생님 정보를 빨리 찾을 수 있는 시스템이 절실해요.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>진료 예약과 수납 프로세스가 분절되어 있습니다. <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>예약 버튼만 있는 게 아니라, 우리 병원 HIS랑 실시간으로 연결돼서 환자 접수부터 수납까지 자연스럽게 이어지는 시스템이 필요해요.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>의료 데이터 보안과 웹 접근성 준수가 최우선입니다. <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>상급종합병원은 개인정보 보호법, 의료법 등 법적 기준 뿐 아니라, 장애인 웹 접근성 인증 등 웹 전문성이 필요해요. </p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="zoom-out-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">SOLUTION</p>
-			<h2 id="industry-solution-title" data-aos="zoom-out-up">홈페이지코리아는 <br class="pc_vw"><strong>의료기관의 운영 정책을 시스템으로 구현합니다.</strong></h2>
-			<ul class="solution_list" data-aos="zoom-out-up">
+			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
+			<h2 id="industry-solution-title" data-aos="fade-up">홈페이지코리아는 <br class="pc_vw"><strong>의료기관의 운영 정책을 시스템으로 구현합니다.</strong></h2>
+			<ul class="solution_list" data-aos="fade-up">
 				<li class="i_d1">
 					<h3>환자 중심의 <br class="pc_Vw">지능형 예약 시스템</h3>
 					<p>진료과별, 교수별 맞춤 예약 로직을 설계합니다. <br class="pc_Vw">복잡한 절차 없이 환자가 가장 빠르게 <br class="pc_Vw">진료 확정을 받을 수 있도록 UX를 최적화합니다.</p>
@@ -166,17 +166,17 @@
 			</ul>
 		</div>
 		
-		<div class="flex_center" data-aos="zoom-out-up">
+		<div class="flex_center" data-aos="fade-up">
 			<a href="/portfolio/" class="btn_link slim hover_black">병원/의료 개발 사례 더보기</a>
 		</div>
 	</section>
 	
 	<section class="infopage_expertise industry_expertise" aria-labelledby="industry-how-title" data-header="dark">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">HOW</p>
+			<p class="tit_label">HOW</p>
 			<h2 id="industry-how-title" aria-hidden="true"><strong>병원/의료 기관 홈페이지 제작,</strong> <br class="pc_vw">이렇게 진행됩니다.</h2>
 			<ul class="expertise_list step_list">
-				<li class="i_b1" data-aos="zoom-out-up">
+				<li class="i_b1">
 					<span>STEP 01</span>
 					<h3>요구사항 분석</h3>
 					<ul>
@@ -184,7 +184,7 @@
 						<li>요구사항 정리</li>
 					</ul>
 				</li>
-				<li class="i_b2" data-aos="zoom-out-up">
+				<li class="i_b2">
 					<span>STEP 02</span>
 					<h3>맞춤 제안서 및 견적 제공</h3>
 					<ul>
@@ -192,7 +192,7 @@
 						<li>견적서 제공</li>
 					</ul>
 				</li>
-				<li class="i_b3" data-aos="zoom-out-up">
+				<li class="i_b3">
 					<span>STEP 03</span>
 					<h3>기획 및 디자인</h3>
 					<ul>
@@ -200,7 +200,7 @@
 						<li>확정 후 디자인 진행</li>
 					</ul>
 				</li>
-				<li class="i_b4" data-aos="zoom-out-up">
+				<li class="i_b4">
 					<span>STEP 04</span>
 					<h3>개발 및 배포</h3>
 					<ul>
@@ -218,9 +218,9 @@
 			<svg class="line_svg" aria-hidden="true"></svg>
 		</div>
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">REVIEW</p>
-			<h2 id="industry-review-title" data-aos="zoom-out-up"><strong>수 많은 병원/의료기관이</strong> <br class="pc_vw">홈페이지코리아를 선택했습니다</h2>
-			<ul class="review_list" data-aos="zoom-out-up">
+			<p class="tit_label">REVIEW</p>
+			<h2 id="industry-review-title"><strong>수 많은 병원/의료기관이</strong> <br class="pc_vw">홈페이지코리아를 선택했습니다</h2>
+			<ul class="review_list">
 				<li>
 					<h3 class="sound_only">공공기관</h3>
 					<div class="flex_tit">
@@ -247,12 +247,12 @@
 	</section>
 	
 	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
-		<div class="inner">
+		<div class="inner" data-aos="fade-up">
 			<p class="tit_label sound_only">CTA</p>
-			<h2 id="industry-contact-title" class="port_tit" data-aos="zoom-out-up"><strong>전문 의료기관에 최적화된 솔루션,</strong> <br class="pc_vw">홈페이지코리아와 상담하세요.</h2>
+			<h2 id="industry-contact-title" class="port_tit"><strong>전문 의료기관에 최적화된 솔루션,</strong> <br class="pc_vw">홈페이지코리아와 상담하세요.</h2>
 			<div class="btns flex_center">
-				<a href="/portfolio/" class="btn_link" data-aos="zoom-out-up">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link" data-aos="zoom-out-up">프로젝트 문의하기</a>
+				<a href="/portfolio/" class="btn_link">포트폴리오 보러가기</a>
+				<a href="/contact/" class="btn_link">프로젝트 문의하기</a>
 			</div>
 		</div>
 	</section>
@@ -282,58 +282,6 @@ $(document).ready(function(){
         /*$banner.on("mouseenter", function () { isPaused = true; })
                .on("mouseleave", function () { isPaused = false; });*/
     })();
-// bg_round
-    function bgRoundScroll() {
-		const $startTrigger = $(".bg_round_start");
-		if (!$startTrigger.length) return;
-
-		const $mainService  = $(".infopage_head");
-		const $bgRound      = $(".bg_round");
-		const $marquee      = $(".infopage_head .marquee_banner");
-		
-		const scrollTop     = $(window).scrollTop();
-		const windowHeight  = $(window).height();
-		const triggerTop    = $startTrigger.offset().top;
-		
-		const paddingTop    = parseInt($mainService.css("padding-top"));
-		const marqueeHeight = $marquee.outerHeight();
-		const marqueeMargin = parseInt($marquee.css("margin-bottom"));
-		const initY         = -(paddingTop + marqueeHeight + marqueeMargin);
-
-		const offset        = -100; 
-		const scrollStart   = triggerTop - windowHeight + offset;
-		const scrollEnd     = triggerTop - 400; 
-
-		if (scrollTop >= scrollStart) {
-			$mainService.addClass("start");
-		} else {
-			$mainService.removeClass("start");
-		}
-
-		const progress      = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-		const translateY    = initY + (-initY * progress);
-		const scale         = 1 + 3 * progress;
-		const brBottom      = 50 * (1 - progress);
-		const aspectW       = 1 + 1 * progress; 
-		const borderRadius  = `50% 50% ${brBottom}% ${brBottom}%`;
-
-		if (scrollTop >= scrollStart) {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${translateY}px) scale(${scale})`,
-				"border-radius": borderRadius,
-				"aspect-ratio" : `${aspectW} / 1`
-			});
-		} else {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${initY}px) scale(1)`,
-				"border-radius": "50%",
-				"aspect-ratio" : "1 / 1"
-			});
-		}
-	}
-
-	$(window).on("scroll", bgRoundScroll);
-	bgRoundScroll();
 // Portfolio marquee
     (function () {
         const $banner    = $(".portfolio_marquee");
@@ -357,7 +305,7 @@ $(document).ready(function(){
     })();
 // step_list
     const $items   = $(".expertise_list.step_list > li");
-    const interval = 3000;
+    const interval = 2000;
     let current    = 0;
     let timer      = null;
     let started    = false;

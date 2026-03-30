@@ -1,6 +1,6 @@
 /* Reset */
 html {-webkit-font-smoothing:antialiased; font-size:13px; font-weight:400; color:#333; line-height:1.5;}
-body {font-family:'Nohemi', 'Pretendard', 'Dotum', '돋움', 'Arial', sans-serif; width:100%; overflow-x:hidden; word-break:keep-all; -webkit-text-size-adjust:100%;}
+body {font-family:'Pretendard', 'Dotum', '돋움', 'Arial', sans-serif; width:100%; overflow-x:hidden; word-break:keep-all; -webkit-text-size-adjust:100%;}
 a {color:inherit; text-decoration:none;}
 /* a,area {outline:none;} */
 *,*:before,*:after {box-sizing:border-box; margin:0; padding:0;}
@@ -59,14 +59,14 @@ span.br {display:block;}
 .blind_link {position:fixed; z-index:103;}
 .blind_link a {position:fixed; top:-100%; left:0; width:100%; font-size:20px; text-align:center; padding:20px; z-index:101;}
 .blind_link a:active,
-.blind_link a:focus {top:0; color:#fff; background:#000;}
+.blind_link a:focus-visible {top:0; color:#fff; background:#000;}
 .sound_only {position:absolute;top:0;left:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0;}
 
 .point {position:absolute;}
 
 /* visually hidden */
 .visuallyHidden {clip:rect(0, 0, 0, 0); position:absolute; overflow:hidden; width:1px; height:1px; margin:-1px; padding:0; border:0;}
-.visuallyHidden:active,.visuallyHidden:focus {clip:auto; position:static; width:auto; overflow:visible; height:auto; margin:0;}
+.visuallyHidden:active,.visuallyHidden:focus-visible {clip:auto; position:static; width:auto; overflow:visible; height:auto; margin:0;}
 
 /* Border */
 .nbd {border:none !important;}
@@ -118,7 +118,7 @@ span.br {display:block;}
 input:-webkit-autofill {-webkit-box-shadow:0 0 0 30px #fff inset ; -webkit-text-fill-color:#000;}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
+input:-webkit-autofill:focus-visible,
 input:-webkit-autofill:active {transition:background-color 600000s ease-in-out 0s, color 600000s 0s;}
 
 /* overflow:hidden; ios 스크롤 막기 설정 */
@@ -142,12 +142,13 @@ input[type="email"],
 input[type="url"],
 select {height:56px; padding:0 24px; font-size:inherit; border-radius:28px;}
 select {-webkit-appearance:none; -moz-appearance:none; appearance:none; background:#fff url('/images/arrow_select.svg') no-repeat right 16px center / 18px;}
-textarea {padding:10px;}
+textarea {padding:24px;}
 ::placeholder {color:#6D7882;}
 input[type="text"][readonly] {background:#F7F7F7; border-color:#CDD1D5;}
-input:focus,
-select:focus,
-textarea:focus {outline:#0169D8 2px solid;}
+*:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {outline:#0169D8 2px solid;}
 
 .inner {width:100%; max-width:1520px; margin:0 auto; padding:0 20px;}
 

@@ -92,7 +92,7 @@
                             <span class="required">*</span>
                         @endif
                     </label>
-                    <textarea class="board-form-control board-form-textarea" id="content" name="content" rows="15" data-backoffice-ckeditor @if($board->isFieldRequired('content')) required @endif>{{ old('content', $post->content) }}</textarea>
+                    <textarea class="board-form-control board-form-textarea" id="content" name="content" rows="15" data-backoffice-ckeditor data-source-editing="true" @if($board->isFieldRequired('content')) required @endif>{{ old('content', $post->content) }}</textarea>
                 </div>
                 @endif
 
@@ -225,7 +225,7 @@
                                           id="custom_field_{{ $fieldConfig['name'] }}"
                                           name="custom_field_{{ $fieldConfig['name'] }}"
                                           rows="10"
-                                          data-backoffice-ckeditor
+                                          data-backoffice-ckeditor data-source-editing="true"
                                           @if($fieldConfig['required']) required @endif>{{ old('custom_field_' . $fieldConfig['name'], $fieldValue) }}</textarea>
                             @endif
                             

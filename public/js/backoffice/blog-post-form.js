@@ -98,11 +98,24 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="review-row-grid">
         <input type="text" class="board-form-control" name="sections[${rows.length}][subtitle]" placeholder="목차 제목 (CONTENTS에 표시)">
       </div>
-      <textarea class="board-form-control board-textarea" name="sections[${rows.length}][content]" rows="5" placeholder="본문 (해당 위치에 출력)"></textarea>
+      <textarea class="board-form-control board-textarea" name="sections[${rows.length}][content]" rows="5" placeholder="본문 (해당 위치에 출력)" data-backoffice-ckeditor data-source-editing="true"></textarea>
       <button type="button" class="btn btn-danger btn-sm remove-blog-section">구간 삭제</button>
     `;
     sectionsWrap.appendChild(row);
+    if (typeof window.initBackofficeCKEditors === 'function') {
+      window.initBackofficeCKEditors(row);
+    }
     bindSectionRemove(row);
+  });
+
+  if (typeof window.initBackofficeCKEditors === 'function') {
+    window.initBackofficeCKEditors(form);
+  }
+
+  form.addEventListener('submit', () => {
+    if (typeof window.syncBackofficeCKEditorFields === 'function') {
+      window.syncBackofficeCKEditorFields(form);
+    }
   });
 
   bindSectionRemove();

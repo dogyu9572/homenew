@@ -119,6 +119,19 @@
       : '';
     const uploadUrl = (element.dataset.uploadUrl || globalDefault || FALLBACK_UPLOAD_URL).trim();
     const fieldName = (element.dataset.uploadField || DEFAULT_UPLOAD_FIELD).trim() || DEFAULT_UPLOAD_FIELD;
+    const enableSourceEditing = element.dataset.sourceEditing === 'true';
+    const toolbarItems = [
+      'heading', '|',
+      'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+      'bold', 'italic', 'underline', 'strikethrough', 'removeFormat', '|',
+      'alignment', '|',
+      'bulletedList', 'numberedList', 'outdent', 'indent', '|',
+      'link', 'uploadImage', 'insertTable', 'blockQuote', 'codeBlock', 'horizontalLine', '|',
+      'undo', 'redo'
+    ];
+    if (enableSourceEditing) {
+      toolbarItems.unshift('sourceEditing', '|');
+    }
 
     return {
       extraPlugins: [createUploadAdapterPlugin(uploadUrl, fieldName)],
@@ -133,15 +146,7 @@
         ]
       },
       toolbar: {
-        items: [
-          'heading', '|',
-          'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-          'bold', 'italic', 'underline', 'strikethrough', 'removeFormat', '|',
-          'alignment', '|',
-          'bulletedList', 'numberedList', 'outdent', 'indent', '|',
-          'link', 'uploadImage', 'insertTable', 'blockQuote', 'codeBlock', 'horizontalLine', '|',
-          'undo', 'redo'
-        ],
+        items: toolbarItems,
         shouldNotGroupWhenFull: true
       },
       image: {
@@ -176,6 +181,18 @@
       .then((editor) => {
         element.dataset.ckeditorInitialized = 'true';
         editorByTextarea.set(element, editor);
+        // CKEditor 적용 후 textarea는 보이지 않아 브라우저 HTML5 required 검증 시
+        // "An invalid form control is not focusable" 가 발생한다. 필수 여부는 서버에서 검증한다.
+        element.removeAttribute('required');
+        // 변경 시마다 원본 textarea에 반영해 제출 직전 동기화 누락을 방지한다.
+        editor.model.document.on('change:data', () => {
+          if (typeof editor.updateSourceElement === 'function') {
+            editor.updateSourceElement();
+          }
+        });
+        if (typeof editor.updateSourceElement === 'function') {
+          editor.updateSourceElement();
+        }
       })
       .catch((error) => {
         console.error('CKEditor5 initialization failed:', error);

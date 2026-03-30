@@ -43,7 +43,7 @@
 				</nav>
 				<h1 class="sound_only">홈페이지코리아 문의하기</h1>
 				<div id="sub-visual-title" class="title" aria-hidden="true">{{ $sName ?? '' }}</div>
-				<h2 class="h2">25년 노하우로 최적의 방향을 제시해드립니다.</h2>
+				<h2 class="h2">27년 노하우로 <br class="pc_vw">최적의 방향을 제시해드립니다.</h2>
 			</div>
 		</div>
 	</section>
@@ -63,25 +63,37 @@
 				<div class="con mojo_aos">
 					<form action="{{ route('contact.store') }}" method="post" enctype="multipart/form-data" novalidate id="contact_form">
 						@csrf
+						<input type="hidden" name="source_type" value="{{ old('source_type', request('source_type')) }}">
+						<input type="hidden" name="source_id" value="{{ old('source_id', request('source_id')) }}">
+						<input type="hidden" name="source_url" value="{{ old('source_url', request('source_url')) }}">
 						@php
 							$hasServiceError = $errors->has('service')
 								|| collect($errors->keys())->contains(fn ($k) => str_starts_with((string) $k, 'service.'));
 						@endphp
 						<div class="flex">
-							<dl class="w100p">
-								<dt><label for="input1">소속<i aria-hidden="true">*</i><span class="sound_only">(필수)</span></label></dt>
+							<dl>
+								<dt><label for="input1">회사명<i aria-hidden="true">*</i><span class="sound_only">(필수)</span></label></dt>
 								<dd>
-									<input type="text" id="input1" name="company" class="text w100p" placeholder="소속을 입력해주세요." value="{{ old('company') }}" required aria-required="true" autocomplete="organization" @if($errors->has('company')) aria-invalid="true" @endif>
+									<input type="text" id="input1" name="company" class="text w100p" placeholder="회사명을 입력해주세요." value="{{ old('company') }}" required aria-required="true" autocomplete="organization" @if($errors->has('company')) aria-invalid="true" @endif>
 									@error('company')
 										<p class="contact_field_error" role="alert">{{ $message }}</p>
 									@enderror
 								</dd>
 							</dl>
 							<dl>
-								<dt><label for="input2">담당자 성함<i aria-hidden="true">*</i><span class="sound_only">(필수)</span></label></dt>
+								<dt><label for="input2">담당자 성함/직책<i aria-hidden="true">*</i><span class="sound_only">(필수)</span></label></dt>
 								<dd>
-									<input type="text" id="input2" name="contact_person" class="text w100p" placeholder="담당자 성함을 입력해주세요." value="{{ old('contact_person') }}" required aria-required="true" autocomplete="name" @if($errors->has('contact_person')) aria-invalid="true" @endif>
+									<input type="text" id="input2" name="contact_person" class="text w100p" placeholder="담당자 성함/직책을 입력해주세요." value="{{ old('contact_person') }}" required aria-required="true" autocomplete="name" @if($errors->has('contact_person')) aria-invalid="true" @endif>
 									@error('contact_person')
+										<p class="contact_field_error" role="alert">{{ $message }}</p>
+									@enderror
+								</dd>
+							</dl>
+							<dl>
+								<dt><label for="input4">연락처<i aria-hidden="true">*</i><span class="sound_only">(필수)</span></label></dt>
+								<dd>
+									<input type="text" id="input4" name="phone" class="text w100p" placeholder="연락처를 입력해주세요." value="{{ old('phone') }}" required aria-required="true" autocomplete="tel" @if($errors->has('phone')) aria-invalid="true" @endif>
+									@error('phone')
 										<p class="contact_field_error" role="alert">{{ $message }}</p>
 									@enderror
 								</dd>
@@ -118,7 +130,7 @@
 									}
 								@endphp
 								@if ($serviceErrMessage !== null && $serviceErrMessage !== '')
-									<p class="contact_field_error" id="contact_err_service" role="alert">{{ $serviceErrMessage }}</p>
+									<p class="contact_field_error pl0" id="contact_err_service" role="alert">{{ $serviceErrMessage }}</p>
 								@endif
 							</fieldset>
 							<dl class="w100p">
@@ -140,7 +152,7 @@
 								</dd>
 							</dl>
 							<dl class="w100p">
-								<dt><label for="contact_file_input">첨부파일<span>(최대 3개까지 첨부 가능)</span></label><label class="btn_file"><input type="file" name="attachments[]" id="contact_file_input" multiple accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip"><span>파일선택</span></label></dt>
+								<dt><label for="contact_file_input" class="dt_tit">첨부파일<span>(최대 3개까지 첨부 가능)</span></label><label class="btn_file"><input type="file" name="attachments[]" id="contact_file_input" multiple accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip"><span>파일선택</span></label></dt>
 								<dd>
 									<div class="input_files contact_input_files"></div>
 									@error('attachments')
@@ -180,7 +192,21 @@
 		</div>
 	</div>
 
+<script>
+$(".popup .btn_close,.popup .dm").click(function(){
+	$(".popup").fadeOut("fast");
+});
+</script>
+
 </main>
+
+<!-- MR Script Analysis Conversion Script Ver 1.0 -->
+<script type="text/javascript">
+var mi_type = "CV_2828";
+var mi_val = "Y";
+</script>
+<!-- MR Script Analysis Conversion Script END -->
+
 @endsection
 
 @push('scripts')

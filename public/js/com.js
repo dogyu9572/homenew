@@ -30,22 +30,40 @@ $(document).ready(function(){
 //헤더 색상별 클래스
 	function checkHeaderBg() {
 		const headerH = $(".header").outerHeight();
-		const checkY  = $(window).scrollTop() + headerH / 2;
-
-		$("section, div[data-header]").each(function () {
-			const top    = $(this).offset().top;
-			const bottom = top + $(this).outerHeight();
-
-			if (checkY >= top && checkY <= bottom) {
-				const mode = $(this).data("header");
+		const checkY  = headerH / 2;
+		let matched   = false;
+		const $stickyWrap = $(".sticky_wrap");
+		if ($stickyWrap.length) {
+			const wrapRect = $stickyWrap[0].getBoundingClientRect();
+			if (checkY >= wrapRect.top && checkY <= wrapRect.bottom) {
+				const scrollTop    = $(window).scrollTop();
+				const windowHeight = $(window).height();
+				const wrapTop      = $stickyWrap.offset().top;
+				const scrollInWrap = scrollTop - wrapTop;
+				const $rotates     = $(".page_rotate");
+				const index        = Math.floor(scrollInWrap / windowHeight);
+				const activeIndex  = Math.min(Math.max(index, 0), $rotates.length - 1);
+				const mode         = $rotates.eq(activeIndex).data("header");
 				$(".header").removeClass("bg_white bg_black");
-				if (mode === "light") $(".header").addClass("bg_black");
-				if (mode === "dark")  $(".header").addClass("bg_white");
-				return false; // each 중단
+				if (mode === "light") $(".header").addClass("bg_white");
+				if (mode === "dark")  $(".header").addClass("bg_black");
+				matched = true;
 			}
-		});
+		}
+		if (!matched) {
+			$("section:not(.page_rotate), div[data-header]").each(function () {
+				const rect = this.getBoundingClientRect();
+				if (checkY >= rect.top && checkY <= rect.bottom) {
+					const mode = $(this).data("header");
+					$(".header").removeClass("bg_white bg_black");
+					if (mode === "light") $(".header").addClass("bg_white");
+					if (mode === "dark")  $(".header").addClass("bg_black");
+					matched = true;
+					return false;
+				}
+			});
+		}
 	}
-
 	$(window).on("scroll", checkHeaderBg);
 	checkHeaderBg();
 //접근성 헤더 메뉴
@@ -92,13 +110,21 @@ $(document).ready(function(){
 			$(this).attr("aria-label", "전체 메뉴 열기");
 		}
 	});
-	$(".header .sitemap .menu button").click(function(){
+	$(".header .gnb .menu button.mo_vw").click(function(){
 		$(this).next(".snb").stop(false,true).slideToggle("fast").parent().stop(false,true).toggleClass("open").siblings().removeClass("open").removeClass("on").children(".snb").slideUp("fast");
 	});
 //gotop
 	var speed = 500;
-	$(".gotop").css("cursor", "pointer").click(function(){
-		$('body, html').animate({scrollTop:0}, speed);
+	var gNum = "main";
+	$(".gotop").css("cursor", "pointer").click(function() {
+		var $target = $('#main_visual'); // 타겟 아이디 지정
+		if (gNum === "main" && $target.length) {
+			var targetOffset = $target.offset().top; // #main_visual의 Y축 위치값 계산
+			$('body, html').animate({ scrollTop: targetOffset }, speed);
+		} 
+		else {
+			$('body, html').animate({ scrollTop: 0 }, speed);
+		}
 	});
 
 	$(window).scroll(function() {

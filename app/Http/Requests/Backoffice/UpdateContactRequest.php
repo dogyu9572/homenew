@@ -18,6 +18,7 @@ class UpdateContactRequest extends FormRequest
         return [
             'company' => ['required', 'string', 'max:255'],
             'contact_person' => ['required', 'string', 'max:100'],
+            'phone' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'service' => ['required', 'array', 'min:1'],
             'service.*' => ['string', Rule::in(Contact::SERVICE_OPTIONS)],
@@ -32,8 +33,9 @@ class UpdateContactRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'company' => '소속',
-            'contact_person' => '담당자 성함',
+            'company' => '회사명',
+            'contact_person' => '담당자성함/직책',
+            'phone' => '연락처',
             'email' => '이메일',
             'service' => '관심 서비스',
             'current_site' => '현재 사이트',

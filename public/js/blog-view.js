@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkUnfixed();
   });
 
-  const likeCountEl = document.getElementById('blog_like_count');
+  const likeCountEls = document.querySelectorAll('.blog_like_count');
   const likedAlready = localStorage.getItem(likeStorageKey) === '1';
   if (likedAlready) {
     $('.like').attr('aria-pressed', true).addClass('checked');
@@ -195,8 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
           $btn.attr('aria-pressed', false).removeClass('checked');
         }
 
-        if (json && typeof json.like_count !== 'undefined' && likeCountEl) {
-          likeCountEl.textContent = Number(json.like_count).toLocaleString();
+        if (json && typeof json.like_count !== 'undefined' && likeCountEls.length > 0) {
+          const formattedCount = Number(json.like_count).toLocaleString();
+          likeCountEls.forEach((el) => {
+            el.textContent = formattedCount;
+          });
         }
       })
       .catch(() => null);

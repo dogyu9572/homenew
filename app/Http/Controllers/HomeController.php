@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\Board;
 use App\Models\Popup;
 use App\Models\Banner;
+use App\Models\Portfolio;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Services\FaqPublicService;
 
 class HomeController extends Controller
 {
-    public function index()
+    private const HOME_PORTFOLIO_MARQUEE_LIMIT = 12;
+
+    public function index(FaqPublicService $faqPublicService)
     {
         $gNum = "main";
         $gName = "";
@@ -32,7 +36,7 @@ class HomeController extends Controller
             ->filter(function($popup) {
                 // 서버사이드에서 쿠키 확인하여 숨겨진 팝업 제외
                 $cookieName = 'popup_hide_' . $popup->id;
-                return !isset($_COOKIE[$cookieName]) || $_COOKIE[$cookieName] !== '1';
+                return !isset($_COOKIE[$cookieName]) || !in_array($_COOKIE[$cookieName], ['1', 'true'], true);
             });
 
         // 활성화된 배너 조회
@@ -40,8 +44,19 @@ class HomeController extends Controller
             ->inPeriod()
             ->ordered()
             ->get();
-        
-        return view('home.index', compact('gNum', 'gName', 'sName', 'galleryPosts', 'noticePosts', 'popups', 'banners'));
+
+        $faqItems = $faqPublicService->forHome();
+
+        // 메인 포트폴리오 마퀴: 백오피스「메인 노출」+ 공개 활성만, 정렬 후 상위 N건
+        $portfolioMarqueeItems = Portfolio::query()
+            ->where('is_active', true)
+            ->where('is_main_display', true)
+            ->orderBy('sort_order', 'desc')
+            ->orderBy('id', 'desc')
+            ->limit(self::HOME_PORTFOLIO_MARQUEE_LIMIT)
+            ->get(['id', 'title', 'category', 'categories', 'development_summary', 'detail_summary', 'thumbnail_image']);
+
+        return view('home.index', compact('gNum', 'gName', 'sName', 'galleryPosts', 'noticePosts', 'popups', 'banners', 'faqItems', 'portfolioMarqueeItems'));
     }
     
     /**

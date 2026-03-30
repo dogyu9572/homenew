@@ -5,16 +5,16 @@
 @section('sga_plus')
 ,"mainEntity": {
     "@@type": "CreativeWork",
-    "name": "신원의료재단 웹사이트 리뉴얼",
+    "name": @json($portfolio->title),
     "description": "@yield('description')",
-    "url": "https://homepagekorea.com",
-    "image": "https://homepagekorea.com/images/img_sample.jpg",
+    "url": @json($canonicalUrl),
+    "image": @json($portfolio->thumbnail_image ? url(\Illuminate\Support\Facades\Storage::url($portfolio->thumbnail_image)) : null),
     "creator": {
         "@@type": "Organization",
         "name": "홈페이지코리아",
         "url": "https://homepagekorea.com"
     },
-    "client": "신원의료재단"
+    "client": @json($portfolio->title)
 }
 @endsection
 
@@ -22,19 +22,27 @@
 <main class="sub_contents_wrap">
 
 	<section class="portfolio_head" aria-label="portfolio-head-title">
-		<div class="bg imgfit"><img src="/images/img_portfolio_head_sample.jpg" alt="" aria-hidden="true"></div>
+        @if($portfolio->top_image || $portfolio->thumbnail_image)
+		<div class="bg imgfit"><img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->top_image ?: $portfolio->thumbnail_image) }}" alt="" aria-hidden="true"></div>
+        @endif
 		<div class="inner">
-			<span class="type mojo_aos">병원/의료</span>
-			<h1 id="portfolio-head-title" class="mojo_aos">신원의료재단 <br>웹사이트 리뉴얼</h1>
-			<h2 class="sound_only"><span>Industry</span>병원/의료 홈페이지 개편 / 업종</h2>
-			<p class="mojo_aos">신원의료재단은 2005년 설립된 이래 진단검사, 분자진단검사, 분자병리검사, 조직병리검사, 세포병리검사, 연구용 검사 등 <br class="pc_vw">전국 병ㆍ의원으로부터 다양한 검체를 위탁받아 최고 품질의 진단검사 서비스를 제공하는 최우수 전문수탁기관으로 성장하였습니다.</p>
+            <span class="type mojo_aos">
+                @foreach((!empty($portfolio->categories) ? $portfolio->categories : array_filter([$primaryCategory])) as $categoryItem)
+                    <span>{{ $categoryItem }}</span>
+                @endforeach
+            </span>
+			<h1 id="portfolio-head-title" class="mojo_aos">{{ $portfolio->title }}</h1>
+			<h2 class="sound_only"><span>Industry</span>{{ $primaryCategory }} 홈페이지 개편 / 업종</h2>
+			<p class="mojo_aos">{!! nl2br(e($portfolio->development_summary ?? '')) !!}</p>
 			<div class="tar mojo_aos">
-				<a href="" class="btn_link">사이트 방문하기</a>
+                @if(!empty($portfolio->site_url))
+				<a href="{{ $portfolio->site_url }}" class="btn_link" target="_blank" rel="noopener">사이트 방문하기</a>
+                @endif
 			</div>
 		</div>
 	</section>
 	
-	<section class="portfolio_padding portfolio_problem" aria-label="portfolio-problem-title">
+	<section class="portfolio_padding portfolio_problem" aria-label="portfolio-problem-title" data-header="light">
 		<div class="line_wrap">
 			<i class="t1" aria-hidden="true"></i><i class="b1" aria-hidden="true"></i>
 			<i class="t2" aria-hidden="true"></i><i class="b2" aria-hidden="true"></i>
@@ -44,84 +52,86 @@
 		</div>
 		<div class="inner">
 			<p class="tit_label" aria-hidden="true">PROBLEM #1</p>
-			<h3 id="portfolio-problem-title">전문 의료 기관으로서의 <br>신뢰감, 기술력 전달 필요</h3>
-			<h4>신원의료재단의 기존 웹사이트는 오래된 디자인과 복잡한 정보 구조로 인해 사용자들이 필요한 검사 정보를 찾기 어려웠습니다. <br class="pc_vw">
-				또한 전문 의료기관으로서의 신뢰감과 첨단 기술력을 효과적으로 전달하지 못하는 한계가 있어, <br class="pc_vw">
-				브랜드 아이덴티티를 강화할 수 있는 새로운 웹사이트 구축이 요구되었습니다.
-			</h4>
+			<h3 id="portfolio-problem-title">{{ $portfolio->problem_title }}</h3>
+			<h4>{!! nl2br(e($portfolio->problem_content ?? '')) !!}</h4>
 		</div>
 	</section>
 	
-	<section class="portfolio_padding portfolio_solution" aria-label="portfolio-solution-title">
+	<section class="portfolio_padding portfolio_solution" aria-label="portfolio-solution-title" data-header="dark">
 		<div class="inner">
 			<p class="tit_label" aria-hidden="true">SOLUTION #1</p>
-			<h3 id="portfolio-solution-title"><strong>세련된 컬러 시스템 및 정제된 디자인 톤앤매너 구축<br>세련된 컬러 시스템 및 정제된 디자인 톤앤매너 구축</strong></h3>
+			<h3 id="portfolio-solution-title"><strong>{!! nl2br(e($portfolio->solution_title ?? '')) !!}</strong></h3>           
 			<div class="before_after">
 				<div class="before">
 					<p class="tit">BEFORE</p>
-					<div class="img"><img src="/images/img_before_sample.png" alt=""></div>
+                    <div class="img">
+                        @if(!empty($portfolio->solution_before_image))
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->solution_before_image) }}" alt="">
+                        @endif
+                    </div>
 				</div>
 				<div class="after">
 					<p class="tit">AFTER</p>
-					<div class="img"><img src="/images/img_after_sample.png" alt=""></div>
+                    <div class="img">
+                        @if(!empty($portfolio->solution_after_image))
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->solution_after_image) }}" alt="">
+                        @endif
+                    </div>
 				</div>
 			</div>
 		</div>
 	</section>
 	
-	<section class="portfolio_padding portfolio_production_composition tac pb0" aria-label="portfolio-production-composition-title">
+	<section class="portfolio_padding portfolio_production_composition tac" aria-label="portfolio-production-composition-title" data-header="dark">
 		<div class="inner">
 			<h3 id="portfolio-production-composition-title" class="sound_only">제작 구성 및 수행 영역</h3>
 			<ul class="production_setting_area">
-				<li class="feature_development">
-					<div class="imgfit" aria-hidden="true"><img src="/images/img_production_composition1.png" alt=""></div>
+                @forelse($portfolio->featureDevelopments as $feature)
+				<li class="{{ \Illuminate\Support\Str::of($feature->title ?? 'feature')->lower()->replace(' ', '_') }}">
+					<div class="imgfit" aria-hidden="true">
+                        @if(!empty($feature->image_path))
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($feature->image_path) }}" alt="">
+                        @endif
+                    </div>
 					<div class="txt">
-						<h4 class="port_tit">기능 개발</h4>
-						<p><strong>복잡한 검사 항목을 카테고리별로 재구성하여 <br class="pc_vw">필요한 정보를 빠르게 찾을 수 있도록 개선했습니다.</strong> 
-						간편한 온라인 예약과 보안 강화된 결과 조회 기능으로 편의성을 향상시켰으며, <br class="pc_vw">모든 디바이스에서 최적화된 사용자 경험을 제공합니다.</p>
-						<div class="slide_txt" aria-hidden="true"></div>
+						<h4 class="port_tit">{{ $feature->title }}</h4>
+						<p>{!! nl2br(e($feature->content ?? '')) !!}</p>
+						<div class="slide_txt" aria-hidden="true">{{ $feature->background_text ?? '' }}</div>
 					</div>
 				</li>
-				<li class="design">
-					<div class="imgfit" aria-hidden="true"><img src="/images/img_production_composition2.png" alt=""></div>
-					<div class="txt">
-						<h4 class="port_tit">디자인</h4>
-						<p><strong>다양한 디바이스와 브라우저 환경에서도 <br class="pc_vw">일관된 브랜드 경험을 제공하기 위해 <br class="pc_vw">표준성이 높은 프리텐다드를 사용했습니다.</strong> 
-						의료 기관 특유의 전문성이 느껴지도록 여백과 세련된 컬러 시스템을 구축했습니다. <br>또한 정제된 디자인 톤앤매너를 통해 신원의료재단이 지향하는 정밀 의료의 가치를 <br class="pc_vw">사용자에게 직관적으로 전달하고자 했습니다.</p>
-						<div class="slide_txt" aria-hidden="true"></div>
-					</div>
-				</li>
-				<li class="mobile_ui">
-					<div class="imgfit" aria-hidden="true"><img src="/images/img_production_composition3.png" alt=""></div>
-					<div class="txt">
-						<h4 class="port_tit">모바일 UI</h4>
-						<p><strong>다양한 접속 환경에서도 동일한 브랜드 경험을 제공하기 위해 <br class="pc_vw">유연한 그리드 시스템 기반의 반응형 레이아웃을 적용했습니다.</strong> 
-						간편한 온라인 예약과 보안 강화된 결과 조회 기능으로 편의성을 향상시켰으며, <br class="pc_vw">모든 디바이스에서 최적화된 사용자 경험을 제공합니다.</p>
-						<div class="slide_txt" aria-hidden="true"></div>
-					</div>
-				</li>
+                @empty
+                <li class="feature_development">
+                    <div class="txt">
+                        <h4 class="port_tit">제작 구성 정보가 없습니다.</h4>
+                    </div>
+                </li>
+                @endforelse
 			</ul>
 		</div>
 	</section>
 	
-	<section class="portfolio_review" aria-label="portfolio-review-title">
+	<section class="portfolio_review" aria-label="portfolio-review-title" data-header="light">
 		<div class="inner">
 			<h3 id="portfolio-review-title" class="tit_label">Review</h3>
-			<p class="port_tit large">검사 정보 구조 재구성 후 고객 문의 30% 이상 증가</p>
+            @if($portfolio->reviews->count() > 0)
+			<p class="port_tit large">{{ $portfolio->reviews->first()->title }}</p>
+            @endif
 			<ul class="review_list">
+                @forelse($portfolio->reviews as $review)
 				<li>
 					<div class="tt">
-						<img src="/images/img_review_human_sample.png" alt="" aria-hidden="true" class="picture">
-						<h4>신원의료재단 디지털마케팅 팀장</h4>
+						<h4>{{ $review->manager_name }}</h4>
 						<div class="star"><img src="/images/img_star5.svg" alt="별점 5점" aria-label="별점 5점"></div>
 					</div>
-					<p>홈페이지코리아와 함께한 웹사이트 개편 프로젝트는 기대 이상의 결과를 가져다주었습니다. 우리 재단이 추구하는 <strong>정밀 의료의 전문성과 신뢰성을 세련된 디자인으로 완벽하게 표현해주셨습니다.</strong><br/>
-					특히 복잡했던 검사 정보 구조를 직관적으로 재구성해주신 덕분에 <strong>고객 문의가 30% 이상 증가</strong>했고, <strong>모바일 접속률도 크게 향상</strong>되었습니다. 전문적인 컨설팅과 세심한 커뮤니케이션에 매우 만족합니다.</p>
+                    <p>{!! nl2br($review->content ?? '') !!}</p>
 				</li>
+                @empty
+                <li><p class="empty">등록된 리뷰가 없습니다.</p></li>
+                @endforelse
 			</ul>
 			<div class="view_btm">
 				<div class="left">
-					<a href="/portfolio/" class="btn btn_list">목록으로</a>
+					<a href="{{ route('portfolio.portfolio_list') }}" class="btn btn_list">목록으로</a>
 				</div>
 				<div class="right">
 					<button type="button" class="btn btn_link_copy">링크 복사</button>
@@ -131,126 +141,26 @@
 		</div>
 	</section>
 	
-	<section class="portfolio_contact page_contact" aria-label="portfolio-contact-title">
-		<div class="inner">
+	<section class="portfolio_contact page_contact" aria-label="portfolio-contact-title" data-header="dark">
+		<div class="inner" data-aos="fade-up">
 			<h3 id="portfolio-contact-title" class="port_tit"><strong>전문 의료기관에 최적화된 솔루션,</strong><br/>홈페이지코리아와 상의하세요.</h3>
-			<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+			<a href="{{ route('contact.contact', ['source_type' => 'portfolio', 'source_id' => $portfolio->id, 'source_url' => $canonicalUrl]) }}" class="btn_link slim">프로젝트 문의하기</a>
 		</div>
 	</section>
 
 </main>
 
 <script>
-// portfolio_problem svg line
-	function drawLines() {
-		const $wrap = $('.line_wrap');
-		const $svg  = $wrap.find('.line_svg');
-		const pairs = [['t1','b1'], ['t2','b2'], ['t3','b3'], ['t4','b4']];
-		const wrapOffset = $wrap.offset();
-
-		$svg.empty();
-
-		pairs.forEach(function([tClass, bClass], index) {
-			const $t = $wrap.find('.' + tClass);
-			const $b = $wrap.find('.' + bClass);
-			if (!$t.length || !$b.length) return;
-
-			const tOffset = $t.offset();
-			const bOffset = $b.offset();
-
-			const x1 = tOffset.left - wrapOffset.left + $t.outerWidth()  / 2;
-			const y1 = tOffset.top  - wrapOffset.top  + $t.outerHeight() / 2;
-			const x2 = bOffset.left - wrapOffset.left + $b.outerWidth()  / 2;
-			const y2 = bOffset.top  - wrapOffset.top  + $b.outerHeight() / 2;
-
-			const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-
-			const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-			$(line).attr({
-				x1, y1, x2, y2,
-				stroke: '#CDD1D5',
-				'stroke-width': '1',
-				'stroke-dasharray': length,
-				'stroke-dashoffset': length  // 초기 숨김 상태
-			});
-			$(line).addClass('line_item').attr('data-delay', index * 0.15);
-
-			$svg.append(line);
-		});
-	}
-
-	function startLineAnimation() {
-		$('.line_wrap .line_item').each(function() {
-			const delay = $(this).attr('data-delay');
-			$(this).css({
-				animation: `drawLine 1.2s ease forwards`,
-				'animation-delay': delay + 's'
-			});
-		});
-	}
-
-	// IntersectionObserver로 .portfolio_problem 중앙 도달 감지
-	const observer = new IntersectionObserver(function(entries) {
-		entries.forEach(function(entry) {
-			if (entry.isIntersecting) {
-				startLineAnimation();
-				observer.unobserve(entry.target); // 한 번만 실행
-			}
-		});
-	}, {
-		rootMargin: '-50% 0px -50% 0px'  // 화면 중앙에 도달할 때
+$(document).ready(function(){
+// AOS
+	AOS.init({
+		duration: 1000,
 	});
-
-	$(window).on('load', function() {
-		drawLines();
-		const target = document.querySelector('.portfolio_problem');
-		if (target) observer.observe(target);
-	});
-
-	$(window).on('resize', function() {
-		drawLines();
-	});
-// portfolio_production_composition
-	var speedFactor = 0.5; 
-    $('.production_setting_area li .txt .slide_txt').each(function() {
-        var $this = $(this);
-        var $li = $this.closest('li');
-        var textContent = "";
-        if ($li.hasClass('feature_development')) {
-            textContent = "FEATURE DEVELOPMENT ";
-        } else if ($li.hasClass('design')) {
-            textContent = "DESIGN ";
-        } else if ($li.hasClass('mobile_ui')) {
-            textContent = "MOBILE UI ";
-        }
-        var $temp = $('<span style="position:absolute; visibility:hidden; white-space:nowrap; font-size:100px; font-weight:900;">' + textContent + '</span>').appendTo('body');
-        var textWidth = $temp.outerWidth();
-        $temp.remove();
-        var windowWidth = $(window).width();
-        var repeatCount = Math.ceil(windowWidth / textWidth); 
-        var repeatedText = textContent.repeat(repeatCount + 1); 
-        var totalWidth = textWidth * (repeatCount + 1);
-        var duration = (totalWidth / 100) * speedFactor; 
-        var marqueeHtml = '<div class="marquee_inner" style="animation-duration: ' + duration + 's;">' + repeatedText + '</div>' + '<div class="marquee_inner" style="animation-duration: ' + duration + 's;">' + repeatedText + '</div>';
-        $this.html(marqueeHtml);
-    });
-// contact
-	const observerContact = new IntersectionObserver(function(entries) {
-		entries.forEach(function(entry) {
-			if (entry.isIntersecting) {
-				$(".page_contact").addClass("start");
-			} else {
-				// 요소가 아직 아래에 있을 때만 해제
-				if (entry.boundingClientRect.top > window.innerHeight / 2) {
-					$(".page_contact").removeClass("start");
-				}
-			}
-		});
-	}, {
-		threshold: 0.5  // 요소의 50%가 보일 때 트리거
-	});
-
-	const contactTarget = document.querySelector('.page_contact');
-	if (contactTarget) observerContact.observe(contactTarget);
+});
 </script>
+
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/portfolio-view.js') }}"></script>
+@endpush

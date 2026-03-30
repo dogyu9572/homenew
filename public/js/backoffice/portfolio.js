@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = button.dataset.target;
       const map = {
         thumbnail: 'remove_thumbnail_image',
+        top: 'remove_top_image',
         before: 'remove_solution_before_image',
         after: 'remove_solution_after_image'
       };

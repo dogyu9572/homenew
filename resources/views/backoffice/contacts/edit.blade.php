@@ -40,16 +40,45 @@
                                 <span>{{ $contact->created_at->format('Y-m-d H:i:s') }}</span>
                             </div>
                         </div>
+                        @php
+                            $resolvedTitle = ! empty($contact->source_type) ? $contact->resolvedSourceTitle() : null;
+                        @endphp
                         <div class="member-form-row">
-                            <label class="member-form-label" for="company">소속 <span class="required">*</span></label>
+                            <label class="member-form-label">유입 제목</label>
+                            <div class="member-form-field">
+                                @if(!empty($contact->source_type))
+                                    <span>{{ filled($resolvedTitle) ? $resolvedTitle : '—' }}</span>
+                                @else
+                                    <span class="text-muted">없음</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="member-form-row">
+                            <label class="member-form-label">유입 URL</label>
+                            <div class="member-form-field">
+                                @if(!empty($contact->source_url))
+                                    <a href="{{ $contact->source_url }}" target="_blank" rel="noopener noreferrer">{{ $contact->source_url }}</a>
+                                @else
+                                    <span class="text-muted">없음</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="member-form-row">
+                            <label class="member-form-label" for="company">회사명 <span class="required">*</span></label>
                             <div class="member-form-field">
                                 <input type="text" class="board-form-control" id="company" name="company" value="{{ old('company', $contact->company) }}" required>
                             </div>
                         </div>
                         <div class="member-form-row">
-                            <label class="member-form-label" for="contact_person">담당자 성함 <span class="required">*</span></label>
+                            <label class="member-form-label" for="contact_person">담당자성함/직책 <span class="required">*</span></label>
                             <div class="member-form-field">
                                 <input type="text" class="board-form-control" id="contact_person" name="contact_person" value="{{ old('contact_person', $contact->contact_person) }}" required>
+                            </div>
+                        </div>
+                        <div class="member-form-row">
+                            <label class="member-form-label" for="phone">연락처 <span class="required">*</span></label>
+                            <div class="member-form-field">
+                                <input type="text" class="board-form-control" id="phone" name="phone" value="{{ old('phone', $contact->phone) }}" required>
                             </div>
                         </div>
                         <div class="member-form-row">

@@ -6,26 +6,41 @@
 	<!-- intro -->
 	<section class="intro" aria-label="WHAT WE DO">
 		<div class="intro_fixed">
+			<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="980" viewBox="0 0 1920 980" fill="none" class="svg_scaled" preserveAspectRatio="xMidYMid slice">
+				<!-- 배경 + D, O 글자를 evenodd로 뚫음 -->
+				<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H1920V980H0V0ZM1282.09 446.15C1282.09 440.947 1282.61 436.047 1283.66 431.45C1284.71 426.853 1286.23 422.63 1288.21 418.78C1290.19 414.907 1292.6 411.442 1295.42 408.385C1298.27 405.305 1301.46 402.703 1305.01 400.58C1308.56 398.457 1312.43 396.835 1316.63 395.715C1320.85 394.572 1325.32 394 1330.04 394C1334.75 394 1339.21 394.572 1343.41 395.715C1347.63 396.835 1351.51 398.457 1355.06 400.58C1358.61 402.703 1361.79 405.305 1364.62 408.385C1367.46 411.442 1369.88 414.907 1371.86 418.78C1373.84 422.63 1375.36 426.853 1376.41 431.45C1377.48 436.047 1378.02 440.947 1378.02 446.15C1378.02 451.353 1377.48 456.253 1376.41 460.85C1375.36 465.447 1373.84 469.682 1371.86 473.555C1369.88 477.405 1367.46 480.87 1364.62 483.95C1361.79 487.007 1358.61 489.597 1355.06 491.72C1351.51 493.843 1347.63 495.465 1343.41 496.585C1339.21 497.728 1334.75 498.3 1330.04 498.3C1325.32 498.3 1320.85 497.728 1316.63 496.585C1312.43 495.465 1308.56 493.843 1305.01 491.72C1301.46 489.597 1298.27 487.007 1295.42 483.95C1292.6 480.87 1290.19 477.405 1288.21 473.555C1286.23 469.682 1284.71 465.447 1283.66 460.85C1282.61 456.253 1282.09 451.353 1282.09 446.15ZM1300.57 446.15C1300.57 451.82 1301.23 456.883 1302.56 461.34C1303.89 465.773 1305.82 469.53 1308.34 472.61C1310.86 475.667 1313.94 478 1317.58 479.61C1321.24 481.197 1325.39 481.99 1330.04 481.99C1334.68 481.99 1338.82 481.197 1342.46 479.61C1346.12 478 1349.22 475.667 1351.74 472.61C1354.28 469.53 1356.22 465.773 1357.55 461.34C1358.88 456.883 1359.54 451.82 1359.54 446.15C1359.54 440.48 1358.88 435.428 1357.55 430.995C1356.22 426.538 1354.28 422.782 1351.74 419.725C1349.22 416.645 1346.12 414.312 1342.46 412.725C1338.82 411.115 1334.68 410.31 1330.04 410.31C1325.39 410.31 1321.24 411.115 1317.58 412.725C1313.94 414.312 1310.86 416.645 1308.34 419.725C1305.82 422.782 1303.89 426.538 1302.56 430.995C1301.23 435.428 1300.57 440.48 1300.57 446.15ZM1187.71 396.1H1222.43C1227.51 396.1 1232.31 396.637 1236.81 397.71C1241.31 398.783 1245.46 400.335 1249.24 402.365C1253.02 404.395 1256.4 406.88 1259.39 409.82C1262.4 412.737 1264.94 416.05 1267.02 419.76C1269.09 423.47 1270.68 427.542 1271.78 431.975C1272.9 436.385 1273.46 441.11 1273.46 446.15C1273.46 451.19 1272.9 455.927 1271.78 460.36C1270.68 464.77 1269.09 468.83 1267.02 472.54C1264.94 476.25 1262.4 479.575 1259.39 482.515C1256.4 485.432 1253.02 487.905 1249.24 489.935C1245.46 491.965 1241.31 493.517 1236.81 494.59C1232.31 495.663 1227.51 496.2 1222.43 496.2H1187.71V396.1ZM1222.18 479.89C1227.34 479.89 1231.95 479.132 1236.01 477.615C1240.07 476.098 1243.5 473.905 1246.3 471.035C1249.12 468.142 1251.27 464.607 1252.74 460.43C1254.23 456.253 1254.98 451.493 1254.98 446.15C1254.98 440.807 1254.23 436.047 1252.74 431.87C1251.27 427.693 1249.12 424.17 1246.3 421.3C1243.5 418.407 1240.07 416.202 1236.01 414.685C1231.95 413.168 1227.34 412.41 1222.18 412.41H1205.84V479.89H1222.18Z" fill="#040404"/>
+
+				<!-- 나머지 흰색 글자들 (WHATWE) -->
+				<path shape-rendering="geometricPrecision" d="M1146.31 394V400.405H1089.29V440.935H1142.11V447.375H1089.29V487.695H1147.71V494.1H1082.43V394H1146.31Z" fill="white"/>
+				<path shape-rendering="geometricPrecision" d="M1011.05 394L1040.9 488.185L1071.25 394H1078.42L1046.05 494.1H1036.39L1006.71 401.63L976.678 494.1H967.018L935.098 394H942.378L972.233 488.185L1002.58 394H1011.05Z" fill="white"/>
+				<path shape-rendering="geometricPrecision" d="M910.695 400.405H874.61V494.1H867.75V400.405H831.7V394H910.695V400.405Z" fill="white"/>
+				<path shape-rendering="geometricPrecision" d="M753.354 494.1L794.969 394H804.594L845.824 494.1H838.475L826.364 464.56H772.849L760.564 494.1H753.354ZM823.774 458.26L799.73 399.775L775.439 458.26H823.774Z" fill="white"/>
+				<path shape-rendering="geometricPrecision" d="M749.888 494.1H743.029V447.375H677.193V494.1H670.333V394H677.193V440.935H743.029V394H749.888V494.1Z" fill="white"/>
+				<path shape-rendering="geometricPrecision" d="M598.95 394L628.805 488.185L659.15 394H666.325L633.95 494.1H624.29L594.61 401.63L564.58 494.1H554.92L523 394H530.28L560.135 488.185L590.48 394H598.95Z" fill="white"/>
+			</svg>
 			<div class="inbox">
 				<p class="text" aria-hidden="true"><span>WHAT WE</span> <strong>DO</strong></p>
-				<button type="button" class="btn_link">BUTTON</button>
+				<button type="button" class="btn_link" aria-hidden="true">ENTER</button>
+				<button type="button" class="btn_scroll_down">SCROLL DOWN</button>
 			</div>
 		</div>
 	</section>
 	
 	<!-- main_visual -->
-	<section class="main_visual" id="main_visual" aria-labelledby="visual-title">
-		<video class="bg_video" autoplay muted loop playsinline aria-hidden="true">
-			<source src="/video/video_main_visual.mp4" type="video/mp4">
-		</video>
-		<div class="inbox">
-			<h1 id="visual-title" class="sound_only">대한민국 기업 성장을 함께한 27년 경력 웹 에이전시 홈페이지코리아</h1>
-			<p class="tit" aria-hidden="true">대한민국 기업 성장을 함께한 <strong>27년</strong> 경력</p>
-			<p class="copyright" aria-hidden="true">WEB AGENCY<br/>HOMEPAGEKOREA</p>
-			<h2>1,100여 개의 공공기관과 기업이 선택한 검증된 기술력을 경험하세요.</h2>
-			<a href="/contact/" class="btn_contact"><p aria-hidden="true">Contact Us</p><strong>프로젝트<br/>문의하기</strong></a>
+	<section class="main_visual" id="main_visual" aria-labelledby="visual-title" data-header="light">
+		<div class="outbox">
+			<video class="bg_video" autoplay muted loop playsinline aria-hidden="true">
+				<source src="/video/video_main_visual.mp4" type="video/mp4">
+			</video>
+			<div class="inbox">
+				<h1 id="visual-title" class="sound_only">대한민국 기업 성장을 함께한 27년 경력 웹 에이전시 홈페이지코리아</h1>
+				<p class="tit" aria-hidden="true">대한민국 기업 성장을 함께한 <strong>27년</strong> 경력</p>
+				<p class="copyright" aria-hidden="true">WEB AGENCY<br/>HOMEPAGEKOREA</p>
+				<h2>1,100여 개의 공공기관과 기업이 선택한 검증된 기술력을 경험하세요.</h2>
+				<a href="/contact/" class="btn_contact"><p aria-hidden="true">CONTACT US</p><strong>프로젝트 <br/>문의하기</strong></a>
+			</div>
+			<div class="after_cover" aria-hidden="true"></div>
 		</div>
-		<div class="after_cover" aria-hidden="true"></div>
 	</section>
 	
 	<div class="sticky_wrap">
@@ -51,11 +66,11 @@
 						<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
 					</ul>
 				</div>
-				<div class="inner" data-aos="zoom-out-up">
+				<div class="inner" data-aos="fade-up">
 					<div class="bg_round"><div class="in_gradient"></div></div>
 					<div class="service">
 						<h2 id="service-title" class="main_title" data-aos="zoom-out-up" data-aos-offset="200"><span>HOMEPAGEKOREA</span><strong>SERVICE</strong></h2>
-						<p class="tb" data-aos="zoom-out-up">각 서비스는 고객의 비즈니스 목표에 맞춰 <strong>최적화된 솔루션</strong>을 제공하며,<br/><strong>기획부터 디자인, 개발, 운영까지</strong> 전 과정을 지원합니다.</p>
+						<p class="tb" data-aos="zoom-out-up">각 서비스는 고객의 비즈니스 목표에 맞춰 <strong>최적화된 솔루션</strong>을 제공하며, <br class="pc_vw"><strong>기획부터 디자인, 개발, 운영까지</strong> 전 과정을 지원합니다.</p>
 						<ul class="list">
 							<li class="i1" data-aos="zoom-out-up" data-aos-offset="200"><a href="/service/homepage-development" aria-label="홈페이지 제작 서비스 바로가기"><h3>홈페이지 제작</h3><p aria-hidden="true">비즈니스를 성장시키는 <br class="pc_vw">홈페이지 제작</p></a></li>
 							<li class="i2" data-aos="zoom-out-up" data-aos-offset="200"><a href="/service/website-maintenance" aria-label="홈페이지 유지보수 서비스 바로가기"><h3>홈페이지 유지보수</h3><p aria-hidden="true">전문가가 직접 관리하는 <br class="pc_vw">홈페이지 유지보수</p></a></li>
@@ -75,14 +90,14 @@
 			<div class="outbox">
 				<div class="inbox">
 					<div class="left">
-						<div class="main_title" aria-hidden="true"><p class="tt">STRENGTH</p><span>WHY<br/>HOMEPAGEKOREA</span><strong>IS DIFFERENT</strong></div>
+						<div class="main_title" aria-hidden="true"><p class="tt">STRENGTH</p><span>WHY <br/>HOMEPAGEKOREA</span><strong>IS DIFFERENT</strong></div>
 						<h2 id="strength-title" class="tbbg"><strong>홈페이지코리아</strong>가 하면 다른 이유</h2>
 					</div>
 					<div class="right">
 						<ul class="strength_list">
 							<li class="i1"><h3>실무 중심 설계</h3><p>27년 노하우로 담당자가 <br class="pc_vw">사용하기 편한 시스템을 만듭니다.</p></li>
 							<li class="i2"><h3>웹/앱 개발 일정 준수</h3><p>숙련된 PM이 WBS 기반으로 <br class="pc_vw">관리하여 런칭 지연이 없습니다.</p></li>
-							<li class="i3"><h3>자체 웹, 앱 개발 모듈</h3><p>오픈소스가 아닌 최신 스택(React, Laravel)으로 <br class="pc_vw">보안과 속도를 잡았습니다.</p></li>
+							<li class="i3"><h3>자체 웹, 앱 개발 모듈</h3><p>자체 개발 모듈과 최신 기술 스택(React, Laravel)을 기반으로 보안과 속도를 잡았습니다.</p></li>
 							<li class="i4"><h3>전환 최적화</h3><p>단순 개발, 디자인을 넘어 매출과 성과를 <br class="pc_vw">만드는 UX를 설계합니다.</p></li>
 						</ul>
 					</div>
@@ -103,88 +118,50 @@
 				</div>
 				<div class="portfolio_marquee">
 					<ul class="list">
+						@forelse($portfolioMarqueeItems as $item)
+						@php
+							$marqueeIndustry = $item->category ?: ($item->categories[0] ?? '');
+							$marqueeTypeLabel = $marqueeIndustry !== '' ? $marqueeIndustry : '-';
+							if (filled($item->development_summary)) {
+								$marqueeTypeLabel .= ' / ' . $item->development_summary;
+							}
+							$marqueeDesc = \Illuminate\Support\Str::limit(strip_tags($item->detail_summary ?? $item->development_summary ?? ''), 180);
+							$marqueeThumb = ! empty($item->thumbnail_image)
+								? \Illuminate\Support\Facades\Storage::url($item->thumbnail_image)
+								: '/images/img_portfolio_sample.png';
+						@endphp
 						<li>
-							<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
+							<a href="{{ route('portfolio.portfolio_view', ['portfolio' => $item->id]) }}" class="box" aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
 								<span class="flip">
-									<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
+									<span class="before" aria-hidden="true"><img src="{{ $marqueeThumb }}" alt="" class="bg"></span>
 									<span class="after" aria-hidden="true">
-										<span class="type">WEB UI/UX / Mobile / JSP</span>
-										<span class="tit">한양대학교 연구장비통합관리시스템</span>
-										<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-										<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
+										<span class="type">{{ $marqueeTypeLabel }}</span>
+										<span class="tit">{{ $item->title }}</span>
+										@if($marqueeDesc !== '')<p>{{ $marqueeDesc }}</p>@endif
+										<!-- <span class="logo"><img src="/images/main_service_08.svg" alt=""></span> -->
 									</span>
 								</span>
 							</a>
 						</li>
+						@empty
 						<li>
-							<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
+							<span class="box" tabindex="-1" aria-hidden="true">
 								<span class="flip">
 									<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
 									<span class="after" aria-hidden="true">
-										<span class="type">WEB UI/UX / Mobile / JSP</span>
-										<span class="tit">한양대학교 연구장비통합관리시스템</span>
-										<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-										<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
+										<span class="type">-</span>
+										<span class="tit">등록된 포트폴리오가 없습니다.</span>
+										<p>곧 다양한 개발 사례를 이곳에서 만나보실 수 있습니다.</p>
+										<!-- <span class="logo"><img src="/images/main_service_08.svg" alt=""></span> -->
 									</span>
 								</span>
-							</a>
+							</span>
 						</li>
-						<li>
-							<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-								<span class="flip">
-									<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-									<span class="after" aria-hidden="true">
-										<span class="type">WEB UI/UX / Mobile / JSP</span>
-										<span class="tit">한양대학교 연구장비통합관리시스템</span>
-										<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-										<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-								<span class="flip">
-									<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-									<span class="after" aria-hidden="true">
-										<span class="type">WEB UI/UX / Mobile / JSP</span>
-										<span class="tit">한양대학교 연구장비통합관리시스템</span>
-										<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-										<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-								<span class="flip">
-									<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-									<span class="after" aria-hidden="true">
-										<span class="type">WEB UI/UX / Mobile / JSP</span>
-										<span class="tit">한양대학교 연구장비통합관리시스템</span>
-										<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-										<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-								<span class="flip">
-									<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-									<span class="after" aria-hidden="true">
-										<span class="type">WEB UI/UX / Mobile / JSP</span>
-										<span class="tit">한양대학교 연구장비통합관리시스템</span>
-										<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-										<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-									</span>
-								</span>
-							</a>
-						</li>
+						@endforelse
 					</ul>
 				</div>
 				<div class="flex_center">
-					<a href="/Portfolio/" class="btn_link">개발사례 더보기</a>
+					<a href="{{ route('portfolio.portfolio_list') }}" class="btn_link">개발사례 더보기</a>
 				</div>
 			</div>
 		</section>
@@ -214,37 +191,22 @@
 			<div class="left">
 				<div class="main_title_flex">
 					<h2 id="faq-title" class="main_title"><strong>FAQ</strong></h2><p class="tb">자주 묻는 질문</p>
-					<a href="" class="btn_link">전체보기</a>
 				</div>
 				<div class="faq_wrap">
 					<ul class="faq_list">
-						<li><h3 class="faq_title"><button type="button" aria-expanded="false" aria-controls="faq-con-1">홈페이지 제작 기간은 얼마나 걸리나요?</button></h3>
-							<div class="con" id="faq-con-1">프로젝트 규모에 따라 다르지만, 일반적인 기업 홈페이지는 4~6주, 쇼핑몰이나 복잡한 SI 시스템은 8~12주 정도 소요됩니다. 정확한 일정은 초기 상담 시 WBS 기반으로 안내해 드립니다.</div>
-						</li>
-						<li><h3 class="faq_title"><button type="button" aria-expanded="false" aria-controls="faq-con-2">유지보수는 어떻게 진행되나요?</button></h3>
-							<div class="con" id="faq-con-2">월 단위 계약으로 콘텐츠 수정, 보안 업데이트, 서버 관리, 기능 개선 등을 전담 매니저가 관리합니다. 긴급 상황 발생 시 24시간 내 대응합니다.</div>
-						</li>
-						<li><h3 class="faq_title"><button type="button" aria-expanded="false" aria-controls="faq-con-3">홈페이지 제작 비용은 어떻게 책정되나요?</button></h3>
-							<div class="con" id="faq-con-3">프로젝트의 규모, 기능, 디자인 복잡도에 따라 달라집니다. 기본 홈페이지부터 맞춤형 SI 시스템까지 예산에 맞는 최적의 솔루션을 제안해 드립니다. 무료 상담을 통해 견적을 안내받으실 수 있습니다.</div>
-						</li>
-						<li><h3 class="faq_title"><button type="button" aria-expanded="false" aria-controls="faq-con-4">반응형 웹으로 제작되나요?</button></h3>
-							<div class="con" id="faq-con-4">네, 모든 프로젝트는 PC, 태블릿, 모바일에 최적화된 반응형 웹으로 제작됩니다. 각 디바이스에서 최상의 사용자 경험을 제공합니다.</div>
-						</li>
-						<li><h3 class="faq_title"><button type="button" aria-expanded="false" aria-controls="faq-con-5">SEO 최적화도 함께 진행되나요?</button></h3>
-							<div class="con" id="faq-con-5">네, 검색 엔진 최적화를 기본으로 적용합니다. 메타 태그 설정, 사이트맵 생성, 페이지 속도 최적화, 구조화된 데이터 마크업 등 검색 노출에 필요한 모든 작업을 포함합니다.</div>
-						</li>
+						@include('partials.public-faq-list', ['faqItems' => $faqItems, 'idPrefix' => 'main-faq', 'variant' => 'main'])
 					</ul>
 				</div>
 			</div>
 			<div class="right">
 				<div class="box contactus">
-					<div class="type" aria-hidden="true">Contact Us</div>
+					<div class="type" aria-hidden="true">CONTACT US</div>
 					<h3>홈페이지코리아는 <br class="pc_vw">진심으로 짓습니다.</h3>
 					<p>지금 당신의 성공 이야기를 시작해보세요.</p>
 					<a href="/contact/" class="btn_link">견적 문의하기</a>
 				</div>
 				<div class="box blog">
-					<div class="type" aria-hidden="true">Blog</div>
+					<div class="type" aria-hidden="true">BLOG</div>
 					<h3>홈페이지코리아 <br class="pc_vw">기술 블로그</h3>
 					<p>성공적인 온라인 비즈니스를 위한 <br class="pc_vw">인사이트를 만나보세요.</p>
 					<a href="/blog/" class="btn_link">블로그 보러가기</a>
@@ -257,43 +219,103 @@
 
 <script>
 $(document).ready(function () {
-// intro 
+// intro
     const $introFixed = $('.intro_fixed');
+	const $svgScaled = $('.svg_scaled'); 
+	const $inbox = $('.intro_fixed .inbox'); 
 	const $intro = $('.intro');
 	const $mainWrap = $('.main_wrap');
 	let introOpacityZero = false;
 
+	function lerp(w, x1, x2, y1, y2) {
+		if (w >= x1) return y1;
+		if (w <= x2) return y2;
+		return y1 + (y2 - y1) * ((w - x1) / (x2 - x1));
+	}
+
 	function introScroll() {
-		const scrollTop = $(window).scrollTop();
+		const scrollTop = Math.max($(window).scrollTop(), 0); 
+		const windowWidth = $(window).width(); 
 		const introHeight = $intro.outerHeight();
 		const startFade = introHeight * 0.4;
-		const endFade   = introHeight * 0.8;
+		const endFade = introHeight * 0.8;
 		const hidePoint = introHeight * 1.0;
 		const scaleProgress = Math.min(scrollTop / introHeight, 1);
-		const scale = 1 + scaleProgress * 40;
+		const scale = 1 + scaleProgress * 40; 
+
+		let originX, originY;
+		if (windowWidth > 1440) {
+			originX = 75; originY = 45;
+		} else if (windowWidth > 1024) {
+			originX = lerp(windowWidth, 1440, 1024, 75, 85);
+			originY = 45;
+		} else if (windowWidth > 767) {
+			originX = lerp(windowWidth, 1024, 768, 85, 98);
+			originY = 45;
+		} else if (windowWidth > 550) {
+			originX = lerp(windowWidth, 768, 550, 73, 75);
+			originY = 45;
+		} else if (windowWidth > 375) {
+			originX = lerp(windowWidth, 768, 375, 60, 86);
+			originY = lerp(windowWidth, 768, 375, 45, 46);
+		} else {
+			originX = 88; originY = 46;
+		}
+
 		let opacity = 1;
 		if (scrollTop >= startFade) {
 			const fadeProgress = (scrollTop - startFade) / (endFade - startFade);
 			opacity = Math.max(1 - fadeProgress, 0);
 		}
-		$introFixed.css({ 'transform': `scale(${scale})`, 'opacity': opacity });
-
+		const originCss = `${originX}% ${originY}%`;
+		if ($svgScaled.length) {
+			$svgScaled.css({ 
+				'transform-origin': originCss, 
+				'transform': `scale(${scale})` 
+			});
+		}
+		if ($inbox.length) {
+			$inbox.css({ 
+				'transform-origin': originCss, 
+				'transform': `scale(${scale})` 
+			});
+		}
+		if (windowWidth < 768) {
+			const speedMultiplier = 3; 
+			const progress = Math.min(scaleProgress * speedMultiplier, 1);
+			const currentBarHeight = Math.max(42 - (progress * 42), 0); 
+			$introFixed.css('--bar-height', `${currentBarHeight}vh`);
+		} else {
+			$introFixed.css('--bar-height', '0vh');
+		}
+		$introFixed.css({ 'opacity': opacity });
 		if (opacity === 0) {
 			if (!introOpacityZero) { $intro.addClass('opacity'); introOpacityZero = true; }
 		} else {
 			if (introOpacityZero) { $intro.removeClass('opacity'); introOpacityZero = false; }
 		}
-
 		if (scrollTop >= hidePoint) {
 			if (!$mainWrap.hasClass('intro_hide')) $mainWrap.addClass('intro_hide');
 		} else {
 			if ($mainWrap.hasClass('intro_hide')) $mainWrap.removeClass('intro_hide');
 		}
 	}
+
 	$(window).on('scroll', introScroll);
+	$(window).on('resize', introScroll); 
 	introScroll();
-	$(".intro .btn_link").on("click", function () {
+
+	$(".intro .btn_link, .intro .btn_scroll_down").on("click", function () {
 		window.scrollTo({ top: $intro.outerHeight(), behavior: "smooth" });
+	});
+	/* 5초동안 안내려가면 강제로 내려가게 */
+	const autoScrollTimer = setTimeout(function () {
+		if ($(window).scrollTop() === 0) {
+			window.scrollTo({ top: $intro.outerHeight(), behavior: "smooth" });
+		}
+	}, 5000);
+	$(window).one('scroll', function () {
+		clearTimeout(autoScrollTimer);
 	});
 // Service marquee
 	const $banner    = $(".main_service .marquee_banner");
@@ -314,18 +336,11 @@ $(document).ready(function () {
 	marqueeLoop();
 // Service bg_round
     function bgRoundScroll() {
-		const $mainService  = $(".main_service");
-		const $bgRound      = $(".bg_round");
-		const $marquee      = $(".main_service .marquee_banner");
-		const scrollTop     = $(window).scrollTop();
-		const windowHeight  = $(window).height();
-		const serviceTop    = $mainService.offset().top;
-		const paddingTop    = parseInt($mainService.css("padding-top"));
-		const marqueeHeight = $marquee.outerHeight();
-		const marqueeMargin = parseInt($marquee.css("margin-bottom"));
-		const initY         = -(paddingTop + marqueeHeight + marqueeMargin);
-		const scrollStart   = serviceTop - windowHeight;
-		const scrollEnd     = serviceTop;
+		const $mainService = $(".main_service");
+		const scrollTop    = $(window).scrollTop();
+		const windowHeight = $(window).height();
+		const serviceTop   = $mainService.offset().top;
+		const scrollStart  = serviceTop - windowHeight;
 
 		if (scrollTop >= scrollStart) {
 			$mainService.addClass("start");
@@ -333,70 +348,54 @@ $(document).ready(function () {
 			$mainService.removeClass("start");
 		}
 
-		const progress     = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-		const translateY   = initY + (-initY * progress);
-		const scale        = 1 + 3 * progress;
-		const brBottom     = 50 * (1 - progress);
-		const aspectW      = 1 + 1 * progress;
-		const borderRadius = `50% 50% ${brBottom}% ${brBottom}%`;
-
-		if (scrollTop >= scrollStart) {
-			$bgRound.css({ "transform"    : `translate(-50%, ${translateY}px) scale(${scale})`, "border-radius": borderRadius, "aspect-ratio" : `${aspectW} / 1` });
-		} else {
-			$bgRound.css({ "transform"    : `translate(-50%, ${initY}px) scale(1)`, "border-radius": "50%", "aspect-ratio" : "1 / 1" });
-		}
-
-		// main_service start 시점부터 main_visual 페이드
 		if (scrollTop >= scrollStart) {
 			const $mainVisual = $(".main_visual");
 			$mainVisual.addClass("start");
-
 			const introHeight = $(".intro").outerHeight() || 0;
 			const fadeStart   = Math.max(scrollStart, introHeight);
 			const fadeEnd     = fadeStart + windowHeight * 0.5;
 			const fadeProg    = Math.min(Math.max((scrollTop - fadeStart) / (fadeEnd - fadeStart), 0), 1);
 			const fadeOut     = 1 - fadeProg;
 			const fadeIn      = fadeProg;
-
 			$(".intro_hide .main_visual video, .intro_hide .main_visual .inbox").css("opacity", fadeOut);
 			$(".after_cover").css("opacity", fadeIn);
-
-			// opacity 0.5 이하 시점에 header bg_white 추가
-			if (fadeOut <= 0.5) {
-				$(".header").addClass("bg_white");
-			} else {
-				$(".header").removeClass("bg_white");
-			}
 		} else {
 			$(".main_visual").removeClass("start");
 			$(".intro_hide .main_visual video, .intro_hide .main_visual .inbox").css("opacity", 1);
 			$(".after_cover").css("opacity", 0);
-			$(".header").removeClass("bg_white");
 		}
 	}
-	$(window).on("scroll", bgRoundScroll);
-	bgRoundScroll();
 // service copy
-	const $service    = $(".in_service .service").clone();
-    const $outService = $(".out_service");
-
-    // id 중복 방지
-    $service.find("[id]").removeAttr("id");
-    $service.find("[data-aos]").removeAttr("data-aos");
-
-    $outService.append($service);
+	const $serviceNode = $(".in_service .service").clone();
+	const $outService = $(".out_service");
+	$serviceNode.find("[id]").removeAttr("id");
+	$serviceNode.find("[data-aos]").removeAttr("data-aos");
+	$outService.append($serviceNode);
 // Service end
 	function checkServiceEnd() {
-		const scrollTop     = $(window).scrollTop();
-		const windowHeight  = $(window).height();
-		const $service      = $(".main_service");
-		const $inner        = $(".main_service .inner");
-		const $inService   = $(".in_service");
-		const serviceBottom = $service.offset().top + $service.outerHeight();
+		const $service   = $(".main_service.in_service");
+		const $inner     = $service.find(".inner");
+		const $inService = $(".in_service");
+		if (!$service.length) return;
 
-		if (scrollTop + windowHeight >= serviceBottom) {
+		const rect = $service[0].getBoundingClientRect();
+
+		// ✅ visualViewport.height 유지
+		const windowHeight = window.visualViewport
+			? window.visualViewport.height
+			: window.innerHeight;
+
+		// ✅ 버퍼값만 조절 — 숫자 올리면 더 일찍, 내리면 더 늦게
+		const triggerBuffer = $(window).width() < 768 ? 10 : 0;
+
+		const isBottomReached = rect.bottom - triggerBuffer <= windowHeight;
+
+		if (isBottomReached) {
 			if (!$service.hasClass("end")) {
-				$inner.css("height", $inner.outerHeight() + "px");
+				const currentHeight = $inner.outerHeight();
+				if (currentHeight > 0) {
+					$inner.css("height", currentHeight + "px");
+				}
 				$service.addClass("end");
 				$inService.addClass("end");
 			}
@@ -408,101 +407,154 @@ $(document).ready(function () {
 			}
 		}
 	}
-	$(window).on("scroll", checkServiceEnd);
+
+	$(window).on("scroll resize", checkServiceEnd);
+
+	if (window.visualViewport) {
+		window.visualViewport.addEventListener("resize", checkServiceEnd);
+		window.visualViewport.addEventListener("scroll", checkServiceEnd);
+	}
+
 	checkServiceEnd();
+// sticky 영향 없는 실제 문서 위치 계산
+	function getNaturalTop(el) {
+		let top = 0;
+		let current = el;
+		while (current) {
+			top += current.offsetTop;
+			current = current.offsetParent;
+		}
+		return top;
+	}
 // page_rotate
-    function pageRotateScroll() {
-        const scrollTop    = $(window).scrollTop();
-        const windowHeight = $(window).height();
-        const windowWidth  = $(window).width();
-        const rad          = 15 * Math.PI / 180;
-        $(".page_rotate").each(function () {
-            const $pageRotate  = $(this);
-            const $outbox      = $pageRotate.find(".outbox");
-            const outboxTop    = $outbox.offset().top;
-            const outboxHeight = $outbox.outerHeight();
-            const extraUp      = (windowWidth / 2) * Math.sin(rad) + (outboxHeight / 2) * (1 - Math.cos(rad));
-            const cornerTop    = outboxTop - extraUp;
-            const scrollStart  = cornerTop - windowHeight;
-            const scrollEnd    = $pageRotate.offset().top - windowHeight / 4;
-            const progress     = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-            const rotate       = 15 * (1 - progress);
-			const translateY = -(windowHeight / 5) * (1 - progress);
-			$outbox.css("transform", `rotate(${rotate}deg) translateY(${translateY}px)`);
-        });
-    }
-    $(window).on("scroll", pageRotateScroll);
-    pageRotateScroll();
+	let ticking = false;
+	let pageRotateEls = [];
+
+	function cacheElements() {
+		pageRotateEls = [];
+		$(".page_rotate").each(function () {
+			pageRotateEls.push({
+				el: this,
+				$outbox: $(this).find(".outbox")
+			});
+		});
+	}
+
+	function pageRotateScroll() {
+		const scrollTop    = window.pageYOffset;
+		const windowHeight = window.innerHeight;
+		const windowWidth  = window.innerWidth;
+		const maxRotate    = windowWidth < 768 ? 10 : 15;
+		const rad          = maxRotate * Math.PI / 180;
+
+		pageRotateEls.forEach(({ el, $outbox }) => {
+			const naturalTop   = getNaturalTop(el);
+			const outboxHeight = $outbox[0].offsetHeight;
+			const extraUp      = (windowWidth / 2) * Math.sin(rad) + (outboxHeight / 2) * (1 - Math.cos(rad));
+			const cornerTop    = naturalTop - extraUp;
+			const scrollStart  = cornerTop - windowHeight;
+			const scrollEnd    = naturalTop - windowHeight / 4;
+			const progress     = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
+			const rotate       = maxRotate * (1 - progress);
+			const translateY   = -(windowHeight / 5) * (1 - progress);
+
+			$outbox[0].style.transform = `rotate(${rotate}deg) translate3d(0, ${translateY}px, 0)`;
+		});
+
+		ticking = false;
+	}
+
+	function onScroll() {
+		if (!ticking) {
+			requestAnimationFrame(pageRotateScroll);
+			ticking = true;
+		}
+	}
+
+	$(window).on("scroll", onScroll);
+	$(window).on("resize", function () {
+		pageRotateScroll();
+	});
+
+	cacheElements();
+	pageRotateScroll();
 // Portfolio SVG
     function connectSvg() {
 		const $svgT      = $(".svg_t");
 		const $svgB      = $(".svg_b");
 		const $container = $(".main_portfolio");
-
+		const $outbox    = $(".main_portfolio .outbox");
 		if (!$svgT.length || !$svgB.length) return;
 		$(".svg_connector").remove();
-
-		// offset()은 document 기준 — 스크롤 포함
 		const containerOffset = $container.offset();
 		const tOffset = $svgT.offset();
 		const bOffset = $svgB.offset();
 		const tW      = $svgT.outerWidth();
 		const tH      = $svgT.outerHeight();
 		const bW      = $svgB.outerWidth();
-
 		const x1 = (tOffset.left - containerOffset.left) + tW / 2;
 		const y1 = (tOffset.top  - containerOffset.top)  + tH;
 		const x2 = (bOffset.left - containerOffset.left) + bW / 2;
 		const y2 = (bOffset.top  - containerOffset.top);
-
 		const svgW = $container.outerWidth();
 		const svgH = $container.outerHeight();
-
+		const outboxOffset = $outbox.offset();
+		const dx = containerOffset.left - outboxOffset.left;
+		const dy = containerOffset.top  - outboxOffset.top;
 		const svg = `
 			<svg class="svg_connector" xmlns="http://www.w3.org/2000/svg"
 				width="${svgW}" height="${svgH}"
-				style="position:absolute; top:0; left:0; pointer-events:none; z-index:9; overflow:visible;">
+				style="position:absolute; top:${dy}px; left:${dx}px; pointer-events:none; z-index:9; overflow:visible;">
 				<path d="M ${x1} ${y1} L ${x2} ${y2}" fill="none" stroke="#8A949E33" stroke-width="1"/>
 			</svg>`;
-
-		$container.css("position", "relative").append(svg);
+		$outbox.css("position", "relative").append(svg);
 	}
-
 	$(window).on("load", connectSvg);
 	let resizeTimer;
 	$(window).on("resize", function () {
 		clearTimeout(resizeTimer);
 		resizeTimer = setTimeout(connectSvg, 100);
 	});
-// Portfolio marquee
+// Portfolio marquee: 리스트 DOM 복제 없음(각 항목 1회만). 전체 폭만큼 이동 후 처음 위치로 점프하여 반복. 1개·2개도 동일.
     (function () {
-        const $banner    = $(".main_portfolio .portfolio_marquee");
-        const $origSlide = $banner.find(".list");
-        const speed      = 1;
-        let posX         = 0;
-        let isPaused     = false;
-        $banner.append($origSlide.clone().removeAttr("aria-label").attr("aria-hidden", "true"));
-        const totalWidth = $origSlide.outerWidth(true);
+        const $banner = $(".main_portfolio .portfolio_marquee");
+        const $list   = $banner.find(".list").first();
+        if (! $list.length || ! $list.children("li").length) {
+            return;
+        }
+        const speed       = 1;
+        let posX          = 0;
+        let isPaused      = false;
+        let totalWidth    = 0;
+        let marqueeResizeTimer;
+
+        function measure() {
+            const el = $list.get(0);
+            totalWidth = el && el.scrollWidth > 0 ? el.scrollWidth : $list.outerWidth(true);
+        }
+
+        measure();
+        $(window).on("load", measure);
+        $(window).on("resize", function () {
+            clearTimeout(marqueeResizeTimer);
+            marqueeResizeTimer = setTimeout(measure, 100);
+        });
+
         function marqueeLoop() {
-            if (!isPaused) {
+            if (! isPaused && totalWidth > 0) {
                 posX -= speed;
-                if (Math.abs(posX) >= totalWidth) posX = 0;
-                $banner.find(".list").css("transform", `translateX(${posX}px)`);
+                if (posX <= -totalWidth) {
+                    posX = 0;
+                }
+                $list.css("transform", `translateX(${posX}px)`);
             }
             requestAnimationFrame(marqueeLoop);
         }
+
         marqueeLoop();
         $banner.on("mouseenter", function () { isPaused = true; })
                .on("mouseleave", function () { isPaused = false; });
     })();
-// FAQ
-	$(".faq_list .faq_title button").click(function(){
-		$(this).parent().next(".con").stop(true,true).slideToggle("fast").parent().stop(true,true).toggleClass("on").siblings().removeClass("on").children(".con").slideUp("fast");
-		$(".faq_list li").removeClass("on_before");
-		$(".faq_list li.on").prev("li").addClass("on_before");
-	});
-	$(".faq_list li:first-child").addClass("on").children(".con").show();
-	$(".faq_list li:first-child").prev("li").addClass("on_before");
 // AOS
 	AOS.init({
 		duration: 500,
@@ -511,6 +563,10 @@ $(document).ready(function () {
 </script>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/faq-accordion.js') }}"></script>
+@endpush
 
 @section('popups')
 @if($popups->count() > 0)

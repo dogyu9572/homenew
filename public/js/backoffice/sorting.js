@@ -106,21 +106,38 @@ class BoardSorting {
 
     async saveSortOrder(updates) {
         try {
-            // URL에서 slug 추출 (/backoffice/board-posts/{slug} 형식)
-            const pathParts = window.location.pathname.split('/');
-            const slug = pathParts[3] || null; // /backoffice/board-posts/{slug}
-            
-            const response = await fetch('/backoffice/board-posts/update-sort-order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ 
-                    updates,
-                    slug 
-                })
-            });
+            const tbody = document.querySelector('#sortable-tbody');
+            const sortEndpoint = tbody?.dataset?.sortEndpoint || null;
+
+            let response;
+            if (sortEndpoint) {
+                // 포트폴리오 등: data-sort-endpoint 로 전용 URL 지정 (본문 JSON은 게시판과 동일한 updates 형식)
+                response = await fetch(sortEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ updates })
+                });
+            } else {
+                // 게시판: URL에서 slug 추출 (/backoffice/board-posts/{slug})
+                const pathParts = window.location.pathname.split('/');
+                const slug = pathParts[3] || null;
+                response = await fetch('/backoffice/board-posts/update-sort-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        updates,
+                        slug
+                    })
+                });
+            }
 
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);

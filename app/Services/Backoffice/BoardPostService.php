@@ -336,7 +336,7 @@ class BoardPostService
             'is_notice' => $request->has('is_notice'),
             'is_secret' => $request->has('is_secret'),
             'is_active' => $isActive,
-            'author_name' => $validated['author_name'] ?? null,
+            'author_name' => $this->resolveAuthorNameForUpdate($validated, $existingPost),
             'password' => $validated['password'] ?? null,
             'thumbnail' => $this->handleThumbnail($request, $slug),
             'attachments' => json_encode($this->handleAttachments($request, $slug)),
@@ -344,6 +344,23 @@ class BoardPostService
             'sort_order' => $request->input('sort_order', 0),
             'updated_at' => now()
         ];
+    }
+
+    /**
+     * 수정 시 작성자명: 요청값이 없거나 빈 값이면 기존 글 값 유지, 그것도 없으면 신규 등록과 동일하게 기본값
+     * (작성자 필드가 게시판 설정에서 꺼진 경우 폼에 name이 없어 validated에 키가 없음 → NOT NULL 위반 방지)
+     */
+    private function resolveAuthorNameForUpdate(array $validated, $existingPost): string
+    {
+        $incoming = $validated['author_name'] ?? null;
+        if (is_string($incoming) && trim($incoming) !== '') {
+            return trim($incoming);
+        }
+        if ($existingPost && isset($existingPost->author_name) && is_string($existingPost->author_name) && trim($existingPost->author_name) !== '') {
+            return $existingPost->author_name;
+        }
+
+        return '관리자';
     }
 
     /**

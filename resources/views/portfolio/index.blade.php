@@ -4,30 +4,11 @@
 @section('description', '중견/대기업, 학회/협회, 공공기관, 병원/의료, 대학/학원 등 다양한 분야의 홈페이지 제작 포트폴리오를 확인하세요. 홈페이지제작, 유지보수, 온라인쇼핑몰, SI시스템개발, 앱개발, AI솔루션까지 제공합니다.')
 @section('sga_plus')
 ,"mainEntity": {
-	"@@type": "ItemList",
-	"name": "@yield('title', '')",
-	"description": "@yield('description')",
-	"numberOfItems": "{{ $portfolioCount ?? '4400' }}",
-	"itemListElement": [
-		{
-			"@@type": "ListItem",
-			"position": 1,
-			"name": "한국폐기물협회 - 생활폐기물 분리배출 누리집 신규 구축",
-			"url": "https://homepagekorea.com/portfolio/view"
-		},
-		{
-			"@@type": "ListItem",
-			"position": 2,
-			"name": "한국폐기물협회 - 생활폐기물 분리배출 누리집 신규 구축",
-			"url": "https://homepagekorea.com/portfolio/view"
-		},
-		{
-			"@@type": "ListItem",
-			"position": 3,
-			"name": "한국폐기물협회 - 생활폐기물 분리배출 누리집 신규 구축",
-			"url": "https://homepagekorea.com/portfolio/view"
-		}
-	]
+    "@@type": "ItemList",
+    "name": "@yield('title', '')",
+    "description": "@yield('description')",
+    "numberOfItems": "{{ $portfolioCount }}",
+    "itemListElement": @json($listItems),
 },
 @endsection
 
@@ -45,7 +26,7 @@
 				</nav>
 				<h1 class="sound_only">홈페이지코리아 포트폴리오</h1>
 				<div id="sub-visual-title" class="title" aria-hidden="true">{{ $sName ?? '' }}</div>
-				<h2 class="h2">홈페이지코리아와 함께 성장한 1,100개의 기업·기관을 확인하세요.</h2>
+				<h2 class="h2">홈페이지코리아와 함께 성장한 <br class="mo_vw">1,100개의 기업·기관을 확인하세요.</h2>
 			</div>
 		</div>
 	</section>
@@ -57,20 +38,24 @@
 			<div class="board_top mojo_aos">
 				<nav aria-label="포트폴리오 카테고리 필터">
 					<ul class="tabs">
-						<li class="on"><a href="/portfolio/" aria-current="page">전체</a></li>
-						<li><a href="/portfolio/">중견/대기업</a></li>
-						<li><a href="/portfolio/">학회/협회</a></li>
-						<li><a href="/portfolio/">공공기관</a></li>
-						<li><a href="/portfolio/">병원/의료</a></li>
-						<li><a href="/portfolio/">대학/학원</a></li>
-						<li><a href="/portfolio/">일반</a></li>
+                        <li class="{{ $category === '' ? 'on' : '' }}">
+                            <a href="{{ route('portfolio.portfolio_list', array_filter(['q' => $keyword])) }}" @if($category === '') aria-current="page" @endif>전체</a>
+                        </li>
+                        @foreach(\App\Models\Portfolio::CATEGORIES as $itemCategory)
+						<li class="{{ $category === $itemCategory ? 'on' : '' }}">
+                            <a href="{{ route('portfolio.portfolio_list', array_filter(['category' => $itemCategory, 'q' => $keyword])) }}" @if($category === $itemCategory) aria-current="page" @endif>{{ $itemCategory }}</a>
+                        </li>
+                        @endforeach
 					</ul>
 				</nav>
 				<div class="search_area">
-					<form action="" role="search">
+					<form action="{{ route('portfolio.portfolio_list') }}" role="search" method="GET">
 						<label for="portfolio-search" class="sound_only">포트폴리오 검색</label>
 						<div class="flex">
-							<input type="text" id="portfolio-search" class="text" placeholder="검색어를 입력해 주세요. #결제 #유지보수 #앱">
+                            @if($category !== '')
+                            <input type="hidden" name="category" value="{{ $category }}">
+                            @endif
+							<input type="text" id="portfolio-search" class="text" name="q" value="{{ $keyword }}" placeholder="검색어를 입력해 주세요. #결제 #유지보수 #앱">
 							<button type="submit" class="btn">검색</button>
 						</div>
 					</form>
@@ -78,222 +63,106 @@
 			</div>
 			
 			<ul class="portfolio_list mojo_aos">
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
+                @forelse($portfolios as $item)
+				<li>
+					<a href="{{ route('portfolio.portfolio_view', ['portfolio' => $item->id]) }}" class="box" aria-label="{{ $item->title }} 포트폴리오 보기">
 						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
+                            @if(!empty($item->thumbnail_image))
+							<span class="imgfit">
+								<img src="{{ \Illuminate\Support\Facades\Storage::url($item->thumbnail_image) }}" alt="">
+								<svg class="border_svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+									<defs>
+										<linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+											<stop offset="0%" stop-color="#FD710E" />
+											<stop offset="100%" stop-color="#036AD8" />
+										</linearGradient>
+									</defs>
+									<rect x="0" y="0" width="100" height="100" rx="2" ry="2" style="stroke: url(#orangeGrad);" />
+								</svg>
+							</span>
+                            @endif
 						</span>
 						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
+                            <span class="type">
+                                <span class="industry">{{ $item->category ?: ($item->categories[0] ?? '-') }}</span>
+                                <span class="tech">{{ $item->development_summary }}</span>
+                            </span>
+							<h3 class="tit">{{ $item->title }}</h3>
 							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
+                                @foreach(($item->keywords ?? []) as $tag)
+								<li>{{ $tag }}</li>
+                                @endforeach
 							</ul>
 						</span>
 					</a>
 				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
-				<li data-aos="fade-up">
-					<a href="/portfolio/view" class="box" aria-label="한국폐기물협회 생활폐기물 분리배출 누리집 신규 구축 (WEB UI/UX / 연간 운영 · 유지보수) 포트폴리오 보기">
-						<span class="img_area" aria-hidden="true">
-							<span class="imgfit"><img src="/images/img_portfolio_sample.png" alt=""></span>
-						</span>
-						<span class="txt">
-							<span class="type"><span class="industry">공공기관</span><span class="tech">WEB UI/UX / Mobile / JSP</span></span>
-							<h3 class="tit">생활폐기물 분리배출 누리집 신규 구축</h3>
-							<ul class="tags">
-								<li>#홈페이지제작</li>
-								<li>#홈페이지유지보수</li>
-								<li>#맞춤형AI솔루션</li>
-							</ul>
-						</span>
-					</a>
-				</li>
+                @empty
+                <li>
+                    <span class="box">
+                        <span class="txt">
+                            <h3 class="tit">등록된 포트폴리오가 없습니다.</h3>
+                        </span>
+                    </span>
+                </li>
+                @endforelse
 			</ul>
 			
+			{{-- <div class="board-pagination">
+                {{ $portfolios->links() }}
+			</div> --}}
 			<div class="board-pagination">
+				@php
+					$blockSize = max(1, (int) $portfolios->perPage()); // 리밋 수만큼 페이지 묶음 이동
+					$totalPages = max(1, (int) $portfolios->lastPage());
+					$currentPage = (int) $portfolios->currentPage();
+					$currentBlock = (int) floor(($currentPage - 1) / $blockSize);
+					$startPage = ($currentBlock * $blockSize) + 1;
+					$endPage = min($startPage + $blockSize - 1, $totalPages);
+					$hasPrevBlock = $startPage > 1;
+					$hasNextBlock = $endPage < $totalPages;
+					$prevBlockPage = max(1, $startPage - $blockSize);
+					$nextBlockPage = min($totalPages, $startPage + $blockSize);
+				@endphp
 				<ul class="pagination">
-					<li class="page-item arw_item"><a href="#this" class="page-link" title="첫 페이지로"><i class="arrow two first"></i></a></li>
-					<li class="page-item arw_item"><a href="#this" class="page-link" rel="prev" title="이전 페이지"><i class="arrow one prev"></i></a></li>
-					<li class="page-item active"><span class="page-link">1</span></li>
-					<li class="page-item"><a class="page-link" href="#this">2</a></li>
-					<li class="page-item arw_item"><a href="#this" class="page-link" title="다음 페이지"><i class="arrow one next"></i></a></li>
-					<li class="page-item arw_item"><a href="#this" class="page-link" title="끝 페이지로"><i class="arrow two last"></i></a></li>
+					@if ($portfolios->onFirstPage())
+					<li class="page-item arw_item disabled"><span class="page-link" aria-disabled="true"><i class="arrow two first"></i></span></li>
+					@else
+					<li class="page-item arw_item"><a href="{{ $portfolios->url(1) }}" class="page-link" title="첫 페이지로"><i class="arrow two first"></i></a></li>
+					@endif
+
+					@if ($hasPrevBlock)
+					<li class="page-item arw_item"><a href="{{ $portfolios->url($prevBlockPage) }}" class="page-link" rel="prev" title="이전 단계"><i class="arrow one prev"></i></a></li>
+					@else
+					<li class="page-item arw_item disabled"><span class="page-link" aria-disabled="true"><i class="arrow one prev"></i></span></li>
+					@endif
+
+					@for ($page = $startPage; $page <= $endPage; $page++)
+						@if ($page === $portfolios->currentPage())
+					<li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+						@else
+					<li class="page-item"><a class="page-link" href="{{ $portfolios->url($page) }}">{{ $page }}</a></li>
+						@endif
+					@endfor
+
+					@if ($hasNextBlock)
+					<li class="page-item arw_item"><a href="{{ $portfolios->url($nextBlockPage) }}" class="page-link" rel="next" title="다음 단계"><i class="arrow one next"></i></a></li>
+					@else
+					<li class="page-item arw_item disabled"><span class="page-link" aria-disabled="true"><i class="arrow one next"></i></span></li>
+					@endif
+
+					@if ($portfolios->hasMorePages())
+					<li class="page-item arw_item"><a href="{{ $portfolios->url($portfolios->lastPage()) }}" class="page-link" title="끝 페이지로"><i class="arrow two last"></i></a></li>
+					@else
+					<li class="page-item arw_item disabled"><span class="page-link" aria-disabled="true"><i class="arrow two last"></i></span></li>
+					@endif
 				</ul>
 			</div>
 		</div>
 	</section>
 
 </main>
-
-<script>
-$(document).ready(function(){
-// AOS
-	AOS.init({
-		duration: 2000,
-	});
-});
-</script>
-
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/portfolio-index.js') }}"></script>
+@endpush

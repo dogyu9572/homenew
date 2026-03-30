@@ -2,26 +2,26 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta name="robots" content="index, follow">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>대한민국 1세대 웹에이전시 홈페이지코리아@if(isset($gNum) && $gNum == 'main')@else | @yield('title', '')@endif</title>
 	<meta name="title" content="대한민국 1세대 웹에이전시 홈페이지코리아@if(isset($gNum) && $gNum == 'main')@else | @yield('title', '')@endif" />
 	<meta name="subject" content="홈페이지코리아" />
 	@yield('meta_tags')
-    <meta name="description" content="@yield('description', '대한민국 기업 성장을 함께한 27년 경력 웹 에이전시 홈페이지코리아. 4,400여 개 공공기관과 기업이 선택한 검증된 기술력으로 홈페이지 제작, 유지보수, 쇼핑몰 개발, SI 시스템, 앱 개발, AI 솔루션까지 제공합니다.')">
+    <meta name="description" content="@yield('description', '대한민국 기업 성장을 함께한 27년 경력 웹 에이전시 홈페이지코리아. 1,100여 개 공공기관과 기업이 선택한 검증된 기술력으로 홈페이지 제작, 유지보수, 쇼핑몰 개발, SI 시스템, 앱 개발, AI 솔루션까지 제공합니다.')">
     <meta name="author" content="홈페이지코리아">
 	<meta name="copyright" content="홈페이지코리아" />
     <meta property="og:title" content="대한민국 1세대 웹에이전시 홈페이지코리아@if(isset($gNum) && $gNum == 'main')@else | @yield('title', '')@endif">
 	<meta property="og:subject" content="홈페이지코리아" />
-    <meta property="og:description" content="@yield('description', '대한민국 기업 성장을 함께한 27년 경력 웹 에이전시 홈페이지코리아. 4,400여 개 공공기관과 기업이 선택한 검증된 기술력으로 홈페이지 제작, 유지보수, 쇼핑몰 개발, SI 시스템, 앱 개발, AI 솔루션까지 제공합니다.')">
-    <meta property="og:image" content="/images/og_image.jpg">
+    <meta property="og:description" content="@yield('description', '대한민국 기업 성장을 함께한 27년 경력 웹 에이전시 홈페이지코리아. 1,100여 개 공공기관과 기업이 선택한 검증된 기술력으로 홈페이지 제작, 유지보수, 쇼핑몰 개발, SI 시스템, 앱 개발, AI 솔루션까지 제공합니다.')">
+    <meta property="og:image" content="https://homenew.hk-test.co.kr/images/og_image.jpg">
 	<link rel="icon" href="/images/favicon.png" type="image/x-icon"/>
     <meta property="og:site_name" content="홈페이지코리아">
     <link rel="canonical" href="https://homepagekorea.com" />
 	<meta property="og:type" content="website">
     <meta property="og:url" content="https://homepagekorea.com">
-	
+	<meta name="theme-color" content="#ffffff">
 
 	<!-- SEO,GEO 용 사이트 소개 표 - 추가되는 부분은 sga_plus로 각 페이지에서 관리합니다. -->
 	<script type="application/ld+json">
@@ -89,35 +89,61 @@
     <header class="header {{ (isset($gNum) && $gNum == 'main') ? 'main' : '' }} {{ (isset($gNum) && $gNum == '03' && ($page ?? '') == 'view' || $gNum == '01' || $gNum == '02') ? 'white_mode' : '' }}">
 		<div class="inbox flex items-center justify-between">
 			<a href="/" class="logo" aria-label="홈페이지코리아 홈으로 이동"><img src="/images/logo.svg" alt="사이트 로고"></a>
-			<nav class="gnb" aria-label="주 메뉴">
-				<ul class="flex">
-					<li class="menu {{ ($gNum ?? '') == '01' ? 'on' : '' }}">
-						<a href="/service/homepage-seo-geo" id="main-menu-01"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '01' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '01' ? 'aria-current="page"' : '' }}>Service</a>
-						<ul class="snb" aria-labelledby="main-menu-01">
-							<li><a href="/service/homepage-seo-geo" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '01') class="on" aria-current="page" @endif>SEO·GEO 최적화</a></li>
-							<li><a href="/service/homepage-development" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '02') class="on" aria-current="page" @endif>홈페이지 제작</a></li>
-							<li><a href="/service/website-maintenance" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '03') class="on" aria-current="page" @endif>홈페이지 유지보수</a></li>
-							<li><a href="/service/ecommerce-website-development" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '04') class="on" aria-current="page" @endif>온라인 쇼핑몰 제작</a></li>
-							<li><a href="/service/integrated-si-system-development" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '05') class="on" aria-current="page" @endif>통합 SI 시스템 개발</a></li>
-							<li><a href="/service/mobile-app-development" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '06') class="on" aria-current="page" @endif>앱 개발</a></li>
-							<li><a href="/service/ai-solution" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '07') class="on" aria-current="page" @endif>맞춤형 AI 솔루션</a></li>
-						</ul>
-					</li>
-					<li class="menu {{ ($gNum ?? '') == '02' ? 'on' : '' }}">
-						<a href="/industries/enterprise" id="main-menu-02"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '02' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '03' ? 'aria-current="page"' : '' }}>Industry</a>
-						<ul class="snb" aria-labelledby="main-menu-02">
-							<li><a href="/industries/enterprise" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '01') class="on" aria-current="page" @endif>중견/대기업</a></li>
-							<li><a href="/industries/academic-association" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '02') class="on" aria-current="page" @endif>학회/협회</a></li>
-							<li><a href="/industries/government" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '03') class="on" aria-current="page" @endif>공공기관</a></li>
-							<li><a href="/industries/hospital-medical-website-development" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '04') class="on" aria-current="page" @endif>병원/의료</a></li>
-							<li><a href="/industries/university-research-lab-website" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '05') class="on" aria-current="page" @endif>대학·연구실</a></li>
-						</ul>
-					</li>
-					<li class="menu {{ ($gNum ?? '') == '03' ? 'on' : '' }}"><a href="/portfolio/" id="main-menu-03"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '03' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '03' ? 'aria-current="page"' : '' }}>Portfolio</a></li>
-					<li class="menu {{ ($gNum ?? '') == '04' ? 'on' : '' }}"><a href="/blog/" id="main-menu-04"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '04' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '04' ? 'aria-current="page"' : '' }}>Blog</a></li>
-				</ul>
-			</nav>
-			<a href="/contact/" class="btn_contactus">Contact Us</a>
+			<div class="gnb_wrap">
+				<nav class="gnb" aria-label="주 메뉴">
+					<ul class="flex">
+						<li class="menu {{ ($gNum ?? '') == '01' ? 'on' : '' }}">
+							<a href="/service/homepage-seo-geo" id="main-menu-01"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '01' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '01' ? 'aria-current="page"' : '' }} class="pc_vw">SERVICE</a>
+							<button type="button" class="mo_vw">SERVICE</button>
+							<ul class="snb" aria-labelledby="main-menu-01">
+								<li><a href="/service/homepage-seo-geo" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '01') class="on" aria-current="page" @endif>SEO·GEO 최적화</a></li>
+								<li><a href="/service/homepage-development" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '02') class="on" aria-current="page" @endif>홈페이지 제작</a></li>
+								<li><a href="/service/website-maintenance" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '03') class="on" aria-current="page" @endif>홈페이지 유지보수</a></li>
+								<li><a href="/service/ecommerce-website-development" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '04') class="on" aria-current="page" @endif>온라인 쇼핑몰 제작</a></li>
+								<li><a href="/service/integrated-si-system-development" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '05') class="on" aria-current="page" @endif>통합 SI 시스템 개발</a></li>
+								<li><a href="/service/mobile-app-development" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '06') class="on" aria-current="page" @endif>앱 개발</a></li>
+								<li><a href="/service/ai-solution" @if(($gNum ?? '') == '01' && ($sNum ?? '') == '07') class="on" aria-current="page" @endif>맞춤형 AI 솔루션</a></li>
+							</ul>
+						</li>
+						<li class="menu {{ ($gNum ?? '') == '02' ? 'on' : '' }}">
+							<a href="/industries/enterprise" id="main-menu-02"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '02' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '03' ? 'aria-current="page"' : '' }} class="pc_vw">INDUSTRY</a>
+							<button type="button" class="mo_vw">INDUSTRY</button>
+							<ul class="snb" aria-labelledby="main-menu-02">
+								<li><a href="/industries/enterprise" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '01') class="on" aria-current="page" @endif>중견/대기업</a></li>
+								<li><a href="/industries/academic-association" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '02') class="on" aria-current="page" @endif>학회/협회</a></li>
+								<li><a href="/industries/government" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '03') class="on" aria-current="page" @endif>공공기관</a></li>
+								<li><a href="/industries/hospital-medical-website-development" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '04') class="on" aria-current="page" @endif>병원/의료</a></li>
+								<li><a href="/industries/university-research-lab-website" @if(($gNum ?? '') == '02' && ($sNum ?? '') == '05') class="on" aria-current="page" @endif>대학·연구실</a></li>
+							</ul>
+						</li>
+						<li class="menu {{ ($gNum ?? '') == '03' ? 'on' : '' }}">
+							<a href="/portfolio/" id="main-menu-03"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '03' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '03' ? 'aria-current="page"' : '' }} class="pc_vw">PORTFOLIO</a>
+							<button type="button" class="mo_vw">PORTFOLIO</button>
+							<ul class="snb" aria-labelledby="main-menu-03">
+								<li><a href="/portfolio/" @if(($gNum ?? '') == '03' && !request('category')) class="on" aria-current="page" @endif>전체</a></li>
+								<li><a href="/portfolio?category=중견%2F대기업" @if(request('category') == '중견/대기업') class="on" aria-current="page" @endif>중견/대기업</a></li>
+								<li><a href="/portfolio?category=학회%2F협회" @if(request('category') == '학회/협회') class="on" aria-current="page" @endif>학회/협회</a></li>
+								<li><a href="/portfolio?category=공공기관" @if(request('category') == '공공기관') class="on" aria-current="page" @endif>공공기관</a></li>
+								<li><a href="/portfolio?category=병원%2F의료" @if(request('category') == '병원/의료') class="on" aria-current="page" @endif>병원/의료</a></li>
+								<li><a href="/portfolio?category=대학%2F학원" @if(request('category') == '대학/학원') class="on" aria-current="page" @endif>대학/학원/연구실</a></li>
+								<li><a href="/portfolio?category=일반" @if(request('category') == '일반') class="on" aria-current="page" @endif>일반</a></li>
+							</ul>
+						</li>
+						<li class="menu {{ ($gNum ?? '') == '04' ? 'on' : '' }}">
+							<a href="/blog/" id="main-menu-04"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '04' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '04' ? 'aria-current="page"' : '' }} class="pc_vw">BLOG</a>
+							<button type="button" class="mo_vw">BLOG</button>
+							<ul class="snb" aria-labelledby="main-menu-04">
+								<li><a href="/blog/" @if(($gNum ?? '') == '04' && !request('category')) class="on" aria-current="page" @endif>전체</a></li>
+								<li><a href="/blog?category=team_story" @if(request('category') == 'team_story') class="on" aria-current="page" @endif>팀스토리</a></li>
+								<li><a href="/blog?category=web_insight" @if(request('category') == 'web_insight') class="on" aria-current="page" @endif>웹 개발 인사이트</a></li>
+								<li><a href="/blog?category=homepage_trend" @if(request('category') == 'homepage_trend') class="on" aria-current="page" @endif>홈페이지 트렌드</a></li>
+								<li><a href="/blog?category=success_case" @if(request('category') == 'success_case') class="on" aria-current="page" @endif>성공사례</a></li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+				<a href="/contact/" class="btn_contactus"><span>CONTACT US</span></a>
+			</div>
 			<button type="button" class="btn_menu" aria-label="전체 메뉴 열기" aria-controls="sitemap-menu" aria-expanded="false">
 				<span class="line t" aria-hidden="true"></span>
 				<span class="line m" aria-hidden="true"></span>
@@ -131,6 +157,7 @@
 			</filter>
 		</svg>
 	</header>
+	<div class="head_snb_bg" aria-hidden="true"></div>
 	@endif
     
 	<div class="container_wrap {{ (isset($gNum) && $gNum !== 'main') ? 'sub_wrap' : '' }} {{ (isset($gNum) && $gNum !== 'main') ? 'g'.$gNum : '' }} {{ (isset($gNum) && $gNum == '03' && ($page ?? '') == 'view') ? 'portfolio_view_wrap' : '' }}" id="mainContent">
@@ -144,7 +171,7 @@
 	
 	<footer class="footer">
 		<div class="point" aria-hidden="true"></div>
-		<button type="button" class="gotop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="페이지 맨 위로 이동" aria-hidden="true">TOP</button>
+		<button type="button" class="gotop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="페이지 맨 위로 이동">TOP</button>
 		<section class="info" aria-label="협회 및 사무국 연락처 정보">
 			<div class="inbox">
 				<div class="address_area">
@@ -165,13 +192,14 @@
 							<li class="w100p"><strong>유지보수 문의</strong> <a href="mailto:superweb@homepagerkorea.com ">superweb@homepagerkorea.com</a></li>
 						</ul>
 					</address>
-					<p class="copy"><span class="sound_only">Copyright</span> © 2025 homepagekrea All Rights Reserved.</p>
+					<a href="/terms/privacy_policy" class="btn_privacy_policy">개인정보처리방침</a>
+					<p class="copy"><span class="sound_only">Copyright</span> © 2026 HOMEPAGEKREA ALL RIGHTS RESERVED.</p>
 				</div>
 				<nav class="footer_menus" aria-label="푸터 메뉴">
 					<ul class="flex">
 						<li class="menu {{ ($gNum ?? '') == '01' ? 'on' : '' }}">
-							<a href="/service/homepage-seo-geo" id="main-menu-01"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '01' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '01' ? 'aria-current="page"' : '' }}>SERVICE</a>
-							<ul class="snb" aria-labelledby="main-menu-01">
+							<a href="/service/homepage-seo-geo" id="booter-menu-01"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '01' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '01' ? 'aria-current="page"' : '' }}>SERVICE</a>
+							<ul class="snb" aria-labelledby="booter-menu-01">
 								<li>
 									<a href="/service/homepage-seo-geo" {{ (($gNum ?? '') == '01' && ($sNum ?? '') == '01') ? 'class="on" aria-current="page"' : '' }}>SEO·GEO 최적화</a>
 									<a href="/service/homepage-development" {{ (($gNum ?? '') == '01' && ($sNum ?? '') == '02') ? 'class="on" aria-current="page"' : '' }}>홈페이지 제작</a>
@@ -184,8 +212,8 @@
 							</ul>
 						</li>
 						<li class="menu {{ ($gNum ?? '') == '02' ? 'on' : '' }}">
-							<a href="/industries/about" id="main-menu-02"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '02' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '03' ? 'aria-current="page"' : '' }}>INDUSTRY</a>
-							<ul class="snb" aria-labelledby="main-menu-02">
+							<a href="/industries/about" id="booter-menu-02"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '02' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '03' ? 'aria-current="page"' : '' }}>INDUSTRY</a>
+							<ul class="snb" aria-labelledby="booter-menu-02">
 								<li>
 									<a href="/industries/enterprise" {{ (($gNum ?? '') == '02' && ($sNum ?? '') == '01') ? 'class="on" aria-current="page"' : '' }}>중견/대기업</a>
 									<a href="/industries/academic-association" {{ (($gNum ?? '') == '02' && ($sNum ?? '') == '02') ? 'class="on" aria-current="page"' : '' }}>학회/협회</a>
@@ -195,8 +223,28 @@
 								</li>	
 							</ul>
 						</li>
-						<li class="menu {{ ($gNum ?? '') == '03' ? 'on' : '' }}"><a href="/portfolio/" id="main-menu-03"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '03' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '03' ? 'aria-current="page"' : '' }}>PORTFOLIO</a></li>
-						<li class="menu {{ ($gNum ?? '') == '04' ? 'on' : '' }}"><a href="/blog/" id="main-menu-04"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '04' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '04' ? 'aria-current="page"' : '' }}>BLOG</a></li>
+						<li class="menu {{ ($gNum ?? '') == '03' ? 'on' : '' }}">
+							<a href="/portfolio/" id="booter-menu-03"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '03' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '03' ? 'aria-current="page"' : '' }}>PORTFOLIO</a>
+							<ul class="snb" aria-labelledby="booter-menu-03">
+								<li><a href="/portfolio/" @if(($gNum ?? '') == '03' && !request('category')) class="on" aria-current="page" @endif>전체</a></li>
+								<li><a href="/portfolio?category=중견%2F대기업" @if(request('category') == '중견/대기업') class="on" aria-current="page" @endif>중견/대기업</a></li>
+								<li><a href="/portfolio?category=학회%2F협회" @if(request('category') == '학회/협회') class="on" aria-current="page" @endif>학회/협회</a></li>
+								<li><a href="/portfolio?category=공공기관" @if(request('category') == '공공기관') class="on" aria-current="page" @endif>공공기관</a></li>
+								<li><a href="/portfolio?category=병원%2F의료" @if(request('category') == '병원/의료') class="on" aria-current="page" @endif>병원/의료</a></li>
+								<li><a href="/portfolio?category=대학%2F학원" @if(request('category') == '대학/학원') class="on" aria-current="page" @endif>대학/학원/연구실</a></li>
+								<li><a href="/portfolio?category=일반" @if(request('category') == '일반') class="on" aria-current="page" @endif>일반</a></li>
+							</ul>
+						</li>
+						<li class="menu {{ ($gNum ?? '') == '04' ? 'on' : '' }}">
+							<a href="/blog/" id="booter-menu-04"aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '04' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '04' ? 'aria-current="page"' : '' }}>BLOG</a>
+							<ul class="snb" aria-labelledby="booter-menu-04">
+								<li><a href="/blog/" @if(($gNum ?? '') == '04' && !request('category')) class="on" aria-current="page" @endif>전체</a></li>
+								<li><a href="/blog?category=team_story" @if(request('category') == 'team_story') class="on" aria-current="page" @endif>팀스토리</a></li>
+								<li><a href="/blog?category=web_insight" @if(request('category') == 'web_insight') class="on" aria-current="page" @endif>웹 개발 인사이트</a></li>
+								<li><a href="/blog?category=homepage_trend" @if(request('category') == 'homepage_trend') class="on" aria-current="page" @endif>홈페이지 트렌드</a></li>
+								<li><a href="/blog?category=success_case" @if(request('category') == 'success_case') class="on" aria-current="page" @endif>성공사례</a></li>
+							</ul>
+						</li>
 					</ul>
 				</nav>
 				<div class="btm_space" aria-hidden="true"><img src="/images/txt_btm_space.svg" alt="HOMEPAGEKOREA"></div>
@@ -204,5 +252,20 @@
 		</section>
 	</footer>
 	@endif
+	
+	<script type="text/javascript" src="//wcs.naver.net/wcslog.js"> </script> 
+	<script type="text/javascript"> 
+	if (!wcs_add) var wcs_add={};
+	wcs_add["wa"] = "s_379aa81fac95";
+	if (!_nasa) var _nasa={};
+	if(window.wcs){
+	wcs.inflow();
+	wcs_do();
+	}
+	</script>
+	<!-- MR Script Ver 2.0 -->
+	<script async="true" src="//log1.toup.net/mirae_log_chat_common.js?adkey=nqscn" charset="UTF-8"></script>
+	<!-- MR Script END Ver 2.0 -->
+
 </body>
 </html>

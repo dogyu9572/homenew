@@ -130,12 +130,19 @@
                 // 쿠키 설정 (자정까지)
                 const expires = new Date();
                 expires.setHours(23, 59, 59, 999);
-                document.cookie = 'popup_hide_{{ $popup->id }}=true; expires=' + expires.toUTCString() + '; path=/';
+                document.cookie = 'popup_hide_{{ $popup->id }}=1; expires=' + expires.toUTCString() + '; path=/';
             }
             
             // 팝업 창 닫기
             window.close();
         }
+
+        // 체크박스 클릭 즉시 저장 후 닫기
+        document.getElementById('todayClose').addEventListener('change', function () {
+            if (this.checked) {
+                closePopup();
+            }
+        });
         
         // ESC 키로 팝업 닫기
         document.addEventListener('keydown', function(e) {

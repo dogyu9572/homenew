@@ -22,11 +22,16 @@ class ContactService
             $contact = Contact::create([
                 'company' => $attributes['company'],
                 'contact_person' => $attributes['contact_person'],
+                'phone' => $attributes['phone'],
                 'email' => $attributes['email'],
                 'services' => $attributes['services'],
                 'current_site' => $attributes['current_site'] ?? null,
                 'message' => $attributes['message'] ?? null,
                 'budget' => $attributes['budget'] ?? null,
+                'source_type' => $attributes['source_type'] ?? null,
+                'source_id' => $attributes['source_id'] ?? null,
+                'source_url' => $attributes['source_url'] ?? null,
+                'source_title' => $attributes['source_title'] ?? null,
                 'status' => Contact::STATUS_RECEIVED,
             ]);
 

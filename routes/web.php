@@ -59,6 +59,10 @@ Route::prefix('contact')->name('contact.')->group(function () {
         ->name('store');
 });
 
+Route::prefix('terms')->name('terms.')->group(function () {
+    Route::get('/privacy_policy', [SubController::class, 'privacy_policy'])->name('privacy_policy');
+});
+
 // 팝업 표시 (일반 팝업용)
 Route::get('/popup/{popup}', [PopupController::class, 'showPopup'])->name('popup.show');
 

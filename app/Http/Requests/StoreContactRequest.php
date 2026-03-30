@@ -18,12 +18,17 @@ class StoreContactRequest extends FormRequest
         return [
             'company' => ['required', 'string', 'max:255'],
             'contact_person' => ['required', 'string', 'max:100'],
+            'phone' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'service' => ['required', 'array', 'min:1'],
             'service.*' => ['string', Rule::in(Contact::SERVICE_OPTIONS)],
             'current_site' => ['nullable', 'string', 'max:2048'],
             'message' => ['nullable', 'string', 'max:10000'],
             'budget' => ['nullable', 'string', 'max:500'],
+            'source_type' => ['nullable', 'string', 'max:50'],
+            'source_id' => ['nullable', 'integer', 'min:1'],
+            'source_url' => ['nullable', 'string', 'max:2048'],
+            'source_title' => ['nullable', 'string', 'max:500'],
             'attachments' => ['nullable', 'array', 'max:3'],
             'attachments.*' => ['file', 'max:10240', 'mimes:pdf,jpg,jpeg,png,gif,webp,doc,docx,xls,xlsx,ppt,pptx,zip'],
         ];
@@ -32,13 +37,18 @@ class StoreContactRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'company' => '소속',
-            'contact_person' => '담당자 성함',
+            'company' => '회사명',
+            'contact_person' => '담당자성함/직책',
+            'phone' => '연락처',
             'email' => '이메일',
             'service' => '관심 서비스',
             'current_site' => '현재 사이트',
             'message' => '문의 내용',
             'budget' => '프로젝트 예산',
+            'source_type' => '유입 유형',
+            'source_id' => '유입 식별자',
+            'source_url' => '유입 URL',
+            'source_title' => '유입 화면 제목',
             'attachments' => '첨부파일',
         ];
     }
@@ -46,10 +56,12 @@ class StoreContactRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'company.required' => '소속을 입력해 주세요.',
-            'company.max' => '소속은 255자 이내로 입력해 주세요.',
-            'contact_person.required' => '담당자 성함을 입력해 주세요.',
-            'contact_person.max' => '담당자 성함은 100자 이내로 입력해 주세요.',
+            'company.required' => '회사명을 입력해 주세요.',
+            'company.max' => '회사명은 255자 이내로 입력해 주세요.',
+            'contact_person.required' => '담당자성함/직책을 입력해 주세요.',
+            'contact_person.max' => '담당자성함/직책은 100자 이내로 입력해 주세요.',
+            'phone.required' => '연락처를 입력해 주세요.',
+            'phone.max' => '연락처는 50자 이내로 입력해 주세요.',
             'email.required' => '이메일을 입력해 주세요.',
             'email.email' => '올바른 이메일 형식을 입력해 주세요.',
             'email.max' => '이메일은 255자 이내로 입력해 주세요.',

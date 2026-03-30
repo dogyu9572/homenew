@@ -39,35 +39,35 @@
 				<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
 			</ul>
 		</div>
-		<div class="inner bg_round_start" data-aos="fade-up">
+		<div class="inner bg_round_start" data-aos="fade-up" data-aos-offset="200">
 			<div class="bg_round"><div class="in_gradient"></div></div>
 			<div class="problem service">
-				<p class="tit_label" data-aos="zoom-out-up">PROBLEM</p>
-				<h2 id="industry-problem-title" data-aos="zoom-out-up">대학 운영, 논문 연구에 집중해야 할 시간, <br class="pc_vw"><strong>행정 업무에 뺏기고 있지는 않나요?</strong></h2>
+				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
+				<h2 id="industry-problem-title" data-aos="fade-up">대학 운영, 논문 연구에 집중해야 할 시간, <br class="pc_vw"><strong>행정 업무에 뺏기고 있지는 않나요?</strong></h2>
 				<ul class="problem_list">
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>수기 예약과 장비 관리로 행정 누수가 발생합니다. <img src="/images/emoji_whirl.png" alt="" aria-hidden="true"></h3>
 						<p>전화와 이메일로 예약 문의가 쏟아지는데 일일이 수기로 처리하다 보니 업무가 너무 비효율적이에요. 청구서도 직접 작성하다 보면 실수도 생기고요.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>정부 시스템(ZEUS)과 교내 데이터가 따로 돕니다. <img src="/images/emoji_worry.png" alt="" aria-hidden="true"></h3>
 						<p>정부 장비 관리 시스템과 교내 데이터가 연동이 안 되어서 같은 항목을 계속 반복해서 입력해야 하는데 너무 불편해요.</p>
 					</li>
-					<li data-aos="zoom-out-up">
+					<li data-aos="fade-up">
 						<h3>연구 성과와 논문 데이터가 파편화되어 있습니다. <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>교수진의 소중한 연구 성과와 논문 자료가 체계적으로 관리되지 않아 자산화되지 못하고 있습니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="zoom-out-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">SOLUTION</p>
-			<h2 id="industry-solution-title" data-aos="zoom-out-up">홈페이지코리아는 <br class="pc_vw"><strong>대학·연구실 홈페이지를 체계적으로 구현합니다.</strong></h2>
-			<ul class="solution_list" data-aos="zoom-out-up">
+			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
+			<h2 id="industry-solution-title" data-aos="fade-up">홈페이지코리아는 <br class="pc_vw"><strong>대학·연구실 홈페이지를 체계적으로 구현합니다.</strong></h2>
+			<ul class="solution_list" data-aos="fade-up">
 				<li class="i_e1">
 					<h3>교내 장비 <br class="pc_vw">예약·결제 자동화 시스템</h3>
 					<p>실시간 장비 예약, 자동 결제, 청구서 발행까지 한 번에 처리됩니다. <br class="pc_vw">수기 업무를 없애고 관리자의 행정 부담을 대폭 줄입니다.</p>
@@ -166,17 +166,17 @@
 			</ul>
 		</div>
 		
-		<div class="flex_center" data-aos="zoom-out-up">
+		<div class="flex_center" data-aos="fade-up">
 			<a href="/portfolio/" class="btn_link slim hover_black">연구실 개발 사례 더보기</a>
 		</div>
 	</section>
 	
 	<section class="infopage_expertise industry_expertise" aria-labelledby="industry-how-title" data-header="dark">
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">HOW</p>
+			<p class="tit_label">HOW</p>
 			<h2 id="industry-how-title" aria-hidden="true"><strong>대학·연구실 홈페이지 제작,</strong> <br class="pc_vw">이렇게 진행됩니다.</h2>
 			<ul class="expertise_list step_list">
-				<li class="i_b1" data-aos="zoom-out-up">
+				<li class="i_b1">
 					<span>STEP 01</span>
 					<h3>요구사항 분석</h3>
 					<ul>
@@ -184,7 +184,7 @@
 						<li>요구사항 정리</li>
 					</ul>
 				</li>
-				<li class="i_b2" data-aos="zoom-out-up">
+				<li class="i_b2">
 					<span>STEP 02</span>
 					<h3>맞춤 제안서 및 견적 제공</h3>
 					<ul>
@@ -192,7 +192,7 @@
 						<li>견적서 제공</li>
 					</ul>
 				</li>
-				<li class="i_b3" data-aos="zoom-out-up">
+				<li class="i_b3">
 					<span>STEP 03</span>
 					<h3>기획 및 디자인</h3>
 					<ul>
@@ -200,7 +200,7 @@
 						<li>확정 후 디자인 진행</li>
 					</ul> 
 				</li>
-				<li class="i_b4" data-aos="zoom-out-up">
+				<li class="i_b4">
 					<span>STEP 04</span>
 					<h3>개발 및 배포</h3>
 					<ul>
@@ -218,9 +218,9 @@
 			<svg class="line_svg" aria-hidden="true"></svg>
 		</div>
 		<div class="inner">
-			<p class="tit_label" data-aos="zoom-out-up">REVIEW</p>
-			<h2 id="industry-review-title" data-aos="zoom-out-up">미 많은 대학·연구실이 <br class="pc_vw"><strong>홈페이지코리아를 선택했습니다.</strong></h2>
-			<ul class="review_list" data-aos="zoom-out-up">
+			<p class="tit_label">REVIEW</p>
+			<h2 id="industry-review-title">미 많은 대학·연구실이 <br class="pc_vw"><strong>홈페이지코리아를 선택했습니다.</strong></h2>
+			<ul class="review_list">
 				<li>
 					<h3 class="sound_only">공공기관</h3>
 					<div class="flex_tit">
@@ -247,12 +247,12 @@
 	</section>
 	
 	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
-		<div class="inner">
+		<div class="inner" data-aos="fade-up">
 			<p class="tit_label sound_only">CTA</p>
-			<h2 id="industry-contact-title" class="port_tit" data-aos="zoom-out-up"><strong>지식의 가치를 높이는 웹사이트,</strong> <br class="pc_vw">홈페이지코리아와 상담하세요.</h2>
+			<h2 id="industry-contact-title" class="port_tit"><strong>지식의 가치를 높이는 웹사이트,</strong> <br class="pc_vw">홈페이지코리아와 상담하세요.</h2>
 			<div class="btns flex_center">
-				<a href="/portfolio/" class="btn_link" data-aos="zoom-out-up">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link" data-aos="zoom-out-up">프로젝트 문의하기</a>
+				<a href="/portfolio/" class="btn_link">포트폴리오 보러가기</a>
+				<a href="/contact/" class="btn_link">프로젝트 문의하기</a>
 			</div>
 		</div>
 	</section>
@@ -282,58 +282,6 @@ $(document).ready(function(){
         /*$banner.on("mouseenter", function () { isPaused = true; })
                .on("mouseleave", function () { isPaused = false; });*/
     })();
-// bg_round
-    function bgRoundScroll() {
-		const $startTrigger = $(".bg_round_start");
-		if (!$startTrigger.length) return;
-
-		const $mainService  = $(".infopage_head");
-		const $bgRound      = $(".bg_round");
-		const $marquee      = $(".infopage_head .marquee_banner");
-		
-		const scrollTop     = $(window).scrollTop();
-		const windowHeight  = $(window).height();
-		const triggerTop    = $startTrigger.offset().top;
-		
-		const paddingTop    = parseInt($mainService.css("padding-top"));
-		const marqueeHeight = $marquee.outerHeight();
-		const marqueeMargin = parseInt($marquee.css("margin-bottom"));
-		const initY         = -(paddingTop + marqueeHeight + marqueeMargin);
-
-		const offset        = -100; 
-		const scrollStart   = triggerTop - windowHeight + offset;
-		const scrollEnd     = triggerTop - 400; 
-
-		if (scrollTop >= scrollStart) {
-			$mainService.addClass("start");
-		} else {
-			$mainService.removeClass("start");
-		}
-
-		const progress      = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-		const translateY    = initY + (-initY * progress);
-		const scale         = 1 + 3 * progress;
-		const brBottom      = 50 * (1 - progress);
-		const aspectW       = 1 + 1 * progress; 
-		const borderRadius  = `50% 50% ${brBottom}% ${brBottom}%`;
-
-		if (scrollTop >= scrollStart) {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${translateY}px) scale(${scale})`,
-				"border-radius": borderRadius,
-				"aspect-ratio" : `${aspectW} / 1`
-			});
-		} else {
-			$bgRound.css({
-				"transform"    : `translate(-50%, ${initY}px) scale(1)`,
-				"border-radius": "50%",
-				"aspect-ratio" : "1 / 1"
-			});
-		}
-	}
-
-	$(window).on("scroll", bgRoundScroll);
-	bgRoundScroll();
 // Portfolio marquee
     (function () {
         const $banner    = $(".portfolio_marquee");
@@ -357,7 +305,7 @@ $(document).ready(function(){
     })();
 // step_list
     const $items   = $(".expertise_list.step_list > li");
-    const interval = 3000;
+    const interval = 2000;
     let current    = 0;
     let timer      = null;
     let started    = false;

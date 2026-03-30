@@ -32,7 +32,7 @@
                         </div>
                         <div class="filter-group">
                             <label for="keyword" class="filter-label">검색어</label>
-                            <input id="keyword" type="text" name="keyword" value="{{ request('keyword') }}" class="filter-input" placeholder="소속, 담당자, 이메일, 문의내용">
+                            <input id="keyword" type="text" name="keyword" value="{{ request('keyword') }}" class="filter-input" placeholder="회사명, 담당자, 연락처, 이메일, 문의내용">
                         </div>
                         <div class="filter-group">
                             <div class="filter-buttons">
@@ -74,8 +74,10 @@
                         <tr>
                             <th>No</th>
                             <th>접수일시</th>
-                            <th>소속</th>
-                            <th>담당자</th>
+                            <th>유입 경로</th>
+                            <th>회사명</th>
+                            <th>담당자성함/직책</th>
+                            <th>연락처</th>
                             <th>이메일</th>
                             <th>관심 서비스</th>
                             <th>상태</th>
@@ -87,8 +89,18 @@
                         <tr>
                             <td>{{ $contacts->total() - ($contacts->currentPage() - 1) * $contacts->perPage() - $index }}</td>
                             <td>{{ $row->created_at->format('Y-m-d H:i') }}</td>
+                            <td>
+                                @if(!empty($row->source_type) && filled($row->resolved_source_title))
+                                    {{ $row->resolved_source_title }}
+                                @elseif(!empty($row->source_type))
+                                    -
+                                @else
+                                    -
+                                @endif
+                            </td>
                             <td>{{ $row->company }}</td>
                             <td>{{ $row->contact_person }}</td>
+                            <td>{{ $row->phone }}</td>
                             <td>{{ $row->email }}</td>
                             <td>{{ is_array($row->services) ? implode(', ', $row->services) : '' }}</td>
                             <td>{{ $row->status }}</td>
@@ -101,7 +113,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="8" class="text-center">데이터가 없습니다.</td></tr>
+                        <tr><td colspan="10" class="text-center">데이터가 없습니다.</td></tr>
                     @endforelse
                     </tbody>
                 </table>

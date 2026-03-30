@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const uploadConfigs = [
     { inputId: 'thumbnail_image', previewId: 'thumbnailPreview', maxFiles: 1 },
+    { inputId: 'top_image', previewId: 'topImagePreview', maxFiles: 1 },
     { inputId: 'solution_before_image', previewId: 'beforeImagePreview', maxFiles: 1 },
     { inputId: 'solution_after_image', previewId: 'afterImagePreview', maxFiles: 1 }
   ];

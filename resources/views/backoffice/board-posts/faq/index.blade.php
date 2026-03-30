@@ -33,6 +33,24 @@
                 <div class="board-filter">
                     <form method="GET" action="{{ route('backoffice.board-posts.index', $board->slug ?? 'notice') }}" class="filter-form">
                         <div class="filter-row">
+                            @php
+                                $faqCategoryFilterOptions = $board->isFieldEnabled('category')
+                                    ? $board->getCategoryOptions()
+                                    : collect();
+                            @endphp
+                            @if($faqCategoryFilterOptions->count() > 0)
+                            <div class="filter-group">
+                                <label for="filter_category" class="filter-label">구분</label>
+                                <select id="filter_category" name="category" class="filter-select">
+                                    <option value="">전체</option>
+                                    @foreach($faqCategoryFilterOptions as $categoryOption)
+                                        <option value="{{ $categoryOption->name }}" @selected(request('category') === $categoryOption->name)>
+                                            {{ $categoryOption->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
                             <div class="filter-group">
                                 <label for="start_date" class="filter-label">등록일 시작</label>
                                 <input type="date" id="start_date" name="start_date" class="filter-input"
@@ -82,6 +100,7 @@
                         <form method="GET" action="{{ route('backoffice.board-posts.index', $board->slug ?? 'notice') }}" class="per-page-form">
                             <input type="hidden" name="start_date" value="{{ request('start_date') }}">
                             <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                            <input type="hidden" name="category" value="{{ request('category') }}">
                             <input type="hidden" name="keyword" value="{{ request('keyword') }}">
                             <input type="hidden" name="search_type" value="{{ request('search_type') }}">
                             <label for="per_page" class="per-page-label">표시 개수:</label>
@@ -135,7 +154,10 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <span class="status-badge status-general">일반</span>
+                                        @php
+                                            $categoryLabel = trim((string) ($post->category ?? ''));
+                                        @endphp
+                                        <span class="status-badge status-general">{{ $categoryLabel !== '' ? $categoryLabel : '-' }}</span>
                                     </td>
                                     <td>
                                         {{ $post->title }}

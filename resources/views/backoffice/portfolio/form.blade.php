@@ -5,6 +5,7 @@
     $method = $isEdit ? 'PUT' : 'POST';
     $keywords = old('keywords_input', $isEdit ? implode(' ', $portfolio->keywords ?? []) : '');
     $selectedCategories = old('categories', $isEdit ? ($portfolio->categories ?? array_filter([$portfolio->category])) : []);
+    $selectedServiceSubcategories = old('service_subcategories', $isEdit ? ($portfolio->service_subcategories ?? []) : []);
     $featureDevelopments = old(
         'feature_developments',
         $isEdit
@@ -53,6 +54,23 @@
                             <label class="checkbox-label">
                                 <input type="checkbox" name="categories[]" value="{{ $category }}" @checked(in_array($category, $selectedCategories, true))>
                                 <span>{{ $category }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                    @if($errors->has('categories') || $errors->has('categories.*'))
+                        <p class="text-danger" style="margin-top:6px;">{{ $errors->first('categories') ?: $errors->first('categories.*') }}</p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="member-form-row">
+                <label class="member-form-label">서브카테고리</label>
+                <div class="member-form-field">
+                    <div class="board-checkbox-group">
+                        @foreach(\App\Models\Portfolio::SERVICE_SUBCATEGORIES as $subCategory)
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service_subcategories[]" value="{{ $subCategory }}" @checked(in_array($subCategory, $selectedServiceSubcategories, true))>
+                                <span>{{ $subCategory }}</span>
                             </label>
                         @endforeach
                     </div>
@@ -112,6 +130,37 @@
             </div>
 
             <div class="member-form-row">
+                <label class="member-form-label">상단 이미지</label>
+                <div class="member-form-field">
+                    <div class="board-file-upload">
+                        <div class="board-file-input-wrapper">
+                            <input type="file" class="board-file-input" id="top_image" name="top_image" accept="image/*">
+                            <div class="board-file-input-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span class="board-file-input-text">상단 이미지 파일을 선택하거나 드래그하세요</span>
+                                <span class="board-file-input-subtext">이미지 파일 1개</span>
+                            </div>
+                        </div>
+                        <div class="board-file-preview" id="topImagePreview"></div>
+                        @if($isEdit && !empty($portfolio->top_image))
+                            <div class="board-existing-files">
+                                <div class="board-attachment-list">
+                                    <div class="board-attachment-item existing-file" data-existing-file="top">
+                                        <i class="fas fa-file-image"></i>
+                                        <span class="board-attachment-name">{{ basename($portfolio->top_image) }}</span>
+                                        <button type="button" class="board-attachment-remove remove-existing-file" data-target="top">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="remove_top_image" id="remove_top_image" value="0">
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-form-row">
                 <label class="member-form-label">메인 노출 여부</label>
                 <div class="member-form-field">
                     <div class="board-checkbox-group">
@@ -149,7 +198,7 @@
             <div class="member-form-row">
                 <label class="member-form-label">상세 설명</label>
                 <div class="member-form-field">
-                    <textarea class="board-form-control board-textarea" id="detail_editor" name="detail_editor" rows="8" data-backoffice-ckeditor>{{ old('detail_editor', $portfolio->detail_editor ?? '') }}</textarea>
+                    <textarea class="board-form-control board-textarea" id="detail_editor" name="detail_editor" rows="8" data-backoffice-ckeditor data-source-editing="true">{{ old('detail_editor', $portfolio->detail_editor ?? '') }}</textarea>
                 </div>
             </div>
             <div class="member-form-row">

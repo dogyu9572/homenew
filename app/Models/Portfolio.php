@@ -27,6 +27,10 @@ class Portfolio extends Model
         '통합SI시스템 개발(LMS)',
         '서비스-앱',
         '서비스-AI',
+        'Industry-학회',
+        'Industry-공공기관',
+        'Industry-병원/의료',
+        'Industry-대학·연구실',
     ];
 
     protected $fillable = [

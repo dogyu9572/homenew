@@ -2,6 +2,12 @@
 
 <div class="board-pagination">
     <nav aria-label="페이지 네비게이션">
+        @php
+            $lastPage = $paginator->lastPage();
+            $currentPage = $paginator->currentPage();
+            $prevTenPage = max(1, $currentPage - 10);
+            $nextTenPage = min($lastPage, $currentPage + 10);
+        @endphp
         <ul class="pagination">
             {{-- 첫 페이지로 이동 --}}
             @if ($paginator->onFirstPage())
@@ -19,7 +25,7 @@
             @endif
 
             {{-- 이전 페이지 링크 --}}
-            @if ($paginator->onFirstPage())
+            @if ($currentPage <= 10)
                 <li class="page-item disabled">
                     <span class="page-link">
                         <i class="fas fa-chevron-left"></i>
@@ -27,14 +33,16 @@
                 </li>
             @else
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" title="이전 페이지">
+                    <a class="page-link" href="{{ $paginator->url($prevTenPage) }}" rel="prev" title="이전 10페이지">
                         <i class="fas fa-chevron-left"></i>
                     </a>
                 </li>
             @endif
 
             {{-- 페이지 번호들 --}}
-            @foreach ($paginator->getUrlRange(1, $paginator->lastPage()) as $page => $url)
+            @php $endPage = min($lastPage, 10); @endphp
+
+            @foreach ($paginator->getUrlRange(1, $endPage) as $page => $url)
                 @if ($page == $paginator->currentPage())
                     <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
                 @else
@@ -43,9 +51,9 @@
             @endforeach
 
             {{-- 다음 페이지 링크 --}}
-            @if ($paginator->hasMorePages())
+            @if ($currentPage + 10 <= $lastPage)
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" title="다음 페이지">
+                    <a class="page-link" href="{{ $paginator->url($nextTenPage) }}" rel="next" title="다음 10페이지">
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </li>

@@ -23,12 +23,23 @@ class SubController extends Controller
     ];
 
     private const APP_SUBCATEGORY = '서비스-앱';
+
     private const AI_SUBCATEGORY = '서비스-AI';
 
     public function __construct(
         private FaqPublicService $faqPublicService
     ) {}
 
+    public function about()
+    {
+        $gNum = '00';
+        $sNum = '01';
+        $gName = 'About';
+        $sName = '회사소개';
+        $gSlug = 'about';
+        return view('about.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+    }
+	
     public function homepage_seo_geo()
     {
         $gNum = '01';
@@ -143,6 +154,31 @@ class SubController extends Controller
             ->get(['id', 'title', 'category', 'categories', 'development_summary', 'detail_summary', 'thumbnail_image']);
     }
 
+    /**
+     * Industry 메뉴 라벨($sName) → 포트폴리오 service_subcategories 값
+     * (Portfolio::SERVICE_SUBCATEGORIES·백오피스 체크박스 value와 동일: Industry- 접두 + 하이픈)
+     */
+    private function industryPortfolioServiceTag(string $sName): ?string
+    {
+        return match ($sName) {
+            '학회/협회' => 'Industry-학회',
+            '공공기관' => 'Industry-공공기관',
+            '병원/의료' => 'Industry-병원/의료',
+            '대학·연구실' => 'Industry-대학·연구실',
+            default => null,
+        };
+    }
+
+    private function getIndustryPortfolioItems(string $sName, int $limit = 6)
+    {
+        $tag = $this->industryPortfolioServiceTag($sName);
+        if ($tag === null) {
+            return collect();
+        }
+
+        return $this->getServicePortfolioItems($tag, $limit);
+    }
+
     public function enterprise()
     {
         $gNum = '02';
@@ -161,8 +197,9 @@ class SubController extends Controller
         $gName = 'Industry';
         $sName = '학회/협회';
         $gSlug = 'industries';
+        $industryPortfolioItems = $this->getIndustryPortfolioItems($sName, 6);
 
-        return view('industries.academic-association', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('industries.academic-association', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'industryPortfolioItems'));
     }
 
     public function government()
@@ -172,8 +209,9 @@ class SubController extends Controller
         $gName = 'Industry';
         $sName = '공공기관';
         $gSlug = 'industries';
+        $industryPortfolioItems = $this->getIndustryPortfolioItems($sName, 6);
 
-        return view('industries.government', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('industries.government', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'industryPortfolioItems'));
     }
 
     public function hospital_medical_website_development()
@@ -183,8 +221,9 @@ class SubController extends Controller
         $gName = 'Industry';
         $sName = '병원/의료';
         $gSlug = 'industries';
+        $industryPortfolioItems = $this->getIndustryPortfolioItems($sName, 6);
 
-        return view('industries.hospital-medical-website-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('industries.hospital-medical-website-development', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'industryPortfolioItems'));
     }
 
     public function university_research_lab_website()
@@ -194,8 +233,9 @@ class SubController extends Controller
         $gName = 'Industry';
         $sName = '대학·연구실';
         $gSlug = 'industries';
+        $industryPortfolioItems = $this->getIndustryPortfolioItems($sName, 6);
 
-        return view('industries.university-research-lab-website', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('industries.university-research-lab-website', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'industryPortfolioItems'));
     }
 
     public function portfolio_list(Request $request)
@@ -292,8 +332,13 @@ class SubController extends Controller
         }
         $featuredExcerpt = null;
         if ($featuredPost) {
-            $firstSection = $featuredPost->sections()->first();
-            $featuredExcerpt = Str::limit(strip_tags((string) ($firstSection->content ?? '')), 220);
+            $leadPlain = trim(strip_tags((string) ($featuredPost->lead_content ?? '')));
+            if ($leadPlain !== '') {
+                $featuredExcerpt = Str::limit($leadPlain, 220);
+            } else {
+                $firstSection = $featuredPost->sections()->first();
+                $featuredExcerpt = Str::limit(strip_tags((string) ($firstSection->content ?? '')), 220);
+            }
         }
 
         return view('blog.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'posts', 'featuredPost', 'category', 'keyword', 'listItems', 'featuredExcerpt'));
@@ -322,7 +367,8 @@ class SubController extends Controller
         $publishedIso = $post->published_at?->toAtomString() ?? '';
         $publishedDate = $post->published_at?->format('Y.m.d') ?? '';
         $canonicalUrl = strtok(url()->current(), '?');
-        $tocSections = $post->sections->filter(fn ($section) => !empty($section->subtitle))->values();
+        $tocSections = $post->sections->filter(fn ($section) => ! empty($section->subtitle))->values();
+        $blogFaqItems = $this->faqPublicService->forIdsOrdered($post->faq_board_post_ids);
 
         return view('blog.view', compact(
             'gNum',
@@ -338,7 +384,8 @@ class SubController extends Controller
             'publishedIso',
             'publishedDate',
             'canonicalUrl',
-            'tocSections'
+            'tocSections',
+            'blogFaqItems'
         ));
     }
 

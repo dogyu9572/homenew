@@ -73,4 +73,9 @@ class ContactService
             'admin_memo' => $data['admin_memo'] ?? null,
         ]);
     }
+
+    public function deleteMultiple(array $ids): int
+    {
+        return Contact::query()->whereIn('id', $ids)->delete();
+    }
 }

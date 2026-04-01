@@ -2,6 +2,50 @@
     margin-bottom: 12px;
 }
 
+.blog-faq-selected-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px;
+}
+
+.blog-faq-selected-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.blog-faq-selected-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+}
+
+.blog-faq-selected-actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 4px;
+}
+
+.blog-faq-add-row {
+    margin-bottom: 12px;
+}
+
+.blog-faq-add-select-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.blog-faq-add-btn-wrap {
+    align-self: flex-end;
+}
+
 .blog-existing-thumbnail {
     margin-top: 8px;
 }

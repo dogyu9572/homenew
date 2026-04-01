@@ -81,6 +81,8 @@
                             <option value="20" @selected((int) request('per_page') === 20)>20개</option>
                             <option value="50" @selected((int) request('per_page') === 50)>50개</option>
                             <option value="100" @selected((int) request('per_page') === 100)>100개</option>
+                            <option value="500" @selected((int) request('per_page') === 500)>500개</option>
+                            <option value="1000" @selected((int) request('per_page') === 1000)>1000개</option>
                         </select>
                     </form>
                 </div>

@@ -47,30 +47,16 @@
 		<!-- Service -->
 		<section class="main_service in_service" aria-labelledby="service-title" data-header="dark">
 			<div class="outbox">
-				<div class="marquee_banner" data-aos="zoom-out-up" data-aos-offset="200">
-					<ul class="slide" aria-label="주요 고객사 목록">
-						<li><img src="/images/main_service_a01.svg" alt="United Nations" title="United Nations"></li>
-						<li><img src="/images/main_service_a02.svg" alt="서울대학교 농생명과학공동기기원" title="서울대학교 농생명과학공동기기원"></li>
-						<li><img src="/images/main_service_a03.svg" alt="파크랜드" title="파크랜드"></li>
-						<li><img src="/images/main_service_a04.svg" alt="국립스포츠박물관" title="국립스포츠박물관"></li>
-						<li><img src="/images/main_service_a05.svg" alt="KB부동산신탁" title="KB부동산신탁"></li>
-						<li><img src="/images/main_service_a06.svg" alt="PARADISE CITY" title="PARADISE CITY"></li>
-						<li><img src="/images/main_service_a07.svg" alt="CJ Innovation" title="CJ Innovation"></li>
-						<li><img src="/images/main_service_a08.svg" alt="한양대학교" title="한양대학교"></li>
-						<li><img src="/images/main_service_a09.svg" alt="세종대학교" title="세종대학교"></li>
-						<li><img src="/images/main_service_b01.png" alt="KOREAN AIR" title="KOREAN AIR"></li>
-						<li><img src="/images/main_service_b02.png" alt="GS 글로벌" title="GS 글로벌"></li>
-						<li><img src="/images/main_service_b03.png" alt="GS 에너지" title="GS 에너지"></li>
-						<li><img src="/images/main_service_b04.svg" alt="GS 파워" title="GS 파워"></li>
-						<li><img src="/images/main_service_b05.svg" alt="OMRON" title="OMRON"></li>
-						<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
-					</ul>
+				<div class="marquee_banner_wrap">
+					<div class="marquee_inbox">
+						<div class="marquee_banner" id="marquee_banner_random" data-aos="zoom-out-up" data-aos-offset="200"></div>
+					</div>
 				</div>
 				<div class="inner" data-aos="fade-up">
 					<div class="bg_round"><div class="in_gradient"></div></div>
 					<div class="service">
 						<h2 id="service-title" class="main_title" data-aos="zoom-out-up" data-aos-offset="200"><span>HOMEPAGEKOREA</span><strong>SERVICE</strong></h2>
-						<p class="tb" data-aos="zoom-out-up">각 서비스는 고객의 비즈니스 목표에 맞춰 <strong>최적화된 솔루션</strong>을 제공하며, <br class="pc_vw"><strong>기획부터 디자인, 개발, 운영까지</strong> 전 과정을 지원합니다.</p>
+						<p class="tb" data-aos="zoom-out-up" data-aos-offset="200">각 서비스는 고객의 비즈니스 목표에 맞춰 <strong>최적화된 솔루션</strong>을 제공하며, <br class="pc_vw"><strong>기획부터 디자인, 개발, 운영까지</strong> 전 과정을 지원합니다.</p>
 						<ul class="list">
 							<li class="i1" data-aos="zoom-out-up" data-aos-offset="200"><a href="/service/homepage-development" aria-label="홈페이지 제작 서비스 바로가기"><h3>홈페이지 제작</h3><p aria-hidden="true">비즈니스를 성장시키는 <br class="pc_vw">홈페이지 제작</p></a></li>
 							<li class="i2" data-aos="zoom-out-up" data-aos-offset="200"><a href="/service/website-maintenance" aria-label="홈페이지 유지보수 서비스 바로가기"><h3>홈페이지 유지보수</h3><p aria-hidden="true">전문가가 직접 관리하는 <br class="pc_vw">홈페이지 유지보수</p></a></li>
@@ -170,6 +156,7 @@
 	<!-- 문의하기 -->
 	<section class="main_experience" aria-labelledby="experience-title" data-header="dark">
 		<video class="bg_video" autoplay muted loop playsinline aria-hidden="true">
+			<source src="/video/video_main_experience.mov" type="video/quicktime">
 			<source src="/video/video_main_experience.mp4" type="video/mp4">
 		</video>
 		<div class="inner">
@@ -226,48 +213,57 @@ $(document).ready(function () {
 	const $intro = $('.intro');
 	const $mainWrap = $('.main_wrap');
 	let introOpacityZero = false;
-
-	function lerp(w, x1, x2, y1, y2) {
-		if (w >= x1) return y1;
-		if (w <= x2) return y2;
-		return y1 + (y2 - y1) * ((w - x1) / (x2 - x1));
+	const SVG_W = 1920;
+	const SVG_H = 980;
+	const O_CX = (1282.09 + 1378.02) / 2;
+	const O_CY = (394 + 498.3) / 2;
+	function getRightShift(containerW, containerH) {
+		const isWidthBased = (containerW / SVG_W) > (containerH / SVG_H);
+		if (isWidthBased) {
+			return 3.0;
+		} else {
+			return 4.0;
+		}
+	}
+	function getOOrigin() {
+		const containerW = $svgScaled.outerWidth();
+		const containerH = $svgScaled.outerHeight();
+		const scale = Math.max(containerW / SVG_W, containerH / SVG_H);
+		const renderedW = SVG_W * scale;
+		const renderedH = SVG_H * scale;
+		const offsetX = (containerW - renderedW) / 2;
+		const offsetY = (containerH - renderedH) / 2;
+		const oX = O_CX * scale + offsetX;
+		const oY = O_CY * scale + offsetY;
+		const rightShift = getRightShift(containerW, containerH);
+		return {
+			x: (oX / containerW) * 100 + rightShift,
+			y: (oY / containerH) * 100
+		};
 	}
 
 	function introScroll() {
 		const scrollTop = Math.max($(window).scrollTop(), 0); 
 		const windowWidth = $(window).width(); 
 		const introHeight = $intro.outerHeight();
-		const startFade = introHeight * 0.4;
-		const endFade = introHeight * 0.8;
-		const hidePoint = introHeight * 1.0;
 		const scaleProgress = Math.min(scrollTop / introHeight, 1);
 		const scale = 1 + scaleProgress * 40; 
 
-		let originX, originY;
-		if (windowWidth > 1440) {
-			originX = 75; originY = 45;
-		} else if (windowWidth > 1024) {
-			originX = lerp(windowWidth, 1440, 1024, 75, 85);
-			originY = 45;
-		} else if (windowWidth > 767) {
-			originX = lerp(windowWidth, 1024, 768, 85, 98);
-			originY = 45;
-		} else if (windowWidth > 550) {
-			originX = lerp(windowWidth, 768, 550, 73, 75);
-			originY = 45;
-		} else if (windowWidth > 375) {
-			originX = lerp(windowWidth, 768, 375, 60, 86);
-			originY = lerp(windowWidth, 768, 375, 45, 46);
-		} else {
-			originX = 88; originY = 46;
+		const origin = getOOrigin();
+		let limitedX = Math.min(origin.x, 100);
+		if (windowWidth <= 767) {
+			const weight = 0.7; 
+			limitedX = (limitedX * (1 - weight)) + (93 * weight);
 		}
-
+		const originCss = `${limitedX}% ${origin.y}%`;
 		let opacity = 1;
+		const startFade = introHeight * 0.4;
+		const endFade = introHeight * 0.8;
+		const hidePoint = introHeight * 1.0;
 		if (scrollTop >= startFade) {
 			const fadeProgress = (scrollTop - startFade) / (endFade - startFade);
 			opacity = Math.max(1 - fadeProgress, 0);
 		}
-		const originCss = `${originX}% ${originY}%`;
 		if ($svgScaled.length) {
 			$svgScaled.css({ 
 				'transform-origin': originCss, 
@@ -280,10 +276,12 @@ $(document).ready(function () {
 				'transform': `scale(${scale})` 
 			});
 		}
-		if (windowWidth < 768) {
-			const speedMultiplier = 3; 
+
+		if (windowWidth < 1800) {
+			const speedMultiplier = 6;
 			const progress = Math.min(scaleProgress * speedMultiplier, 1);
-			const currentBarHeight = Math.max(42 - (progress * 42), 0); 
+			let maxBarHeight = (windowWidth <= 767) ? 40 : 20; 
+			const currentBarHeight = Math.max(maxBarHeight - (progress * maxBarHeight), 0); 
 			$introFixed.css('--bar-height', `${currentBarHeight}vh`);
 		} else {
 			$introFixed.css('--bar-height', '0vh');
@@ -300,15 +298,12 @@ $(document).ready(function () {
 			if ($mainWrap.hasClass('intro_hide')) $mainWrap.removeClass('intro_hide');
 		}
 	}
-
 	$(window).on('scroll', introScroll);
 	$(window).on('resize', introScroll); 
 	introScroll();
-
 	$(".intro .btn_link, .intro .btn_scroll_down").on("click", function () {
 		window.scrollTo({ top: $intro.outerHeight(), behavior: "smooth" });
 	});
-	/* 5초동안 안내려가면 강제로 내려가게 */
 	const autoScrollTimer = setTimeout(function () {
 		if ($(window).scrollTop() === 0) {
 			window.scrollTo({ top: $intro.outerHeight(), behavior: "smooth" });
@@ -318,22 +313,7 @@ $(document).ready(function () {
 		clearTimeout(autoScrollTimer);
 	});
 // Service marquee
-	const $banner    = $(".main_service .marquee_banner");
-	const $origSlide = $banner.find(".slide");
-	const speed      = 2;
-	let posX         = 0;
-	let isPaused     = false;
-	$banner.append($origSlide.clone().removeAttr("aria-label").attr("aria-hidden", "true"));
-	const totalWidth = $origSlide.outerWidth(true);
-	function marqueeLoop() {
-		if (!isPaused) {
-			posX -= speed;
-			if (Math.abs(posX) >= totalWidth) posX = 0;
-			$banner.find(".slide").css("transform", `translateX(${posX}px)`);
-		}
-		requestAnimationFrame(marqueeLoop);
-	}
-	marqueeLoop();
+	initMarquee("#marquee_banner_random", getRandomItems(['a','b'], 89));
 // Service bg_round
     function bgRoundScroll() {
 		const $mainService = $(".main_service");
@@ -365,6 +345,8 @@ $(document).ready(function () {
 			$(".after_cover").css("opacity", 0);
 		}
 	}
+	$(window).on("scroll", bgRoundScroll);
+	bgRoundScroll();
 // service copy
 	const $serviceNode = $(".in_service .service").clone();
 	const $outService = $(".out_service");
@@ -430,35 +412,73 @@ $(document).ready(function () {
 	let ticking = false;
 	let pageRotateEls = [];
 
+	function isApple() {
+		const ua = navigator.userAgent.toLowerCase();
+		const vendor = navigator.vendor.toLowerCase();
+		const isAppleUA = /mac|iphone|ipad|ipod/.test(ua);
+		const isAppleVendor = vendor.includes('apple');
+		const isIPadOS = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+		return isAppleUA || isAppleVendor || isIPadOS;
+	}
+
 	function cacheElements() {
 		pageRotateEls = [];
 		$(".page_rotate").each(function () {
+			const $this = $(this);
+			const $outbox = $this.find(".outbox");
+			const currentHeight = $outbox.outerHeight();
+			$this.css('height', currentHeight + 'px');
 			pageRotateEls.push({
 				el: this,
-				$outbox: $(this).find(".outbox")
+				$outbox: $outbox,
+				offsetTop: $this.offset().top
 			});
 		});
 	}
 
 	function pageRotateScroll() {
-		const scrollTop    = window.pageYOffset;
+		const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 		const windowHeight = window.innerHeight;
-		const windowWidth  = window.innerWidth;
-		const maxRotate    = windowWidth < 768 ? 10 : 15;
-		const rad          = maxRotate * Math.PI / 180;
+		const windowWidth = window.innerWidth;
+		const isAppleDevice = isApple();
 
-		pageRotateEls.forEach(({ el, $outbox }) => {
-			const naturalTop   = getNaturalTop(el);
-			const outboxHeight = $outbox[0].offsetHeight;
-			const extraUp      = (windowWidth / 2) * Math.sin(rad) + (outboxHeight / 2) * (1 - Math.cos(rad));
-			const cornerTop    = naturalTop - extraUp;
-			const scrollStart  = cornerTop - windowHeight;
-			const scrollEnd    = naturalTop - windowHeight / 4;
-			const progress     = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-			const rotate       = maxRotate * (1 - progress);
-			const translateY   = -(windowHeight / 5) * (1 - progress);
+		if (isAppleDevice) {
+			$(".main_strength").addClass("ios_fix");
+		}
 
-			$outbox[0].style.transform = `rotate(${rotate}deg) translate3d(0, ${translateY}px, 0)`;
+		$(".page_rotate").each(function () {
+			const $this = $(this);
+			const $outbox = $this.find(".outbox");
+			const offsetTop = $this.offset().top;
+
+			if (scrollTop >= offsetTop - 1) {
+				$this.addClass("start");
+			} else {
+				$this.removeClass("start");
+			}
+
+			if (!isAppleDevice && $outbox.length > 0) {
+				const maxRotate = windowWidth < 768 ? 10 : 15;
+				const rad = maxRotate * Math.PI / 180;
+				const naturalTop = offsetTop;
+				const outboxHeight = $outbox[0].offsetHeight;
+				
+				const extraUp = (windowWidth / 2) * Math.sin(rad) + (outboxHeight / 2) * (1 - Math.cos(rad));
+				const cornerTop = naturalTop - windowHeight; // 시작점 계산 보정
+				const scrollStart = naturalTop - windowHeight;
+				const scrollEnd = naturalTop - windowHeight / 4;
+				
+				const progress = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
+				const rotate = maxRotate * (1 - progress);
+				const translateY = (-(windowHeight / 5) * (1 - progress));
+
+				$outbox[0].style.transform = `rotate(${rotate}deg) translate3d(0, ${translateY}px, 0)`;
+			} else if (isAppleDevice) {
+				$outbox.css({
+					'transform': 'none',
+					'-webkit-transform': 'none',
+				});
+			}
 		});
 
 		ticking = false;
@@ -471,13 +491,18 @@ $(document).ready(function () {
 		}
 	}
 
+	// 이벤트 바인딩
 	$(window).on("scroll", onScroll);
 	$(window).on("resize", function () {
+		cacheElements(); // 리사이즈 시 높이 재계산
 		pageRotateScroll();
 	});
 
-	cacheElements();
-	pageRotateScroll();
+	// 문서 로드 시 실행
+	$(document).ready(function() {
+		cacheElements();     // 1. 높이값 인라인 주입 및 캐싱
+		pageRotateScroll();  // 2. 현재 스크롤 위치에 따른 start 클래스 즉시 반영
+	});
 // Portfolio SVG
     function connectSvg() {
 		const $svgT      = $(".svg_t");
@@ -556,9 +581,7 @@ $(document).ready(function () {
                .on("mouseleave", function () { isPaused = false; });
     })();
 // AOS
-	AOS.init({
-		duration: 500,
-	});
+	AOS.init({ duration: 500, });
 });
 </script>
 
@@ -566,6 +589,7 @@ $(document).ready(function () {
 
 @push('scripts')
 <script src="{{ asset('js/faq-accordion.js') }}"></script>
+<script src="{{ asset('js/marquee.js') }}"></script>
 @endpush
 
 @section('popups')

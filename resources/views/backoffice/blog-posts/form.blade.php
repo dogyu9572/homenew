@@ -2,8 +2,14 @@
     $blogPost = $blogPost ?? null;
     $isEdit = (bool) $blogPost;
     $action = $isEdit ? route('backoffice.blog-posts.update', $blogPost) : route('backoffice.blog-posts.store');
-    $sections = old('sections', $isEdit ? $blogPost->sections->toArray() : [['subtitle' => '', 'content' => '']]);
+    $sections = old('sections', $isEdit ? $blogPost->sections->toArray() : [['subtitle' => '', 'subheading' => '', 'content' => '']]);
     $tagsInput = old('tags_input', $isEdit ? implode(' ', $blogPost->tags ?? []) : '');
+    $faqPickerItems = $faqPickerItems ?? collect();
+    $selectedFaqIds = old('faq_board_post_ids', $isEdit ? ($blogPost->faq_board_post_ids ?? []) : []);
+    if (! is_array($selectedFaqIds)) {
+        $selectedFaqIds = [];
+    }
+    $selectedFaqIds = array_values(array_filter(array_map('intval', $selectedFaqIds), fn ($id) => $id > 0));
 @endphp
 
 @if ($errors->any())
@@ -51,6 +57,14 @@
                 <label class="member-form-label">제목 <span class="required">*</span></label>
                 <div class="member-form-field">
                     <input type="text" class="board-form-control" name="title" value="{{ old('title', $blogPost->title ?? '') }}" required>
+                </div>
+            </div>
+
+            <div class="member-form-row">
+                <label class="member-form-label">내용</label>
+                <div class="member-form-field">
+                    <textarea class="board-form-control board-textarea" name="lead_content" rows="5" placeholder="내용" data-backoffice-ckeditor data-source-editing="true">{{ old('lead_content', $blogPost->lead_content ?? '') }}</textarea>
+                    <p class="text-muted">비우면 상세에 출력하지 않습니다.</p>
                 </div>
             </div>
 
@@ -107,19 +121,47 @@
 
     <div class="member-form-section">
         <h3 class="member-section-title">목차·본문 (최대 10구간)</h3>
-        <p class="text-muted">「목차 제목」은 상세 CONTENTS에만 표시되며, 클릭 시 해당 「본문」 위치로 이동합니다. 목차에 올리지 않을 구간은 목차 제목을 비우고 본문만 입력하면 됩니다.</p>
+        <p class="text-muted">목차는 CONTENTS·앵커용(H2)입니다. 소제목은 본문 위 H3이며 목차에는 안 나갑니다.</p>
         <div id="blogSectionsWrap">
             @foreach($sections as $index => $section)
                 <div class="review-row blog-section-row">
                     <div class="review-row-grid">
-                        <input type="text" class="board-form-control" name="sections[{{ $index }}][subtitle]" value="{{ $section['subtitle'] ?? '' }}" placeholder="목차 제목 (CONTENTS에 표시)">
+                        <input type="text" class="board-form-control" name="sections[{{ $index }}][subtitle]" value="{{ $section['subtitle'] ?? '' }}" placeholder="목차">
+                        <input type="text" class="board-form-control" name="sections[{{ $index }}][subheading]" value="{{ $section['subheading'] ?? '' }}" placeholder="소제목">
                     </div>
-                    <textarea class="board-form-control board-textarea" name="sections[{{ $index }}][content]" rows="5" placeholder="본문 (해당 위치에 출력)" data-backoffice-ckeditor data-source-editing="true">{{ $section['content'] ?? '' }}</textarea>
+                    <textarea class="board-form-control board-textarea" name="sections[{{ $index }}][content]" rows="5" placeholder="본문" data-backoffice-ckeditor data-source-editing="true">{{ $section['content'] ?? '' }}</textarea>
                     <button type="button" class="btn btn-danger btn-sm remove-blog-section">구간 삭제</button>
                 </div>
             @endforeach
         </div>
         <button type="button" class="btn btn-secondary btn-sm" id="addBlogSectionBtn">구간 추가</button>
+    </div>
+
+    <div class="member-form-section" id="blogFaqPickerSection">
+        <h3 class="member-section-title">하단 FAQ</h3>
+        <p class="text-muted">위에서부터 노출 순서입니다. 비우면 상세에 FAQ 영역을 넣지 않습니다.</p>
+        @if($faqPickerItems->isEmpty())
+            <p class="text-muted">등록된 FAQ가 없습니다.</p>
+        @else
+            <script type="application/json" id="blog-faq-titles-json">@json($faqPickerItems->pluck('title', 'id'))</script>
+            <script type="application/json" id="blog-faq-initial-ids">@json($selectedFaqIds)</script>
+            <div class="member-form-row blog-faq-add-row">
+                <div class="member-form-field blog-faq-add-select-wrap">
+                    <label class="member-form-label" for="blogFaqAddSelect">FAQ 추가</label>
+                    <select id="blogFaqAddSelect" class="board-form-control">
+                        <option value="">선택</option>
+                        @foreach($faqPickerItems as $f)
+                            <option value="{{ $f->id }}">{{ $f->title }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="member-form-field blog-faq-add-btn-wrap">
+                    <button type="button" class="btn btn-secondary btn-sm" id="blogFaqAddBtn">추가</button>
+                </div>
+            </div>
+            <ul id="blogFaqSelectedList" class="blog-faq-selected-list" aria-label="선택된 FAQ 순서"></ul>
+            <div id="blogFaqHiddenInputs" class="blog-faq-hidden-inputs"></div>
+        @endif
     </div>
 
     <div class="board-form-actions">

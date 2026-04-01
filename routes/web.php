@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // 사용자 페이지 라우트
+Route::prefix('about')->name('about.')->group(function () {
+    Route::get('/', [SubController::class, 'about'])->name('about');
+});	
 Route::prefix('service')->name('service.')->group(function () {
     Route::get('/homepage-seo-geo', [SubController::class, 'homepage_seo_geo'])->name('homepage-seo-geo');
     Route::get('/homepage-development', [SubController::class, 'homepage_development'])->name('homepage-development');

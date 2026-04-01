@@ -238,6 +238,8 @@ Route::prefix('backoffice')->middleware(['backoffice'])->group(function () {
     Route::resource('contacts', ContactController::class, [
         'names' => 'backoffice.contacts',
     ])->only(['index', 'edit', 'update']);
+    Route::post('contacts/delete-multiple', [ContactController::class, 'deleteMultiple'])
+        ->name('backoffice.contacts.delete-multiple');
 
     // 포트폴리오 관리
     Route::resource('portfolio', PortfolioController::class, [

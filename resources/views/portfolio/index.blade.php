@@ -8,8 +8,8 @@
     "name": "@yield('title', '')",
     "description": "@yield('description')",
     "numberOfItems": "{{ $portfolioCount }}",
-    "itemListElement": @json($listItems),
-},
+    "itemListElement": @json($listItems)
+}
 @endsection
 
 @section('content')

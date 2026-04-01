@@ -21,7 +21,7 @@ class PortfolioService
         }
 
         $perPage = (int) $request->get('per_page', 10);
-        if (! in_array($perPage, [10, 20, 50, 100], true)) {
+        if (! in_array($perPage, [10, 20, 50, 100, 500, 1000], true)) {
             $perPage = 10;
         }
 
@@ -31,6 +31,10 @@ class PortfolioService
     public function create(array $data): Portfolio
     {
         return DB::transaction(function () use ($data) {
+            if (! isset($data['sort_order']) || $data['sort_order'] === '' || $data['sort_order'] === null) {
+                $data['sort_order'] = ((int) Portfolio::query()->max('sort_order')) + 1;
+            }
+
             $portfolio = Portfolio::create($this->mapPortfolioData($data));
             $this->syncReviews($portfolio, $data['reviews'] ?? []);
             $this->syncFeatureDevelopments($portfolio, $data['feature_developments'] ?? []);

@@ -11,6 +11,7 @@ class BlogPostSection extends Model
         'blog_post_id',
         'sort_order',
         'subtitle',
+        'subheading',
         'content',
     ];
 

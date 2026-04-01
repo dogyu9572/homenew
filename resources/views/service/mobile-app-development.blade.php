@@ -68,24 +68,10 @@
 				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 		</div>
-		<div class="marquee_banner mojo_aos">
-			<ul class="slide" aria-label="주요 고객사 목록">
-				<li><img src="/images/main_service_a01.svg" alt="United Nations" title="United Nations"></li>
-				<li><img src="/images/main_service_a02.svg" alt="서울대학교 농생명과학공동기기원" title="서울대학교 농생명과학공동기기원"></li>
-				<li><img src="/images/main_service_a03.svg" alt="파크랜드" title="파크랜드"></li>
-				<li><img src="/images/main_service_a04.svg" alt="국립스포츠박물관" title="국립스포츠박물관"></li>
-				<li><img src="/images/main_service_a05.svg" alt="KB부동산신탁" title="KB부동산신탁"></li>
-				<li><img src="/images/main_service_a06.svg" alt="PARADISE CITY" title="PARADISE CITY"></li>
-				<li><img src="/images/main_service_a07.svg" alt="CJ Innovation" title="CJ Innovation"></li>
-				<li><img src="/images/main_service_a08.svg" alt="한양대학교" title="한양대학교"></li>
-				<li><img src="/images/main_service_a09.svg" alt="세종대학교" title="세종대학교"></li>
-				<li><img src="/images/main_service_b01.png" alt="KOREAN AIR" title="KOREAN AIR"></li>
-				<li><img src="/images/main_service_b02.png" alt="GS 글로벌" title="GS 글로벌"></li>
-				<li><img src="/images/main_service_b03.png" alt="GS 에너지" title="GS 에너지"></li>
-				<li><img src="/images/main_service_b04.svg" alt="GS 파워" title="GS 파워"></li>
-				<li><img src="/images/main_service_b05.svg" alt="OMRON" title="OMRON"></li>
-				<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
-			</ul>
+		<div class="marquee_banner_wrap mojo_aos">
+			<div class="marquee_inbox">
+				<div class="marquee_banner" id="marquee_banner_random"></div>
+			</div>
 		</div>
 		<div class="inner bg_round_start" data-aos="fade-up" data-aos-offset="200">
 			<div class="bg_round"><div class="in_gradient"></div></div>
@@ -253,34 +239,7 @@
 <script>
 $(document).ready(function(){
 // marquee
-    (function () {
-        const $banner = $(".infopage_head .marquee_banner");
-        const $slide  = $banner.find(".slide").first();
-        if (! $slide.length || ! $slide.children("li").length) {
-            return;
-        }
-        const speed      = 2;
-        let posX         = 0;
-        let isPaused     = false;
-        let totalWidth   = 0;
-        function measure() {
-            const el = $slide.get(0);
-            totalWidth = el && el.scrollWidth > 0 ? el.scrollWidth : $slide.outerWidth(true);
-        }
-        measure();
-        function marqueeLoop() {
-            if (!isPaused && totalWidth > 0) {
-                posX -= speed;
-                if (posX <= -totalWidth) posX = 0;
-                $slide.css("transform", `translateX(${posX}px)`);
-            }
-            requestAnimationFrame(marqueeLoop);
-        }
-        marqueeLoop();
-        $(window).on("load resize", measure);
-        /*$banner.on("mouseenter", function () { isPaused = true; })
-               .on("mouseleave", function () { isPaused = false; });*/
-    })();
+    initMarquee("#marquee_banner_random", getRandomItems(['a','b','c','d','e'], 40));
 // review 사선
 	function drawLines() {
 		const $wrap = $('.line_wrap');
@@ -414,5 +373,6 @@ $(document).ready(function(){
 
 @push('scripts')
 <script src="{{ asset('js/faq-accordion.js') }}"></script>
+<script src="{{ asset('js/marquee.js') }}"></script>
 @endpush
 @endsection

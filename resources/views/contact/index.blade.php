@@ -12,7 +12,9 @@
         "@@type": "PostalAddress",
         "addressCountry": "KR",
         "addressRegion": "서울특별시",
-        "streetAddress": "영등포구 경인로 775 에이스하이테크시티 2동 202호"
+		"addressLocality": "영등포구",
+        "streetAddress": "경인로 775 에이스하이테크시티 2동 202호",
+		"postalCode": "07295"
     },
     "contactPoint": {
         "@@type": "ContactPoint",

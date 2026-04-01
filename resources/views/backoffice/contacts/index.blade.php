@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="{{ asset('css/backoffice/boards.css') }}">
 @endsection
 
+@section('scripts')
+<script src="{{ asset('js/backoffice/contact-index.js') }}"></script>
+@endsection
+
 @section('content')
 @if (session('success'))
     <div class="alert alert-success board-hidden-alert">{{ session('success') }}</div>
@@ -13,7 +17,11 @@
 
 <div class="board-container">
     <div class="board-page-header">
-        <div class="board-page-buttons"></div>
+        <div class="board-page-buttons">
+            <button type="button" id="btnDeleteMultiple" class="btn btn-danger">
+                <i class="fas fa-trash"></i> 선택 삭제
+            </button>
+        </div>
     </div>
 
     <div class="board-card">
@@ -68,10 +76,15 @@
                 </div>
             </div>
 
+            <form id="bulkDeleteForm" method="POST" action="{{ route('backoffice.contacts.delete-multiple') }}">
+                @csrf
             <div class="table-responsive">
                 <table class="board-table">
                     <thead>
                         <tr>
+                            <th class="w5 board-checkbox-column">
+                                <input type="checkbox" id="select-all" class="form-check-input">
+                            </th>
                             <th>No</th>
                             <th>접수일시</th>
                             <th>유입 경로</th>
@@ -87,6 +100,9 @@
                     <tbody>
                     @forelse($contacts as $index => $row)
                         <tr>
+                            <td>
+                                <input type="checkbox" name="ids[]" value="{{ $row->id }}" class="form-check-input contact-checkbox">
+                            </td>
                             <td>{{ $contacts->total() - ($contacts->currentPage() - 1) * $contacts->perPage() - $index }}</td>
                             <td>{{ $row->created_at->format('Y-m-d H:i') }}</td>
                             <td>
@@ -113,11 +129,12 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="10" class="text-center">데이터가 없습니다.</td></tr>
+                        <tr><td colspan="11" class="text-center">데이터가 없습니다.</td></tr>
                     @endforelse
                     </tbody>
                 </table>
             </div>
+            </form>
             <x-pagination :paginator="$contacts" />
         </div>
     </div>

@@ -11,11 +11,105 @@ use Illuminate\Support\Facades\Schema;
  */
 class FaqPublicService
 {
-    private function tableName(): string
+    /**
+     * FAQ 게시판 DB 테이블명 (예: board_faq)
+     */
+    public function boardTableName(): string
     {
         $slug = (string) config('faq_public.board_slug', 'faq');
 
         return 'board_'.$slug;
+    }
+
+    private function tableName(): string
+    {
+        return $this->boardTableName();
+    }
+
+    /**
+     * 백오피스 블로그 폼용: 노출 가능한 FAQ 목록 (id, title)
+     */
+    public function listForBackofficePicker(int $limit = 500): Collection
+    {
+        $table = $this->tableName();
+        if (! Schema::hasTable($table)) {
+            return collect();
+        }
+        if ($limit < 1) {
+            $limit = 500;
+        }
+
+        $query = DB::table($table);
+        $this->applyPublicVisibilityConstraints($query);
+
+        if (Schema::hasColumn($table, 'is_notice')) {
+            $query->orderByDesc('is_notice');
+        }
+        if (Schema::hasColumn($table, 'sort_order')) {
+            $query->orderByDesc('sort_order');
+        }
+        $query->orderByDesc('id');
+
+        return $query->limit($limit)->get(['id', 'title']);
+    }
+
+    /**
+     * 블로그에 저장된 id 순서대로 FAQ 본문 조회 (비활성·삭제된 항목은 제외)
+     *
+     * @param  list<int>|null  $ids
+     */
+    public function forIdsOrdered(?array $ids): Collection
+    {
+        if ($ids === null || $ids === []) {
+            return collect();
+        }
+
+        $normalized = [];
+        foreach ($ids as $id) {
+            $n = (int) $id;
+            if ($n > 0 && ! in_array($n, $normalized, true)) {
+                $normalized[] = $n;
+            }
+        }
+        if ($normalized === []) {
+            return collect();
+        }
+
+        $table = $this->tableName();
+        if (! Schema::hasTable($table)) {
+            return collect();
+        }
+
+        $query = DB::table($table)->whereIn('id', $normalized);
+        $this->applyPublicVisibilityConstraints($query);
+
+        $rows = $query->get(['id', 'title', 'content', 'category']);
+        $byId = $rows->keyBy('id');
+
+        $ordered = collect();
+        foreach ($normalized as $id) {
+            if ($byId->has($id)) {
+                $ordered->push($byId->get($id));
+            }
+        }
+
+        return $ordered;
+    }
+
+    /**
+     * @param  \Illuminate\Database\Query\Builder  $query
+     */
+    private function applyPublicVisibilityConstraints($query): void
+    {
+        $table = $this->tableName();
+
+        if (Schema::hasColumn($table, 'deleted_at')) {
+            $query->whereNull('deleted_at');
+        }
+
+        if (Schema::hasColumn($table, 'is_active')) {
+            $query->where('is_active', true);
+        }
     }
 
     /**

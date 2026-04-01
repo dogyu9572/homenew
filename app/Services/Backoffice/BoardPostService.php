@@ -27,8 +27,8 @@ class BoardPostService
         $this->applySearchFilters($query, $request);
         
         // 목록 개수 설정
-        $perPage = $request->get('per_page', 15);
-        $perPage = in_array($perPage, [10, 20, 50, 100]) ? $perPage : 15;
+        $perPage = $request->get('per_page', 10);
+        $perPage = in_array($perPage, [10, 20, 50, 100]) ? $perPage : 10;
         
         // 정렬 기능이 활성화된 게시판인지 확인
         $board = Board::where('slug', $slug)->first();

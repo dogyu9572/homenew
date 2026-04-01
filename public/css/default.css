@@ -33,7 +33,7 @@ audio:not([controls]) {display:none; height:0;}
 svg:not(:root) {overflow:hidden;}
 
 /* font */
-.font_eng {font-family:'Nohemi';}
+.font_eng {font-family:'Nohemi', 'Pretendard', sans-serif;}
 
 /* Layout */
 .blind {display:block; overflow:hidden; position:absolute; top:-1000em; left:0;}
@@ -140,9 +140,9 @@ input[type="password"],
 input[type="date"],
 input[type="email"],
 input[type="url"],
-select {height:56px; padding:0 24px; font-size:inherit; border-radius:28px;}
+select {height:56px; padding:0 24px; font-size:inherit; border-radius:28px; letter-spacing:-.51px;}
 select {-webkit-appearance:none; -moz-appearance:none; appearance:none; background:#fff url('/images/arrow_select.svg') no-repeat right 16px center / 18px;}
-textarea {padding:24px;}
+textarea {padding:24px; letter-spacing:-.51px;}
 ::placeholder {color:#6D7882;}
 input[type="text"][readonly] {background:#F7F7F7; border-color:#CDD1D5;}
 *:focus-visible,

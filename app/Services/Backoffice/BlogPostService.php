@@ -82,10 +82,17 @@ class BlogPostService
             $thumbnailPath = $blogPost?->thumbnail_path;
         }
 
+        $leadContentRaw = trim((string) ($payload['lead_content'] ?? ''));
+        $leadContent = $leadContentRaw !== '' ? $leadContentRaw : null;
+
+        $faqBoardPostIds = $this->normalizeFaqBoardPostIds($payload['faq_board_post_ids'] ?? null);
+
         return [
             'is_notice' => ! empty($payload['is_notice']),
             'category' => $payload['category'],
             'title' => $title,
+            'lead_content' => $leadContent,
+            'faq_board_post_ids' => $faqBoardPostIds,
             'slug' => $slug,
             'tags' => $tags,
             'thumbnail_path' => $thumbnailPath,
@@ -102,14 +109,16 @@ class BlogPostService
 
         foreach (array_values($sections) as $index => $section) {
             $subtitle = trim((string) ($section['subtitle'] ?? ''));
+            $subheading = trim((string) ($section['subheading'] ?? ''));
             $content = trim((string) ($section['content'] ?? ''));
-            if ($subtitle === '' && $content === '') {
+            if ($subtitle === '' && $subheading === '' && $content === '') {
                 continue;
             }
 
             $blogPost->sections()->create([
                 'sort_order' => $index,
                 'subtitle' => $subtitle !== '' ? $subtitle : null,
+                'subheading' => $subheading !== '' ? $subheading : null,
                 'content' => $content !== '' ? $content : null,
             ]);
         }
@@ -135,5 +144,30 @@ class BlogPostService
         }
 
         return array_values(array_unique($normalized));
+    }
+
+    /**
+     * @param  mixed  $raw
+     * @return list<int>|null
+     */
+    private function normalizeFaqBoardPostIds($raw): ?array
+    {
+        if ($raw === null || $raw === '') {
+            return null;
+        }
+
+        if (! is_array($raw)) {
+            return null;
+        }
+
+        $out = [];
+        foreach ($raw as $id) {
+            $n = (int) $id;
+            if ($n > 0 && ! in_array($n, $out, true)) {
+                $out[] = $n;
+            }
+        }
+
+        return $out === [] ? null : $out;
     }
 }

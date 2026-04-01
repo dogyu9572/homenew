@@ -17,7 +17,7 @@
     </div>
     <div class="board-card">
         <div class="board-card-body">
-            @include('backoffice.blog-posts.form', ['categories' => $categories])
+            @include('backoffice.blog-posts.form', ['categories' => $categories, 'faqPickerItems' => $faqPickerItems])
         </div>
     </div>
 </div>

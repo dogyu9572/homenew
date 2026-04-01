@@ -13,8 +13,11 @@ class BlogPost extends Model
     use SoftDeletes;
 
     public const CATEGORY_TEAM_STORY = 'team_story';
+
     public const CATEGORY_WEB_INSIGHT = 'web_insight';
+
     public const CATEGORY_HOMEPAGE_TREND = 'homepage_trend';
+
     public const CATEGORY_SUCCESS_CASE = 'success_case';
 
     public const CATEGORIES = [
@@ -28,6 +31,8 @@ class BlogPost extends Model
         'is_notice',
         'category',
         'title',
+        'lead_content',
+        'faq_board_post_ids',
         'slug',
         'tags',
         'thumbnail_path',
@@ -42,6 +47,7 @@ class BlogPost extends Model
     protected $casts = [
         'is_notice' => 'boolean',
         'tags' => 'array',
+        'faq_board_post_ids' => 'array',
         'is_published' => 'boolean',
         'published_at' => 'datetime',
         'score_calculated_at' => 'datetime',

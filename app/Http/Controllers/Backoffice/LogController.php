@@ -52,7 +52,7 @@ class LogController extends Controller
             ->users()
             ->search($request)
             ->orderBy('created_at', 'desc')
-            ->paginate($request->get('per_page', 20));
+            ->paginate($request->get('per_page', 10));
 
         return view('backoffice.logs.user-access', compact('logs'));
     }
@@ -65,7 +65,7 @@ class LogController extends Controller
         $logs = AdminAccessLog::with('admin')
             ->search($request)
             ->orderBy('accessed_at', 'desc')
-            ->paginate($request->get('per_page', 20));
+            ->paginate($request->get('per_page', 10));
 
         return view('backoffice.logs.admin-access', compact('logs'));
     }

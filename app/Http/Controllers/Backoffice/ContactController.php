@@ -9,6 +9,7 @@ use App\Services\Backoffice\ContactService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -65,5 +66,19 @@ class ContactController extends Controller
         }
 
         return Storage::disk('public')->download($path, $originalName);
+    }
+
+    public function deleteMultiple(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer', Rule::exists('contacts', 'id')],
+        ]);
+
+        $deletedCount = $this->contactService->deleteMultiple($validated['ids']);
+
+        return redirect()
+            ->route('backoffice.contacts.index')
+            ->with('success', "{$deletedCount}개의 문의가 삭제되었습니다.");
     }
 }

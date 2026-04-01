@@ -20,24 +20,10 @@
 				<div class="img"><img src="/images/img_industry_c01.jpg" alt=""></div>
 			</div>
 		</div>
-		<div class="marquee_banner mojo_aos">
-			<ul class="slide" aria-label="주요 고객사 목록">
-				<li><img src="/images/main_service_a01.svg" alt="United Nations" title="United Nations"></li>
-				<li><img src="/images/main_service_a02.svg" alt="서울대학교 농생명과학공동기기원" title="서울대학교 농생명과학공동기기원"></li>
-				<li><img src="/images/main_service_a03.svg" alt="파크랜드" title="파크랜드"></li>
-				<li><img src="/images/main_service_a04.svg" alt="국립스포츠박물관" title="국립스포츠박물관"></li>
-				<li><img src="/images/main_service_a05.svg" alt="KB부동산신탁" title="KB부동산신탁"></li>
-				<li><img src="/images/main_service_a06.svg" alt="PARADISE CITY" title="PARADISE CITY"></li>
-				<li><img src="/images/main_service_a07.svg" alt="CJ Innovation" title="CJ Innovation"></li>
-				<li><img src="/images/main_service_a08.svg" alt="한양대학교" title="한양대학교"></li>
-				<li><img src="/images/main_service_a09.svg" alt="세종대학교" title="세종대학교"></li>
-				<li><img src="/images/main_service_b01.png" alt="KOREAN AIR" title="KOREAN AIR"></li>
-				<li><img src="/images/main_service_b02.png" alt="GS 글로벌" title="GS 글로벌"></li>
-				<li><img src="/images/main_service_b03.png" alt="GS 에너지" title="GS 에너지"></li>
-				<li><img src="/images/main_service_b04.svg" alt="GS 파워" title="GS 파워"></li>
-				<li><img src="/images/main_service_b05.svg" alt="OMRON" title="OMRON"></li>
-				<li><img src="/images/main_service_b06.svg" alt="국민체육진흥공단" title="국민체육진흥공단"></li>
-			</ul>
+		<div class="marquee_banner_wrap mojo_aos">
+			<div class="marquee_inbox">
+				<div class="marquee_banner" id="marquee_banner_c"></div>
+			</div>
 		</div>
 		<div class="inner bg_round_start" data-aos="fade-up" data-aos-offset="200">
 			<div class="bg_round"><div class="in_gradient"></div></div>
@@ -122,84 +108,7 @@
 		
 		<div class="portfolio_marquee">
 			<ul class="list">
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a href="/portfolio/view" class="box" aria-label="한양대학교 연구장비통합관리시스템 - WEB UI/UX / Mobile / JSP 포트폴리오 보기">
-						<span class="flip">
-							<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
-								<span class="type">WEB UI/UX / Mobile / JSP</span>
-								<span class="tit">한양대학교 연구장비통합관리시스템</span>
-								<p>웹사이트 및 백오피스 구축, UI/UX, 브랜딩, Logo Design, CI, BI, 예약 시스템</p>
-								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
-						</span>
-					</a>
-				</li>
+				@include('partials.service-portfolio-marquee-list', ['portfolioItems' => $industryPortfolioItems])
 			</ul>
 		</div>
 		
@@ -217,15 +126,18 @@
 					<span>STEP 01</span>
 					<h3>요구사항 분석</h3>
 					<ul>
-						<li>업무 현장을 방문 또는 온라인 미팅을 통해 실제 업무 흐름 관찰</li>
+						<li>업무 현장 방문 또는 온라인 미팅을 통해 실제 업무 흐름 관찰</li>
 						<li>요구사항 정리</li>
+						<li>맞춤형 제안서 및 견적서 제공</li>
 					</ul>
 				</li>
 				<li class="i_b2">
 					<span>STEP 02</span>
-					<h3>맞춤 제안서 및 견적 제공</h3>
+					<h3>서류 작성 지원 및 계약</h3>
 					<ul>
-						<li>학회에 맞는 기능 제안</li>
+						<li>사업수행계획서, 기술제안요구서 문서 작성 지원</li>
+						<li>정보화사업 보안성 검토 서류 작성 지원</li>
+						<li>협의 후 계약</li>
 					</ul>
 				</li>
 				<li class="i_b3">
@@ -298,40 +210,36 @@
 <script>
 $(document).ready(function(){
 // marquee
-    (function () {
-        const $banner    = $(".infopage_head .marquee_banner");
-        const $origSlide = $banner.find(".slide");
-        const speed      = 2;
-        let posX         = 0;
-        let isPaused     = false;
-        $banner.append($origSlide.clone().removeAttr("aria-label").attr("aria-hidden", "true"));
-        const totalWidth = $origSlide.outerWidth(true);
-        function marqueeLoop() {
-            if (!isPaused) {
-                posX -= speed;
-                if (Math.abs(posX) >= totalWidth) posX = 0;
-                $banner.find(".slide").css("transform", `translateX(${posX}px)`);
-            }
-            requestAnimationFrame(marqueeLoop);
-        }
-        marqueeLoop();
-        /*$banner.on("mouseenter", function () { isPaused = true; })
-               .on("mouseleave", function () { isPaused = false; });*/
-    })();
+    initMarquee("#marquee_banner_c", MARQUEE_DATA.c);
 // Portfolio marquee
     (function () {
-        const $banner    = $(".portfolio_marquee");
-        const $origSlide = $banner.find(".list");
-        const speed      = 1;
-        let posX         = 0;
-        let isPaused     = false;
-        $banner.append($origSlide.clone().removeAttr("aria-label").attr("aria-hidden", "true"));
-        const totalWidth = $origSlide.outerWidth(true);
+        const $banner = $(".portfolio_marquee");
+        const $list   = $banner.find(".list").first();
+        if (! $list.length || ! $list.children("li").length) {
+            return;
+        }
+        const speed       = 1;
+        let posX          = 0;
+        let isPaused      = false;
+        let totalWidth    = 0;
+        let marqueeResizeTimer;
+        function measure() {
+            const el = $list.get(0);
+            totalWidth = el && el.scrollWidth > 0 ? el.scrollWidth : $list.outerWidth(true);
+        }
+        measure();
+        $(window).on("load", measure);
+        $(window).on("resize", function () {
+            clearTimeout(marqueeResizeTimer);
+            marqueeResizeTimer = setTimeout(measure, 100);
+        });
         function marqueeLoop() {
-            if (!isPaused) {
+            if (!isPaused && totalWidth > 0) {
                 posX -= speed;
-                if (Math.abs(posX) >= totalWidth) posX = 0;
-                $banner.find(".list").css("transform", `translateX(${posX}px)`);
+                if (posX <= -totalWidth) {
+                    posX = 0;
+                }
+                $list.css("transform", `translateX(${posX}px)`);
             }
             requestAnimationFrame(marqueeLoop);
         }
@@ -475,4 +383,7 @@ $(document).ready(function(){
 });
 </script>
 
+@push('scripts')
+<script src="{{ asset('js/marquee.js') }}"></script>
+@endpush
 @endsection

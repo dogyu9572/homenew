@@ -9,7 +9,7 @@
 	"description": @json('홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.'),
 	"numberOfItems": @json($posts->total()),
 	"itemListElement": @json($listItems)
-},
+}
 @endsection
 
 @section('content')

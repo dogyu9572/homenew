@@ -9,6 +9,7 @@ use App\Models\BlogPost;
 use App\Models\BlogPostEventLog;
 use App\Services\Backoffice\BlogPostService;
 use App\Services\BlogService;
+use App\Services\FaqPublicService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class BlogPostController extends Controller
 {
     public function __construct(
         private BlogPostService $blogPostService,
-        private BlogService $blogService
+        private BlogService $blogService,
+        private FaqPublicService $faqPublicService
     ) {}
 
     public function index(Request $request): View
@@ -33,12 +35,14 @@ class BlogPostController extends Controller
     {
         return view('backoffice.blog-posts.create', [
             'categories' => BlogPost::CATEGORIES,
+            'faqPickerItems' => $this->faqPublicService->listForBackofficePicker(),
         ]);
     }
 
     public function store(StoreBlogPostRequest $request): RedirectResponse
     {
         $payload = $request->validated();
+        $payload['faq_board_post_ids'] = $request->input('faq_board_post_ids');
         if ($request->hasFile('thumbnail')) {
             $payload['thumbnail'] = $request->file('thumbnail');
         }
@@ -56,12 +60,14 @@ class BlogPostController extends Controller
         return view('backoffice.blog-posts.edit', [
             'blogPost' => $blogPost,
             'categories' => BlogPost::CATEGORIES,
+            'faqPickerItems' => $this->faqPublicService->listForBackofficePicker(),
         ]);
     }
 
     public function update(UpdateBlogPostRequest $request, BlogPost $blogPost): RedirectResponse
     {
         $payload = $request->validated();
+        $payload['faq_board_post_ids'] = $request->input('faq_board_post_ids');
         if ($request->hasFile('thumbnail')) {
             $payload['thumbnail'] = $request->file('thumbnail');
         }

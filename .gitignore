@@ -6,6 +6,7 @@
 .env
 .env.backup
 .env.production
+.netrc
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -53,5 +54,5 @@ backup/
 deploy/
 storage/
 
-# 대용량 원본 영상(GitHub 100MB 제한) — 서버에는 별도 배포
-public/video/*.mov
+# 영상 에셋 전부 제외(용량·GitHub 제한) — 서버에 별도 배포
+public/video/*

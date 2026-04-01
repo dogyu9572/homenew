@@ -45,7 +45,9 @@
 			<div class="blog_view_head">
 				<p class="type">{{ $post->category_label }}</p>
 				<h1 id="blog-view-title">{{ $post->title }}</h1>
-				<p class="tb">내용</p>
+                @if(!empty($post->lead_content))
+				<div class="tb blog-view-lead">{!! $post->lead_content !!}</div>
+                @endif
 				<div class="view_btm view_top">
 					<div class="left">
 						@if($publishedDate !== '')
@@ -66,13 +68,16 @@
 
 			<article aria-label="본문" class="blog_view_body">
                 @forelse($post->sections as $section)
-                    @continue(empty($section->subtitle) && empty($section->content))
+                    @continue(empty($section->subtitle) && empty($section->subheading) && empty($section->content))
                 <section @if(!empty($section->subtitle)) aria-labelledby="blog-section-{{ $section->id }}" @endif>
                     @if(!empty($section->subtitle))
 					<h2 id="blog-section-{{ $section->id }}">{{ $section->subtitle }}</h2>
                     @endif
+                    @if(!empty($section->subheading))
+					<h3>{{ $section->subheading }}</h3>
+                    @endif
                     @if(!empty($section->content))
-					<p>{!! nl2br(e($section->content)) !!}</p>
+					<div class="blog-section-body">{!! $section->content !!}</div>
                     @endif
 				</section>
                 @empty
@@ -93,21 +98,16 @@
 				</div>
 			</div>
 			
+            @if($blogFaqItems->isNotEmpty())
 			<section class="service_faq blog_faq_wrap" aria-label="blog-faq-title" data-header="dark">
 				<div class="inner">
 					<h2 id="blog-faq-title"><strong>자주 묻는 질문</strong></h2>
 					<ul class="faq_list">
-						<li class="on">
-							<h3 class="faq_title"><button type="button" aria-expanded="true" aria-controls="main-faq-con-7">홈페이지 제작 기간은 얼마나 걸리나요?</button></h3>
-							<div class="con" id="main-faq-con-7" style="display: block;"><p>프로젝트 규모에 따라 다르지만, 일반적인 기업 홈페이지는 4~6주, 쇼핑몰이나 복잡한 SI 시스템은 8~12주 정도 소요됩니다.&nbsp;</p><p>정확한 일정은 초기 상담 시 WBS 기반으로 안내해 드립니다.</p></div>
-						</li>
-						<li>
-							<h3 class="faq_title"><button type="button" aria-expanded="true" aria-controls="main-faq-con-7">홈페이지 제작 기간은 얼마나 걸리나요?</button></h3>
-							<div class="con" id="main-faq-con-7" style="display: block;"><p>프로젝트 규모에 따라 다르지만, 일반적인 기업 홈페이지는 4~6주, 쇼핑몰이나 복잡한 SI 시스템은 8~12주 정도 소요됩니다.&nbsp;</p><p>정확한 일정은 초기 상담 시 WBS 기반으로 안내해 드립니다.</p></div>
-						</li>
+                        @include('partials.public-faq-list', ['faqItems' => $blogFaqItems, 'idPrefix' => 'blog-faq-'.$post->id, 'variant' => 'main'])
 					</ul>
 				</div>
 			</section>
+            @endif
 		</div>
 
 		<div class="recommended_area open_opacity">

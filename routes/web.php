@@ -8,6 +8,8 @@ use App\Http\Controllers\Backoffice\PopupController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubController;
+use App\Models\BlogPost;
+use App\Models\Portfolio;
 use Illuminate\Support\Facades\Route;
 
 // =============================================================================
@@ -20,7 +22,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // 사용자 페이지 라우트
 Route::prefix('about')->name('about.')->group(function () {
     Route::get('/', [SubController::class, 'about'])->name('about');
-});	
+});
 Route::prefix('service')->name('service.')->group(function () {
     Route::get('/homepage-seo-geo', [SubController::class, 'homepage_seo_geo'])->name('homepage-seo-geo');
     Route::get('/homepage-development', [SubController::class, 'homepage_development'])->name('homepage-development');
@@ -41,18 +43,41 @@ Route::prefix('industries')->name('industries.')->group(function () {
 
 Route::prefix('portfolio')->name('portfolio.')->group(function () {
     Route::get('/', [SubController::class, 'portfolio_list'])->name('portfolio_list');
-    Route::get('/view/{portfolio?}', [SubController::class, 'portfolio_view'])->name('portfolio_view');
+    Route::get('/view', function () {
+        $portfolio = Portfolio::query()
+            ->where('is_active', true)
+            ->orderByDesc('sort_order')
+            ->firstOrFail();
+
+        return redirect()->route('portfolio.portfolio_view', $portfolio, 301);
+    });
+    Route::get('/view/{legacyId}', function (string $legacyId) {
+        return redirect()->route('portfolio.portfolio_view', Portfolio::query()->findOrFail((int) $legacyId), 301);
+    })->whereNumber('legacyId');
 });
 
 Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/', [SubController::class, 'blog_list'])->name('blog_list');
-    Route::get('/view/{blogPost?}', [SubController::class, 'blog_view'])->name('blog_view');
-    Route::post('/{blogPost}/event', [SubController::class, 'blog_event'])
+    Route::get('/view', function () {
+        return redirect()->route('blog.blog_list', [], 301);
+    });
+    Route::get('/view/{legacyId}', function (string $legacyId) {
+        return redirect()->route('blog.blog_view', BlogPost::query()->findOrFail((int) $legacyId), 301);
+    })->whereNumber('legacyId');
+
+    $blogCategoryPathPattern = implode('|', array_values(BlogPost::CATEGORY_PATH_BY_KEY));
+    Route::get('/{blogCategoryPath}', [SubController::class, 'blog_list'])
+        ->where('blogCategoryPath', $blogCategoryPathPattern)
+        ->name('blog_list_category');
+
+    Route::post('/{blogPost:slug}/event', [SubController::class, 'blog_event'])
         ->middleware('throttle:60,1')
         ->name('event');
-    Route::post('/{blogPost}/like', [SubController::class, 'blog_like'])
+    Route::post('/{blogPost:slug}/like', [SubController::class, 'blog_like'])
         ->middleware('throttle:60,1')
         ->name('like');
+
+    Route::get('/{blogPost:slug}', [SubController::class, 'blog_view'])->name('blog_view');
 });
 
 Route::prefix('contact')->name('contact.')->group(function () {
@@ -64,6 +89,10 @@ Route::prefix('contact')->name('contact.')->group(function () {
 
 Route::prefix('terms')->name('terms.')->group(function () {
     Route::get('/privacy_policy', [SubController::class, 'privacy_policy'])->name('privacy_policy');
+});
+
+Route::prefix('mailform')->name('mailform.')->group(function () {
+    Route::get('/', [SubController::class, 'mailform'])->name('index');
 });
 
 // 팝업 표시 (일반 팝업용)
@@ -102,3 +131,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
 
 // 백오피스 라우트 (관리자 전용)
 require __DIR__.'/backoffice.php';
+
+// 포트폴리오 상세 (루트 슬러그 — 고정 라우트보다 반드시 아래에 둔다)
+Route::get('/{portfolio:slug}', [SubController::class, 'portfolio_view'])
+    ->name('portfolio.portfolio_view');

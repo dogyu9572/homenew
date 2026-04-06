@@ -49,7 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      singleDeleteForm.setAttribute('action', action);
+      let dest = action;
+      const qs = window.location.search;
+      if (qs) {
+        const sep = action.includes('?') ? '&' : '?';
+        dest = action + sep + qs.slice(1);
+      }
+      singleDeleteForm.setAttribute('action', dest);
       singleDeleteForm.submit();
     });
   });

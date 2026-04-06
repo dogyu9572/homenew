@@ -150,7 +150,9 @@ $(document).ready(function(){
 	});
 
 	$(window).on("scroll resize", function () {
-		let windowBottom = $(window).scrollTop() + $(window).height();
+		let scrollTop = Math.max(0, $(window).scrollTop());
+		let windowHeight = window.innerHeight;
+		let windowBottom = scrollTop + windowHeight;
 		let $point = $(".footer .point");
 		if ($point.length > 0) {
 			let pointTop = $point.offset().top;
@@ -206,14 +208,13 @@ $(document).ready(function(){
 		let vh = window.innerHeight * 0.01;
 		document.documentElement.style.setProperty('--vh', `${vh}px`);
 	});
-//아이폰 노치 설정
-	(function(){
-		const ua = navigator.userAgent;
-		const isIOS = /iPhone|iPad|iPod/i.test(ua);
-		const isWebView = !/Safari/i.test(ua);
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_safe");
+	}
 
-		if (isIOS && isWebView) {
-			document.body.classList.add('ios_safe');
-		}
-	})();
 });

@@ -10,7 +10,7 @@
 @section('content')
 <div class="board-container">
     <div class="board-header">
-        <a href="{{ route('backoffice.portfolio.index') }}" class="btn btn-secondary btn-sm">
+        <a href="{{ route('backoffice.portfolio.index', $listQuery ?? []) }}" class="btn btn-secondary btn-sm">
             <i class="fas fa-arrow-left"></i> 목록으로
         </a>
     </div>

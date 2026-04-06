@@ -1,85 +1,94 @@
 @props(['paginator'])
 
+@php
+    $lastPage = max(1, (int) $paginator->lastPage());
+    $currentPage = (int) $paginator->currentPage();
+    /** 한 번에 표시할 페이지 번호 개수 (블록 크기) */
+    $blockSize = 10;
+    $currentBlock = (int) floor(($currentPage - 1) / $blockSize);
+    $startPage = $currentBlock * $blockSize + 1;
+    $endPage = min($lastPage, $startPage + $blockSize - 1);
+    $hasPrevBlock = $startPage > 1;
+    $hasNextBlock = $endPage < $lastPage;
+    $prevBlockFirst = max(1, $startPage - $blockSize);
+    $nextBlockFirst = min($lastPage, $endPage + 1);
+@endphp
+
 <div class="board-pagination">
     <nav aria-label="페이지 네비게이션">
-        @php
-            $lastPage = $paginator->lastPage();
-            $currentPage = $paginator->currentPage();
-            $prevTenPage = max(1, $currentPage - 10);
-            $nextTenPage = min($lastPage, $currentPage + 10);
-        @endphp
         <ul class="pagination">
-            {{-- 첫 페이지로 이동 --}}
+            {{-- 첫 페이지 --}}
             @if ($paginator->onFirstPage())
                 <li class="page-item disabled">
-                    <span class="page-link">
+                    <span class="page-link" aria-hidden="true">
                         <i class="fas fa-angle-double-left"></i>
                     </span>
                 </li>
             @else
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->url(1) }}" title="첫 페이지로">
+                    <a class="page-link" href="{{ $paginator->url(1) }}" title="첫 페이지">
                         <i class="fas fa-angle-double-left"></i>
                     </a>
                 </li>
             @endif
 
-            {{-- 이전 페이지 링크 --}}
-            @if ($currentPage <= 10)
+            {{-- 이전 블록 (표시 구간만큼 앞으로) --}}
+            @if (! $hasPrevBlock)
                 <li class="page-item disabled">
-                    <span class="page-link">
+                    <span class="page-link" aria-hidden="true">
                         <i class="fas fa-chevron-left"></i>
                     </span>
                 </li>
             @else
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->url($prevTenPage) }}" rel="prev" title="이전 10페이지">
+                    <a class="page-link" href="{{ $paginator->url($prevBlockFirst) }}" rel="prev" title="이전 {{ $blockSize }}페이지 묶음">
                         <i class="fas fa-chevron-left"></i>
                     </a>
                 </li>
             @endif
 
-            {{-- 페이지 번호들 --}}
-            @php $endPage = min($lastPage, 10); @endphp
-
-            @foreach ($paginator->getUrlRange(1, $endPage) as $page => $url)
-                @if ($page == $paginator->currentPage())
-                    <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+            {{-- 현재 블록의 페이지 번호 --}}
+            @foreach ($paginator->getUrlRange($startPage, $endPage) as $page => $url)
+                @if ($page === $currentPage)
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ $page }}</span>
+                    </li>
                 @else
-                    <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                    </li>
                 @endif
             @endforeach
 
-            {{-- 다음 페이지 링크 --}}
-            @if ($currentPage + 10 <= $lastPage)
-                <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->url($nextTenPage) }}" rel="next" title="다음 10페이지">
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                </li>
-            @else
+            {{-- 다음 블록 --}}
+            @if (! $hasNextBlock)
                 <li class="page-item disabled">
-                    <span class="page-link">
+                    <span class="page-link" aria-hidden="true">
                         <i class="fas fa-chevron-right"></i>
                     </span>
+                </li>
+            @else
+                <li class="page-item">
+                    <a class="page-link" href="{{ $paginator->url($nextBlockFirst) }}" rel="next" title="다음 {{ $blockSize }}페이지 묶음">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
                 </li>
             @endif
 
-            {{-- 마지막 페이지로 이동 --}}
-            @if ($paginator->hasMorePages())
-                <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->url($paginator->lastPage()) }}" title="마지막 페이지로">
-                        <i class="fas fa-angle-double-right"></i>
-                    </a>
-                </li>
-            @else
+            {{-- 마지막 페이지 --}}
+            @if ($currentPage >= $lastPage)
                 <li class="page-item disabled">
-                    <span class="page-link">
+                    <span class="page-link" aria-hidden="true">
                         <i class="fas fa-angle-double-right"></i>
                     </span>
                 </li>
+            @else
+                <li class="page-item">
+                    <a class="page-link" href="{{ $paginator->url($lastPage) }}" title="마지막 페이지">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
             @endif
         </ul>
-    </nav>   
-   
+    </nav>
 </div>

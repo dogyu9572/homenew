@@ -3,7 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '구축부터 운영까지 책임지는 홈페이지 유지보수 서비스. 홈페이지코리아입니다.')
-@section('keywords', '홈페이지 유지보수(386), 홈페이지 관리업체(113), 홈페이지 유지보수 업체(76), 홈페이지 수정(213), 홈페이지 오류(50), 웹사이트 관리(356)')
+@section('keywords', '홈페이지 유지보수, 홈페이지 관리업체, 홈페이지 유지보수 업체, 홈페이지 수정, 홈페이지 오류, 웹사이트 관리')
 @section('sga_plus')
 ,"mainEntity": [
     {
@@ -79,39 +79,42 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="service-problem-title" data-aos="fade-up">홈페이지 배포는 됐는데<br/> <strong>이런 문제를 경험하셨나요?</strong></h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>긴급 오류가 발생했는데 개발사 연락이 안 돼요 <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>갑작스러운 서버 다운, 결제 오류, 페이지 접속 불가. 비즈니스가 멈추는 순간을 경험했어요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>자체 개발팀이 없어서 작은 수정도 어려워요 <img src="/images/emoji_sad.png" alt="" aria-hidden="true"></h3>
 						<p>텍스트 하나, 이미지 하나 바꾸는데도 외주 의뢰가 필요합니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>보안 업데이트와 성능 관리가 불안해요 <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>문제가 생긴 뒤에 대응하면 이미 늦습니다. 전문가의 선제적인 점검과 관리가 필요합니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 
 	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="service-solution-title" data-aos="fade-up">홈페이지 제작, 끝이 아닙니다.<br/> <strong>지속적인 관리로 비즈니스를 성장시키세요.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="service-solution-title">홈페이지 제작, 끝이 아닙니다.<br/> <strong>지속적인 관리로 비즈니스를 성장시키세요.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_c1">
+					<object data="/images/icon_solution_c01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>긴급 대응 및 홈페이지 오류 처리</h3>
 					<p>모든 홈페이지 유지보수 요청은 <br class="pc_vw">영업일 기준 24시간 이내에 <br class="pc_vw">1차적으로 확인하고 처리합니다.</p>
 				</li>
 				<li class="i_c2">
+					<object data="/images/icon_solution_c02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>콘텐츠 및 기능 수정 지원</h3>
 					<p>텍스트, 이미지, 배너 제작 등 콘텐츠 수정부터 <br class="pc_vw">기능 개선, 버그 수정까지 빠르게 처리하고 <br class="pc_vw">운영 업무도 함께 지원합니다.</p>
 				</li>
 				<li class="i_c3">
+					<object data="/images/icon_solution_c03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>선제적 보안·성능 관리</h3>
 					<p>보안 업데이트, 성능 최적화 등 <br class="pc_vw">권장 사항을 투명하게 안내하여 <br class="pc_vw">예상치 못한 장애와 보안 위험을 사전에 차단합니다.</p>
 				</li>
@@ -160,29 +163,29 @@
 			<h2 id="service-review-title">1,100개+ 고객사가 <br/><strong>홈페이지코리아를 추천합니다.</strong></h2>
 			<ul class="review_list">
 				<li>
-					<h3 class="sound_only">공공기관</h3>
+					<h3 class="sound_only">박물관</h3>
 					<div class="flex_tit">
 						<h4>박물관 특성상 주말에도 운영되는데, 갑자기 예약  시스템에 오류가 발생했을 때 즉시 대응해주셔서 관람객 불편을 최소화할 수 있었어요. <strong>전담 PM이 배정</strong>되어 있어 <strong>매번 상황을 새로 설명할 필요 없이 빠르게 소통</strong>할 수 있는 점이 가장 만족스럽습니다.</h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00박물관<span aria-hidden="true">공공기관</span></p>
+					<p><i><img src="/images/icon_review_logo_c1.svg" alt="" aria-hidden="true"></i>녹청자박물관<span aria-hidden="true">박물관</span></p>
 				</li>
 				<li>
-					<h3 class="sound_only">재단</h3>
+					<h3 class="sound_only">쇼핑몰</h3>
 					<div class="flex_tit">
 						<h4>B2B 거래 특성상 고객사별 맞춤 가격 설정, 재고 관리 등 복잡한 시스템을 운영하고 있는데요. 홈페이지코리아가 구축 당시부터 <strong>우리 업무 프로세스를 완벽히 이해</strong>하고 있어서, <strong>작은 수정이나 개선 사항도 정확하게 반영</strong>됩니다.</h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00기업<span aria-hidden="true">재단</span></p>
+					<p><i><img src="/images/icon_review_logo_c2.svg" alt="" aria-hidden="true"></i>서주엔터프라이즈<span aria-hidden="true">쇼핑몰</span></p>
 				</li>
 				<li>
-					<h3 class="sound_only">학회</h3>
+					<h3 class="sound_only">대학교</h3>
 					<div class="flex_tit">
 						<h4>연구 장비 예약 시스템이라 보안이 무엇보다 중요한데, 정기적으로 보안 점검 결과를 리포트로 받고 있어요. <strong>문제가 생기기 전에 미리 조치</strong>해주셔서 지금까지 큰 장애 없이 <strong>안정적으로 운영하고 있습니다.</strong></h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00학교<span aria-hidden="true">학회</span></p>
+					<p><i><img src="/images/icon_review_logo_c3.svg" alt="" aria-hidden="true"></i>서울대학교 농생명공동기기원<span aria-hidden="true">대학교</span></p>
 				</li>
 			</ul>
 			<div class="flex_center">
-				<a href="/portfolio/" class="btn_link slim">유지 보수 사례 더보기</a>
+				<a href="/portfolio/" class="btn_link slim">유지보수 사례 더보기</a>
 			</div>
 		</div>
 	</section>
@@ -347,6 +350,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

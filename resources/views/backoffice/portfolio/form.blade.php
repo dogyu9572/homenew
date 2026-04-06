@@ -1,4 +1,5 @@
 @php
+    $listQuery = $listQuery ?? [];
     $portfolio = $portfolio ?? null;
     $isEdit = (bool) $portfolio;
     $action = $isEdit ? route('backoffice.portfolio.update', $portfolio) : route('backoffice.portfolio.store');
@@ -41,6 +42,14 @@
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data" id="portfolioForm">
     @csrf
     @if($isEdit) @method($method) @endif
+    @foreach(['page' => 'return_page', 'per_page' => 'return_per_page', 'category' => 'return_category', 'keyword' => 'return_keyword'] as $src => $name)
+        @php
+            $rv = old($name, $listQuery[$src] ?? '');
+        @endphp
+        @if($rv !== null && $rv !== '')
+            <input type="hidden" name="{{ $name }}" value="{{ $rv }}">
+        @endif
+    @endforeach
 
     <div class="member-form-section">
         <h3 class="member-section-title">기본 정보</h3>
@@ -88,6 +97,17 @@
                 <label class="member-form-label">제목 <span class="required">*</span></label>
                 <div class="member-form-field">
                     <input type="text" class="board-form-control" name="title" required value="{{ old('title', $portfolio->title ?? '') }}">
+                </div>
+            </div>
+
+            <div class="member-form-row">
+                <label class="member-form-label">URL 슬러그</label>
+                <div class="member-form-field">
+                    <input type="text" class="board-form-control @error('slug') is-invalid @enderror" name="slug" id="portfolioSlugInput" value="{{ old('slug', $portfolio->slug ?? '') }}" placeholder="영문 소문자·숫자·하이픈 (비우면 제목 기준 자동 생성)" autocomplete="off">
+                    @error('slug')
+                        <p class="text-danger" style="margin-top:6px;">{{ $message }}</p>
+                    @enderror
+                    <p class="text-muted">공개 주소: /{슬러그}</p>
                 </div>
             </div>
 
@@ -204,7 +224,16 @@
             <div class="member-form-row">
                 <label class="member-form-label">사이트 링크(URL)</label>
                 <div class="member-form-field">
-                    <input type="url" class="board-form-control" name="site_url" value="{{ old('site_url', $portfolio->site_url ?? '') }}">
+                    <input type="url" class="board-form-control @error('site_url') is-invalid @enderror" name="site_url" value="{{ old('site_url', $portfolio->site_url ?? '') }}" placeholder="https://">
+                    @error('site_url')
+                        <p class="text-danger" style="margin-top:6px;">{{ $message }}</p>
+                    @enderror
+                    <div class="board-checkbox-group" style="margin-top:10px;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="is_direct_site_link" value="1" @checked(old('is_direct_site_link', $portfolio?->is_direct_site_link ?? false))>
+                            <span>상세 페이지 없이 새창으로 링크 이동</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>

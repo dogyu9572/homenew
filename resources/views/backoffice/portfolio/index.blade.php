@@ -28,7 +28,7 @@
             <button type="button" id="btnDeleteMultiple" class="btn btn-danger">
                 <i class="fas fa-trash"></i> 선택 삭제
             </button>
-            <a href="{{ route('backoffice.portfolio.create') }}" class="btn btn-success">
+            <a href="{{ route('backoffice.portfolio.create', $listQuery ?? []) }}" class="btn btn-success">
                 <i class="fas fa-plus"></i> 포트폴리오 등록
             </a>
         </div>
@@ -90,6 +90,11 @@
 
             <form id="bulkDeleteForm" method="POST" action="{{ route('backoffice.portfolio.delete-multiple') }}">
                 @csrf
+                @foreach(['page' => 'return_page', 'per_page' => 'return_per_page', 'category' => 'return_category', 'keyword' => 'return_keyword'] as $src => $name)
+                    @if(!empty($listQuery[$src]))
+                        <input type="hidden" name="{{ $name }}" value="{{ $listQuery[$src] }}">
+                    @endif
+                @endforeach
                 <div class="table-responsive">
                     <table class="board-table @if($portfolios->count()) sortable-table @endif">
                         <thead>
@@ -108,7 +113,14 @@
                                 <th>관리</th>
                             </tr>
                         </thead>
-                        <tbody @if($portfolios->count()) id="sortable-tbody" data-sort-endpoint="{{ route('backoffice.portfolio.update-order') }}" @endif>
+                        <tbody @if($portfolios->count()) id="sortable-tbody"
+                            data-sort-endpoint="{{ route('backoffice.portfolio.update-order') }}"
+                            data-portfolio-merge-sort="1"
+                            data-list-page="{{ $portfolios->currentPage() }}"
+                            data-list-per-page="{{ $portfolios->perPage() }}"
+                            data-category="{{ e(request('category', '')) }}"
+                            data-keyword="{{ e(request('keyword', '')) }}"
+                        @endif>
                         @forelse($portfolios as $index => $portfolio)
                             <tr @if($portfolios->count()) data-post-id="{{ $portfolio->id }}" @endif>
                                 <td>
@@ -126,7 +138,7 @@
                                 <td>{{ $portfolio->is_active ? '노출' : '숨김' }}</td>
                                 <td>
                                     <div class="board-btn-group">
-                                        <a href="{{ route('backoffice.portfolio.edit', $portfolio) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('backoffice.portfolio.edit', array_merge(['portfolio' => $portfolio], $listQuery ?? [])) }}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-edit"></i> 수정
                                         </a>
                                         <button class="btn btn-danger btn-sm btn-delete-single" type="button" data-action="{{ route('backoffice.portfolio.destroy', $portfolio) }}">

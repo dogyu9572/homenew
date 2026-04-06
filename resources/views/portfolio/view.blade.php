@@ -2,19 +2,26 @@
 @section('title', $sName)
 @section('sName', $sName)
 @section('description', '중견/대기업, 학회/협회, 공공기관, 병원/의료, 대학/학원 등 다양한 분야의 홈페이지 제작 포트폴리오를 확인하세요. 홈페이지제작, 유지보수, 온라인쇼핑몰, SI시스템개발, 앱개발, AI솔루션까지 제공합니다.')
+@section('canonical_url', $canonicalUrl)
+@if(! empty($ogImageAbsolute))
+@section('og_image', $ogImageAbsolute)
+@endif
 @section('sga_plus')
+@php
+    $sgaJsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+@endphp
 ,"mainEntity": {
     "@@type": "CreativeWork",
-    "name": @json($portfolio->title),
+    "name": @json($portfolio->title, $sgaJsonFlags),
     "description": "@yield('description')",
-    "url": @json($canonicalUrl),
-    "image": @json($portfolio->thumbnail_image ? url(\Illuminate\Support\Facades\Storage::url($portfolio->thumbnail_image)) : null),
+    "url": @json($canonicalUrl, $sgaJsonFlags),
+    "image": @json($ogImageAbsolute ?? null, $sgaJsonFlags),
     "creator": {
         "@@type": "Organization",
         "name": "홈페이지코리아",
         "url": "https://homepagekorea.com"
     },
-    "client": @json($portfolio->title)
+    "client": @json($portfolio->title, $sgaJsonFlags)
 }
 @endsection
 
@@ -156,6 +163,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

@@ -5,22 +5,36 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta name="robots" content="index, follow">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>대한민국 1세대 웹에이전시 홈페이지코리아@if(isset($gNum) && $gNum == 'main')@else | @yield('title', '')@endif</title>
-	<meta name="title" content="대한민국 1세대 웹에이전시 홈페이지코리아@if(isset($gNum) && $gNum == 'main')@else | @yield('title', '')@endif" />
+	@php
+		$v = view();
+		$pageTitle = trim($v->yieldContent('title', ''));
+		$layoutDocumentTitle = $pageTitle !== '' ? $pageTitle : '대한민국 1세대 웹에이전시 홈페이지코리아';
+		$pageDescription = trim($v->yieldContent('description', ''));
+		$layoutMetaDescription = $pageDescription !== '' ? $pageDescription : '홈페이지코리아';
+		// 이중 따옴표 속성 안에서는 작은따옴표를 &#039;로 바꿀 필요 없음(ENT_QUOTES 대신 ENT_COMPAT)
+		$layoutDocumentTitleAttr = htmlspecialchars($layoutDocumentTitle, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
+		$layoutMetaDescriptionAttr = htmlspecialchars($layoutMetaDescription, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
+	@endphp
+	<title>{!! $layoutDocumentTitleAttr !!}</title>
+	<meta name="title" content="{!! $layoutDocumentTitleAttr !!}" />
 	<meta name="subject" content="홈페이지코리아" />
 	@yield('meta_tags')
-    <meta name="description" content="@yield('description', '대한민국 기업 성장을 함께한 27년 경력 웹 에이전시 홈페이지코리아. 1,100여 개 공공기관과 기업이 선택한 검증된 기술력으로 홈페이지 제작, 유지보수, 쇼핑몰 개발, SI 시스템, 앱 개발, AI 솔루션까지 제공합니다.')">
+    <meta name="description" content="{!! $layoutMetaDescriptionAttr !!}">
     <meta name="author" content="홈페이지코리아">
 	<meta name="copyright" content="홈페이지코리아" />
-    <meta property="og:title" content="대한민국 1세대 웹에이전시 홈페이지코리아@if(isset($gNum) && $gNum == 'main')@else | @yield('title', '')@endif">
+    <meta property="og:title" content="{!! $layoutDocumentTitleAttr !!}">
 	<meta property="og:subject" content="홈페이지코리아" />
-    <meta property="og:description" content="@yield('description', '대한민국 기업 성장을 함께한 27년 경력 웹 에이전시 홈페이지코리아. 1,100여 개 공공기관과 기업이 선택한 검증된 기술력으로 홈페이지 제작, 유지보수, 쇼핑몰 개발, SI 시스템, 앱 개발, AI 솔루션까지 제공합니다.')">
-    <meta property="og:image" content="https://homenew.hk-test.co.kr/images/og_image.jpg">
+    <meta property="og:description" content="{!! $layoutMetaDescriptionAttr !!}">
+    <meta property="og:image" content="@yield('og_image', asset('images/og_image.jpg'))">
 	<link rel="icon" href="/images/favicon.png" type="image/x-icon"/>
     <meta property="og:site_name" content="홈페이지코리아">
-    <link rel="canonical" href="https://homepagekorea.com" />
-	<meta property="og:type" content="website">
-    <meta property="og:url" content="https://homepagekorea.com">
+    <link rel="canonical" href="@yield('canonical_url', url()->current())" />
+	<meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="@yield('canonical_url', url()->current())">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{!! $layoutDocumentTitleAttr !!}">
+    <meta name="twitter:description" content="{!! $layoutMetaDescriptionAttr !!}">
+    <meta name="twitter:image" content="@yield('og_image', asset('images/og_image.jpg'))">
 	
 	<meta name="theme-color" content="#ffffff">
 	<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
@@ -32,14 +46,14 @@
 	{
 		"@@context": "https://schema.org",
 		"@@type": "WebPage",
-		"name": "대한민국 1세대 웹에이전시 홈페이지코리아@if(isset($gNum) && $gNum == 'main')@else | @yield('title', '')@endif",
-		"description": "@yield('description')",
-		"keywords": "@yield('keywords', '홈페이지코리아, 웹 에이전시, 홈페이지 제작 (2.6만)')",
+		"name": @json($layoutDocumentTitle, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+		"description": @json($layoutMetaDescription, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+		"keywords": "@yield('keywords', '홈페이지코리아, 웹 에이전시, 홈페이지 제작')",
 		"url": "{{ url()->current() }}",
 		"inLanguage": "ko-KR",
 		"publisher": {
 			"@@type": "Organization",
-			"name": "대한민국 1세대 웹에이전시 홈페이지코리아@if(isset($gNum) && $gNum == 'main')@else | @yield('title', '')@endif",
+			"name": "홈페이지코리아",
 			"url": "https://homepagekorea.com",
 			"logo": {
 				"@@type": "ImageObject",
@@ -136,6 +150,7 @@
 								<li><a href="/portfolio?category=공공기관" @if(request('category') == '공공기관') class="on" aria-current="page" @endif>공공기관</a></li>
 								<li><a href="/portfolio?category=병원%2F의료" @if(request('category') == '병원/의료') class="on" aria-current="page" @endif>병원/의료</a></li>
 								<li><a href="/portfolio?category=대학%2F학원" @if(request('category') == '대학/학원') class="on" aria-current="page" @endif>대학/학원/연구실</a></li>
+								<li><a href="/portfolio?category=쇼핑몰" @if(request('category') == '쇼핑몰') class="on" aria-current="page" @endif>쇼핑몰</a></li>
 								<li><a href="/portfolio?category=일반" @if(request('category') == '일반') class="on" aria-current="page" @endif>일반</a></li>
 							</ul>
 						</li>
@@ -143,11 +158,11 @@
 							<a href="/blog/" id="main-menu-04" aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '04' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '04' ? 'aria-current="page"' : '' }} class="pc_vw">BLOG</a>
 							<button type="button" class="mo_vw">BLOG</button>
 							<ul class="snb" aria-labelledby="main-menu-04">
-								<li><a href="/blog/" @if(($gNum ?? '') == '04' && !request('category')) class="on" aria-current="page" @endif>전체</a></li>
-								<li><a href="/blog?category=team_story" @if(request('category') == 'team_story') class="on" aria-current="page" @endif>팀스토리</a></li>
-								<li><a href="/blog?category=web_insight" @if(request('category') == 'web_insight') class="on" aria-current="page" @endif>웹 개발 인사이트</a></li>
-								<li><a href="/blog?category=homepage_trend" @if(request('category') == 'homepage_trend') class="on" aria-current="page" @endif>홈페이지 트렌드</a></li>
-								<li><a href="/blog?category=success_case" @if(request('category') == 'success_case') class="on" aria-current="page" @endif>성공사례</a></li>
+								<li><a href="{{ route('blog.blog_list') }}" @if(request()->routeIs('blog.blog_list')) class="on" aria-current="page" @endif>전체</a></li>
+								<li><a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => 'team-story']) }}" @if(request()->routeIs('blog.blog_list_category') && request()->route('blogCategoryPath') === 'team-story') class="on" aria-current="page" @endif>팀스토리</a></li>
+								<li><a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => 'website-insights']) }}" @if(request()->routeIs('blog.blog_list_category') && request()->route('blogCategoryPath') === 'website-insights') class="on" aria-current="page" @endif>웹 개발 인사이트</a></li>
+								<li><a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => 'website-trends']) }}" @if(request()->routeIs('blog.blog_list_category') && request()->route('blogCategoryPath') === 'website-trends') class="on" aria-current="page" @endif>홈페이지 트렌드</a></li>
+								<li><a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => 'success-stories']) }}" @if(request()->routeIs('blog.blog_list_category') && request()->route('blogCategoryPath') === 'success-stories') class="on" aria-current="page" @endif>성공사례</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -245,17 +260,18 @@
 								<li><a href="/portfolio?category=공공기관" @if(request('category') == '공공기관') class="on" aria-current="page" @endif>공공기관</a></li>
 								<li><a href="/portfolio?category=병원%2F의료" @if(request('category') == '병원/의료') class="on" aria-current="page" @endif>병원/의료</a></li>
 								<li><a href="/portfolio?category=대학%2F학원" @if(request('category') == '대학/학원') class="on" aria-current="page" @endif>대학/학원/연구실</a></li>
+								<li><a href="/portfolio?category=쇼핑몰" @if(request('category') == '쇼핑몰') class="on" aria-current="page" @endif>쇼핑몰</a></li>
 								<li><a href="/portfolio?category=일반" @if(request('category') == '일반') class="on" aria-current="page" @endif>일반</a></li>
 							</ul>
 						</li>
 						<li class="menu {{ ($gNum ?? '') == '04' ? 'on' : '' }}">
 							<a href="/blog/" id="booter-menu-04" aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '04' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '04' ? 'aria-current="page"' : '' }}>BLOG</a>
 							<ul class="snb" aria-labelledby="booter-menu-04">
-								<li><a href="/blog/" @if(($gNum ?? '') == '04' && !request('category')) class="on" aria-current="page" @endif>전체</a></li>
-								<li><a href="/blog?category=team_story" @if(request('category') == 'team_story') class="on" aria-current="page" @endif>팀스토리</a></li>
-								<li><a href="/blog?category=web_insight" @if(request('category') == 'web_insight') class="on" aria-current="page" @endif>웹 개발 인사이트</a></li>
-								<li><a href="/blog?category=homepage_trend" @if(request('category') == 'homepage_trend') class="on" aria-current="page" @endif>홈페이지 트렌드</a></li>
-								<li><a href="/blog?category=success_case" @if(request('category') == 'success_case') class="on" aria-current="page" @endif>성공사례</a></li>
+								<li><a href="{{ route('blog.blog_list') }}" @if(request()->routeIs('blog.blog_list')) class="on" aria-current="page" @endif>전체</a></li>
+								<li><a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => 'team-story']) }}" @if(request()->routeIs('blog.blog_list_category') && request()->route('blogCategoryPath') === 'team-story') class="on" aria-current="page" @endif>팀스토리</a></li>
+								<li><a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => 'website-insights']) }}" @if(request()->routeIs('blog.blog_list_category') && request()->route('blogCategoryPath') === 'website-insights') class="on" aria-current="page" @endif>웹 개발 인사이트</a></li>
+								<li><a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => 'website-trends']) }}" @if(request()->routeIs('blog.blog_list_category') && request()->route('blogCategoryPath') === 'website-trends') class="on" aria-current="page" @endif>홈페이지 트렌드</a></li>
+								<li><a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => 'success-stories']) }}" @if(request()->routeIs('blog.blog_list_category') && request()->route('blogCategoryPath') === 'success-stories') class="on" aria-current="page" @endif>성공사례</a></li>
 							</ul>
 						</li>
 					</ul>

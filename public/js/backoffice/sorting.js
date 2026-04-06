@@ -111,7 +111,22 @@ class BoardSorting {
 
             let response;
             if (sortEndpoint) {
-                // 포트폴리오 등: data-sort-endpoint 로 전용 URL 지정 (본문 JSON은 게시판과 동일한 updates 형식)
+                // 포트폴리오: 페이지네이션 시에도 전체 순서가 유지되도록 목록 컨텍스트 + 현재 화면 행 ID 순서 전송
+                const tbodyEl = document.querySelector('#sortable-tbody');
+                const usePortfolioMerge = tbodyEl?.dataset?.portfolioMergeSort === '1';
+                const payload = { updates };
+                if (usePortfolioMerge && tbodyEl) {
+                    const orderedIds = Array.from(
+                        tbodyEl.querySelectorAll('tr[data-post-id]')
+                    ).map((row) => parseInt(row.dataset.postId, 10));
+                    payload.ordered_ids = orderedIds;
+                    payload.portfolio_list_context = {
+                        page: parseInt(tbodyEl.dataset.listPage, 10) || 1,
+                        per_page: parseInt(tbodyEl.dataset.listPerPage, 10) || 10,
+                        category: tbodyEl.dataset.category ?? '',
+                        keyword: tbodyEl.dataset.keyword ?? ''
+                    };
+                }
                 response = await fetch(sortEndpoint, {
                     method: 'POST',
                     headers: {
@@ -119,7 +134,7 @@ class BoardSorting {
                         'Accept': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    body: JSON.stringify({ updates })
+                    body: JSON.stringify(payload)
                 });
             } else {
                 // 게시판: URL에서 slug 추출 (/backoffice/board-posts/{slug})

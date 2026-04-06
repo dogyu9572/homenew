@@ -3,7 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '운영 효율을 높이는 통합 SI 시스템 개발. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 예약·백오피스·ERP·CMS·LMS를 하나로 연결합니다.')
-@section('keywords', 'SI 개발(153), 시스템개발(193), 예약페이지 (113), 예약페이지 만들기(39), 백오피스 개발(58), ERP 개발(490), LMS 시스템(423)')
+@section('keywords', 'SI 개발, 시스템개발, 예약페이지, 예약페이지 만들기, 백오피스 개발, ERP 개발, LMS 시스템')
 @section('sga_plus')
 ,"mainEntity": [
     {
@@ -70,21 +70,21 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="service-problem-title" data-aos="fade-up">분산된 시스템으로 인한 운영 비효율,<br class="pc_vw"> <strong>통합 솔루션이 필요하신가요?</strong></h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>기업 자산 데이터가 여러 시스템에 흩어져 있어요 <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>예약은 예약 페이지, 회원 정보는 CMS, 결제는 ERP, 교육은 LMS... 각 시스템이 따로 운영되다 보니 데이터를 통합해서 보거나 분석하기가 너무 어렵습니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>같은 작업을 여러 번 반복해야 해요 <img src="/images/emoji_sad.png" alt="" aria-hidden="true"></h3>
 						<p>한 건의 예약을 처리하려면 예약 시스템에 입력하고, 백오피스에서 승인하고, ERP에서 결제 확인하고... 같은 정보를 계속 옮겨 적어야 하는 이중·삼중 작업이 반복됩니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>시스템 간 연동이 안 되어 실시간 관리가 불가능해요 <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>예약·결제·교육·콘텐츠 관리가 실시간으로 동기화되지 않아, 현황 파악이 늦고 고객 응대에도 차질이 생깁니다. 통합된 백오피스가 절실합니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
@@ -98,6 +98,7 @@
 					<div class="flex">
 						<div class="imgfit"><img src="/images/img_service_how_e01.png" alt="" aria-hidden="true"></div>
 						<div class="txt">
+							<object data="/images/icon_service_how_e01.svg" type="image/svg+xml" aria-hidden="true"></object>
 							<h3><strong>예약 시스템</strong> 개발</h3>
 							<p>장비 예약, 시설 예약, 교육 신청 등 <strong>다양한 예약 프로세스를 맞춤 설계</strong>하여 <br class="pc_vw"><strong>접수부터 승인, 이용, 청구까지 한 번에 처리</strong>합니다.</p>
 						</div>
@@ -113,6 +114,7 @@
 					<div class="flex">
 						<div class="imgfit"><img src="/images/img_service_how_e02.png" alt="" aria-hidden="true"></div>
 						<div class="txt">
+							<object data="/images/icon_service_how_e02.svg" type="image/svg+xml" aria-hidden="true"></object>
 							<h3><strong>ERP</strong> 개발 <span>Enterprise Resource Planning</span></h3>
 							<p>결제, 청구, 정산, 재고 관리 등 <br class="pc_vw"><strong>기관 운영에 필요한 전사적 자원 관리 시스템을 개발</strong>합니다.</p>
 						</div>
@@ -128,6 +130,7 @@
 					<div class="flex">
 						<div class="imgfit"><img src="/images/img_service_how_e03.png" alt="" aria-hidden="true"></div>
 						<div class="txt">
+							<object data="/images/icon_service_how_e03.svg" type="image/svg+xml" aria-hidden="true"></object>
 							<h3><strong>백오피스</strong> 개발</h3>
 							<p>예약 관리, 회원 관리, 통계 분석 등 <br class="pc_vw"><strong>운영에 필요한 모든 기능을 통합</strong>한 <strong>관리자 전용 시스템을 구축</strong>합니다.</p>
 						</div>
@@ -143,6 +146,7 @@
 					<div class="flex">
 						<div class="imgfit"><img src="/images/img_service_how_e04.png" alt="" aria-hidden="true"></div>
 						<div class="txt">
+							<object data="/images/icon_service_how_e04.svg" type="image/svg+xml" aria-hidden="true"></object>
 							<h3><strong>CMS</strong> 개발 <span>Content Management System</span></h3>
 							<p>콘텐츠 등록, 수정, 삭제를 <strong>직관적으로 관리</strong>할 수 있는 <br class="pc_vw"><strong>맞춤형 콘텐츠 관리 시스템을 제공</strong>합니다.</p>
 						</div>
@@ -158,6 +162,7 @@
 					<div class="flex">
 						<div class="imgfit"><img src="/images/img_service_how_e05.png" alt="" aria-hidden="true"></div>
 						<div class="txt">
+							<object data="/images/icon_service_how_e05.svg" type="image/svg+xml" aria-hidden="true"></object>
 							<h3><strong>LMS</strong> 개발 <span>Learning Management System</span></h3>
 							<p>온라인 교육, 학습 자료 관리, 수강 이력 추적 등 <br class="pc_vw"><strong>교육 운영에 최적화된 학습 관리 시스템을 구축</strong>합니다.</p>
 						</div>
@@ -182,14 +187,17 @@
 			<h2 id="service-solution-title">홈페이지코리아와 함께하면 <br class="pc_vw"><strong>시스템의 수준이 달라집니다.</strong></h2>
 			<ul class="solution_list">
 				<li class="i_e1">
+					<object data="/images/icon_solution_e01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>독보적인 SI 역량</h3>
 					<p>학교 및 정부 시스템 연동 경험을 바탕으로 <br class="pc_vw">기관 특유의 복잡한 이해관계를 <br class="pc_vw">하나의 시스템으로 재정리합니다.</p>
 				</li>
 				<li class="i_e2">
+					<object data="/images/icon_solution_e02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>검증된 보안 및 표준 기술</h3>
 					<p>JAVA, React 등 최신 스택 활용은 물론, <br class="pc_vw">웹 접근성 준수와 시큐어 코딩(2FA/SSO) 적용으로 <br class="pc_vw">가장 안전한 시스템을 구현합니다.</p>
 				</li>
 				<li class="i_e3">
+					<object data="/images/icon_solution_e03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>장기 운영 중심의 유지보수</h3>
 					<p>시스템 구조를 설계한 전문 PM이 <br class="pc_vw">직접 유지보수를 담당하여, 향후 고도화 및 리뉴얼 시에도 <br class="pc_vw">시행착오 없는 운영 이력 관리를 지원합니다.</p>
 				</li>
@@ -246,6 +254,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

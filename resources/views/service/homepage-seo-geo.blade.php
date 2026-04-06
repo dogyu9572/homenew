@@ -3,7 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '검색엔진과 AI가 이해하는 웹사이트 개발. Schema 마크업, sitemap 자동 생성, AI 검색 최적화까지. 1,100개 고객사가 선택한 홈페이지코리아의 SEO·GEO 솔루션을 만나보세요.')
-@section('keywords', 'SEO 1.6만, GEO 1.3만, AEO 3.9천, 검색엔진 최적화 1천, AI 검색 최적화 220, SEO 최적화 3.2천, GEO 최적화 483, AI 검색 8.1천')
+@section('keywords', 'SEO, GEO, AEO, 검색엔진 최적화, AI 검색 최적화, SEO 최적화, GEO 최적화, AI 검색')
 @section('sga_plus')
 ,"mainEntity": [
     {
@@ -88,39 +88,42 @@
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="service-problem-title" data-aos="fade-up"><strong>SEO·GEO 최적화 가능한 홈페이지 개발사,</strong><br/> 찾기 어려우셨죠?</h2>
 				<!-- <p class="tb">각 서비스는 고객의 비즈니스 목표에 맞춰 <strong>최적화된 솔루션</strong>을 제공하며,<br/><strong>기획부터 디자인, 개발, 운영까지</strong> 전 과정을 지원합니다.</p> -->
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>개발사에 SEO를 요청했더니 잘 모르더라고요. <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>여러 업체에 문의해봤는데 "SEO 됩니다"는 말만 하고, 정작 어떻게 하는지 물어보면 대답을 못 하더라고요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>콘텐츠가 검색 결과에 노출되지 않아요. <img src="/images/emoji_sad.png" alt="" aria-hidden="true"></h3>
 						<p>개인정보보호법, 정보보안 정책, 내부망/외부망 분리 등 엄격한 보안 홈페이지 새로 만들고 나서 검색해봤는데 우리 회사가 안 나와요.<br/>개발사한테 물어봤더니 "시간이 지나면 된다"는 말만 하고요.기준을 만족하는 개발사를 찾기 어렵습니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>사이트를 새로 만들었더니 SEO 유입이 사라졌어요. <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>리뉴얼 전에는 검색에 잘 나왔는데, 새로 오픈하고 나서 순위가 전부 떨어졌어요.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="service-solution-title" data-aos="fade-up">홈페이지코리아는 <br/><strong>기획 단계부터 SEO·GEO 구조를 함께 설계 합니다.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="service-solution-title">홈페이지코리아는 <br/><strong>기획 단계부터 SEO·GEO 구조를 함께 설계 합니다.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_a1">
+					<object data="/images/icon_solution_a01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>SEO·GEO를 이해하는 <br class="pc_vw">홈페이지 개발 파트너</h3>
 					<p>SEO를 아는 개발자는 기능을 구현하면서 <br class="pc_vw">동시에 검색 구조를 함께 설계합니다. <br class="pc_vw">나중에 따로 최적화 작업을 추가할 필요가 없습니다.</p>
 				</li>
 				<li class="i_a2">
+					<object data="/images/icon_solution_a02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>검색엔진이 정확히 읽는 <br class="pc_vw">홈페이지 구조</h3>
 					<p>기술 구조를 기획 단계에서 설계합니다. <br class="pc_vw">신규 페이지가 생성될 때마다 자동으로 <br class="pc_vw">메타 정보가 생성되는 구조로 구축합니다.</p>
 				</li>
 				<li class="i_a3">
+					<object data="/images/icon_solution_a03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>AI 검색에서 인용되는 <br class="pc_vw">콘텐츠 설계</h3>
 					<p>AI가 신뢰 정보로 인식하는 <br class="pc_vw">Organization·Article·FAQ Schema 마크업, <br class="pc_vw">llms.txt 설정까지 적용합니다.</p>
 				</li>
@@ -136,6 +139,7 @@
 				<li class="i_a1">
 					<div class="imgfit"><img src="/images/img_service_how_a01.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_a01.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>검색엔진이 <strong>사이트 전체를 수집하도록</strong> <br class="pc_vw">홈페이지 시스템 개발</h3>
 						<ul class="inlist">
 							<li>
@@ -164,6 +168,7 @@
 				<li class="i_a2">
 					<div class="imgfit"><img src="/images/img_service_how_a02.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_a02.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>검색엔진이 <strong>페이지 내용을 이해하도록</strong><br/> 콘텐츠 퍼블리싱</h3>
 						<ul class="inlist">
 							<li>
@@ -188,6 +193,7 @@
 				<li class="i_a3">
 					<div class="imgfit"><img src="/images/img_service_how_a03.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_a03.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>검색 키워드 기반 <br/><strong>신뢰도 높은 콘텐츠 가이드 제공</strong></h3>
 						<ul class="inlist">
 							<li>
@@ -390,6 +396,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

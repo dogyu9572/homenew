@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Portfolio;
+use App\Services\ContactMailNotifier;
 use App\Services\ContactService;
 use Illuminate\Http\RedirectResponse;
 
 class ContactController extends Controller
 {
-    public function __construct(private ContactService $contactService) {}
+    public function __construct(
+        private ContactService $contactService,
+        private ContactMailNotifier $contactMailNotifier,
+    ) {}
 
     public function store(StoreContactRequest $request): RedirectResponse
     {
@@ -22,7 +26,7 @@ class ContactController extends Controller
             $sourceTitle = Portfolio::query()->whereKey($sourceId)->where('is_active', true)->value('title');
         }
 
-        $this->contactService->create(
+        $contact = $this->contactService->create(
             [
                 'company' => $validated['company'],
                 'contact_person' => $validated['contact_person'],
@@ -39,6 +43,8 @@ class ContactController extends Controller
             ],
             $request->file('attachments', [])
         );
+
+        $this->contactMailNotifier->send($contact);
 
         return redirect()
             ->route('contact.contact')

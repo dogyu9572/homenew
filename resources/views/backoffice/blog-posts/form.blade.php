@@ -61,6 +61,27 @@
             </div>
 
             <div class="member-form-row">
+                <label class="member-form-label">URL 슬러그</label>
+                <div class="member-form-field">
+                    <input type="text" class="board-form-control @error('slug') is-invalid @enderror" name="slug" id="blogPostSlugInput" value="{{ old('slug', $blogPost->slug ?? '') }}" placeholder="영문 소문자·숫자·하이픈 (비우면 기존/제목 기준 자동)" autocomplete="off">
+                    @error('slug')
+                        <p class="text-danger" style="margin-top:6px;">{{ $message }}</p>
+                    @enderror
+                    <p class="text-muted">공개 주소: /blog/{슬러그}</p>
+                </div>
+            </div>
+
+            <div class="member-form-row">
+                <label class="member-form-label">Meta Description</label>
+                <div class="member-form-field">
+                    <input type="text" class="board-form-control @error('meta_description') is-invalid @enderror" name="meta_description" value="{{ old('meta_description', $blogPost->meta_description ?? '') }}" maxlength="500" placeholder="검색·SNS 공유용 요약 (비우면 본문에서 자동 생성)" autocomplete="off">
+                    @error('meta_description')
+                        <p class="text-danger" style="margin-top:6px;">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="member-form-row">
                 <label class="member-form-label">내용</label>
                 <div class="member-form-field">
                     <textarea class="board-form-control board-textarea" name="lead_content" rows="5" placeholder="내용" data-backoffice-ckeditor data-source-editing="true">{{ old('lead_content', $blogPost->lead_content ?? '') }}</textarea>

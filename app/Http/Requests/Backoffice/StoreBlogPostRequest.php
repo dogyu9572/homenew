@@ -7,6 +7,7 @@ use App\Services\FaqPublicService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class StoreBlogPostRequest extends FormRequest
@@ -16,12 +17,38 @@ class StoreBlogPostRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('slug')) {
+            $this->merge([
+                'slug' => trim((string) $this->input('slug', '')),
+            ]);
+        }
+    }
+
     public function rules(): array
     {
         return [
             'is_notice' => ['nullable', 'boolean'],
             'category' => ['required', 'string', Rule::in(array_keys(BlogPost::CATEGORIES))],
             'title' => ['required', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string', 'max:500'],
+            'slug' => [
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
+                Rule::unique('blog_posts', 'slug'),
+                function (string $attribute, mixed $value, \Closure $fail): void {
+                    if (! is_string($value) || $value === '') {
+                        return;
+                    }
+                    $normalized = Str::slug($value);
+                    if (in_array($normalized, BlogPost::reservedPostSlugs(), true)) {
+                        $fail('이 URL 경로는 사용할 수 없습니다.');
+                    }
+                },
+            ],
             'lead_content' => ['nullable', 'string'],
             'tags_input' => ['nullable', 'string', 'max:500'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
@@ -102,6 +129,8 @@ class StoreBlogPostRequest extends FormRequest
             'sections.required' => '목차·본문 구간을 1개 이상 입력해 주세요.',
             'sections.max' => '목차·본문 구간은 최대 10개까지 가능합니다.',
             'thumbnail.max' => '썸네일 파일은 5MB 이하로 업로드해 주세요.',
+            'slug.regex' => 'URL 슬러그는 영문 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다. (한글·공백·특수문자·언더스코어(_)는 사용할 수 없습니다.)',
+            'slug.unique' => '이미 사용 중인 URL 슬러그입니다. 다른 값을 입력해 주세요.',
         ];
     }
 }

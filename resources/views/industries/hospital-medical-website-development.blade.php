@@ -3,7 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '병원 홈페이지 제작을 위한 맞춤형 솔루션. 환자 중심 예약 시스템부터 의료 데이터 보안, 웹 접근성 인증까지, 27년 경험의 홈페이지코리아가 책임집니다.')
-@section('keywords', '병원 홈페이지 제작(4.8천)')
+@section('keywords', '병원 홈페이지 제작')
 
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
@@ -30,39 +30,42 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="industry-problem-title" data-aos="fade-up">대형·상급의료기관의 복잡한 시스템, <br class="pc_vw"><strong>일반적인 웹 개발사는 이해하기 어렵습니다.</strong></h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>수많은 진료과와 교수진 데이터를 관리하기가 너무 힘듭니다. <img src="/images/emoji_whirl.png" alt="" aria-hidden="true"></h3>
 						<p>의료진이 너무 많아서 프로필이랑 진료 스케줄 관리하기가 정말 어렵고, 환자들이 원하는 선생님 정보를 빨리 찾을 수 있는 시스템이 절실해요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>진료 예약과 수납 프로세스가 분절되어 있습니다. <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>예약 버튼만 있는 게 아니라, 우리 병원 HIS랑 실시간으로 연결돼서 환자 접수부터 수납까지 자연스럽게 이어지는 시스템이 필요해요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>의료 데이터 보안과 웹 접근성 준수가 최우선입니다. <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>상급종합병원은 개인정보 보호법, 의료법 등 법적 기준 뿐 아니라, 장애인 웹 접근성 인증 등 웹 전문성이 필요해요. </p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="industry-solution-title" data-aos="fade-up">홈페이지코리아는 <br class="pc_vw"><strong>의료기관의 운영 정책을 시스템으로 구현합니다.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="industry-solution-title">홈페이지코리아는 <br class="pc_vw"><strong>의료기관의 운영 정책을 시스템으로 구현합니다.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_d1">
+					<object data="/images/icon_industry_d01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>환자 중심의 <br class="pc_Vw">지능형 예약 시스템</h3>
 					<p>진료과별, 교수별 맞춤 예약 로직을 설계합니다. <br class="pc_Vw">복잡한 절차 없이 환자가 가장 빠르게 <br class="pc_Vw">진료 확정을 받을 수 있도록 UX를 최적화합니다.</p>
 				</li>
 				<li class="i_d2">
+					<object data="/images/icon_industry_d02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>의료진 및 연구 지식 <br class="pc_Vw">아카이브 통합</h3>
 					<p>교수진의 연구 성과, 논문 자료, 진료 데이터를 <br class="pc_Vw">체계적으로 관리하고 검색으로 필요한 정보를 <br class="pc_Vw">즉시 찾아내는 지식 관리 시스템을 구축합니다.</p>
 				</li>
 				<li class="i_d3">
+					<object data="/images/icon_industry_d03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>철저한 보안 기반의 <br class="pc_Vw">백오피스</h3>
 					<p>시큐어 코딩과 2FA(2단계 인증)를 적용하여 <br class="pc_Vw">민감한 의료 데이터를 보호하며, 관리자가 모든 변경 이력을 <br class="pc_Vw">추적할 수 있는 투명한 운영 환경을 제공합니다.</p>
 				</li>
@@ -75,8 +78,8 @@
 			</ul>
 		</div>
 		
-		<div class="flex_center" data-aos="fade-up">
-			<a href="/portfolio/" class="btn_link slim hover_black">병원/의료 개발 사례 더보기</a>
+		<div class="flex_center">
+			<a href="/portfolio?category=병원%2F의료" class="btn_link slim hover_black">병원/의료 개발 사례 더보기</a>
 		</div>
 	</section>
 	
@@ -86,6 +89,7 @@
 			<h2 id="industry-how-title" aria-hidden="true"><strong>병원/의료 기관 홈페이지 제작,</strong> <br class="pc_vw">이렇게 진행됩니다.</h2>
 			<ul class="expertise_list step_list">
 				<li class="i_b1">
+					<object data="/images/icon_expertise_b01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 01</span>
 					<h3>요구사항 분석</h3>
 					<ul>
@@ -94,6 +98,7 @@
 					</ul>
 				</li>
 				<li class="i_b2">
+					<object data="/images/icon_expertise_b02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 02</span>
 					<h3>맞춤 제안서 및 견적 제공</h3>
 					<ul>
@@ -102,6 +107,7 @@
 					</ul>
 				</li>
 				<li class="i_b3">
+					<object data="/images/icon_expertise_b03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 03</span>
 					<h3>기획 및 디자인</h3>
 					<ul>
@@ -110,6 +116,7 @@
 					</ul>
 				</li>
 				<li class="i_b4">
+					<object data="/images/icon_expertise_b04.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 04</span>
 					<h3>개발 및 배포</h3>
 					<ul>
@@ -156,7 +163,7 @@
 	</section>
 	
 	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
-		<div class="inner" data-aos="fade-up">
+		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="industry-contact-title" class="port_tit"><strong>전문 의료기관에 최적화된 솔루션,</strong> <br class="pc_vw">홈페이지코리아와 상담하세요.</h2>
 			<div class="btns flex_center">
@@ -173,41 +180,69 @@ $(document).ready(function(){
 // marquee
     initMarquee("#marquee_banner_d", MARQUEE_DATA.d);
 // Portfolio marquee
-    (function () {
-        const $banner = $(".portfolio_marquee");
-        const $list   = $banner.find(".list").first();
-        if (! $list.length || ! $list.children("li").length) {
-            return;
-        }
-        const speed       = 1;
-        let posX          = 0;
-        let isPaused      = false;
-        let totalWidth    = 0;
-        let marqueeResizeTimer;
-        function measure() {
-            const el = $list.get(0);
-            totalWidth = el && el.scrollWidth > 0 ? el.scrollWidth : $list.outerWidth(true);
-        }
-        measure();
-        $(window).on("load", measure);
-        $(window).on("resize", function () {
-            clearTimeout(marqueeResizeTimer);
-            marqueeResizeTimer = setTimeout(measure, 100);
-        });
-        function marqueeLoop() {
-            if (!isPaused && totalWidth > 0) {
-                posX -= speed;
-                if (posX <= -totalWidth) {
-                    posX = 0;
-                }
-                $list.css("transform", `translateX(${posX}px)`);
-            }
-            requestAnimationFrame(marqueeLoop);
-        }
-        marqueeLoop();
-        $banner.on("mouseenter", function () { isPaused = true; })
-               .on("mouseleave", function () { isPaused = false; });
-    })();
+	(function () {
+		const $banner = $(".portfolio_marquee");
+		const $list   = $banner.find(".list").first();
+		if (!$list.length || !$list.children("li").length) {
+			return;
+		}
+		const speed = 1;
+		let posX    = 0;
+		let isPaused  = false;
+		let totalWidth  = 0;
+		let isStopped   = false;
+		let cloned    = false;
+		let marqueeResizeTimer;
+
+		function measure() {
+			totalWidth = 0;
+			$list.children("li:not(.clone)").each(function () {
+				totalWidth += $(this).outerWidth(true);
+			});
+
+			const bannerWidth = $banner.outerWidth();
+
+			if (totalWidth < bannerWidth) {
+				isStopped = true;
+				posX = 0;
+				$list.css("transform", "translateX(0px)");
+				$banner.addClass("stop");
+				$list.find("li.clone").remove();
+				cloned = false;
+			} else {
+				isStopped = false;
+				$banner.removeClass("stop");
+				if (!cloned) {
+					$list.children("li:not(.clone)").clone().addClass("clone").attr("aria-hidden", "true").appendTo($list);
+					cloned = true;
+				}
+			}
+		}
+
+		measure();
+		$(window).on("load", measure);
+		$(window).on("resize", function () {
+			clearTimeout(marqueeResizeTimer);
+			marqueeResizeTimer = setTimeout(measure, 100);
+		});
+
+		function marqueeLoop() {
+			if (!isPaused && !isStopped && totalWidth > 0) {
+				posX -= speed;
+				// 원본 너비만큼 이동하면 초기화 → 복제본이 이어받아 끊김 없음
+				if (posX <= -totalWidth) {
+					posX = 0;
+				}
+				$list.css("transform", `translateX(${posX}px)`);
+			}
+			requestAnimationFrame(marqueeLoop);
+		}
+
+		marqueeLoop();
+
+		$banner.on("mouseenter", function () { isPaused = true; })
+			   .on("mouseleave", function () { isPaused = false; });
+	})();
 // step_list
     const $items   = $(".expertise_list.step_list > li");
     const interval = 2000;
@@ -341,6 +376,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

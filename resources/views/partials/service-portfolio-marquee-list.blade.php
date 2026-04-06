@@ -12,7 +12,7 @@
         : null;
 @endphp
 <li>
-    <a href="{{ route('portfolio.portfolio_view', ['portfolio' => $item->id]) }}" class="box" aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
+    <a href="{{ $item->publicListHref() }}" class="box" @if($item->publicListOpensInNewTab()) target="_blank" rel="noopener noreferrer" @endif aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
         <span class="flip">
             <span class="before" aria-hidden="true">@if($marqueeThumb)<img src="{{ $marqueeThumb }}" alt="" class="bg">@endif<img src="/images/main_service_08.svg" alt="" class="logo"></span>
             <span class="after" aria-hidden="true">

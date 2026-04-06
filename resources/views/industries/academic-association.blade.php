@@ -3,7 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '27년 경력 홈페이지코리아가 다양한 학회 홈페이지 제작 경험으로 우리 학회에 꼭 맞게 설계합니다.')
-@section('keywords', '학회 홈페이지 제작(42), 홈페이지 제작 업체')
+@section('keywords', '학회 홈페이지 제작, 홈페이지 제작 업체')
 
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
@@ -30,39 +30,42 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="industry-problem-title" data-aos="fade-up">학회/협회 홈페이지 제작, <br class="pc_vw"><strong> 이런 고민 때문에 시작도 못하고 있나요?</strong></h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>어떤 홈페이지 제작 업체에 맡겨야 할지 모르겠어요 <img src="/images/emoji_sell.png" alt="" aria-hidden="true"></h3>
 						<p>학회 특유의 회원 등급 관리, 학술대회 운영, 논문 투고 시스템을 이해하는 업체를 찾기 어렵습니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>서버, 도메인, 호스팅 등 전문 용어가 너무 어려워요 <img src="/images/emoji_whirl.png" alt="" aria-hidden="true"></h3>
 						<p>학회 운영만으로 바쁜데, 기술 용어까지 공부하기 벅찹니다. 쉽게 설명해주는 업체가 필요해요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>우리 학회에 맞는 시스템을 만들고 싶어요</h3>
 						<p>우리 학회 운영 방식에 맞는 맞춤형 시스템이 필요합니다. <img src="/images/emoji_soft.png" alt="" aria-hidden="true"></p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="industry-solution-title" data-aos="fade-up">학술 생태계를 이해하는 홈페이지코리아가 <br class="pc_vw"><strong>시작부터 끝까지 책임집니다.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="industry-solution-title">학술 생태계를 이해하는 홈페이지코리아가 <br class="pc_vw"><strong>시작부터 끝까지 책임집니다.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_b1">
+					<object data="/images/icon_industry_b01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>27년 이상 <br class="pc_vw">학회 전문 홈페이지 구축 경험</h3>
 					<p>심장학회, 대한안과의사회, 고분자학회 등 <br class="pc_vw">00건 이상의 학회 홈페이지 제작 경험이 있습니다.</p>
 				</li>
 				<li class="i_b2">
+					<object data="/images/icon_industry_b02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>학회 전문 PM과의 <br class="pc_vw">커뮤니케이션</h3>
 					<p>학회 전문 PM이 쉬운 언어로 설명하고, <br class="pc_vw">프로젝트를 성공으로 이끕니다.</p>
 				</li>
 				<li class="i_b3">
+					<object data="/images/icon_industry_b03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>학회 업무 프로세스 <br class="pc_vw">시스템화</h3>
 					<p>템플릿에 끼워 맞추지 않고, <br class="pc_vw">우리 학회 운영 방식에 맞는 시스템을 구축합니다.</p>
 				</li>
@@ -113,7 +116,7 @@
 		</div>
 		
 		<div class="flex_center">
-			<a href="/portfolio/" class="btn_link slim white">학회/협회 개발 사례 더보기</a>
+			<a href="/portfolio?category=학회%2F협회" class="btn_link slim white">학회/협회 개발 사례 더보기</a>
 		</div>
 	</section>
 	
@@ -123,6 +126,7 @@
 			<h2 id="industry-how-title" aria-hidden="true"><strong>학회/협회 홈페이지 제작,</strong> 이렇게 진행됩니다.</h2>
 			<ul class="expertise_list step_list">
 				<li class="i_a1">
+					<object data="/images/icon_expertise_b01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 01</span>
 					<h3>요구사항 분석</h3>
 					<ul>
@@ -131,6 +135,7 @@
 					</ul>
 				</li>
 				<li class="i_a2">
+					<object data="/images/icon_expertise_b02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 02</span>
 					<h3>맞춤 제안서 및 견적 제공</h3>
 					<ul>
@@ -139,6 +144,7 @@
 					</ul>
 				</li>
 				<li class="i_a3">
+					<object data="/images/icon_expertise_b03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 03</span>
 					<h3>기획 및 디자인</h3>
 					<ul>
@@ -147,6 +153,7 @@
 					</ul>
 				</li>
 				<li class="i_a4">
+					<object data="/images/icon_expertise_b04.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 04</span>
 					<h3>개발 및 배포</h3>
 					<ul>
@@ -195,7 +202,7 @@
 	</section>
 	
 	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
-		<div class="inner" data-aos="fade-up">
+		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="industry-contact-title" class="port_tit"><strong>학회/협회 홈페이지 제작,</strong> <br class="pc_vw">경험 많은 홈페이코리아와 상담하세요</h2>
 			<div class="btns flex_center">
@@ -212,41 +219,69 @@ $(document).ready(function(){
 // marquee
 	initMarquee("#marquee_banner_b", MARQUEE_DATA.b);
 // Portfolio marquee
-    (function () {
-        const $banner = $(".portfolio_marquee");
-        const $list   = $banner.find(".list").first();
-        if (! $list.length || ! $list.children("li").length) {
-            return;
-        }
-        const speed       = 1;
-        let posX          = 0;
-        let isPaused      = false;
-        let totalWidth    = 0;
-        let marqueeResizeTimer;
-        function measure() {
-            const el = $list.get(0);
-            totalWidth = el && el.scrollWidth > 0 ? el.scrollWidth : $list.outerWidth(true);
-        }
-        measure();
-        $(window).on("load", measure);
-        $(window).on("resize", function () {
-            clearTimeout(marqueeResizeTimer);
-            marqueeResizeTimer = setTimeout(measure, 100);
-        });
-        function marqueeLoop() {
-            if (!isPaused && totalWidth > 0) {
-                posX -= speed;
-                if (posX <= -totalWidth) {
-                    posX = 0;
-                }
-                $list.css("transform", `translateX(${posX}px)`);
-            }
-            requestAnimationFrame(marqueeLoop);
-        }
-        marqueeLoop();
-        $banner.on("mouseenter", function () { isPaused = true; })
-               .on("mouseleave", function () { isPaused = false; });
-    })();
+	(function () {
+		const $banner = $(".portfolio_marquee");
+		const $list   = $banner.find(".list").first();
+		if (!$list.length || !$list.children("li").length) {
+			return;
+		}
+		const speed = 1;
+		let posX    = 0;
+		let isPaused  = false;
+		let totalWidth  = 0;
+		let isStopped   = false;
+		let cloned    = false;
+		let marqueeResizeTimer;
+
+		function measure() {
+			totalWidth = 0;
+			$list.children("li:not(.clone)").each(function () {
+				totalWidth += $(this).outerWidth(true);
+			});
+
+			const bannerWidth = $banner.outerWidth();
+
+			if (totalWidth < bannerWidth) {
+				isStopped = true;
+				posX = 0;
+				$list.css("transform", "translateX(0px)");
+				$banner.addClass("stop");
+				$list.find("li.clone").remove();
+				cloned = false;
+			} else {
+				isStopped = false;
+				$banner.removeClass("stop");
+				if (!cloned) {
+					$list.children("li:not(.clone)").clone().addClass("clone").attr("aria-hidden", "true").appendTo($list);
+					cloned = true;
+				}
+			}
+		}
+
+		measure();
+		$(window).on("load", measure);
+		$(window).on("resize", function () {
+			clearTimeout(marqueeResizeTimer);
+			marqueeResizeTimer = setTimeout(measure, 100);
+		});
+
+		function marqueeLoop() {
+			if (!isPaused && !isStopped && totalWidth > 0) {
+				posX -= speed;
+				// 원본 너비만큼 이동하면 초기화 → 복제본이 이어받아 끊김 없음
+				if (posX <= -totalWidth) {
+					posX = 0;
+				}
+				$list.css("transform", `translateX(${posX}px)`);
+			}
+			requestAnimationFrame(marqueeLoop);
+		}
+
+		marqueeLoop();
+
+		$banner.on("mouseenter", function () { isPaused = true; })
+			   .on("mouseleave", function () { isPaused = false; });
+	})();
 // step_list
     const $items   = $(".expertise_list.step_list > li");
     const interval = 2000;
@@ -380,6 +415,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

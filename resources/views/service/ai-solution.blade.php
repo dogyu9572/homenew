@@ -3,7 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '비즈니스 생산성을 높이는 맞춤형 AI 솔루션. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 AI 챗봇·QA 자동화·기업용 AI 구축까지 책임집니다.')
-@section('keywords', 'AI 솔루션(6천), AI 챗봇 (7천), AI QA ( 90), AX 솔루션 (69), 기업용 llm (13), 기업용 ai (180)')
+@section('keywords', 'AI 솔루션, AI 챗봇, AI QA, AX 솔루션, 기업용 llm, 기업용 ai')
 @section('sga_plus')
 ,"mainEntity": [
     {
@@ -70,39 +70,42 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="service-problem-title" data-aos="fade-up">기업용 AI 솔루션 도입이 <br class="pc_vw"><strong>필요하신가요?</strong></h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>기존 AI 상담 챗봇 답변이 부정확할 때가 많아요. <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>일반 AI는 내부 규정을 몰라 엉뚱한 답(할루시네이션)을 내놓아 브랜드 신뢰도를 떨어뜨리고 고객을 혼란에 빠뜨립니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>웹사이트 출시 전, 테스트할 인력과 시간이 부족합니다. <img src="/images/emoji_sad.png" alt="" aria-hidden="true"></h3>
 						<p>사람이 일일이 모든 기능을 검증하는 방식은 막대한 시간이 소요될 뿐만 아니라, 테스터가 놓치는 휴먼 에러의 위험이 항상 존재합니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>사내 정보를 찾는 데 많은 시간을 허비하고 있어요. <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>사내 메신저, 노션, PDF에 흩어진 방대한 자료를 찾기 위해 매번 담당자에게 묻거나 직접 검색하느라 업무 흐름이 끊깁니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="service-solution-title" data-aos="fade-up">홈페이지코리아는 기업의 실무 환경에 최적화된 <br class="pc_vw"><strong>맞춤형 AX 솔루션을 구축합니다.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="service-solution-title">홈페이지코리아는 기업의 실무 환경에 최적화된 <br class="pc_vw"><strong>맞춤형 AX 솔루션을 구축합니다.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_g1">
+					<object data="/images/icon_solution_g01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>맞춤형 AI 챗봇 솔루션</h3>
 					<p>정해진 답만 하는 기존 챗봇과 다릅니다. <br/>브랜드의 성격에 맞춰 답변 품질을 최적화하고, <br class="pc_vw">난수(Temperature) 제어 기술을 통해 오답 없는 정확한 정보로 24시간 끊김 없는 고품질 상담 환경을 제공합니다.</p>
 				</li>
 				<li class="i_g2">
+					<object data="/images/icon_solution_g02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>AI 기반 품질 관리(QA) <br class="pc_vw">자동화 솔루션</h3>
 					<p>기획안을 학습한 AI가 테스트 시나리오를 자동 설계하고, <br class="pc_vw">서비스의 처음부터 끝까지 검증하는 E2E 자동 테스트를 수행합니다. <br/>데이터 기반 보고서를 통해 출시 후 발생할 운영 리스크를 <br class="pc_vw">사전에 완벽히 차단합니다.</p>
 				</li>
 				<li class="i_g3">
+					<object data="/images/icon_solution_g03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>AI 에이전트 · <br class="pc_vw">기업용 AI 솔루션</h3>
 					<p>RAG(검색 증강 생성) 모델을 구축해 사내 데이터를 <br class="pc_vw">완벽히 이해하는 지식 아카이브를 만듭니다. <br class="pc_vw">MCP 모델로 슬랙, 지메일 등과 연동하여 AI가 회의록을 요약하고 <br class="pc_vw">메일 초안을 작성하는 즉시 실행형 업무 환경을 구현합니다.</p>
 				</li>
@@ -118,6 +121,7 @@
 				<li class="i_g1">
 					<div class="imgfit"><img src="/images/img_service_how_g01.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_g01.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>웹, 앱, AI 전문 엔지니어의 <br class="pc_vw"><strong>AI 네이티브 시스템 구축</strong></h3>
 						<p><strong>Gemini, Cursor AI 등</strong> 최신 모델을 활용해 <br class="pc_vw"><strong>개발 기간은 단축하고 비용은 합리적</strong>으로, <br class="pc_vw">결과물은 <strong>시니어 개발자가 직접 검수</strong>하여 <strong>보안성을 보장</strong>합니다.</p>
 					</div>
@@ -125,6 +129,7 @@
 				<li class="i_g2">
 					<div class="imgfit"><img src="/images/img_service_how_g02.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_g02.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>현장에 꼭 필요한 <br class="pc_vw"><strong>'실전형' AI 도입 제안</strong></h3>
 						<p>무조건적인 최신 기술 적용이 아닌, <strong>PM이 직접 고객사의 업무 <br class="pc_vw">프로세스를 분석</strong>합니다.  실제 업무 흐름을 기반으로 <strong>최소 비용으로 <br class="pc_vw">최대 효율을 낼 수 있는 현실적인 AI 도입 방안을 제안</strong>합니다.</p>
 					</div>
@@ -157,7 +162,7 @@
 						: null;
 				@endphp
 				<li>
-					<a href="{{ route('portfolio.portfolio_view', ['portfolio' => $item->id]) }}" class="box" aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
+					<a href="{{ $item->publicListHref() }}" class="box" @if($item->publicListOpensInNewTab()) target="_blank" rel="noopener noreferrer" @endif aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
 						<span class="flip">
 							<span class="before" aria-hidden="true">@if($marqueeThumb)<img src="{{ $marqueeThumb }}" alt="" class="bg">@endif<img src="/images/main_service_08.svg" alt="" class="logo"></span>
 							<span class="after" aria-hidden="true">
@@ -345,6 +350,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

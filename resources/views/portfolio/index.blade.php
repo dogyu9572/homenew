@@ -3,12 +3,15 @@
 @section('sName', $sName)
 @section('description', '중견/대기업, 학회/협회, 공공기관, 병원/의료, 대학/학원 등 다양한 분야의 홈페이지 제작 포트폴리오를 확인하세요. 홈페이지제작, 유지보수, 온라인쇼핑몰, SI시스템개발, 앱개발, AI솔루션까지 제공합니다.')
 @section('sga_plus')
+@php
+    $sgaJsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+@endphp
 ,"mainEntity": {
     "@@type": "ItemList",
     "name": "@yield('title', '')",
     "description": "@yield('description')",
     "numberOfItems": "{{ $portfolioCount }}",
-    "itemListElement": @json($listItems)
+    "itemListElement": @json($listItems, $sgaJsonFlags)
 }
 @endsection
 
@@ -65,7 +68,7 @@
 			<ul class="portfolio_list mojo_aos">
                 @forelse($portfolios as $item)
 				<li>
-					<a href="{{ route('portfolio.portfolio_view', ['portfolio' => $item->id]) }}" class="box" aria-label="{{ $item->title }} 포트폴리오 보기">
+					<a href="{{ $item->publicListHref() }}" class="box" @if($item->publicListOpensInNewTab()) target="_blank" rel="noopener noreferrer" @endif aria-label="{{ $item->title }} 포트폴리오 보기">
 						<span class="img_area" aria-hidden="true">
                             @if(!empty($item->thumbnail_image))
 							<span class="imgfit">
@@ -159,6 +162,17 @@
 			</div>
 		</div>
 	</section>
+	
+	<aside class="pop_notice" role="dialog" aria-labelledby="notice-title" aria-modal="false">
+		<button type="button" class="btn_close" aria-label="공지사항 닫기"></button>
+		<div class="flip">
+			<div class="before" aria-hidden="true"></div>
+			<div class="after">
+				<h2 id="notice-title">안녕하세요!<br/> 홈코 포트폴리오에 <br class="pc_vw"/>관심 가져주셔서 감사합니다.</h2>
+				<p>현재 사이트 리뉴얼 이후 <br class="mo_vw">포트폴리오를 정리 중입니다.<br/>더 좋은 내용으로 곧 업데이트될 <br class="mo_vw">예정이에요. 😎<br/>잠시만 기다려주시고, 다른 메뉴도 <br class="pc_vw"/>함께 둘러봐 주세요! 감사합니다.</p>
+			</div>
+		</div>
+	</aside>
 
 </main>
 @endsection

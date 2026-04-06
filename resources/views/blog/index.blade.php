@@ -3,12 +3,15 @@
 @section('sName', $sName)
 @section('description', '홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.')
 @section('sga_plus')
+@php
+	$sgaJsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+@endphp
 ,"mainEntity": {
 	"@@type": "ItemList",
-	"name": @json($sName),
-	"description": @json('홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.'),
-	"numberOfItems": @json($posts->total()),
-	"itemListElement": @json($listItems)
+	"name": @json($sName, $sgaJsonFlags),
+	"description": @json('홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.', $sgaJsonFlags),
+	"numberOfItems": @json($posts->total(), $sgaJsonFlags),
+	"itemListElement": @json($listItems, $sgaJsonFlags)
 }
 @endsection
 
@@ -35,7 +38,7 @@
 			<h2 id="blog-list" class="sound_only">전체 블로그 목록</h2>
 
             @if($featuredPost)
-			<a href="{{ route('blog.blog_view', ['blogPost' => $featuredPost->id]) }}" class="blog_main_banner flex mojo_aos">
+			<a href="{{ route('blog.blog_view', $featuredPost) }}" class="blog_main_banner flex mojo_aos">
                 @if($featuredPost->thumbnail_path)
 				<span class="imgfit" aria-hidden="true">
                     <img src="{{ \Illuminate\Support\Facades\Storage::url($featuredPost->thumbnail_path) }}" alt="">
@@ -50,8 +53,8 @@
 			</a>
             @endif
 
-			<div class="blog_tit" data-aos="fade-up">홈페이지코리아의 소식을 만나보세요.</div>
-			<div class="board_top" data-aos="fade-up">
+			<div class="blog_tit">홈페이지코리아의 소식을 만나보세요.</div>
+			<div class="board_top">
 				<nav aria-label="블로그 카테고리 필터">
 					<ul class="tabs">
 						<li class="{{ $category === '' ? 'on' : '' }}">
@@ -59,19 +62,16 @@
                         </li>
                         @foreach(\App\Models\BlogPost::CATEGORIES as $value => $label)
 						<li class="{{ $category === $value ? 'on' : '' }}">
-                            <a href="{{ route('blog.blog_list', array_filter(['category' => $value, 'keyword' => $keyword])) }}" @if($category === $value) aria-current="page" @endif>{{ $label }}</a>
+                            <a href="{{ route('blog.blog_list_category', ['blogCategoryPath' => \App\Models\BlogPost::CATEGORY_PATH_BY_KEY[$value]]) }}{{ ($keyword ?? '') !== '' ? '?' . http_build_query(['keyword' => $keyword]) : '' }}" @if($category === $value) aria-current="page" @endif>{{ $label }}</a>
                         </li>
                         @endforeach
 					</ul>
 				</nav>
 				<div class="search_area">
-					<form action="{{ route('blog.blog_list') }}" method="GET" role="search">
+					<form action="{{ ! empty($blogCategoryPath) ? route('blog.blog_list_category', ['blogCategoryPath' => $blogCategoryPath]) : route('blog.blog_list') }}" method="GET" role="search">
 						<label for="blog-search" class="sound_only">블로그 검색</label>
 						<div class="flex">
 							<input type="text" id="blog-search" name="keyword" class="text" placeholder="검색어를 입력해 주세요." value="{{ $keyword }}">
-                            @if($category !== '')
-                            <input type="hidden" name="category" value="{{ $category }}">
-                            @endif
 							<button type="submit" class="btn">검색</button>
 						</div>
 					</form>
@@ -80,8 +80,8 @@
 
 			<ul class="blog_list">
                 @forelse($posts as $post)
-				<li data-aos="fade-up">
-					<a href="{{ route('blog.blog_view', ['blogPost' => $post->id]) }}">
+				<li>
+					<a href="{{ route('blog.blog_view', $post) }}">
                         @if($post->thumbnail_path)
 						<span class="imgfit" aria-hidden="true"><img src="{{ \Illuminate\Support\Facades\Storage::url($post->thumbnail_path) }}" alt=""></span>
                         @endif
@@ -93,7 +93,7 @@
 					</a>
 				</li>
                 @empty
-                <li data-aos="fade-up">
+                <li>
                     <span class="txt">
                         <h3>등록된 블로그가 없습니다.</h3>
                     </span>

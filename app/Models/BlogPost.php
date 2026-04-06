@@ -27,10 +27,32 @@ class BlogPost extends Model
         self::CATEGORY_SUCCESS_CASE => '성공사례',
     ];
 
+    /** 내부 category 키 → 공개 URL 경로 세그먼트 (/blog/{path}) */
+    public const CATEGORY_PATH_BY_KEY = [
+        self::CATEGORY_TEAM_STORY => 'team-story',
+        self::CATEGORY_WEB_INSIGHT => 'website-insights',
+        self::CATEGORY_HOMEPAGE_TREND => 'website-trends',
+        self::CATEGORY_SUCCESS_CASE => 'success-stories',
+    ];
+
+    /**
+     * 블로그 글 slug로 사용할 수 없는 값 (카테고리 경로·시스템 세그먼트).
+     *
+     * @return list<string>
+     */
+    public static function reservedPostSlugs(): array
+    {
+        return array_merge(
+            array_values(self::CATEGORY_PATH_BY_KEY),
+            ['view', 'event', 'like']
+        );
+    }
+
     protected $fillable = [
         'is_notice',
         'category',
         'title',
+        'meta_description',
         'lead_content',
         'faq_board_post_ids',
         'slug',
@@ -86,6 +108,23 @@ class BlogPost extends Model
     public function getCategoryLabelAttribute(): string
     {
         return self::CATEGORIES[$this->category] ?? $this->category;
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public static function categoryKeyFromUrlPath(string $path): ?string
+    {
+        $map = array_flip(self::CATEGORY_PATH_BY_KEY);
+
+        return $map[$path] ?? null;
+    }
+
+    public static function urlPathFromCategoryKey(string $key): ?string
+    {
+        return self::CATEGORY_PATH_BY_KEY[$key] ?? null;
     }
 
     public static function makeSlug(string $title): string

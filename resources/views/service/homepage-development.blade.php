@@ -71,40 +71,43 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="service-problem-title" data-aos="fade-up">수천만 원을 투자하는 홈페이지 개편, <br/><strong>이런 고민 때문에 망설이고 있나요?</strong></h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>우리 조직에 맞는 웹사이트 시스템을 구축하고 싶어요. <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>단순한 템플릿으로는 우리 조직의 업무 프로세스를 홈페이지에 제대로 구현할 수 없어요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>예산과 일정은 늘어나는데, 원하는 결과물이 나올지 불안해요. <img src="/images/emoji_sad.png" alt="" aria-hidden="true"></h3>
 						<p>프로젝트 중간에 요구사항이 제대로 반영되지 않거나, 일정이 지연되면서 비용이 증가하는 경험. 많은 기업이 겪고 있습니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>담당자가 바뀌어도 계속 사용할 수 있는 홈페이지가 필요해요. <img src="/images/emoji_anger.png" alt="" aria-hidden="true"></h3>
 						<p>만들고 끝이 아닙니다. 담당자가 변경되어도, 정책이 바뀌어도 지속적으로 사용할 수 있는 구조가 필요합니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="service-solution-title" data-aos="fade-up">고객의 비즈니스를 이해하고<br> <strong>업종과 조직에 맞는 홈페이지를 제작합니다.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="service-solution-title">고객의 비즈니스를 이해하고<br> <strong>업종과 조직에 맞는 홈페이지를 제작합니다.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_b1">
+					<object data="/images/icon_solution_b01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>1,100건의 프로젝트 경험으로 <br class="pc_vw">우리 조직에 딱 맞는 시스템 구축</h3>
 					<p>공공기관, 대학, 협회, 중견/대기업 등 <br class="pc_vw">각종 프로젝트 경험으로 <br class="pc_vw">조직별 공통 고민을 이해하고 해결합니다.</p>
 					<a href="/portfolio/" class="btn">포트폴리오 보러가기</a>
 				</li>
 				<li class="i_b2">
+					<object data="/images/icon_solution_b02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>합리적인 비용과 <br class="pc_vw">명확한 일정으로 프로젝트 완주</h3>
 					<p>타사 대비 약 20~30% <br class="pc_vw">낮은 합리적인 비용으로 <br class="pc_vw">일정 지연 없이 프로젝트를 진행합니다. </p>
 				</li>
 				<li class="i_b3">
+					<object data="/images/icon_solution_b03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>지속 가능한 시스템 설계로 <br class="pc_vw">안정적인 유지/보수 운영</h3>
 					<p>운영 중 기능 개선이나 추가 개발이 필요한 경우에만 <br class="pc_vw">선택적으로 유지보수를 진행할 수 있도록 설계해, <br class="pc_vw">불필요한 고정 비용을 최소화합니다.</p>
 				</li>
@@ -120,6 +123,7 @@
 				<li class="i_b1">
 					<div class="imgfit"><img src="/images/img_service_how_b01.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_b01.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>비즈니스에 <strong>최적화된 시스템</strong></h3>
 						<p><strong>오픈소스가 아닌 Laravel, React 등</strong> 최신 기술 스택으로 <br class="pc_vw">자체 개발해 <strong>복잡한 요구사항도 정확히 구현합니다.</strong></p>
 					</div>
@@ -127,6 +131,7 @@
 				<li class="i_b2">
 					<div class="imgfit"><img src="/images/img_service_how_b02.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_b02.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>전환을 만드는 <strong>UX/UI 설계</strong></h3>
 						<p>고객이 원하는 정보를 <strong>빠르게 찾고, <br class="pc_vw">자연스럽게 행동하도록 유도하는 UX 설계</strong>로 <strong>전환율을 높입니다.</strong></p>
 					</div>
@@ -134,6 +139,7 @@
 				<li class="i_b3">
 					<div class="imgfit"><img src="/images/img_service_how_b03.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_b03.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>검색에서 발견되는 <strong>SEO/GEO 최적화</strong></h3>
 						<p>구글 검색 엔진은 물론, <strong>ChatGPT와 같은 AI</strong>가 <br class="pc_vw">홈페이지의 정보를 <strong>정확하게 이해하고 인용할 수 있도록 <br class="pc_vw">홈페이지를 구조화하고 최적화</strong>합니다.</p>
 					</div>
@@ -310,6 +316,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

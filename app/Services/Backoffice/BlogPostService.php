@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BlogPostService
 {
@@ -67,7 +68,7 @@ class BlogPostService
     private function mapPostData(array $payload, ?BlogPost $blogPost = null): array
     {
         $title = trim((string) ($payload['title'] ?? ''));
-        $slug = $blogPost?->slug ?? BlogPost::makeSlug($title);
+        $slug = $this->resolveBlogSlug($payload, $blogPost);
         $tags = $this->parseTags($payload['tags_input'] ?? '');
 
         if (! empty($payload['remove_thumbnail']) && $blogPost?->thumbnail_path) {
@@ -82,6 +83,9 @@ class BlogPostService
             $thumbnailPath = $blogPost?->thumbnail_path;
         }
 
+        $metaDescriptionRaw = trim((string) ($payload['meta_description'] ?? ''));
+        $metaDescription = $metaDescriptionRaw !== '' ? $metaDescriptionRaw : null;
+
         $leadContentRaw = trim((string) ($payload['lead_content'] ?? ''));
         $leadContent = $leadContentRaw !== '' ? $leadContentRaw : null;
 
@@ -91,6 +95,7 @@ class BlogPostService
             'is_notice' => ! empty($payload['is_notice']),
             'category' => $payload['category'],
             'title' => $title,
+            'meta_description' => $metaDescription,
             'lead_content' => $leadContent,
             'faq_board_post_ids' => $faqBoardPostIds,
             'slug' => $slug,
@@ -101,6 +106,47 @@ class BlogPostService
             'author_id' => Auth::id(),
             'published_at' => ! empty($payload['is_published']) ? now() : null,
         ];
+    }
+
+    /**
+     * 공개 URL용 slug. 수정 시 비우면 기존 유지, 신규·비입력 시 제목 기반 고유 슬러그.
+     */
+    private function resolveBlogSlug(array $payload, ?BlogPost $blogPost): string
+    {
+        $title = trim((string) ($payload['title'] ?? ''));
+        $slugInput = isset($payload['slug']) ? trim((string) $payload['slug']) : '';
+
+        if ($slugInput !== '') {
+            return Str::slug($slugInput);
+        }
+        if ($blogPost !== null) {
+            return $blogPost->slug;
+        }
+
+        return $this->makeUniqueBlogSlugFromTitle($title, null);
+    }
+
+    private function makeUniqueBlogSlugFromTitle(string $title, ?int $exceptId): string
+    {
+        $base = Str::slug($title);
+        if ($base === '') {
+            $base = 'blog-post';
+        }
+        if (in_array($base, BlogPost::reservedPostSlugs(), true)) {
+            $base = $base.'-post';
+        }
+
+        $slug = $base;
+        $n = 2;
+        while (BlogPost::query()
+            ->where('slug', $slug)
+            ->when($exceptId !== null, fn ($q) => $q->where('id', '!=', $exceptId))
+            ->exists()) {
+            $slug = $base.'-'.$n;
+            $n++;
+        }
+
+        return $slug;
     }
 
     private function syncSections(BlogPost $blogPost, array $sections): void

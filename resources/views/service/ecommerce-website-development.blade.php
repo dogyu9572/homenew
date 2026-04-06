@@ -3,7 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '매출 성장을 만드는 온라인 쇼핑몰 제작. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 귀사에 맞는 자사몰을 설계합니다.')
-@section('keywords', '이커머스 (1.3만), 온라인 쇼핑몰(4.6천), 쇼핑몰 (5만), 쇼핑몰 제작 (2천), 쇼핑몰 제작 업체(176), 자사몰(3.7천), 자사몰 제작(3백), 웹빌더(573)')
+@section('keywords', '이커머스, 온라인 쇼핑몰, 쇼핑몰, 쇼핑몰 제작, 쇼핑몰 제작 업체, 자사몰, 자사몰 제작, 웹빌더')
 @section('sga_plus')
 ,"mainEntity": [
     {
@@ -70,39 +70,42 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="service-problem-title" data-aos="fade-up">치열한 경쟁속에서도 성장하는 온라인 쇼핑몰을<br class="pc_vw"> <strong>제작하고 싶나요?</strong></h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>제품 강점을 살린 자사몰을 만들고 싶어요. <img src="/images/emoji_smile.png" alt="" aria-hidden="true"></h3>
 						<p>웹빌더나 템플릿 웹사이트는 우리 브랜드만의 차별점을 보여주기 어려워요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>마케팅에 효과적인 홈페이지가 필요해요. <img src="/images/emoji_worry.png" alt="" aria-hidden="true"></h3>
 						<p>갈수록 검색 광고나 SNS 마케팅 효율이 떨어지는 것 같아요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>웹빌더 자사몰, 성장할 수록 수수료가 부담돼요. <img src="/images/emoji_tears2.png" alt="" aria-hidden="true"></h3>
 						<p>매출이 커질수록 월 사용료와 거래 수수료가 계속 늘어나서 부담스러워요.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution service_solution bg_white" aria-labelledby="service-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="service-solution-title" data-aos="fade-up">온라인 쇼핑몰도 이제 <br/><strong>맞춤형 자사몰로 구축해야 성장합니다.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="service-solution-title">온라인 쇼핑몰도 이제 <br/><strong>맞춤형 자사몰로 구축해야 성장합니다.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_d1">
+					<object data="/images/icon_solution_d01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>제품에 맞는 고객 여정</h3>
 					<p>B2C, B2B 제품 특성을 고려한 <br class="pc_vw">자사몰을 설계하면 전환율이 높아집니다.</p>
 				</li>
 				<li class="i_d2">
+					<object data="/images/icon_solution_d02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>검색 엔진 최적화</h3>
 					<p>제품 정보가 구조화 된 자사몰은 <br class="pc_vw">고객이 검색할 때 발견하기 쉽습니다.</p>
 				</li>
 				<li class="i_d3">
+					<object data="/images/icon_solution_d03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>중간 마진 없는 PG</h3>
 					<p>웹빌더 등 솔루션 없이 직접 자사몰을 제작하면 <br class="pc_vw">결제 수수료가 절감됩니다.</p>
 				</li>
@@ -118,6 +121,7 @@
 				<li class="i_d1">
 					<div class="imgfit"><img src="/images/service_how_d01.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_d01.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3><strong>1,100개</strong> 업종 경험</h3>
 						<p><strong>B2C부터 B2B까지 다양한 업종 경험</strong>으로<br class="pc_vw"> <strong>최적의 UI/UX를 디자인</strong>합니다.</p>
 					</div>
@@ -125,6 +129,7 @@
 				<li class="i_d2">
 					<div class="imgfit"><img src="/images/service_how_d02.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_d02.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>SEO/GEO <strong>전문성</strong></h3>
 						<p><strong>검색 엔진</strong>과 <strong>AI가 발견하기 쉽게 <br class="pc_vw">구조화된 홈페이지로 개발</strong>합니다.</p>
 					</div>
@@ -132,6 +137,7 @@
 				<li class="i_d3">
 					<div class="imgfit"><img src="/images/service_how_d03.png" alt="" aria-hidden="true"></div>
 					<div class="txt">
+						<object data="/images/icon_service_how_d03.svg" type="image/svg+xml" aria-hidden="true"></object>
 						<h3>PG사 <strong>직접 계약</strong></h3>
 						<p>홈페이지코리아와 <strong>PG사가 직접 계약</strong>해 <br class="pc_vw"><strong>최저 수수료 설계가 가능</strong>합니다. </p>
 					</div>
@@ -308,6 +314,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

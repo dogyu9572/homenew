@@ -76,4 +76,28 @@ class Contact extends Model
             default => $type !== null && $type !== '' ? $type : '',
         };
     }
+
+    /**
+     * 내부 알림 메일 본문용 유입 경로 요약
+     */
+    public function inflowSummaryLine(): string
+    {
+        $parts = [];
+        if (filled($this->source_url)) {
+            $parts[] = 'URL: '.$this->source_url;
+        }
+        $typeLabel = self::sourceTypeAdminLabel($this->source_type);
+        if ($typeLabel !== '') {
+            $parts[] = '유형: '.$typeLabel;
+        }
+        if ($this->source_id !== null && (int) $this->source_id !== 0) {
+            $parts[] = 'ID: '.(string) $this->source_id;
+        }
+        $title = $this->resolvedSourceTitle();
+        if ($title !== null && $title !== '') {
+            $parts[] = '제목: '.$title;
+        }
+
+        return $parts !== [] ? implode("\n", $parts) : '(유입 정보 없음)';
+    }
 }

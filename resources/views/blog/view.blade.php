@@ -1,19 +1,27 @@
 @extends('layouts.app')
 @section('title', $sName)
 @section('sName', $sName)
-@section('description', '홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.')
+@section('description', $metaDescription)
+@section('canonical_url', $canonicalUrl)
+@section('og_type', 'article')
+@if(! empty($ogImageAbsolute))
+@section('og_image', $ogImageAbsolute)
+@endif
 @section('sga_plus')
+@php
+    $sgaJsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+@endphp
 ,"mainEntity": {
     "@@type": "BlogPosting",
-    "headline": @json($post->title),
-    "description": @json('홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.'),
-    "datePublished": @json($publishedIso),
-    "dateModified": @json($publishedIso),
+    "headline": @json($post->title, $sgaJsonFlags),
+    "description": @json($metaDescription, $sgaJsonFlags),
+    "datePublished": @json($publishedIso, $sgaJsonFlags),
+    "dateModified": @json($publishedIso, $sgaJsonFlags),
     @if($heroImage)
-    "image": @json(url($heroImage)),
+    "image": @json(url($heroImage), $sgaJsonFlags),
     @endif
-    "articleSection": @json($post->category_label),
-    "url": @json($canonicalUrl),
+    "articleSection": @json($post->category_label, $sgaJsonFlags),
+    "url": @json($canonicalUrl, $sgaJsonFlags),
     "author": {
         "@@type": "Organization",
         "name": "홈페이지코리아",
@@ -25,8 +33,8 @@
 @section('content')
 <main class="sub_contents_wrap" id="blog_view_root"
     data-post-id="{{ $post->id }}"
-    data-event-url="{{ route('blog.event', ['blogPost' => $post->id]) }}"
-    data-like-url="{{ route('blog.like', ['blogPost' => $post->id]) }}">
+    data-event-url="{{ route('blog.event', $post) }}"
+    data-like-url="{{ route('blog.like', $post) }}">
 
 	<section class="blog_view_wrap" aria-labelledby="blog-view-title" data-header="light">
 
@@ -89,7 +97,7 @@
 
 			<div class="view_btm">
 				<div class="left">
-					<a href="{{ route('blog.blog_list') }}" class="btn btn_list">목록으로</a>
+					<a href="{{ $blogListUrl ?? route('blog.blog_list') }}" class="btn btn_list">목록으로</a>
 				</div>
 				<div class="right">
 					<button type="button" class="like" aria-pressed="false" aria-label="좋아요"><span aria-hidden="true"><i></i><p>좋아요<strong class="blog_like_count">{{ number_format($likeCount) }}</strong></p></span></button>
@@ -115,7 +123,7 @@
 			<ul class="recommended_list">
                 @forelse($recommended as $item)
 				<li>
-                    <a href="{{ route('blog.blog_view', ['blogPost' => $item->id]) }}">
+                    <a href="{{ route('blog.blog_view', $item) }}">
                         <span class="imgfit" aria-hidden="true"><img src="{{ $item->thumbnail_path ? \Illuminate\Support\Facades\Storage::url($item->thumbnail_path) : '/images/img_blog_sample.jpg' }}" alt=""></span>
                         <span class="txt">{{ $item->title }}</span>
                     </a>

@@ -3,7 +3,7 @@
 @section('gName', $gName)
 @section('sName', $sName)
 @section('description', '대학·연구실 홈페이지 제작을 위한 맞춤형 솔루션. 장비 예약 자동화부터 정부 시스템(ZEUS) 연동, 논문 아카이브 통합까지, 27년 경험의 홈페이지코리아가 책임집니다.')
-@section('keywords', '연구실 홈페이지 제작(866), 연구실 홈페이지 144')
+@section('keywords', '연구실 홈페이지 제작, 연구실 홈페이지')
 
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
@@ -30,39 +30,42 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="industry-problem-title" data-aos="fade-up">대학 운영, 논문 연구에 집중해야 할 시간, <br class="pc_vw"><strong>행정 업무에 뺏기고 있지는 않나요?</strong></h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>수기 예약과 장비 관리로 행정 누수가 발생합니다. <img src="/images/emoji_whirl.png" alt="" aria-hidden="true"></h3>
 						<p>전화와 이메일로 예약 문의가 쏟아지는데 일일이 수기로 처리하다 보니 업무가 너무 비효율적이에요. 청구서도 직접 작성하다 보면 실수도 생기고요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>정부 시스템(ZEUS)과 교내 데이터가 따로 돕니다. <img src="/images/emoji_worry.png" alt="" aria-hidden="true"></h3>
 						<p>정부 장비 관리 시스템과 교내 데이터가 연동이 안 되어서 같은 항목을 계속 반복해서 입력해야 하는데 너무 불편해요.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>연구 성과와 논문 데이터가 파편화되어 있습니다. <img src="/images/emoji_tears.png" alt="" aria-hidden="true"></h3>
 						<p>교수진의 소중한 연구 성과와 논문 자료가 체계적으로 관리되지 않아 자산화되지 못하고 있습니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="industry-solution-title" data-aos="fade-up">홈페이지코리아는 <br class="pc_vw"><strong>대학·연구실 홈페이지를 체계적으로 구현합니다.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="industry-solution-title">홈페이지코리아는 <br class="pc_vw"><strong>대학·연구실 홈페이지를 체계적으로 구현합니다.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_e1">
+					<object data="/images/icon_industry_e01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>교내 장비 <br class="pc_vw">예약·결제 자동화 시스템</h3>
 					<p>실시간 장비 예약, 자동 결제, 청구서 발행까지 한 번에 처리됩니다. <br class="pc_vw">수기 업무를 없애고 관리자의 행정 부담을 대폭 줄입니다.</p>
 				</li>
 				<li class="i_e2">
+					<object data="/images/icon_industry_e02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>정부 시스템 <br class="pc_vw">연동</h3>
 					<p>정부 장비 관리 시스템과 교내 데이터를 완벽하게 연동하여 <br class="pc_vw">중복 입력 없이 효율적으로 데이터를 관리할 수 있습니다.</p>
 				</li>
 				<li class="i_e3">
+					<object data="/images/icon_industry_e03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>연구 성과 및 <br class="pc_vw">논문 아카이브 통합</h3>
 					<p>교수진의 연구 성과, 논문 자료를 체계적으로 관리하고 AI 기반 검색으로 필요한 정보를 즉시 찾아내는 지식 관리 시스템을 구축합니다.</p>
 				</li>
@@ -75,8 +78,8 @@
 			</ul>
 		</div>
 		
-		<div class="flex_center" data-aos="fade-up">
-			<a href="/portfolio/" class="btn_link slim hover_black">연구실 개발 사례 더보기</a>
+		<div class="flex_center">
+			<a href="/portfolio?category=대학%2F학원" class="btn_link slim hover_black">연구실 개발 사례 더보기</a>
 		</div>
 	</section>
 	
@@ -86,6 +89,7 @@
 			<h2 id="industry-how-title" aria-hidden="true"><strong>대학·연구실 홈페이지 제작,</strong> <br class="pc_vw">이렇게 진행됩니다.</h2>
 			<ul class="expertise_list step_list">
 				<li class="i_b1">
+					<object data="/images/icon_expertise_b01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 01</span>
 					<h3>요구사항 분석</h3>
 					<ul>
@@ -94,6 +98,7 @@
 					</ul>
 				</li>
 				<li class="i_b2">
+					<object data="/images/icon_expertise_b02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 02</span>
 					<h3>맞춤 제안서 및 견적 제공</h3>
 					<ul>
@@ -102,6 +107,7 @@
 					</ul>
 				</li>
 				<li class="i_b3">
+					<object data="/images/icon_expertise_b03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 03</span>
 					<h3>기획 및 디자인</h3>
 					<ul>
@@ -110,6 +116,7 @@
 					</ul> 
 				</li>
 				<li class="i_b4">
+					<object data="/images/icon_expertise_b04.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<span>STEP 04</span>
 					<h3>개발 및 배포</h3>
 					<ul>
@@ -156,7 +163,7 @@
 	</section>
 	
 	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
-		<div class="inner" data-aos="fade-up">
+		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="industry-contact-title" class="port_tit"><strong>지식의 가치를 높이는 웹사이트,</strong> <br class="pc_vw">홈페이지코리아와 상담하세요.</h2>
 			<div class="btns flex_center">
@@ -173,41 +180,69 @@ $(document).ready(function(){
 // marquee
     initMarquee("#marquee_banner_e", MARQUEE_DATA.e);
 // Portfolio marquee
-    (function () {
-        const $banner = $(".portfolio_marquee");
-        const $list   = $banner.find(".list").first();
-        if (! $list.length || ! $list.children("li").length) {
-            return;
-        }
-        const speed       = 1;
-        let posX          = 0;
-        let isPaused      = false;
-        let totalWidth    = 0;
-        let marqueeResizeTimer;
-        function measure() {
-            const el = $list.get(0);
-            totalWidth = el && el.scrollWidth > 0 ? el.scrollWidth : $list.outerWidth(true);
-        }
-        measure();
-        $(window).on("load", measure);
-        $(window).on("resize", function () {
-            clearTimeout(marqueeResizeTimer);
-            marqueeResizeTimer = setTimeout(measure, 100);
-        });
-        function marqueeLoop() {
-            if (!isPaused && totalWidth > 0) {
-                posX -= speed;
-                if (posX <= -totalWidth) {
-                    posX = 0;
-                }
-                $list.css("transform", `translateX(${posX}px)`);
-            }
-            requestAnimationFrame(marqueeLoop);
-        }
-        marqueeLoop();
-        $banner.on("mouseenter", function () { isPaused = true; })
-               .on("mouseleave", function () { isPaused = false; });
-    })();
+	(function () {
+		const $banner = $(".portfolio_marquee");
+		const $list   = $banner.find(".list").first();
+		if (!$list.length || !$list.children("li").length) {
+			return;
+		}
+		const speed = 1;
+		let posX    = 0;
+		let isPaused  = false;
+		let totalWidth  = 0;
+		let isStopped   = false;
+		let cloned    = false;
+		let marqueeResizeTimer;
+
+		function measure() {
+			totalWidth = 0;
+			$list.children("li:not(.clone)").each(function () {
+				totalWidth += $(this).outerWidth(true);
+			});
+
+			const bannerWidth = $banner.outerWidth();
+
+			if (totalWidth < bannerWidth) {
+				isStopped = true;
+				posX = 0;
+				$list.css("transform", "translateX(0px)");
+				$banner.addClass("stop");
+				$list.find("li.clone").remove();
+				cloned = false;
+			} else {
+				isStopped = false;
+				$banner.removeClass("stop");
+				if (!cloned) {
+					$list.children("li:not(.clone)").clone().addClass("clone").attr("aria-hidden", "true").appendTo($list);
+					cloned = true;
+				}
+			}
+		}
+
+		measure();
+		$(window).on("load", measure);
+		$(window).on("resize", function () {
+			clearTimeout(marqueeResizeTimer);
+			marqueeResizeTimer = setTimeout(measure, 100);
+		});
+
+		function marqueeLoop() {
+			if (!isPaused && !isStopped && totalWidth > 0) {
+				posX -= speed;
+				// 원본 너비만큼 이동하면 초기화 → 복제본이 이어받아 끊김 없음
+				if (posX <= -totalWidth) {
+					posX = 0;
+				}
+				$list.css("transform", `translateX(${posX}px)`);
+			}
+			requestAnimationFrame(marqueeLoop);
+		}
+
+		marqueeLoop();
+
+		$banner.on("mouseenter", function () { isPaused = true; })
+			   .on("mouseleave", function () { isPaused = false; });
+	})();
 // step_list
     const $items   = $(".expertise_list.step_list > li");
     const interval = 2000;
@@ -341,6 +376,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

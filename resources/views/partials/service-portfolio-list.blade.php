@@ -11,7 +11,7 @@
             ? \Illuminate\Support\Facades\Storage::url($item->thumbnail_image)
             : null;
     @endphp
-    <a href="{{ route('portfolio.portfolio_view', ['portfolio' => $item->id]) }}" class="box" aria-label="{{ $item->title }} - {{ $type }} 포트폴리오 보기">
+    <a href="{{ $item->publicListHref() }}" class="box" @if($item->publicListOpensInNewTab()) target="_blank" rel="noopener noreferrer" @endif aria-label="{{ $item->title }} - {{ $type }} 포트폴리오 보기">
         @if($thumb)<span class="imgfit" aria-hidden="true"><img src="{{ $thumb }}" alt=""></span>@endif
         <span class="txt">
             <span class="type">{{ $type }}</span>

@@ -30,43 +30,56 @@
 			<div class="problem service">
 				<p class="tit_label" data-aos="fade-up">PROBLEM</p>
 				<h2 id="industry-problem-title" data-aos="fade-up"><strong>기업용 웹사이트 제작,</strong>이런 고민이 있으신가요?</h2>
-				<ul class="problem_list">
-					<li data-aos="fade-up">
+				<ul class="problem_list" data-aos="fade-up">
+					<li>
 						<h3>복잡한 내부 시스템과 홈페이지를 연동시키고 싶어요. <img src="/images/emoji_whirl.png" alt="" aria-hidden="true"></h3>
 						<p>ERP, CRM, LMS 등 기존 시스템과 웹사이트가 유기적으로 연결되어야 하는데, 데이터 호환성과 보안 이슈로 통합이 어렵습니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>까다로운 보안 요구사항을 충족시킬 수 있는 업체, 어디 없을까요? <img src="/images/emoji_worry.png" alt="" aria-hidden="true"></h3>
 						<p>개인정보보호법, 정보보안 정책, 내부망/외부망 분리 등 엄격한 보안 기준을 만족하는 개발사를 찾기 어렵습니다.</p>
 					</li>
-					<li data-aos="fade-up">
+					<li>
 						<h3>담당자 변경에도 지속 가능한 시스템이 필요합니다. <img src="/images/emoji_tears2.png" alt="" aria-hidden="true"></h3>
 						<p>인사이동이 잦은 조직 특성상, 담당자가 바뀌어도 시스템을 안정적으로 운영할 수 있는 구조가 필수입니다.</p>
 					</li>
 				</ul>
-				<div class="dots" aria-hidden="true" data-aos="fade-up"><i class="t"></i><i class="m"></i><i class="b"></i></div>
+				<div class="dots" aria-hidden="true"><i class="t"></i><i class="m"></i><i class="b"></i></div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="infopage_solution industry_solution bg_white" aria-labelledby="industry-solution-title" data-header="light">
 		<div class="inner">
-			<p class="tit_label" data-aos="fade-up">SOLUTION</p>
-			<h2 id="industry-solution-title" data-aos="fade-up">어떤 복잡한 요구사항도 <br class="pc_vw"><strong>홈페이지코리아가 안정적으로 구현합니다.</strong></h2>
-			<ul class="solution_list" data-aos="fade-up">
+			<p class="tit_label">SOLUTION</p>
+			<h2 id="industry-solution-title">어떤 복잡한 요구사항도 <br class="pc_vw"><strong>홈페이지코리아가 안정적으로 구현합니다.</strong></h2>
+			<ul class="solution_list">
 				<li class="i_a1">
+					<object data="/images/icon_industry_a01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>엔터프라이즈급 <br class="pc_vw">웹 시스템 통합 역량</h3>
 					<p>내부망/외부망 분리, DMZ 구성, 폐쇄망 등 <br class="pc_vw">복잡한 네트워크 환경에서도 안정적으로 구축합니다.</p>
 				</li>
 				<li class="i_a2">
+					<object data="/images/icon_industry_a02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>검증된 <br class="pc_vw">웹, 앱 보안 체계</h3>
 					<p>시큐어 코딩, SSO, 2FA 등 <br class="pc_vw">엔터프라이즈급 보안을 기본으로 설계합니다.</p>
 				</li>
 				<li class="i_a3">
+					<object data="/images/icon_industry_a03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>지속 가능한 <br class="pc_vw">유지/보수/운영 체계</h3>
 					<p>체계적인 매뉴얼과 운영 교육으로 인수인계가 원활하며, <br class="pc_vw">선택적 유지보수로 불필요한 고정 비용을 최소화합니다.</p>
 				</li>
 			</ul>
+		</div>
+		
+		<div class="portfolio_marquee">
+			<ul class="list">
+				@include('partials.service-portfolio-marquee-list', ['portfolioItems' => $industryPortfolioItems])
+			</ul>
+		</div>
+		
+		<div class="flex_center">
+			<a href="/portfolio?category=중견%2F대기업" class="btn_link slim hover_black">중견/대기업 개발 사례 더보기</a>
 		</div>
 	</section>
 	
@@ -121,18 +134,22 @@
 			<h2 id="industry-expertisetitle"><strong>홈페이지코리아를 우리 인하우스 IT팀으로!</strong><br/> 다양한 IT 프로젝트가 가능합니다.</h2>
 			<ul class="expertise_list">
 				<li class="i_a1">
+					<object data="/images/icon_expertise_a01.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>홈페이지 제작</h3>
 					<p>비즈니스를 성장시키는 <br class="pc_vw">홈페이지 제작</p>
 				</li>
 				<li class="i_a2">
+					<object data="/images/icon_expertise_a02.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>홈페이지 유지보수</h3>
 					<p>전문가가 직접 관리하는 <br class="pc_vw">홈페이지 유지보수</p>
 				</li>
 				<li class="i_a3">
+					<object data="/images/icon_expertise_a03.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>통합 SI 시스템 개발</h3>
 					<p>운영 효율을 높이는 <br class="pc_vw">시스템 개발</p>
 				</li>
 				<li class="i_a4">
+					<object data="/images/icon_expertise_a04.svg" type="image/svg+xml" aria-hidden="true"></object>
 					<h3>앱 개발</h3>
 					<p>앱 개발, 맞춤형 설계부터 <br class="pc_vw">스토어 출시까지</p>
 				</li>
@@ -154,28 +171,28 @@
 					<div class="flex_tit">
 						<h4>금융권이라 보안 요구사항이 까다로운데, <strong>전자정부프레임워크 기반</strong>으로 안정적으로 구축해주셨어요. <strong>내부망/외부망 분리 환경에서도 	문제없이 작동</strong>하고, <strong>취약점 점검까지 완료</strong>해서 보안 심사를 무사히 통과할 수 있었습니다.</h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00기업<span aria-hidden="true">금융</span></p>
+					<p><i><img src="/images/icon_review_logo_h1.svg" alt="" aria-hidden="true"></i>KB부동산신탁<span aria-hidden="true">금융</span></p>
 				</li>
 				<li>
-					<h3 class="sound_only">유통</h3>
+					<h3 class="sound_only">전자 기기</h3>
 					<div class="flex_tit">
 						<h4>여러 브랜드를 운영하다 보니 마케팅팀과 IT팀의 요구사항이 달라 조율이 어려웠는데요. <strong>홈페이지코리아 PM분이 양쪽의 니즈를 모두 이해</strong>하고 <strong>최적의 방안을 제시</strong>해주셨어요.</h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00기업<span aria-hidden="true">유통</span></p>
+					<p><i><img src="/images/icon_review_logo_h2.svg" alt="" aria-hidden="true"></i>오므론<span aria-hidden="true">전자 기기</span></p>
 				</li>
 				<li>
-					<h3 class="sound_only">제조업</h3>
+					<h3 class="sound_only">공구 제조업</h3>
 					<div class="flex_tit">
 						<h4>우리 회사의 복잡한 B2B 거래 특성을 완벽히 이해하고 그에 맞게 구축해주었습니다. 요청사항을 신속하게 반영해주어 높은 만족도로 사용하고 있습니다. 구축 후  <strong>불필요한 수작업이 줄고 주문/재고 관리 시스템이  	일원화</strong>되어 <strong>업무 효율이 비약적으로 올랐습니다.</strong></h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_blank.svg" alt="" aria-hidden="true"></i>00기업<span aria-hidden="true">제조업</span></p>
+					<p><i><img src="/images/icon_review_logo_h3.svg" alt="" aria-hidden="true"></i>계양전기<span aria-hidden="true">공구 제조업</span></p>
 				</li>
 			</ul>
 		</div>
 	</section>
 	
 	<section class="infopage_contact industry_contact page_contact" aria-label="industry-contact-title" data-header="dark">
-		<div class="inner" data-aos="fade-up">
+		<div class="inner">
 			<p class="tit_label sound_only">CTA</p>
 			<h2 id="industry-contact-title" class="port_tit"><strong>대기업과 중견기업을 위한 맞춤형 홈페이지 제작</strong> <br class="pc_vw">홈페이지코리아와 상담하세요.</h2>
 			<div class="btns flex_center">
@@ -191,6 +208,70 @@
 $(document).ready(function(){
 // marquee
 	initMarquee("#marquee_banner_a", MARQUEE_DATA.a);
+// Portfolio marquee
+	(function () {
+		const $banner = $(".portfolio_marquee");
+		const $list   = $banner.find(".list").first();
+		if (!$list.length || !$list.children("li").length) {
+			return;
+		}
+		const speed = 1;
+		let posX    = 0;
+		let isPaused  = false;
+		let totalWidth  = 0;
+		let isStopped   = false;
+		let cloned    = false;
+		let marqueeResizeTimer;
+
+		function measure() {
+			totalWidth = 0;
+			$list.children("li:not(.clone)").each(function () {
+				totalWidth += $(this).outerWidth(true);
+			});
+
+			const bannerWidth = $banner.outerWidth();
+
+			if (totalWidth < bannerWidth) {
+				isStopped = true;
+				posX = 0;
+				$list.css("transform", "translateX(0px)");
+				$banner.addClass("stop");
+				$list.find("li.clone").remove();
+				cloned = false;
+			} else {
+				isStopped = false;
+				$banner.removeClass("stop");
+				if (!cloned) {
+					$list.children("li:not(.clone)").clone().addClass("clone").attr("aria-hidden", "true").appendTo($list);
+					cloned = true;
+				}
+			}
+		}
+
+		measure();
+		$(window).on("load", measure);
+		$(window).on("resize", function () {
+			clearTimeout(marqueeResizeTimer);
+			marqueeResizeTimer = setTimeout(measure, 100);
+		});
+
+		function marqueeLoop() {
+			if (!isPaused && !isStopped && totalWidth > 0) {
+				posX -= speed;
+				// 원본 너비만큼 이동하면 초기화 → 복제본이 이어받아 끊김 없음
+				if (posX <= -totalWidth) {
+					posX = 0;
+				}
+				$list.css("transform", `translateX(${posX}px)`);
+			}
+			requestAnimationFrame(marqueeLoop);
+		}
+
+		marqueeLoop();
+
+		$banner.on("mouseenter", function () { isPaused = true; })
+			   .on("mouseleave", function () { isPaused = false; });
+	})();
 // review 사선
 	function drawLines() {
 		const $wrap = $('.line_wrap');
@@ -295,6 +376,14 @@ $(document).ready(function(){
 	AOS.init({
 		duration: 1000,
 	});
+//IOS
+	function isApple() {
+		return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+	}
+	const isAppleDevice = isApple();
+	if (isAppleDevice) {
+		$("body").addClass("ios_fix");
+	}
 });
 </script>
 

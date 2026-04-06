@@ -117,7 +117,19 @@ document.addEventListener('DOMContentLoaded', () => {
     window.initBackofficeCKEditors(form);
   }
 
-  form.addEventListener('submit', () => {
+  const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  const slugInvalidMsg =
+    'URL 슬러그는 영문 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다.\n(한글·공백·특수문자·언더스코어(_)는 사용할 수 없습니다.)';
+
+  form.addEventListener('submit', (e) => {
+    const slugInput = form.querySelector('#blogPostSlugInput, input[name="slug"]');
+    const raw = slugInput?.value?.trim() ?? '';
+    if (raw !== '' && !slugPattern.test(raw)) {
+      e.preventDefault();
+      alert(slugInvalidMsg);
+      slugInput?.focus();
+      return;
+    }
     if (typeof window.syncBackofficeCKEditorFields === 'function') {
       window.syncBackofficeCKEditorFields(form);
     }

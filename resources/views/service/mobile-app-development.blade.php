@@ -5,56 +5,7 @@
 @section('description', '아이디어를 현실로 만드는 앱 개발 서비스. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 기획·개발·스토어 출시·운영까지 책임집니다.')
 @section('keywords', '앱 개발, 앱 개발 업체')
 @section('sga_plus')
-,"mainEntity": [
-    {
-        "@@type": "Question",
-        "name": "앱 개발 기간은 얼마나 걸리나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "MVP는 2~3개월, 중규모 서비스 앱은 3~5개월 정도 소요됩니다. 초기 기획 단계에서 명확한 일정과 마일스톤을 제시하며 단계별 검수를 통해 약속된 날짜에 정확히 출시합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "앱 스토어 심사는 어떻게 진행되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "기획 단계부터 앱스토어·플레이스토어 가이드라인을 준수하여 개발하며, 심사 제출부터 승인까지 전 과정을 대행합니다. 반려 시 신속하게 수정하여 재제출합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "네이티브 앱과 하이브리드 앱 중 어떤 것을 선택해야 하나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "빠른 출시와 비용 효율이 중요하다면 하이브리드 앱(Flutter, React Native)을, 고성능과 네이티브 기능 활용이 필요하다면 네이티브 앱을 권장합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "기존 웹사이트를 앱으로 전환할 수 있나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "기존 웹 서비스의 디자인과 기능을 앱 환경에 최적화하여 전환할 수 있으며, 웹과 앱 간 데이터를 실시간 동기화하여 통합 관리가 가능합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "앱 출시 후 유지보수는 어떻게 진행되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "구축을 담당한 PM이 직접 유지보수를 담당합니다. 월 단위 계약을 통해 오류 수정, OS 업데이트 대응, 기능 개선, 스토어 업데이트를 지속적으로 지원합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "인앱 결제 기능도 구현 가능한가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "애플 인앱 결제, 구글 인앱 결제, 일반 PG 결제 모두 구현 가능하며, 결제 내역 관리와 영수증 검증까지 안정적으로 처리합니다."
-        }
-    }
-]
+@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
 @endsection
 
 @section('content')
@@ -65,7 +16,7 @@
 			<h1 id="service-head-title" class="mojo_aos">앱 개발, 맞춤형 설계부터 스토어 출시까지 홈페이지코리아가 끝까지 책임집니다.</h1>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'service', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 		</div>
 		<div class="marquee_banner_wrap mojo_aos">
@@ -188,13 +139,15 @@
 				<li>
 					<a href="{{ $item->publicListHref() }}" class="box" @if($item->publicListOpensInNewTab()) target="_blank" rel="noopener noreferrer" @endif aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
 						<span class="flip">
-							<span class="before" aria-hidden="true">@if($marqueeThumb)<img src="{{ $marqueeThumb }}" alt="" class="bg">@endif<img src="/images/main_service_08.svg" alt="" class="logo"></span>
-							<span class="after" aria-hidden="true">
+							<span class="before" aria-hidden="true">@if($marqueeThumb)<img src="{{ $marqueeThumb }}" alt="" class="bg">@endif<img src="/images/main_service_08.svg" alt="" class="logo">
+								<span class="tit"><p>{{ $marqueeTypeLabel }}</p><strong>{{ $item->title }}</strong></span>
+							</span>
+							<!-- <span class="after" aria-hidden="true">
 								<span class="type">{{ $marqueeTypeLabel }}</span>
 								<span class="tit">{{ $item->title }}</span>
 								@if($marqueeDesc !== '')<p>{{ $marqueeDesc }}</p>@endif
 								<span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-							</span>
+							</span> -->
 						</span>
 					</a>
 				</li>

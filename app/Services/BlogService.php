@@ -49,7 +49,7 @@ class BlogService
         return BlogPost::query()
             ->where('slug', $slug)
             ->where('is_published', true)
-            ->with(['sections'])
+            ->with(['sections.items'])
             ->firstOrFail();
     }
 

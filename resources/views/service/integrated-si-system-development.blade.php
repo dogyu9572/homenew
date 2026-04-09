@@ -5,48 +5,7 @@
 @section('description', '운영 효율을 높이는 통합 SI 시스템 개발. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 예약·백오피스·ERP·CMS·LMS를 하나로 연결합니다.')
 @section('keywords', 'SI 개발, 시스템개발, 예약페이지, 예약페이지 만들기, 백오피스 개발, ERP 개발, LMS 시스템')
 @section('sga_plus')
-,"mainEntity": [
-    {
-        "@@type": "Question",
-        "name": "통합 SI 시스템 개발에는 얼마나 걸리나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "예약 시스템은 2~3개월, 백오피스·ERP 통합 시스템은 3~6개월 정도 소요됩니다. 초기 기획 단계에서 명확한 일정과 마일스톤을 제시하며 단계별 테스트를 통해 안정적인 오픈을 보장합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "기존에 사용 중인 시스템과 연동이 가능한가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "기존 ERP, CRM 등과 API 연동을 통해 데이터를 실시간 동기화할 수 있습니다. 학교·공공기관의 나이스, 행안부 시스템 연동 경험도 풍부하여 복잡한 레거시 시스템과의 통합도 안정적으로 진행합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "예약 시스템에서 승인 프로세스를 커스터마이징할 수 있나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "단순 승인부터 다단계 결재, 조건부 자동 승인, 담당자 배정, 알림톡 발송 등 기관의 운영 규칙에 맞춰 예약 프로세스를 자유롭게 설계할 수 있습니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "보안과 개인정보 처리는 어떻게 관리되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "행정안전부 정보보안 관리체계 기준에 따라 개발하며 2FA, SSO, SSL 암호화, 개인정보 마스킹 등 보안 기능을 기본 적용합니다. 개인정보보호법을 철저히 준수합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "시스템 구축 후 유지보수는 어떻게 진행되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "구축을 담당한 PM이 직접 유지보수를 담당합니다. 월 단위 계약을 통해 오류 수정, 기능 개선, 서버 모니터링, 보안 업데이트를 지속적으로 지원합니다."
-        }
-    }
-]
+@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
 @endsection
 
 @section('content')
@@ -57,7 +16,7 @@
 			<h1 id="service-head-title" class="mojo_aos">운영 효율을 높이는 시스템 개발,<br/> (예약페이지, 백오피스, ERP, CMS,  LMS)<br/> 홈페이지 코리아에서 해결하세요.</h1>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'service', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 		</div>
 		<div class="marquee_banner_wrap mojo_aos">

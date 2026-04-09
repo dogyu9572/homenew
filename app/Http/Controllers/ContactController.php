@@ -7,6 +7,7 @@ use App\Models\Portfolio;
 use App\Services\ContactMailNotifier;
 use App\Services\ContactService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\RateLimiter;
 
 class ContactController extends Controller
 {
@@ -17,6 +18,15 @@ class ContactController extends Controller
 
     public function store(StoreContactRequest $request): RedirectResponse
     {
+        $limitKey = 'contact-submit:'.$request->ip();
+        if (RateLimiter::tooManyAttempts($limitKey, 4)) {
+            return redirect()
+                ->route('contact.contact')
+                ->withErrors(['company' => '짧은 시간 내 접수가 많습니다. 잠시 후 다시 시도해 주세요.'])
+                ->withInput();
+        }
+        RateLimiter::hit($limitKey, 600);
+
         $validated = $request->validated();
 
         $sourceType = $validated['source_type'] ?? null;
@@ -45,6 +55,7 @@ class ContactController extends Controller
         );
 
         $this->contactMailNotifier->send($contact);
+        $request->session()->forget(['contact_form_token', 'contact_form_ts']);
 
         return redirect()
             ->route('contact.contact')

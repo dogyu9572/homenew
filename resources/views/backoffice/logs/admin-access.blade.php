@@ -35,6 +35,11 @@
                                 placeholder="관리자명을 입력하세요" value="{{ request('name') }}">
                         </div>
                         <div class="filter-group">
+                            <label for="path" class="filter-label">접근 경로</label>
+                            <input type="text" id="path" name="path" class="filter-input"
+                                placeholder="예: backoffice/contacts" value="{{ request('path') }}">
+                        </div>
+                        <div class="filter-group">
                             <label for="from" class="filter-label">기간</label>
                             <div class="date-range">
                                 <input type="date" id="from" name="from" class="filter-input"
@@ -85,9 +90,11 @@
                             <tr>
                                 <th>NO</th>
                                 <th>관리자명</th>
+                                <th>메서드</th>
+                                <th>접근 경로</th>
                                 <th>IP</th>
-                                <th>가입일시</th>
-                                <th>최종방문일시</th>
+                                <th>계정 생성일</th>
+                                <th>접속일시</th>
                                 <th>REFERER</th>
                             </tr>
                         </thead>
@@ -96,10 +103,12 @@
                                 <tr>
                                     <td>{{ $logs->total() - ($logs->currentPage() - 1) * $logs->perPage() - $loop->index }}</td>
                                     <td>{{ $log->name }}</td>
+                                    <td>{{ $log->http_method ?? '-' }}</td>
+                                    <td class="text-break"><span title="{{ $log->access_path }}">{{ \Illuminate\Support\Str::limit($log->access_path ?? '', 64) }}</span></td>
                                     <td>{{ $log->ip_address }}</td>
                                     <td>{{ $log->admin ? $log->admin->created_at->format('Y-m-d H:i:s') : '-' }}</td>
                                     <td>{{ $log->accessed_at->format('Y-m-d H:i:s') }}</td>
-                                    <td>{{ $log->referer ?: '-' }}</td>
+                                    <td class="text-break">{{ $log->referer ? \Illuminate\Support\Str::limit($log->referer, 48) : '-' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -15,6 +15,9 @@ use InvalidArgumentException;
 
 class PortfolioController extends Controller
 {
+    /** 포트폴리오 이미지 업로드 상한 (Laravel `max` file 규칙: 킬로바이트, 100MB) */
+    private const PORTFOLIO_IMAGE_MAX_KB = 102400;
+
     public function __construct(private PortfolioService $portfolioService) {}
 
     public function index(Request $request)
@@ -269,7 +272,9 @@ class PortfolioController extends Controller
                     'string',
                     'max:255',
                     'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
-                    Rule::unique('portfolios', 'slug')->ignore($portfolio),
+                    Rule::unique('portfolios', 'slug')
+                        ->where(fn ($q) => $q->whereNull('deleted_at'))
+                        ->ignore($portfolio),
                     function (string $attribute, mixed $value, \Closure $fail): void {
                         if (! is_string($value) || $value === '') {
                             return;
@@ -280,8 +285,8 @@ class PortfolioController extends Controller
                     },
                 ],
                 'keywords_input' => 'nullable|string|max:1000',
-                'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-                'top_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+                'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:'.self::PORTFOLIO_IMAGE_MAX_KB,
+                'top_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:'.self::PORTFOLIO_IMAGE_MAX_KB,
                 'sort_order' => 'nullable|integer|min:0',
                 'is_main_display' => 'nullable|boolean',
                 'is_active' => 'nullable|boolean',
@@ -293,15 +298,15 @@ class PortfolioController extends Controller
                 'problem_content' => 'nullable|string',
                 'solution_title' => 'nullable|string|max:255',
                 'solution_content' => 'nullable|string',
-                'solution_before_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-                'solution_after_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+                'solution_before_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:'.self::PORTFOLIO_IMAGE_MAX_KB,
+                'solution_after_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:'.self::PORTFOLIO_IMAGE_MAX_KB,
                 'feature_developments' => 'nullable|array',
                 'feature_developments.*.title' => 'nullable|string|max:255',
                 'feature_developments.*.content' => 'nullable|string',
                 'feature_developments.*.background_text' => 'nullable|string|max:255',
                 'feature_developments.*.existing_image_path' => 'nullable|string|max:255',
                 'feature_developments.*.remove_image' => 'nullable|boolean',
-                'feature_developments.*.image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+                'feature_developments.*.image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:'.self::PORTFOLIO_IMAGE_MAX_KB,
                 'reviews.*.title' => 'nullable|string|max:255',
                 'reviews.*.manager_name' => 'nullable|string|max:255',
                 'reviews.*.content' => 'nullable|string',
@@ -320,13 +325,59 @@ class PortfolioController extends Controller
             ]
         );
 
-        $validator->after(function ($v) use ($request): void {
-            if ($request->boolean('is_direct_site_link') && trim((string) $request->input('site_url', '')) === '') {
-                $v->errors()->add('site_url', '「상세 페이지 없이 새창으로 사이트 링크 이동」을 사용할 때는 사이트 링크(URL)이 필수입니다.');
+        $validator->after(function ($v) use ($request, $portfolio): void {
+            $resolvedSlug = $this->resolvedSlugForValidation(
+                (string) $request->input('slug', ''),
+                (string) $request->input('title', ''),
+                $portfolio
+            );
+
+            if ($resolvedSlug === null) {
+                return;
+            }
+
+            $duplicateExists = Portfolio::query()
+                ->where('slug', $resolvedSlug)
+                ->whereNull('deleted_at')
+                ->when($portfolio !== null, fn ($q) => $q->where('id', '!=', $portfolio->id))
+                ->exists();
+
+            if ($duplicateExists) {
+                if (trim((string) $request->input('slug', '')) === '') {
+                    $v->errors()->add('slug', '제목에 입력한 값은 이미 사용 중인 URL이라 사용할 수 없습니다. URL 슬러그를 직접 입력해 주세요.');
+                } else {
+                    $v->errors()->add('slug', '이미 사용 중인 URL 슬러그입니다. 다른 값을 입력해 주세요.');
+                }
             }
         });
 
         return $validator->validate();
+    }
+
+    /**
+     * 검증 단계에서 실제 저장될 slug 후보를 계산한다.
+     * - 수정 + slug 미입력: 기존 slug 유지
+     * - 신규 + slug 미입력: title 기반 기본 slug
+     */
+    private function resolvedSlugForValidation(string $inputSlug, string $title, ?Portfolio $portfolio): ?string
+    {
+        $trimmed = trim($inputSlug);
+        if ($trimmed === '' && $portfolio !== null) {
+            return $portfolio->slug;
+        }
+
+        $base = $trimmed !== ''
+            ? Str::slug($trimmed)
+            : Portfolio::baseSlugFromTitle($title);
+
+        if ($base === '') {
+            $base = 'portfolio';
+        }
+        if (PublicUrlSegments::isReservedForPortfolio($base)) {
+            $base = $base.'-case';
+        }
+
+        return $base;
     }
 
     private function preparePayload(Request $request, array $validated, ?Portfolio $portfolio = null): array

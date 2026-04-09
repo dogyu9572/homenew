@@ -5,56 +5,7 @@
 @section('description', '구축부터 운영까지 책임지는 홈페이지 유지보수 서비스. 홈페이지코리아입니다.')
 @section('keywords', '홈페이지 유지보수, 홈페이지 관리업체, 홈페이지 유지보수 업체, 홈페이지 수정, 홈페이지 오류, 웹사이트 관리')
 @section('sga_plus')
-,"mainEntity": [
-    {
-        "@@type": "Question",
-        "name": "홈페이지 제작 비용은 어떻게 산정되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "프로젝트 규모와 요구 기능에 따라 비용이 결정됩니다. 로그인 기능이 없는 기본 홈페이지도 가능하며, 회원 관리, 예약 시스템, ERP 연동 등 복잡한 기능이 추가될 경우 비용이 추가됩니다."
-        }
-    },
-	{
-		"@@type": "Question",
-		"name": "다른 업체에서 제작한 홈페이지도 유지보수가 가능한가요?",
-		"acceptedAnswer": {
-			"@@type": "Answer",
-			"text": "가능합니다. 기존 소스 코드와 기술 스택을 검토한 후 유지보수 범위를 안내드립니다. 구조에 따라 난이도 차이가 있을 수 있으며, 필요 시 리뉴얼이나 구조 개선도 제안드립니다."
-		}
-	}
-	{
-        "@@type": "Question",
-        "name": "홈페이지 유지보수 계약 없이 건별로 의뢰할 수 있나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "건별로는 진행이 어렵습니다. 월 50만 원부터 최대 500만 원까지 고객사별 시스템 규모, 요청 빈도, 월 투입 공수를 기준으로 유지보수 요금을 산정하여 운영하고 있습니다."
-        }
-    },
-	{
-        "@@type": "Question",
-        "name": "긴급 상황 발생 시 얼마나 빨리 대응하나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "영업일 기준 24시간 이내 1차 확인 및 처리를 원칙으로 합니다. 서버 다운, 결제 오류 등 치명적 오류는 즉시 대응하여 비즈니스 중단 시간을 최소화합니다."
-        }
-    },
-	{
-        "@@type": "Question",
-        "name": "유지보수 범위에 포함되지 않는 작업은 무엇인가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "신규 페이지 추가, 대규모 기능 개발, 디자인 전면 개편 등 구조 변경을 동반하는 작업은 별도 개발 프로젝트로 진행됩니다. 유지보수는 기존 기능 수정, 오류 대응, 경미한 개선에 한정되며, 작업 전 범위와 비용을 사전 안내드립니다."
-        }
-    },
-	{
-        "@@type": "Question",
-        "name": "유지보수 관리 계약 방식은 어떻게 되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "월 단위 또는 연간 계약으로 진행되며, 실제 투입된 작업 공수를 기준으로 관리합니다. 계약 조건에 따라 디자인·퍼블리싱 공수만 포함하거나, 기획·디자인·퍼블리싱·개발 공수를 모두 포함하는 방식으로 구성할 수 있습니다. 월별 작업 내역과 공수는 투명하게 리포트로 제공됩니다."
-        }
-    }
-]
+@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
 @endsection
 
 @section('content')
@@ -66,7 +17,7 @@
 			<p class="tb mojo_aos"><strong>27년 업력의 홈페이지코리아</strong>가 홈페이지 제작뿐만 아니라 <strong>유지보수, 운영까지 책임집니다.</strong></p>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'service', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 		</div>
 		<div class="marquee_banner_wrap mojo_aos">

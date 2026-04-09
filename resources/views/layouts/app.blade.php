@@ -71,7 +71,30 @@
 					@endif
 				@endif
 			]
-		}
+		},
+		{
+			"@type": "SiteNavigationElement",
+			"@id": "https://homepagekorea.com/#main-navi",
+			"name": "홈페이지코리아 메인 네비게이션",
+			"itemListElement": [
+				{ "@type": "ListItem", "position": 1, "name": "홈페이지코리아 소개", "url": "https://homepagekorea.com/about" },
+				{ "@type": "ListItem", "position": 2, "name": "SEO·GEO 최적화", "url": "https://homepagekorea.com/service/homepage-seo-geo" },
+				{ "@type": "ListItem", "position": 3, "name": "홈페이지 제작", "url": "https://homepagekorea.com/service/homepage-development" },
+				{ "@type": "ListItem", "position": 4, "name": "홈페이지 유지보수", "url": "https://homepagekorea.com/service/website-maintenance" },
+				{ "@type": "ListItem", "position": 5, "name": "온라인 쇼핑몰 제작", "url": "https://homepagekorea.com/service/ecommerce-website-development" },
+				{ "@type": "ListItem", "position": 6, "name": "통합 SI 시스템 개발", "url": "https://homepagekorea.com/service/integrated-si-system-development" },
+				{ "@type": "ListItem", "position": 7, "name": "앱 개발", "url": "https://homepagekorea.com/service/mobile-app-development" },
+				{ "@type": "ListItem", "position": 8, "name": "맞춤형 AI 솔루션", "url": "https://homepagekorea.com/service/ai-solution" },
+				{ "@type": "ListItem", "position": 9, "name": "중견/대기업", "url": "https://homepagekorea.com/industries/enterprise" },
+				{ "@type": "ListItem", "position": 10, "name": "학회/협회", "url": "https://homepagekorea.com/industries/academic-association" },
+				{ "@type": "ListItem", "position": 11, "name": "공공기관", "url": "https://homepagekorea.com/industries/government" },
+				{ "@type": "ListItem", "position": 12, "name": "병원/의료", "url": "https://homepagekorea.com/industries/hospital-medical-website-development" },
+				{ "@type": "ListItem", "position": 13, "name": "대학·연구실", "url": "https://homepagekorea.com/industries/university-research-lab-website" },
+				{ "@type": "ListItem", "position": 14, "name": "포트폴리오", "url": "https://homepagekorea.com/portfolio" },
+				{ "@type": "ListItem", "position": 15, "name": "블로그", "url": "https://homepagekorea.com/blog/" },
+				{ "@type": "ListItem", "position": 16, "name": "문의하기", "url": "https://homepagekorea.com/contact/" }
+			]
+		},
 		@yield('sga_plus', '')
 	}
 	</script>
@@ -91,6 +114,15 @@
 	<link rel="stylesheet" href="/css/reactive.css?v=<?=$ver_reactive?>">
     <!-- page Styles -->
     @yield('styles')
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-073X7ZDZQC"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-073X7ZDZQC');
+	</script>
     
     <!-- jQuery -->
     <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -111,7 +143,7 @@
 		<div class="inbox flex items-center justify-between">
 			<a href="/" class="logo" aria-label="홈페이지코리아 홈으로 이동"><img src="/images/logo.svg" alt="사이트 로고"></a>
 			<div class="gnb_wrap">
-				<nav class="gnb" aria-label="주 메뉴">
+				<nav class="gnb" id="main-navi" aria-label="주 메뉴">
 					<ul class="flex">
 						<li class="menu {{ ($gNum ?? '') == '00' ? 'on' : '' }}">
 							<a href="/about" id="main-menu-00" aria-haspopup="true" aria-expanded="{{ ($gNum ?? '') == '00' ? 'true' : 'false' }}"{{ ($gNum ?? '') == '00' ? 'aria-current="page"' : '' }}>ABOUT</a>
@@ -295,6 +327,18 @@
 	<!-- MR Script Ver 2.0 -->
 	<script async="true" src="//log1.toup.net/mirae_log_chat_common.js?adkey=nqscn" charset="UTF-8"></script>
 	<!-- MR Script END Ver 2.0 -->
+	
+	<script type="text/javascript">
+	(function(w, d, a){
+		w.__beusablerumclient__ = {
+			load : function(src){
+				var b = d.createElement("script");
+				b.src = src; b.async=true; b.type = "text/javascript";
+				d.getElementsByTagName("head")[0].appendChild(b);
+			}
+		};w.__beusablerumclient__.load(a + "?url=" + encodeURIComponent(d.URL));
+	})(window, document, "//rum.beusable.net/load/b231017e175233u115");
+	</script>
 
 </body>
 </html>

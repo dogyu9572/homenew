@@ -51,7 +51,7 @@ class VisitorLog extends Model
      */
     public function scopeUsers($query)
     {
-        return $query->whereHas('user', function($q) {
+        return $query->whereHas('user', function ($q) {
             $q->where('role', 'member');
         });
     }
@@ -61,18 +61,26 @@ class VisitorLog extends Model
      */
     public function scopeSearch($query, $request)
     {
-        // 회원명 검색
+        // 회원명 검색(로그인 방문만 해당, 비회원은 결과에서 제외)
         if ($request->filled('name')) {
-            $query->whereHas('user', function($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->name . '%');
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%'.$request->name.'%');
             });
         }
 
-        // 기간 검색
+        if ($request->filled('ip')) {
+            $query->where('ip_address', 'like', '%'.$request->input('ip').'%');
+        }
+
+        // page 쿼리는 페이지네이션과 충돌하므로 url 파라미터 사용
+        if ($request->filled('url')) {
+            $query->where('page_url', 'like', '%'.$request->input('url').'%');
+        }
+
         if ($request->filled('from')) {
             $query->whereDate('created_at', '>=', $request->from);
         }
-        
+
         if ($request->filled('to')) {
             $query->whereDate('created_at', '<=', $request->to);
         }

@@ -184,7 +184,7 @@
 	.blog_view_head .view_top {padding:30px 0; margin-bottom:30px;}
 	.blog_view_body section + section {margin-top:60px;}
 	.blog_view_body h2 {font-size:28px; margin-bottom:20px;}
-	.blog_view_body h3 {font-size:16px; margin-bottom:6px;}
+	.blog_view_body h3 {font-size:20px; margin-bottom:6px;}
 	.blog_view_body h3 ~ h3 {margin-top:20px;}
 	.recommended_area {right:20px; width:calc(50vw - 460px); min-width:150px; margin-right:0;}
 	.recommended_area .tit {font-size:18px; margin-bottom:14px;}
@@ -903,6 +903,11 @@
 	#popup_complete .tit {font-size:22px; margin-bottom:6px;}
 	#popup_complete p {font-size:16px;}
 	#popup_complete .btn_link {margin-top:40px; width:200px; padding:0 20px; gap:6px;}
+	#popup_term article {margin-top:16px;}
+	#popup_term h3 {font-size:16px;}
+	#popup_term p,
+	#popup_term li {font-size:13px; line-height:20px;}
+	#popup_term li:before {top:8px;}
 
 /* 개인정보처리방침 */
 	.terms_wrap {padding:160px 0;}
@@ -1366,6 +1371,7 @@
 	.index_area li + li {margin-top:12px;}
 	.index_area a {font-size:13px; padding:0 15px 0 27px; text-indent:-12px;}
 	.blog_view_con {width:100%; max-width:100%;}
+	.wrap_color_box {padding:15px;}
 	.blog_view_head {padding-bottom:20px;}
 	.blog_view_head .imgfit {margin-bottom:20px; border-radius:12px;}
 	.blog_view_head .type {font-size:14px; margin-bottom:5px;}
@@ -1376,9 +1382,8 @@
 	.blog_view_head .view_top {padding:20px 0; margin-bottom:20px;}
 	.blog_view_body section + section {margin-top:40px;}
 	.blog_view_body h2 {font-size:24px; margin-bottom:15px;}
-	.blog_view_body h3 {font-size:16px; margin-bottom:5px;}
+	.blog_view_body h3 {font-size:18px; margin-bottom:5px;}
 	.blog_view_body p {font-size:16px; color:#282828; line-height:1.9; letter-spacing:-.2px; text-align:left;}
-	.blog_view_body p + p {margin-top:36px;}
 	.blog_view_body li {font-size:16px;}
 	.recommended_area {position:relative; top:0; right:0; width:100%; margin-top:40px;}
 	.recommended_area .tit {font-size:14px; margin-bottom:10px;}
@@ -1434,6 +1439,8 @@
 	#popup_complete p {font-size:14px;}
 	#popup_complete .btn_link {margin-top:30px; width:180px; padding:0 16px; gap:4px;}
 	#popup_complete .btn_link:after {width:14px;}
+	#popup_term .inbox {padding-top:50px;}
+	#popup_term article {margin-top:12px;}
 
 /* 개인정보처리방침 */
 	.terms_wrap {padding:100px 0;}

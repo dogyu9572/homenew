@@ -108,6 +108,7 @@
                                 <th>No</th>
                                 <th>카테고리</th>
                                 <th>제목</th>
+                                <th>조회수</th>
                                 <th>메인표시</th>
                                 <th>상태</th>
                                 <th>관리</th>
@@ -134,6 +135,7 @@
                                 <td>{{ $portfolios->total() - ($portfolios->currentPage() - 1) * $portfolios->perPage() - $index }}</td>
                                 <td>{{ implode(', ', $portfolio->categories ?? array_filter([$portfolio->category])) }}</td>
                                 <td>{{ $portfolio->title }}</td>
+                                <td>{{ number_format((int) $portfolio->view_count) }}</td>
                                 <td>{{ $portfolio->is_main_display ? 'Y' : 'N' }}</td>
                                 <td>{{ $portfolio->is_active ? '노출' : '숨김' }}</td>
                                 <td>
@@ -148,7 +150,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="7" class="text-center">데이터가 없습니다.</td></tr>
+                            <tr><td colspan="{{ $portfolios->count() ? 9 : 8 }}" class="text-center">데이터가 없습니다.</td></tr>
                         @endforelse
                         </tbody>
                     </table>

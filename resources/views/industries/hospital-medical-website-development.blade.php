@@ -14,7 +14,7 @@
 			<p class="tb mojo_aos">27년 경력의 의료 행정 및 통합 시스템 전문 웹 에이전시 입니다.</p>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'industries', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 			<div class="flex_center mojo_aos">
 				<div class="img"><img src="/images/img_industry_d01.jpg" alt=""></div>

@@ -2,13 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\DailyVisitorStat;
+use App\Models\VisitorLog;
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use App\Models\VisitorLog;
-use App\Models\DailyVisitorStat;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class TrackVisitor
 {
@@ -19,14 +20,14 @@ class TrackVisitor
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        
+
         // 백오피스, API 경로는 제외
-        if (!$request->is('backoffice*') && !$request->is('api/*')) {
+        if (! $request->is('backoffice*') && ! $request->is('api/*')) {
             try {
                 $this->recordVisitor($request);
             } catch (\Exception $e) {
                 // 방문자 로그 기록 실패 시에도 페이지는 정상 표시
-                Log::error('방문자 로그 기록 실패: ' . $e->getMessage());
+                Log::error('방문자 로그 기록 실패: '.$e->getMessage());
             }
         }
 
@@ -44,14 +45,21 @@ class TrackVisitor
         $today = $now->format('Y-m-d');
         $startOfDay = $now->copy()->startOfDay();
         $endOfDay = $now->copy()->endOfDay();
-        
+
         // 고유 방문자 여부 확인 (IP 기반)
-        $isUnique = !VisitorLog::where('ip_address', $ipAddress)
+        $isUnique = ! VisitorLog::where('ip_address', $ipAddress)
             ->whereBetween('created_at', [$startOfDay, $endOfDay])
             ->exists();
 
-        // 방문 로그 기록
+        // 프론트에 로그인한 경우(관리자 제외) 사용자 ID 연결 — 비로그인 방문도 동일하게 1행 기록
+        $userId = null;
+        $authUser = Auth::guard('web')->user();
+        if ($authUser !== null && ! $authUser->isAdmin()) {
+            $userId = $authUser->id;
+        }
+
         VisitorLog::create([
+            'user_id' => $userId,
             'ip_address' => $ipAddress,
             'user_agent' => $request->userAgent(),
             'page_url' => $request->fullUrl(),
@@ -83,8 +91,8 @@ class TrackVisitor
             ->where('id', $stat->id)
             ->update([
                 'page_views' => DB::raw('page_views + 1'),
-                'visitor_count' => DB::raw('visitor_count + ' . ($isUnique ? 1 : 0)),
-                'unique_visitors' => DB::raw('unique_visitors + ' . ($isUnique ? 1 : 0)),
+                'visitor_count' => DB::raw('visitor_count + '.($isUnique ? 1 : 0)),
+                'unique_visitors' => DB::raw('unique_visitors + '.($isUnique ? 1 : 0)),
             ]);
     }
 }

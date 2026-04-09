@@ -447,3 +447,74 @@
     font-size: 0.7rem;
     padding: 0.2rem 0.4rem;
 }
+
+/* 문의 관리: 내용 길이와 무관하게 열 너비 고정(줄바꿈으로 셀 높이만 변함) */
+.contacts-index-page .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.contacts-index-page .board-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.contacts-index-page .board-table th,
+.contacts-index-page .board-table td {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    vertical-align: top;
+    hyphens: auto;
+}
+
+/* 체크 | No | 접수일시 | 유입 | 회사명 | 담당자 | 연락처 | 이메일 | 관심서비스 | 상태 | 관리 */
+.contacts-index-page .board-table th:nth-child(1),
+.contacts-index-page .board-table td:nth-child(1) {
+    width: 3%;
+}
+.contacts-index-page .board-table th:nth-child(2),
+.contacts-index-page .board-table td:nth-child(2) {
+    width: 4%;
+}
+.contacts-index-page .board-table th:nth-child(3),
+.contacts-index-page .board-table td:nth-child(3) {
+    width: 9%;
+}
+.contacts-index-page .board-table th:nth-child(4),
+.contacts-index-page .board-table td:nth-child(4) {
+    width: 11%;
+}
+.contacts-index-page .board-table th:nth-child(5),
+.contacts-index-page .board-table td:nth-child(5) {
+    width: 9%;
+}
+.contacts-index-page .board-table th:nth-child(6),
+.contacts-index-page .board-table td:nth-child(6) {
+    width: 8%;
+}
+.contacts-index-page .board-table th:nth-child(7),
+.contacts-index-page .board-table td:nth-child(7) {
+    width: 9%;
+}
+.contacts-index-page .board-table th:nth-child(8),
+.contacts-index-page .board-table td:nth-child(8) {
+    width: 11%;
+}
+.contacts-index-page .board-table th:nth-child(9),
+.contacts-index-page .board-table td:nth-child(9) {
+    width: 22%;
+}
+.contacts-index-page .board-table th:nth-child(10),
+.contacts-index-page .board-table td:nth-child(10) {
+    width: 6%;
+}
+.contacts-index-page .board-table th:nth-child(11),
+.contacts-index-page .board-table td:nth-child(11) {
+    width: 8%;
+    white-space: nowrap;
+}
+
+.contacts-index-page .board-btn-group {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}

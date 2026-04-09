@@ -76,17 +76,24 @@
 
 			<article aria-label="본문" class="blog_view_body">
                 @forelse($post->sections as $section)
-                    @continue(empty($section->subtitle) && empty($section->subheading) && empty($section->content))
+                    @if(empty($section->subtitle) && $section->items->filter(fn ($i) => filled($i->subheading) || filled($i->content))->isEmpty())
+                        @continue
+                    @endif
                 <section @if(!empty($section->subtitle)) aria-labelledby="blog-section-{{ $section->id }}" @endif>
                     @if(!empty($section->subtitle))
 					<h2 id="blog-section-{{ $section->id }}">{{ $section->subtitle }}</h2>
                     @endif
-                    @if(!empty($section->subheading))
-					<h3>{{ $section->subheading }}</h3>
-                    @endif
-                    @if(!empty($section->content))
-					<div class="blog-section-body">{!! $section->content !!}</div>
-                    @endif
+                    @foreach($section->items as $item)
+                        @if(empty($item->subheading) && empty($item->content))
+                            @continue
+                        @endif
+                        @if(!empty($item->subheading))
+					<h3>{{ $item->subheading }}</h3>
+                        @endif
+                        @if(!empty($item->content))
+					<div class="blog-section-body">{!! $item->content !!}</div>
+                        @endif
+                    @endforeach
 				</section>
                 @empty
                 <section>
@@ -132,7 +139,7 @@
                 <li><span class="txt">추천 콘텐츠가 없습니다.</span></li>
                 @endforelse
 			</ul>
-			<a href="/contact" class="btn_contact"><p aria-hidden="true">Contact Us</p><span>프로젝트 문의하기</span></a>
+			<a href="{{ route('contact.contact', ['source_type' => 'blog', 'source_url' => $canonicalUrl, 'source_title' => $post->title]) }}" class="btn_contact"><p aria-hidden="true">Contact Us</p><span>프로젝트 문의하기</span></a>
 		</div>
 
 	</section>

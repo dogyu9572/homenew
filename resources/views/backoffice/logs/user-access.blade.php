@@ -32,7 +32,17 @@
                         <div class="filter-group">
                             <label for="name" class="filter-label">회원명</label>
                             <input type="text" id="name" name="name" class="filter-input"
-                                placeholder="회원명을 입력하세요" value="{{ request('name') }}">
+                                placeholder="로그인 방문만 검색" value="{{ request('name') }}">
+                        </div>
+                        <div class="filter-group">
+                            <label for="ip" class="filter-label">IP</label>
+                            <input type="text" id="ip" name="ip" class="filter-input"
+                                placeholder="IP 일부" value="{{ request('ip') }}">
+                        </div>
+                        <div class="filter-group">
+                            <label for="url" class="filter-label">페이지 URL</label>
+                            <input type="text" id="url" name="url" class="filter-input"
+                                placeholder="URL 일부" value="{{ request('url') }}">
                         </div>
                         <div class="filter-group">
                             <label for="from" class="filter-label">기간</label>
@@ -84,10 +94,11 @@
                         <thead>
                             <tr>
                                 <th>NO</th>
-                                <th>회원명</th>
+                                <th>회원</th>
                                 <th>IP</th>
-                                <th>가입일시</th>
-                                <th>최종방문일시</th>
+                                <th>접속 URL</th>
+                                <th>회원 가입일</th>
+                                <th>접속일시</th>
                                 <th>REFERER</th>
                             </tr>
                         </thead>
@@ -95,11 +106,12 @@
                             @foreach($logs as $log)
                                 <tr>
                                     <td>{{ $logs->total() - ($logs->currentPage() - 1) * $logs->perPage() - $loop->index }}</td>
-                                    <td>{{ $log->user ? $log->user->name : '-' }}</td>
+                                    <td>{{ $log->user ? $log->user->name : '비회원' }}</td>
                                     <td>{{ $log->ip_address }}</td>
+                                    <td class="text-break"><span title="{{ $log->page_url }}">{{ \Illuminate\Support\Str::limit($log->page_url, 80) }}</span></td>
                                     <td>{{ $log->user ? $log->user->created_at->format('Y-m-d H:i:s') : '-' }}</td>
                                     <td>{{ $log->created_at->format('Y-m-d H:i:s') }}</td>
-                                    <td>{{ $log->referer ?: '-' }}</td>
+                                    <td class="text-break">{{ $log->referer ? \Illuminate\Support\Str::limit($log->referer, 60) : '-' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class AdminAccessLog extends Model
 {
     protected $table = 'admin_access_logs';
-    
+
     protected $fillable = [
         'admin_id',
         'name',
         'ip_address',
         'user_agent',
         'referer',
+        'access_path',
+        'http_method',
         'accessed_at',
     ];
 
@@ -38,14 +40,17 @@ class AdminAccessLog extends Model
     {
         // 관리자명 검색
         if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->name . '%');
+            $query->where('name', 'like', '%'.$request->input('name').'%');
         }
 
-        // 기간 검색
+        if ($request->filled('path')) {
+            $query->where('access_path', 'like', '%'.$request->input('path').'%');
+        }
+
         if ($request->filled('from')) {
             $query->whereDate('accessed_at', '>=', $request->from);
         }
-        
+
         if ($request->filled('to')) {
             $query->whereDate('accessed_at', '<=', $request->to);
         }
@@ -53,5 +58,3 @@ class AdminAccessLog extends Model
         return $query;
     }
 }
-
-

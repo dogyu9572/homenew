@@ -62,6 +62,7 @@
                             <th>공지</th>
                             <th>카테고리</th>
                             <th>제목</th>
+                            <th>조회수</th>
                             <th>30일 점수</th>
                             <th>노출</th>
                             <th>관리</th>
@@ -74,6 +75,7 @@
                             <td>{{ $post->is_notice ? 'Y' : 'N' }}</td>
                             <td>{{ $post->category_label }}</td>
                             <td>{{ $post->title }}</td>
+                            <td>{{ number_format((int) $post->view_count) }}</td>
                             <td>{{ number_format($post->score_30d) }}</td>
                             <td>{{ $post->is_published ? '노출' : '비노출' }}</td>
                             <td>
@@ -88,7 +90,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="7" class="text-center">데이터가 없습니다.</td></tr>
+                        <tr><td colspan="8" class="text-center">데이터가 없습니다.</td></tr>
                     @endforelse
                     </tbody>
                 </table>

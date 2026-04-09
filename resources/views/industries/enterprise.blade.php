@@ -14,7 +14,7 @@
 			<p class="tb mojo_aos"><strong>복잡한 요구사항과 높은 보안 수준을 충족하는 맞춤형 웹사이트 구축,</strong> <br class="pc_vw">홈페이지코리아가 귀사의 IT 팀원이 되어드립니다.</p>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'industries', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 			<div class="flex_center mojo_aos">
 				<div class="img"><img src="/images/img_industry_a01.jpg" alt=""></div>
@@ -72,15 +72,6 @@
 			</ul>
 		</div>
 		
-		<div class="portfolio_marquee">
-			<ul class="list">
-				@include('partials.service-portfolio-marquee-list', ['portfolioItems' => $industryPortfolioItems])
-			</ul>
-		</div>
-		
-		<div class="flex_center">
-			<a href="/portfolio?category=중견%2F대기업" class="btn_link slim hover_black">중견/대기업 개발 사례 더보기</a>
-		</div>
 	</section>
 	
 	<section class="infopage_why industry_why" aria-labelledby="industry-why-title" data-header="dark">
@@ -125,6 +116,14 @@
 					</div>
 				</li>
 			</ul>
+			<div class="portfolio_marquee">
+				<ul class="list">
+					@include('partials.service-portfolio-marquee-list', ['portfolioItems' => $industryPortfolioItems])
+				</ul>
+			</div>
+			<div class="flex_center">
+				<a href="/portfolio?category=중견%2F대기업" class="btn_link slim white">중견/대기업 개발 사례 더보기</a>
+			</div>
 		</div>
 	</section>
 	

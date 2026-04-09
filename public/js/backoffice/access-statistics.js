@@ -208,7 +208,7 @@ function updateDateStatsTable(stats) {
 }
 
 /**
- * 시간별 통계 테이블 업데이트
+ * 시간대별 방문자(당일 IP 최초 접속 시각) 테이블 업데이트
  */
 function updateHourStatsTable(stats) {
     const tableContainer = document.getElementById('hour-stats-table');
@@ -222,7 +222,7 @@ function updateHourStatsTable(stats) {
         html += '<th>' + stat.label + '</th>';
     });
     html += '</tr></thead>';
-    html += '<tbody><tr><td>방문자수</td>';
+    html += '<tbody><tr><td>방문자(명)</td>';
     stats.forEach(function(stat) {
         html += '<td>' + formatNumber(stat.count) + '명</td>';
     });

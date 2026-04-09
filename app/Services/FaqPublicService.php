@@ -177,4 +177,46 @@ class FaqPublicService
 
         return collect($rows);
     }
+
+    /**
+     * 서비스 페이지 layout JSON-LD(WebPage)용 mainEntity — Schema.org Question 배열
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function mainEntityForServicePageJsonLd(Collection $faqItems): array
+    {
+        $out = [];
+        foreach ($faqItems as $row) {
+            $name = trim((string) ($row->title ?? ''));
+            $text = $this->plainTextForJsonLd(isset($row->content) ? (string) $row->content : null);
+            if ($name === '' && $text === '') {
+                continue;
+            }
+            $out[] = [
+                '@type' => 'Question',
+                'name' => $name,
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => $text,
+                ],
+            ];
+        }
+
+        return $out;
+    }
+
+    /**
+     * FAQ 본문 HTML → JSON-LD acceptedAnswer.text용 평문
+     */
+    public function plainTextForJsonLd(?string $html): string
+    {
+        if ($html === null || trim($html) === '') {
+            return '';
+        }
+        $normalized = preg_replace('/>\s*</', '> <', $html);
+        $text = strip_tags($normalized);
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        return trim(preg_replace('/\s+/u', ' ', $text));
+    }
 }

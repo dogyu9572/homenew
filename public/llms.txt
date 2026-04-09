@@ -1,0 +1,25 @@
+# 홈페이지코리아 (Homepage Korea)
+
+> 전문적인 웹사이트 제작, 시스템 개발 및 맞춤형 AI 솔루션을 제공하는 디지털 에이전시입니다. SEO 및 GEO 최적화 기술을 바탕으로 비즈니스 가치를 극대화합니다.
+
+## 서비스 소개 (Our Services)
+- [SEO·GEO 최적화](/service/homepage-seo-geo): 검색 엔진 및 생성형 AI 답변 최적화 서비스
+- [홈페이지 제작](/service/homepage-development): 반응형 및 맞춤형 웹사이트 구축
+- [홈페이지 유지보수](/service/website-maintenance): 안정적인 웹사이트 운영 및 관리
+- [온라인 쇼핑몰 제작](/service/ecommerce-website-development): 이커머스 솔루션 구축
+- [통합 SI 시스템 개발](/service/integrated-si-system-development): 기업 맞춤형 시스템 통합 개발
+- [앱 개발](/service/mobile-app-development): 안드로이드 및 iOS 모바일 앱 구축
+- [맞춤형 AI 솔루션](/service/ai-solution): 비즈니스 자동화 및 AI 도입 컨설팅
+
+## 산업별 특화 솔루션 (Industries)
+- [중견/대기업](/industries/enterprise): 엔터프라이즈급 웹 환경 구축
+- [학회/협회](/industries/academic-association): 학회 및 협회 전용 관리 시스템
+- [공공기관](/industries/government): 공공기관 웹 표준 및 접근성 준수 구축
+- [병원/의료](/industries/hospital-medical-website-development): 의료 전문 예약 및 정보 시스템
+- [대학·연구실](/industries/university-research-lab-website): 학술 중심 웹사이트 및 연구실 홍보
+
+## 회사 정보 및 문의
+- [회사 소개](/about): 홈페이지코리아의 철학과 기술력 소개
+- [포트폴리오](/portfolio): 다양한 산업군의 성공적인 프로젝트 사례
+- [블로그](/blog/): 최신 IT 트렌드 및 기술 인사이트
+- [문의하기](/contact/): 견적 요청 및 기술 상담 문의

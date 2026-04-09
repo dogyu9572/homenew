@@ -307,6 +307,7 @@ class SubController extends Controller
         if ($portfolio->is_direct_site_link && filled($portfolio->site_url)) {
             return redirect()->away(trim((string) $portfolio->site_url), 302);
         }
+        $portfolio->increment('view_count');
         $portfolio->load(['featureDevelopments', 'reviews']);
         $canonicalUrl = strtok(url()->current(), '?');
         $primaryCategory = $portfolio->category ?: ($portfolio->categories[0] ?? '');
@@ -369,8 +370,9 @@ class SubController extends Controller
             if ($leadPlain !== '') {
                 $featuredExcerpt = Str::limit($leadPlain, 220);
             } else {
-                $firstSection = $featuredPost->sections()->first();
-                $featuredExcerpt = Str::limit(strip_tags((string) ($firstSection->content ?? '')), 220);
+                $firstSection = $featuredPost->sections()->with('items')->first();
+                $firstItem = $firstSection?->items->first();
+                $featuredExcerpt = Str::limit(strip_tags((string) ($firstItem->content ?? '')), 220);
             }
         }
 
@@ -402,6 +404,8 @@ class SubController extends Controller
         if (! $post->is_published) {
             abort(404);
         }
+        $post->increment('view_count');
+        $post->load(['sections.items']);
 
         $sName = $post->title;
         $recommended = $blogService->getAutoRecommendedPosts($post);
@@ -478,8 +482,9 @@ class SubController extends Controller
         }
 
         $firstSection = $post->sections->first();
-        if ($firstSection !== null) {
-            $text = $this->plainTextFromHtml($firstSection->content ?? null);
+        $firstItem = $firstSection?->items->first();
+        if ($firstItem !== null) {
+            $text = $this->plainTextFromHtml($firstItem->content ?? null);
             if ($text !== '') {
                 return Str::limit($text, 160, '');
             }
@@ -567,8 +572,14 @@ class SubController extends Controller
         $gName = 'Contact Us';
         $sName = '문의하기';
         $gSlug = 'contact';
+        $contactFormToken = (string) Str::uuid();
+        $contactFormTs = now()->timestamp;
+        session([
+            'contact_form_token' => $contactFormToken,
+            'contact_form_ts' => $contactFormTs,
+        ]);
 
-        return view('contact.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug'));
+        return view('contact.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'contactFormToken', 'contactFormTs'));
     }
 
     public function privacy_policy()

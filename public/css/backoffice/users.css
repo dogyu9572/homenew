@@ -60,9 +60,16 @@
 
 .member-form-field .board-form-control {
     width: 100%;
-    max-width: 400px;
+    max-width: 100%;
+    box-sizing: border-box;
     border: 1px solid #e0e0e0;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 문의 내용 등 여러 줄 입력 가독성 */
+.member-form-field textarea.board-form-control {
+    min-height: 10rem;
+    resize: vertical;
 }
 
 .member-form-field .board-form-control:focus {

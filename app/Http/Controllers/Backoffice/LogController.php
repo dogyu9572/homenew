@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
-use App\Models\VisitorLog;
 use App\Models\AdminAccessLog;
+use App\Models\VisitorLog;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
@@ -22,21 +22,21 @@ class LogController extends Controller
                 'ip' => '192.168.1.101',
                 'user' => '관리자',
                 'accessed_at' => now()->subMinutes(5),
-                'status' => 'success'
+                'status' => 'success',
             ],
             [
                 'id' => 2,
                 'ip' => '118.235.12.45',
                 'user' => 'user@example.com',
                 'accessed_at' => now()->subHours(1),
-                'status' => 'success'
+                'status' => 'success',
             ],
             [
                 'id' => 3,
                 'ip' => '121.143.88.201',
                 'user' => 'unknown',
                 'accessed_at' => now()->subHours(2),
-                'status' => 'fail'
+                'status' => 'fail',
             ],
         ];
 
@@ -49,7 +49,6 @@ class LogController extends Controller
     public function userAccessLogs(Request $request)
     {
         $logs = VisitorLog::with('user')
-            ->users()
             ->search($request)
             ->orderBy('created_at', 'desc')
             ->paginate($request->get('per_page', 10));

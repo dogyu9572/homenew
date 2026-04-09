@@ -52,7 +52,7 @@ class BlogPostService
             $blogPost->update($this->mapPostData($payload, $blogPost));
             $this->syncSections($blogPost, $payload['sections'] ?? []);
 
-            return $blogPost->fresh(['sections']);
+            return $blogPost->fresh(['sections.items']);
         });
     }
 
@@ -155,18 +155,43 @@ class BlogPostService
 
         foreach (array_values($sections) as $index => $section) {
             $subtitle = trim((string) ($section['subtitle'] ?? ''));
-            $subheading = trim((string) ($section['subheading'] ?? ''));
-            $content = trim((string) ($section['content'] ?? ''));
-            if ($subtitle === '' && $subheading === '' && $content === '') {
+            $items = $section['items'] ?? [];
+            if (! is_array($items)) {
+                $items = [];
+            }
+
+            $normalizedItems = [];
+            foreach (array_values($items) as $item) {
+                if (! is_array($item)) {
+                    continue;
+                }
+                $subheading = trim((string) ($item['subheading'] ?? ''));
+                $content = trim((string) ($item['content'] ?? ''));
+                if ($subheading === '' && $content === '') {
+                    continue;
+                }
+                $normalizedItems[] = [
+                    'subheading' => $subheading !== '' ? $subheading : null,
+                    'content' => $content !== '' ? $content : null,
+                ];
+            }
+
+            if ($subtitle === '' && $normalizedItems === []) {
                 continue;
             }
 
-            $blogPost->sections()->create([
+            $sectionModel = $blogPost->sections()->create([
                 'sort_order' => $index,
                 'subtitle' => $subtitle !== '' ? $subtitle : null,
-                'subheading' => $subheading !== '' ? $subheading : null,
-                'content' => $content !== '' ? $content : null,
             ]);
+
+            foreach (array_values($normalizedItems) as $itemIndex => $item) {
+                $sectionModel->items()->create([
+                    'sort_order' => $itemIndex,
+                    'subheading' => $item['subheading'],
+                    'content' => $item['content'],
+                ]);
+            }
         }
     }
 

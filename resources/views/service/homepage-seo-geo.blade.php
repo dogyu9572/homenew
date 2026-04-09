@@ -5,64 +5,7 @@
 @section('description', '검색엔진과 AI가 이해하는 웹사이트 개발. Schema 마크업, sitemap 자동 생성, AI 검색 최적화까지. 1,100개 고객사가 선택한 홈페이지코리아의 SEO·GEO 솔루션을 만나보세요.')
 @section('keywords', 'SEO, GEO, AEO, 검색엔진 최적화, AI 검색 최적화, SEO 최적화, GEO 최적화, AI 검색')
 @section('sga_plus')
-,"mainEntity": [
-    {
-        "@@type": "Question",
-        "name": "왜 SEO · GEO · AEO가 중요한가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "검색엔진과 AI가 웹사이트의 구조와 콘텐츠를 이해할 수 있도록 설계되어야 검색 결과에 노출되고 AI 답변에서도 인용될 수 있습니다. SEO는 검색엔진 크롤링 구조 설계, GEO는 AI 검색 환경 최적화, AEO는 직접 답변 노출 설계를 담당합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "AI 검색 시대에 웹사이트는 왜 필요한가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "AI는 정보를 스스로 생성하는 것이 아니라 신뢰할 수 있는 웹사이트 콘텐츠를 기반으로 답변을 생성합니다. 구조가 잘 설계된 웹사이트는 검색 결과뿐 아니라 AI 답변에서도 출처로 인용될 가능성이 높아집니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "SEO·GEO 최적화, 홈페이지 제작할 때 같이 하지 않으면 안 되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "나중에 추가하는 것도 가능하지만, URL 구조를 바꾸면 기존 검색 색인이 초기화되고 콘텐츠도 다시 작성해야 하는 경우가 생깁니다. 처음부터 구조를 잡는 것이 가장 효율적입니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "SEO를 해도 검색 순위가 바로 오르지 않는다고 하던데, 효과가 있긴 한가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "SEO는 광고처럼 즉시 효과가 나타나지 않습니다. 구조가 제대로 설계되어 있으면 색인 속도가 빨라지고, 한 번 쌓인 신뢰도는 광고와 달리 비용 없이 유지됩니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "ChatGPT나 AI 검색에서 우리 회사가 노출되려면 어떻게 해야 하나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "AI는 신뢰도 있는 사이트의 콘텐츠를 학습해 답변을 생성합니다. 회사 소개, 서비스 설명, 전문 콘텐츠가 명확한 구조로 작성되어 있고 Schema 마크업이 적용되어 있을수록 AI가 인용할 가능성이 높아집니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "우리 사이트가 현재 SEO가 잘 되어 있는지 확인할 수 있나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "Google Search Console, PageSpeed Insights, Rich Results Test 등 무료 도구로 현재 상태를 확인할 수 있습니다. 홈페이지코리아에 문의하시면 현재 사이트의 기술 구조와 개선이 필요한 항목을 검토해 드립니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "개발사마다 SEO 적용 방식이 다른가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "title·description 정도만 설정하는 곳이 있는 반면, URL 구조 설계부터 sitemap 자동 생성, Schema 마크업 구현까지 시스템 레벨로 설계하는 곳도 있습니다. SEO는 퍼블리싱과 개발 양쪽 모두에서 작업이 이루어져야 제대로 동작합니다."
-        }
-    }
-]
+@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
 @endsection
 
 @section('content')
@@ -74,7 +17,7 @@
 			<p class="tb mojo_aos"><strong>검색엔진과 AI가 이해하고 인용하는 홈페이지</strong>를 개발합니다.</p>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'service', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 		</div>
 		<div class="marquee_banner_wrap mojo_aos">

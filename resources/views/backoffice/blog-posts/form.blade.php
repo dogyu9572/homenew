@@ -2,7 +2,42 @@
     $blogPost = $blogPost ?? null;
     $isEdit = (bool) $blogPost;
     $action = $isEdit ? route('backoffice.blog-posts.update', $blogPost) : route('backoffice.blog-posts.store');
-    $sections = old('sections', $isEdit ? $blogPost->sections->toArray() : [['subtitle' => '', 'subheading' => '', 'content' => '']]);
+    if ($isEdit) {
+        $sectionsDefault = $blogPost->sections->map(function ($s) {
+            $items = $s->items;
+            if ($items->isEmpty()) {
+                $itemsArr = [['subheading' => '', 'content' => '']];
+            } else {
+                $itemsArr = $items->map(fn ($i) => [
+                    'subheading' => $i->subheading ?? '',
+                    'content' => $i->content ?? '',
+                ])->values()->all();
+            }
+
+            return [
+                'subtitle' => $s->subtitle ?? '',
+                'items' => $itemsArr,
+            ];
+        })->values()->all();
+    } else {
+        $sectionsDefault = [
+            [
+                'subtitle' => '',
+                'items' => [
+                    ['subheading' => '', 'content' => ''],
+                ],
+            ],
+        ];
+    }
+    $sections = old('sections', $sectionsDefault);
+    if (! is_array($sections) || $sections === []) {
+        $sections = [
+            [
+                'subtitle' => '',
+                'items' => [['subheading' => '', 'content' => '']],
+            ],
+        ];
+    }
     $tagsInput = old('tags_input', $isEdit ? implode(' ', $blogPost->tags ?? []) : '');
     $faqPickerItems = $faqPickerItems ?? collect();
     $selectedFaqIds = old('faq_board_post_ids', $isEdit ? ($blogPost->faq_board_post_ids ?? []) : []);
@@ -141,21 +176,38 @@
     </div>
 
     <div class="member-form-section">
-        <h3 class="member-section-title">목차·본문 (최대 10구간)</h3>
-        <p class="text-muted">목차는 CONTENTS·앵커용(H2)입니다. 소제목은 본문 위 H3이며 목차에는 안 나갑니다.</p>
+        <h3 class="member-section-title">목차·본문 (최대 10구간)</h3> 
         <div id="blogSectionsWrap">
             @foreach($sections as $index => $section)
-                <div class="review-row blog-section-row">
+                @php
+                    $items = $section['items'] ?? [['subheading' => '', 'content' => '']];
+                    if (! is_array($items) || $items === []) {
+                        $items = [['subheading' => '', 'content' => '']];
+                    }
+                @endphp
+                <div class="review-row blog-toc-block" data-blog-toc-block>
                     <div class="review-row-grid">
                         <input type="text" class="board-form-control" name="sections[{{ $index }}][subtitle]" value="{{ $section['subtitle'] ?? '' }}" placeholder="목차">
-                        <input type="text" class="board-form-control" name="sections[{{ $index }}][subheading]" value="{{ $section['subheading'] ?? '' }}" placeholder="소제목">
                     </div>
-                    <textarea class="board-form-control board-textarea" name="sections[{{ $index }}][content]" rows="5" placeholder="본문" data-backoffice-ckeditor data-source-editing="true">{{ $section['content'] ?? '' }}</textarea>
-                    <button type="button" class="btn btn-danger btn-sm remove-blog-section">구간 삭제</button>
+                    <div class="blog-section-items-wrap" data-blog-section-items-wrap>
+                        @foreach($items as $j => $item)
+                            <div class="review-row blog-section-item-row" data-blog-section-item-row>
+                                <div class="review-row-grid">
+                                    <input type="text" class="board-form-control" name="sections[{{ $index }}][items][{{ $j }}][subheading]" value="{{ $item['subheading'] ?? '' }}" placeholder="소제목">
+                                </div>
+                                <textarea class="board-form-control board-textarea" name="sections[{{ $index }}][items][{{ $j }}][content]" rows="5" placeholder="본문" data-backoffice-ckeditor data-source-editing="true">{{ $item['content'] ?? '' }}</textarea>
+                                <button type="button" class="btn btn-danger btn-sm remove-blog-section-item">블록 삭제</button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="member-form-field">
+                        <button type="button" class="btn btn-secondary btn-sm add-blog-section-item">소제목·본문 추가</button>
+                        <button type="button" class="btn btn-danger btn-sm remove-blog-toc">목차 삭제</button>
+                    </div>
                 </div>
             @endforeach
         </div>
-        <button type="button" class="btn btn-secondary btn-sm" id="addBlogSectionBtn">구간 추가</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="addBlogSectionBtn">목차 추가</button>
     </div>
 
     <div class="member-form-section" id="blogFaqPickerSection">

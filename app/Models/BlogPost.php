@@ -63,6 +63,7 @@ class BlogPost extends Model
         'author_id',
         'published_at',
         'score_30d',
+        'view_count',
         'score_calculated_at',
     ];
 
@@ -73,6 +74,7 @@ class BlogPost extends Model
         'is_published' => 'boolean',
         'published_at' => 'datetime',
         'score_calculated_at' => 'datetime',
+        'view_count' => 'integer',
     ];
 
     public function sections(): HasMany

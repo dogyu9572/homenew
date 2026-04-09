@@ -73,6 +73,10 @@ class Contact extends Model
     {
         return match ($type) {
             'portfolio' => '포트폴리오',
+            'blog' => '블로그',
+            'about' => '회사소개',
+            'service' => '서비스',
+            'industries' => '산업군',
             default => $type !== null && $type !== '' ? $type : '',
         };
     }

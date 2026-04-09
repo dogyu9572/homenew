@@ -5,48 +5,7 @@
 @section('description', '비즈니스를 성장시키는 기업 홈페이지 제작. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 귀사에 맞는 웹사이트를 설계합니다.')
 @section('keywords', '홈페이지 제작, 기업 홈페이지 제작, 웹사이트 제작, 홈페이지 리뉴얼, 홈페이지 제작 업체')
 @section('sga_plus')
-,"mainEntity": [
-    {
-        "@@type": "Question",
-        "name": "홈페이지 제작 비용은 어떻게 산정되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "프로젝트 규모와 요구 기능에 따라 비용이 결정됩니다. 로그인 기능이 없는 기본 홈페이지도 가능하며, 회원 관리, 예약 시스템, ERP 연동 등 복잡한 기능이 추가될 경우 비용이 추가됩니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "홈페이지 제작 기간은 얼마나 걸리나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "평균 1.5개월(6주) 내에 구축이 가능하며, 프로젝트 규모에 따라 기간이 달라질 수 있습니다. 대형 프로젝트의 경우 6개월까지 소요될 수 있습니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "프로젝트 진행 중 추가 비용이 발생하나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "초기 합의된 요구사항 범위 내에서는 추가 비용이 발생하지 않습니다. 새로운 기능이 추가되거나 요구사항이 크게 변경될 경우 사전에 공수와 비용을 명확히 안내드린 후 진행합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "홈페이지 제작 후 유지보수는 필수인가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "유지보수는 필수가 아닌 선택사항입니다. 현재 약 50여 개 기관·기업이 홈페이지코리아의 유지보수 서비스를 이용 중이며, 월 50만 원부터 시스템 규모와 요청 빈도에 따라 비용이 산정됩니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "우리 업종과 비슷한 프로젝트 경험이 있나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "홈페이지코리아는 27년간 1,100개 이상의 프로젝트를 진행하며 대기업, 공공기관, 학회/협회, 대학교, 의료기관 등 다양한 업종의 홈페이지를 제작했습니다."
-        }
-    }
-]
+@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
 @endsection
 
 @section('content')
@@ -58,7 +17,7 @@
 			<p class="tb mojo_aos"><strong>비즈니스를 이해하고 설계하는 맞춤형 홈페이지 제작, </strong>홈페이지코리아와 상의하세요.</p>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'service', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 		</div>
 		<div class="marquee_banner_wrap mojo_aos">

@@ -205,17 +205,7 @@ class PortfolioService
             $base = $base.'-case';
         }
 
-        $slug = $base;
-        $n = 2;
-        while (Portfolio::query()
-            ->where('slug', $slug)
-            ->when($existing !== null, fn ($q) => $q->where('id', '!=', $existing->id))
-            ->exists()) {
-            $slug = $base.'-'.$n;
-            $n++;
-        }
-
-        return $slug;
+        return $base;
     }
 
     private function mapPortfolioData(array $data): array

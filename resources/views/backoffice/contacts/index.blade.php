@@ -15,7 +15,7 @@
     <div class="alert alert-success board-hidden-alert">{{ session('success') }}</div>
 @endif
 
-<div class="board-container">
+<div class="board-container contacts-index-page">
     <div class="board-page-header">
         <div class="board-page-buttons">
             <button type="button" id="btnDeleteMultiple" class="btn btn-danger">

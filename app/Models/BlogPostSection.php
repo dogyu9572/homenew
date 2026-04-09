@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BlogPostSection extends Model
 {
@@ -11,12 +12,15 @@ class BlogPostSection extends Model
         'blog_post_id',
         'sort_order',
         'subtitle',
-        'subheading',
-        'content',
     ];
 
     public function blogPost(): BelongsTo
     {
         return $this->belongsTo(BlogPost::class);
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(BlogPostSectionItem::class)->orderBy('sort_order');
     }
 }

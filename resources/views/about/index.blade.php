@@ -20,7 +20,7 @@
 					</h2>
 					<div class="btns flex_center mojo_aos">
 						<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-						<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+						<a href="{{ route('contact.contact', ['source_type' => 'about', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 					</div>
 				</div>
 			</div>

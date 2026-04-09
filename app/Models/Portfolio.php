@@ -50,6 +50,7 @@ class Portfolio extends Model
         'sort_order',
         'is_main_display',
         'is_active',
+        'view_count',
         'detail_summary',
         'detail_editor',
         'site_url',
@@ -69,6 +70,7 @@ class Portfolio extends Model
         'is_main_display' => 'boolean',
         'is_active' => 'boolean',
         'is_direct_site_link' => 'boolean',
+        'view_count' => 'integer',
     ];
 
     /**

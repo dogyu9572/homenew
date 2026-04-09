@@ -56,62 +56,121 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const sectionsWrap = document.getElementById('blogSectionsWrap');
   const addSectionButton = document.getElementById('addBlogSectionBtn');
-  const maxSections = 10;
+  const maxTocBlocks = 10;
+  const maxItemsPerToc = 10;
 
-  const updateSectionIndexes = () => {
-    const rows = sectionsWrap.querySelectorAll('.blog-section-row');
-    rows.forEach((row, index) => {
-      const subtitle = row.querySelector('input[name*="[subtitle]"]');
-      const subheading = row.querySelector('input[name*="[subheading]"]');
-      const content = row.querySelector('textarea[name*="[content]"]');
-      if (subtitle) {
-        subtitle.name = `sections[${index}][subtitle]`;
-      }
-      if (subheading) {
-        subheading.name = `sections[${index}][subheading]`;
-      }
-      if (content) {
-        content.name = `sections[${index}][content]`;
-      }
-    });
-  };
-
-  const bindSectionRemove = (target = sectionsWrap) => {
-    target.querySelectorAll('.remove-blog-section').forEach((button) => {
-      button.onclick = () => {
-        const rows = sectionsWrap.querySelectorAll('.blog-section-row');
-        if (rows.length <= 1) {
-          return;
-        }
-        button.closest('.blog-section-row')?.remove();
-        updateSectionIndexes();
-      };
-    });
-  };
-
-  addSectionButton?.addEventListener('click', () => {
-    const rows = sectionsWrap.querySelectorAll('.blog-section-row');
-    if (rows.length >= maxSections) {
-      alert('목차·본문 구간은 최대 10개까지 추가할 수 있습니다.');
+  const reindexBlogSectionNames = () => {
+    if (!sectionsWrap) {
       return;
     }
+    const tocBlocks = sectionsWrap.querySelectorAll('[data-blog-toc-block]');
+    tocBlocks.forEach((tocBlock, tocIndex) => {
+      const subtitle = tocBlock.querySelector('input[name*="[subtitle]"]');
+      if (subtitle) {
+        subtitle.name = `sections[${tocIndex}][subtitle]`;
+      }
+      const itemRows = tocBlock.querySelectorAll('[data-blog-section-item-row]');
+      itemRows.forEach((itemRow, itemIndex) => {
+        const subheading = itemRow.querySelector('input[name*="[subheading]"]');
+        const content = itemRow.querySelector('textarea[name*="[content]"]');
+        if (subheading) {
+          subheading.name = `sections[${tocIndex}][items][${itemIndex}][subheading]`;
+        }
+        if (content) {
+          content.name = `sections[${tocIndex}][items][${itemIndex}][content]`;
+        }
+      });
+    });
+  };
 
-    const row = document.createElement('div');
-    row.className = 'review-row blog-section-row';
-    row.innerHTML = `
-      <div class="review-row-grid">
-        <input type="text" class="board-form-control" name="sections[${rows.length}][subtitle]" placeholder="목차">
-        <input type="text" class="board-form-control" name="sections[${rows.length}][subheading]" placeholder="소제목">
+  const createEmptyItemRowHtml = (tocIndex, itemIndex) => `
+      <div class="review-row blog-section-item-row" data-blog-section-item-row>
+        <div class="review-row-grid">
+          <input type="text" class="board-form-control" name="sections[${tocIndex}][items][${itemIndex}][subheading]" placeholder="소제목">
+        </div>
+        <textarea class="board-form-control board-textarea" name="sections[${tocIndex}][items][${itemIndex}][content]" rows="5" placeholder="본문" data-backoffice-ckeditor data-source-editing="true"></textarea>
+        <button type="button" class="btn btn-danger btn-sm remove-blog-section-item">블록 삭제</button>
       </div>
-      <textarea class="board-form-control board-textarea" name="sections[${rows.length}][content]" rows="5" placeholder="본문" data-backoffice-ckeditor data-source-editing="true"></textarea>
-      <button type="button" class="btn btn-danger btn-sm remove-blog-section">구간 삭제</button>
     `;
-    sectionsWrap.appendChild(row);
-    if (typeof window.initBackofficeCKEditors === 'function') {
-      window.initBackofficeCKEditors(row);
-    }
-    bindSectionRemove(row);
-  });
+
+  if (sectionsWrap) {
+    sectionsWrap.addEventListener('click', (e) => {
+      const removeItemBtn = e.target.closest('.remove-blog-section-item');
+      if (removeItemBtn) {
+        const wrap = removeItemBtn.closest('[data-blog-section-items-wrap]');
+        const rows = wrap?.querySelectorAll('[data-blog-section-item-row]');
+        if (!wrap || !rows || rows.length <= 1) {
+          return;
+        }
+        removeItemBtn.closest('[data-blog-section-item-row]')?.remove();
+        reindexBlogSectionNames();
+        return;
+      }
+
+      const removeTocBtn = e.target.closest('.remove-blog-toc');
+      if (removeTocBtn) {
+        if (sectionsWrap.querySelectorAll('[data-blog-toc-block]').length <= 1) {
+          return;
+        }
+        removeTocBtn.closest('[data-blog-toc-block]')?.remove();
+        reindexBlogSectionNames();
+        return;
+      }
+
+      const addItemBtn = e.target.closest('.add-blog-section-item');
+      if (addItemBtn) {
+        const tocBlock = addItemBtn.closest('[data-blog-toc-block]');
+        const wrap = tocBlock?.querySelector('[data-blog-section-items-wrap]');
+        if (!tocBlock || !wrap) {
+          return;
+        }
+        const rows = wrap.querySelectorAll('[data-blog-section-item-row]');
+        if (rows.length >= maxItemsPerToc) {
+          alert('목차 하나당 소제목·본문 블록은 최대 10개까지 추가할 수 있습니다.');
+          return;
+        }
+        const tocIndex = [...sectionsWrap.querySelectorAll('[data-blog-toc-block]')].indexOf(tocBlock);
+        const itemIndex = rows.length;
+        const div = document.createElement('div');
+        div.innerHTML = createEmptyItemRowHtml(tocIndex, itemIndex).trim();
+        const newRow = div.firstElementChild;
+        wrap.appendChild(newRow);
+        if (typeof window.initBackofficeCKEditors === 'function') {
+          window.initBackofficeCKEditors(newRow);
+        }
+        reindexBlogSectionNames();
+      }
+    });
+
+    addSectionButton?.addEventListener('click', () => {
+      const tocBlocks = sectionsWrap.querySelectorAll('[data-blog-toc-block]');
+      if (tocBlocks.length >= maxTocBlocks) {
+        alert('목차는 최대 10개까지 추가할 수 있습니다.');
+        return;
+      }
+      const tocIndex = tocBlocks.length;
+      const block = document.createElement('div');
+      block.className = 'review-row blog-toc-block';
+      block.setAttribute('data-blog-toc-block', '');
+      block.innerHTML = `
+      <div class="review-row-grid">
+        <input type="text" class="board-form-control" name="sections[${tocIndex}][subtitle]" placeholder="목차">
+      </div>
+      <div class="blog-section-items-wrap" data-blog-section-items-wrap>
+        ${createEmptyItemRowHtml(tocIndex, 0).trim()}
+      </div>
+      <div class="member-form-field">
+        <button type="button" class="btn btn-secondary btn-sm add-blog-section-item">소제목·본문 블록 추가</button>
+        <button type="button" class="btn btn-danger btn-sm remove-blog-toc">목차 삭제</button>
+      </div>
+    `;
+      sectionsWrap.appendChild(block);
+      if (typeof window.initBackofficeCKEditors === 'function') {
+        window.initBackofficeCKEditors(block);
+      }
+      reindexBlogSectionNames();
+    });
+  }
 
   if (typeof window.initBackofficeCKEditors === 'function') {
     window.initBackofficeCKEditors(form);
@@ -134,8 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
       window.syncBackofficeCKEditorFields(form);
     }
   });
-
-  bindSectionRemove();
 
   const initBlogFaqPicker = () => {
     const titlesEl = document.getElementById('blog-faq-titles-json');

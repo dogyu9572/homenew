@@ -14,7 +14,7 @@
 			<p class="tb mojo_aos"><strong>기술 요구사항이 중요한 공공기관 홈페이지</strong>, <br class="pc_vw">홈페이지코리아에게 맡기세요.</p>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'industries', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 			<div class="flex_center mojo_aos">
 				<div class="img"><img src="/images/img_industry_c01.jpg" alt=""></div>

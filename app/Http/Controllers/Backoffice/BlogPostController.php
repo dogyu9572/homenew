@@ -55,7 +55,7 @@ class BlogPostController extends Controller
 
     public function edit(BlogPost $blogPost): View
     {
-        $blogPost->load(['sections']);
+        $blogPost->load(['sections.items']);
 
         return view('backoffice.blog-posts.edit', [
             'blogPost' => $blogPost,

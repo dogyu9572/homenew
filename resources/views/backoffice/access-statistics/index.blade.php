@@ -238,10 +238,15 @@
             </div>
         </div>
 
-        <!-- 시간별 방문자 -->
+        <!-- 시간대별 방문자: 당일 IP별 최초 접속 시각 기준 -->
         <div class="stats-section">
             <div class="section-header">
-                <h5>시간별 방문자</h5>
+                <div>
+                    <h5>시간대별 방문자 (당일 최초 접속)</h5>
+                    <p style="margin: 6px 0 0; font-size: 12px; color: #666; font-weight: normal;">
+                        선택한 날짜에 처음 기록된 시각이 속한 시간대에만 IP를 1번씩 넣습니다. 날짜별·오늘 방문자 수(고유 IP)와 시간대 합계가 같습니다.
+                    </p>
+                </div>
                 <div class="date-filter">
                     <label>날짜:</label>
                     <input type="date" id="hour-date-filter" value="{{ $selected_date }}" class="form-control" style="width: 150px;">
@@ -260,7 +265,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>방문자수</td>
+                            <td>방문자(명)</td>
                             @foreach($hour_stats as $stat)
                                 <td>{{ number_format($stat['count']) }}명</td>
                             @endforeach

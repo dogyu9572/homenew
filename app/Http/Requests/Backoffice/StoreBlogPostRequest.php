@@ -56,8 +56,9 @@ class StoreBlogPostRequest extends FormRequest
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'sections' => ['required', 'array', 'min:1', 'max:10'],
             'sections.*.subtitle' => ['nullable', 'string', 'max:255'],
-            'sections.*.subheading' => ['nullable', 'string', 'max:255'],
-            'sections.*.content' => ['nullable', 'string'],
+            'sections.*.items' => ['required', 'array', 'max:10'],
+            'sections.*.items.*.subheading' => ['nullable', 'string', 'max:255'],
+            'sections.*.items.*.content' => ['nullable', 'string'],
             'faq_board_post_ids' => ['nullable', 'array', 'max:20'],
             'faq_board_post_ids.*' => ['integer', 'min:1'],
         ];
@@ -70,11 +71,24 @@ class StoreBlogPostRequest extends FormRequest
             $has = false;
             foreach ($sections as $section) {
                 $subtitle = trim((string) ($section['subtitle'] ?? ''));
-                $subheading = trim((string) ($section['subheading'] ?? ''));
-                $content = trim((string) ($section['content'] ?? ''));
-                if ($subtitle !== '' || $subheading !== '' || $content !== '') {
+                if ($subtitle !== '') {
                     $has = true;
                     break;
+                }
+                $items = $section['items'] ?? [];
+                if (! is_array($items)) {
+                    continue;
+                }
+                foreach ($items as $item) {
+                    if (! is_array($item)) {
+                        continue;
+                    }
+                    $subheading = trim((string) ($item['subheading'] ?? ''));
+                    $content = trim((string) ($item['content'] ?? ''));
+                    if ($subheading !== '' || $content !== '') {
+                        $has = true;
+                        break 2;
+                    }
                 }
             }
             if (! $has) {
@@ -127,7 +141,8 @@ class StoreBlogPostRequest extends FormRequest
             'category.required' => '카테고리를 선택해 주세요.',
             'title.required' => '제목을 입력해 주세요.',
             'sections.required' => '목차·본문 구간을 1개 이상 입력해 주세요.',
-            'sections.max' => '목차·본문 구간은 최대 10개까지 가능합니다.',
+            'sections.max' => '목차는 최대 10개까지 가능합니다.',
+            'sections.*.items.max' => '목차 하나당 소제목·본문은 최대 10개까지 가능합니다.',
             'thumbnail.max' => '썸네일 파일은 5MB 이하로 업로드해 주세요.',
             'slug.regex' => 'URL 슬러그는 영문 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다. (한글·공백·특수문자·언더스코어(_)는 사용할 수 없습니다.)',
             'slug.unique' => '이미 사용 중인 URL 슬러그입니다. 다른 값을 입력해 주세요.',

@@ -65,9 +65,13 @@
 				<div class="con mojo_aos">
 					<form action="{{ route('contact.store') }}" method="post" enctype="multipart/form-data" novalidate id="contact_form">
 						@csrf
+						<input type="hidden" name="contact_token" value="{{ old('contact_token', $contactFormToken ?? '') }}">
+						<input type="hidden" name="contact_ts" value="{{ old('contact_ts', $contactFormTs ?? now()->timestamp) }}">
+						<input type="text" name="homepage" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-99999px;opacity:0;pointer-events:none;">
 						<input type="hidden" name="source_type" value="{{ old('source_type', request('source_type')) }}">
 						<input type="hidden" name="source_id" value="{{ old('source_id', request('source_id')) }}">
 						<input type="hidden" name="source_url" value="{{ old('source_url', request('source_url')) }}">
+						<input type="hidden" name="source_title" value="{{ old('source_title', request('source_title')) }}">
 						@php
 							$hasServiceError = $errors->has('service')
 								|| collect($errors->keys())->contains(fn ($k) => str_starts_with((string) $k, 'service.'));
@@ -177,6 +181,18 @@
 								</dd>
 							</dl>
 						</div>
+						<div class="flex">
+							<div>
+								<div class="check">
+									<input type="checkbox" id="agree-terms" name="agree-terms" value="1" required aria-required="true" @checked(old('agree-terms')) @if($errors->has('agree-terms')) aria-invalid="true" aria-describedby="contact_err_agree_terms" @endif>
+									<label for="agree-terms"><i aria-hidden="true"></i>개인정보 이용 및 수집에 동의합니다.</label>
+									<button type="button" aria-label="개인정보 이용 및 수집 약관 상세보기">약관보기</button>
+								</div>
+								@error('agree-terms')
+									<p class="contact_field_error pl0" id="contact_err_agree_terms" role="alert">{{ $message }}</p>
+								@enderror
+							</div>
+						</div>
 						<button type="submit" class="btn_submit">문의 접수하기</button>
 					</form>
 				</div>
@@ -184,6 +200,7 @@
 		</div>
 	</section>
 	
+	{{-- 네이버 전환(lead): 접수 완료 팝업과 동일 시점에 public/js/contact-form.js에서 wcs.trans 호출. wcs 스크립트는 layouts/app 하단. --}}
 	<div class="popup" id="popup_complete" role="dialog" aria-modal="true" aria-labelledby="popup-title" aria-describedby="popup-desc" hidden>
 		<div class="dm" aria-hidden="true"></div>
 		<div class="inbox">
@@ -193,8 +210,34 @@
 			<a href="/blog/" class="btn_link slim">블로그 바로가기</a>
 		</div>
 	</div>
+	
+	<div class="popup" id="popup_term" role="dialog" aria-modal="true" aria-labelledby="popup-term-title" aria-describedby="popup-term" hidden>
+		<div class="dm" aria-hidden="true"></div>
+		<div class="inbox">
+			<button type="button" class="btn_close" aria-label="팝업 닫기"></button>
+			<h2 class="tit sound_only" id="popup-term-title">개인정보처리방침 내용</h2>
+			<div id="popup-term" class="scroll">
+				@include('terms.txt_privacy')
+			</div>
+		</div>
+	</div>
 
 <script>
+$(document).ready(function() {
+    $('button[aria-label*="약관 상세보기"]').on('click', function() {
+        const $openBtn = $(this);
+        const $popup = $('#popup_term');
+        const $closeBtn = $popup.find('.btn_close');
+
+        $popup.stop().fadeIn("fast", function() {
+            $(this).removeAttr('hidden');
+            $closeBtn.focus();
+        });
+        $closeBtn.one('click', function() {
+            $openBtn.focus(); 
+        });
+    });
+});
 $(".popup .btn_close,.popup .dm").click(function(){
 	$(".popup").fadeOut("fast");
 });

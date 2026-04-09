@@ -134,4 +134,8 @@ require __DIR__.'/backoffice.php';
 
 // 포트폴리오 상세 (루트 슬러그 — 고정 라우트보다 반드시 아래에 둔다)
 Route::get('/{portfolio:slug}', [SubController::class, 'portfolio_view'])
-    ->name('portfolio.portfolio_view');
+    ->name('portfolio.portfolio_view')
+    ->missing(fn () => redirect()->route('home', [], 301));
+
+// 존재하지 않는 모든 경로(레거시 .php 포함)는 메인으로 리다이렉트
+Route::fallback(fn () => redirect()->route('home', [], 301));

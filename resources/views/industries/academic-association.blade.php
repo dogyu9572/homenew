@@ -14,7 +14,7 @@
 			<p class="tb mojo_aos"><strong>의료, 공학, 법조계 등 학회/협회 웹사이트 구축을 경험한</strong> <br class="pc_vw">홈페이지코리아가 꼭 맞는 시스템을 설계합니다. </p>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'industries', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 			<div class="flex_center mojo_aos">
 				<div class="img"><img src="/images/img_industry_b01.jpg" alt=""></div>

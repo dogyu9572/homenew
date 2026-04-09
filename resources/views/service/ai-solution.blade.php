@@ -5,48 +5,7 @@
 @section('description', '비즈니스 생산성을 높이는 맞춤형 AI 솔루션. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 AI 챗봇·QA 자동화·기업용 AI 구축까지 책임집니다.')
 @section('keywords', 'AI 솔루션, AI 챗봇, AI QA, AX 솔루션, 기업용 llm, 기업용 ai')
 @section('sga_plus')
-,"mainEntity": [
-    {
-        "@@type": "Question",
-        "name": "AI 솔루션 구축 기간은 얼마나 걸리나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "기본 AI 챗봇은 2~4주, RAG 기반 기업용 AI는 1~2개월, AI QA 자동화 시스템은 2~3개월 정도 소요됩니다. 초기 컨설팅 단계에서 명확한 일정과 단계별 목표를 제시합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "기존 시스템과 AI 솔루션 연동이 가능한가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "슬랙, 지메일, 노션, 사내 메신저, ERP, CRM 등 기존 시스템과 API 연동을 통해 통합할 수 있습니다. 레거시 시스템과의 안정적인 연동과 데이터 마이그레이션도 안전하게 처리합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "AI 챗봇이 잘못된 답변을 하면 어떻게 하나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "Temperature 제어 기술과 프롬프트 엔지니어링으로 할루시네이션을 최소화합니다. 답변 로그 실시간 모니터링과 지속적인 학습 데이터 업데이트를 통해 답변 정확도를 개선합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "AI 솔루션의 데이터 보안은 어떻게 보장되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "온프레미스 또는 프라이빗 클라우드 환경을 제공하며 데이터 암호화, 접근 권한 관리, 정기 보안 감사를 통해 외부 유출 위험을 차단합니다. ISMS 인증 기업으로 엄격한 보안 기준을 준수합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "AI 솔루션 도입 후 유지보수는 어떻게 진행되나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "구축을 담당한 PM이 직접 유지보수를 담당합니다. 월 단위 계약을 통해 AI 모델 업데이트, 데이터 추가 학습, 성능 최적화, 오류 수정을 지속적으로 지원합니다."
-        }
-    }
-]
+@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
 @endsection
 
 @section('content')
@@ -57,7 +16,7 @@
 			<h1 id="service-head-title" class="mojo_aos">기업 맞춤형 AI 솔루션으로 <br class="pc_vw">비즈니스 생산성을 혁신하세요.</h1>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'service', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 		</div>
 		<div class="marquee_banner_wrap mojo_aos">

@@ -38,7 +38,7 @@ class AccessStatisticsService
         $today = now()->format('Y-m-d');
         $currentYear = now()->format('Y');
         $yearStats = $this->getYearlyStatistics($currentYear);
-        $monthStats = $this->getMonthlyStatistics($currentYear . '-01', $currentYear . '-12');
+        $monthStats = $this->getMonthlyStatistics($currentYear.'-01', $currentYear.'-12');
         $dateStats = $this->getDailyStatistics($today, $today);
         $hourStats = $this->getHourlyStatistics($today);
 
@@ -63,7 +63,7 @@ class AccessStatisticsService
      */
     public function getStatisticsByType(string $type, ?string $date = null, ?string $startDate = null, ?string $endDate = null, ?string $startMonth = null, ?string $endMonth = null): array
     {
-        return match($type) {
+        return match ($type) {
             'year' => $this->getYearlyStatistics($date ?? now()->format('Y')),
             'month' => $this->getMonthlyStatistics($startMonth, $endMonth),
             'date' => $this->getDailyStatistics($startDate, $endDate),
@@ -77,8 +77,8 @@ class AccessStatisticsService
      */
     private function getYearlyStatistics(string $year): array
     {
-        $startDate = $year . '-01-01';
-        $endDate = $year . '-12-31';
+        $startDate = $year.'-01-01';
+        $endDate = $year.'-12-31';
 
         $stats = DailyVisitorStat::whereBetween('visit_date', [$startDate, $endDate])
             ->selectRaw('YEAR(visit_date) as year, SUM(visitor_count) as total')
@@ -87,14 +87,14 @@ class AccessStatisticsService
             ->get();
 
         // 연도별 데이터 구성 (최근 5년)
-        $currentYear = (int)$year;
+        $currentYear = (int) $year;
         $years = [];
         for ($i = $currentYear - 4; $i <= $currentYear; $i++) {
             $yearStat = $stats->firstWhere('year', $i);
             $years[] = [
                 'year' => $i,
-                'label' => $i . '년',
-                'count' => $yearStat ? (int)$yearStat->total : 0,
+                'label' => $i.'년',
+                'count' => $yearStat ? (int) $yearStat->total : 0,
             ];
         }
 
@@ -107,11 +107,11 @@ class AccessStatisticsService
     private function getMonthlyStatistics(?string $startMonth = null, ?string $endMonth = null): array
     {
         // 디폴트는 현재 연도의 1월~12월
-        if (!$startMonth) {
-            $startMonth = now()->format('Y') . '-01';
+        if (! $startMonth) {
+            $startMonth = now()->format('Y').'-01';
         }
-        if (!$endMonth) {
-            $endMonth = now()->format('Y') . '-12';
+        if (! $endMonth) {
+            $endMonth = now()->format('Y').'-12';
         }
 
         // 시작월이 종료월보다 늦으면 교환
@@ -120,19 +120,19 @@ class AccessStatisticsService
         }
 
         // 최대 12개월 제한
-        $start = \Carbon\Carbon::parse($startMonth . '-01');
-        $end = \Carbon\Carbon::parse($endMonth . '-01');
+        $start = \Carbon\Carbon::parse($startMonth.'-01');
+        $end = \Carbon\Carbon::parse($endMonth.'-01');
         $monthsDiff = $start->diffInMonths($end) + 1;
 
         if ($monthsDiff > 12) {
             throw new \InvalidArgumentException('조회 기간은 최대 12개월까지 가능합니다.');
         }
 
-        $startDate = $startMonth . '-01';
+        $startDate = $startMonth.'-01';
         $endYear = substr($endMonth, 0, 4);
-        $endMonthNum = (int)substr($endMonth, 5, 2);
-        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $endMonthNum, (int)$endYear);
-        $endDate = $endMonth . '-' . str_pad($daysInMonth, 2, '0', STR_PAD_LEFT);
+        $endMonthNum = (int) substr($endMonth, 5, 2);
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $endMonthNum, (int) $endYear);
+        $endDate = $endMonth.'-'.str_pad($daysInMonth, 2, '0', STR_PAD_LEFT);
 
         $stats = DailyVisitorStat::whereBetween('visit_date', [$startDate, $endDate])
             ->selectRaw('DATE_FORMAT(visit_date, "%Y-%m") as month, SUM(visitor_count) as total')
@@ -148,9 +148,9 @@ class AccessStatisticsService
             $monthStr = $current->format('Y-m');
             $monthStat = $stats->get($monthStr);
             $months[] = [
-                'month' => (int)$current->format('m'),
+                'month' => (int) $current->format('m'),
                 'label' => $current->format('Y년 m월'),
-                'count' => $monthStat ? (int)$monthStat->total : 0,
+                'count' => $monthStat ? (int) $monthStat->total : 0,
             ];
             $current->addMonth();
         }
@@ -164,10 +164,10 @@ class AccessStatisticsService
     private function getDailyStatistics(?string $startDate = null, ?string $endDate = null): array
     {
         // 디폴트는 오늘 날짜
-        if (!$startDate) {
+        if (! $startDate) {
             $startDate = now()->format('Y-m-d');
         }
-        if (!$endDate) {
+        if (! $endDate) {
             $endDate = now()->format('Y-m-d');
         }
 
@@ -188,7 +188,7 @@ class AccessStatisticsService
         $stats = DailyVisitorStat::whereBetween('visit_date', [$startDate, $endDate])
             ->orderBy('visit_date')
             ->get()
-            ->keyBy(function($item) {
+            ->keyBy(function ($item) {
                 return $item->visit_date->format('Y-m-d');
             });
 
@@ -209,12 +209,23 @@ class AccessStatisticsService
     }
 
     /**
-     * 시간별 통계 조회 (선택한 날짜의 시간별)
+     * 시간별 통계 조회 (선택한 날짜·IP별 당일 최초 접속 시각이 속한 시간대에만 1회 집계)
+     *
+     * 해당 일자의 고유 IP 수와 시간대별 막대 합계가 일치하도록,
+     * 각 IP에 대해 그날 MIN(created_at)의 시(hour)만 사용한다.
      */
     private function getHourlyStatistics(string $date): array
     {
-        $stats = VisitorLog::whereDate('created_at', $date)
-            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as total')
+        $visitorTable = (new VisitorLog)->getTable();
+
+        $stats = DB::query()
+            ->fromSub(function ($query) use ($date, $visitorTable) {
+                $query->from($visitorTable)
+                    ->whereDate('created_at', $date)
+                    ->selectRaw('ip_address, MIN(created_at) as first_at')
+                    ->groupBy('ip_address');
+            }, 'first_visits')
+            ->selectRaw('HOUR(first_at) as hour, COUNT(*) as total')
             ->groupBy('hour')
             ->orderBy('hour')
             ->get()
@@ -225,13 +236,11 @@ class AccessStatisticsService
             $hourStat = $stats->get($hour);
             $hours[] = [
                 'hour' => $hour,
-                'label' => $hour . '시',
-                'count' => $hourStat ? (int)$hourStat->total : 0,
+                'label' => $hour.'시',
+                'count' => $hourStat ? (int) $hourStat->total : 0,
             ];
         }
 
         return $hours;
     }
 }
-
-

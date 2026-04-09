@@ -558,42 +558,54 @@ $(document).ready(function () {
 
 	const $banner = $(".main_portfolio .portfolio_marquee"), $list = $banner.find(".list").first();
 	if ($list.length) {
-		function fillMarqueeItems() {
-			$list.find(".clone_item").remove();
-			const containerWidth = $banner.outerWidth();
-			const $origItems = $list.children(":not(.clone_item)");
-			if (!$origItems.length) return;
-			let currentWidth = $list[0].scrollWidth;
-			while (currentWidth < containerWidth * 2) {
-				$origItems.each(function () {
-					$list.append($(this).clone().addClass("clone_item"));
-				});
-				currentWidth = $list[0].scrollWidth;
+		let posX = 0, isPaused = false, totalWidth = 0, isStopped = false, cloned = false;
+		let marqueeResizeTimer;
+
+		function measure() {
+			totalWidth = 0;
+			$list.children(":not(.clone_item)").each(function () {
+				totalWidth += $(this).outerWidth(true);
+			});
+
+			const bannerWidth = $banner.outerWidth();
+
+			if (totalWidth < bannerWidth) {
+				isStopped = true;
+				posX = 0;
+				$list.css("transform", "translateX(0px)");
+				$banner.addClass("stop");
+			} else {
+				isStopped = false;
+				$banner.removeClass("stop");
+
+				if (!cloned) {
+					$list.children(":not(.clone_item)")
+						.clone()
+						.addClass("clone_item")
+						.attr("aria-hidden", "true")
+						.appendTo($list);
+					cloned = true;
+				}
 			}
 		}
 
-		let posX = 0, isPaused = false, totalWidth = 0;
-
-		function initPortfolioMarquee() {
-			fillMarqueeItems();
-			posX = 0;
-			totalWidth = $list.children(":not(.clone_item)").toArray()
-				.reduce((sum, el) => sum + $(el).outerWidth(true), 0);
-		}
-
-		$(window).on("resize load", initPortfolioMarquee);
+		measure();
+		$(window).on("load", measure);
+		$(window).on("resize", function () {
+			clearTimeout(marqueeResizeTimer);
+			marqueeResizeTimer = setTimeout(measure, 100);
+		});
 
 		function marqueeLoop() {
-			if (!isPaused && totalWidth > 0) {
+			if (!isPaused && !isStopped && totalWidth > 0) {
 				posX -= 1;
 				if (posX <= -totalWidth) posX = 0;
 				$list.css("transform", `translateX(${posX}px)`);
 			}
 			requestAnimationFrame(marqueeLoop);
 		}
-
-		initPortfolioMarquee();
 		marqueeLoop();
+
 		$banner.hover(() => { isPaused = true; }, () => { isPaused = false; });
 	}
 // AOS Init

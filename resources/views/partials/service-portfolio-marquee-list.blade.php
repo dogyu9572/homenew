@@ -14,13 +14,15 @@
 <li>
     <a href="{{ $item->publicListHref() }}" class="box" @if($item->publicListOpensInNewTab()) target="_blank" rel="noopener noreferrer" @endif aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
         <span class="flip">
-            <span class="before" aria-hidden="true">@if($marqueeThumb)<img src="{{ $marqueeThumb }}" alt="" class="bg">@endif<img src="/images/main_service_08.svg" alt="" class="logo"></span>
-            <span class="after" aria-hidden="true">
+            <span class="before" aria-hidden="true">@if($marqueeThumb)<img src="{{ $marqueeThumb }}" alt="" class="bg">@endif<img src="/images/main_service_08.svg" alt="" class="logo">
+				<span class="tit"><p>{{ $marqueeTypeLabel }}</p><strong>{{ $item->title }}</strong></span>
+			</span>
+            <!-- <span class="after" aria-hidden="true">
                 <span class="type">{{ $marqueeTypeLabel }}</span>
                 <span class="tit">{{ $item->title }}</span>
                 @if($marqueeDesc !== '')<p>{{ $marqueeDesc }}</p>@endif
                 <span class="logo"><img src="/images/main_service_08.svg" alt=""></span>
-            </span>
+            </span> -->
         </span>
     </a>
 </li>

@@ -93,9 +93,25 @@
         }
     }
 
+    /**
+     * 문의 접수 완료 시 네이버 전환 추적(lead). wcslog.js·wcs_add는 layouts/app 하단에서 선로드됨.
+     */
+    function fireNaverContactLeadConversion() {
+        if (!window.wcs) {
+            return;
+        }
+        if (!window.wcs_add) {
+            window.wcs_add = {};
+        }
+        window.wcs_add.wa = 's_379aa81fac95';
+        var conv = { type: 'lead' };
+        window.wcs.trans(conv);
+    }
+
     const $pageRoot = $('#contact_page_root');
     if ($pageRoot.length && $pageRoot.attr('data-contact-success') === '1') {
         openPopup('popup_complete').addClass('on');
+        fireNaverContactLeadConversion();
     }
 
     function focusFirstFieldError() {

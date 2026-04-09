@@ -21,3 +21,6 @@ Artisan::command('blog:aggregate-stats {--date=}', function (BlogService $blogSe
 
 Schedule::command('blog:aggregate-stats')
     ->hourly();
+
+Schedule::command('sitemap:generate')
+    ->dailyAt('03:10');

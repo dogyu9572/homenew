@@ -5,48 +5,7 @@
 @section('description', '매출 성장을 만드는 온라인 쇼핑몰 제작. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 귀사에 맞는 자사몰을 설계합니다.')
 @section('keywords', '이커머스, 온라인 쇼핑몰, 쇼핑몰, 쇼핑몰 제작, 쇼핑몰 제작 업체, 자사몰, 자사몰 제작, 웹빌더')
 @section('sga_plus')
-,"mainEntity": [
-    {
-        "@@type": "Question",
-        "name": "웹빌더(카페24, 아임웹 등)와 맞춤형 자사몰의 차이는 무엇인가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "웹빌더는 초기 구축이 빠르고 저렴하지만 템플릿 기반이라 브랜드 차별화가 어렵고 매출이 늘어날수록 거래 수수료가 계속 발생합니다. 맞춤형 자사몰은 PG사 직접 계약으로 중간 수수료 없이 운영할 수 있어 장기적으로 훨씬 경제적입니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "B2B와 B2C 쇼핑몰의 차이점은 무엇인가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "B2C는 간편한 결제와 직관적인 구매 프로세스가 중요하고, B2B는 거래처별 차등 가격, 대량 주문, 견적서 발행, ERP 연동 등 복잡한 거래 구조를 지원해야 합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "쇼핑몰에서 SEO(검색엔진 최적화)가 왜 중요한가요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "검색엔진 상위 노출 시 광고비 없이 고객을 유입시킬 수 있습니다. 구조화된 데이터, 메타태그 최적화, 빠른 로딩 속도 등 SEO 필수 요소를 반영하여 개발합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "쇼핑몰 제작 시 어떤 결제 시스템을 사용하나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "국내 주요 PG사와 직접 계약하여 카드 결제, 계좌이체, 가상계좌, 카카오페이·네이버페이 등 간편결제를 모두 지원합니다. 웹빌더를 거치지 않아 최저 수수료로 운영이 가능합니다."
-        }
-    },
-    {
-        "@@type": "Question",
-        "name": "쇼핑몰 구축 후 재고 관리나 주문 관리는 어떻게 하나요?",
-        "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "맞춤형 관리자 시스템(CMS)을 통해 상품 등록, 재고 관리, 주문 조회, 배송 처리, 회원 관리를 처리할 수 있습니다. 기존 ERP·물류 시스템 연동 및 엑셀 업로드로 대량 작업도 가능합니다."
-        }
-    }
-]
+@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
 @endsection
 
 @section('content')
@@ -57,7 +16,7 @@
 			<h1 id="service-head-title" class="mojo_aos">매출 성장을 만드는 온라인 쇼핑몰 홈페이지 코리아에서 맞춤형 자사몰 시작하세요.</h1>
 			<div class="btns flex_center mojo_aos">
 				<a href="/portfolio/" class="btn_link slim">포트폴리오 보러가기</a>
-				<a href="/contact/" class="btn_link slim">프로젝트 문의하기</a>
+				<a href="{{ route('contact.contact', ['source_type' => 'service', 'source_url' => url()->current(), 'source_title' => $sName]) }}" class="btn_link slim">프로젝트 문의하기</a>
 			</div>
 		</div>
 		<div class="marquee_banner_wrap mojo_aos">

@@ -67,8 +67,15 @@
 			
 			<ul class="portfolio_list mojo_aos">
                 @forelse($portfolios as $item)
+                @php
+                    $disableDetailLink = $item->is_direct_site_link && blank($item->site_url);
+                @endphp
 				<li>
+                    @if($disableDetailLink)
+					<span class="box" aria-disabled="true" tabindex="-1" aria-label="{{ $item->title }} 포트폴리오 링크 정보 없음">
+                    @else
 					<a href="{{ $item->publicListHref() }}" class="box" @if($item->publicListOpensInNewTab()) target="_blank" rel="noopener noreferrer" @endif aria-label="{{ $item->title }} 포트폴리오 보기">
+                    @endif
 						<span class="img_area" aria-hidden="true">
                             @if(!empty($item->thumbnail_image))
 							<span class="imgfit">
@@ -97,7 +104,11 @@
                                 @endforeach
 							</ul>
 						</span>
+                    @if($disableDetailLink)
+					</span>
+                    @else
 					</a>
+                    @endif
 				</li>
                 @empty
                 <li>

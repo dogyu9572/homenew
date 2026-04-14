@@ -305,6 +305,18 @@ class AdminMenuSeeder extends Seeder
                 'updated_at' => now(),
                 'permission_key' => null,
             ],
+            [
+                'id' => 46,
+                'parent_id' => 6,
+                'name' => '출퇴근 관리',
+                'url' => '/backoffice/attendance',
+                'icon' => null,
+                'order' => 5,
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'permission_key' => null,
+            ],
         ];
 
         // parent_id가 null인 메뉴들을 먼저 생성

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\AdminGroup;
-use App\Models\GroupMenuPermission;
 use App\Models\AdminMenu;
+use App\Models\GroupMenuPermission;
+use Illuminate\Database\Seeder;
 
 class AdminGroupSeeder extends Seeder
 {
@@ -44,7 +44,7 @@ class AdminGroupSeeder extends Seeder
         ]);
 
         // 콘텐츠 관련 메뉴만 권한 부여 (대시보드, 게시판관리, 홈페이지관리, 기업정보관리)
-        $contentMenuIds = AdminMenu::whereIn('id', [1, 19, 21, 22])
+        $contentMenuIds = AdminMenu::whereIn('id', [1, 19, 21, 22, 46])
             ->orWhereIn('parent_id', [19, 21, 22])
             ->where('is_active', true)
             ->pluck('id')
@@ -73,4 +73,3 @@ class AdminGroupSeeder extends Seeder
         ]);
     }
 }
-

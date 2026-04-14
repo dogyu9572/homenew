@@ -37,12 +37,13 @@
                         <div class="form-group">
                             <label for="login_id">아이디</label>
                             <div class="login-id-input-wrapper">
-                                <input type="text" id="login_id" name="login_id" value="{{ old('login_id') }}" placeholder="로그인 아이디를 입력하세요" class="login-id-input">
+                                <input type="text" id="login_id" name="login_id" value="{{ old('login_id') }}" placeholder="로그인 아이디 (한글 가능)" class="login-id-input">
                                 <button type="button" id="check-login-id-btn" class="btn btn-primary btn-check-id">
                                     <i class="fas fa-check"></i> 중복 확인
                                 </button>
                             </div>
                             <div id="login-id-message" class="login-id-message"></div>
+                            <small class="form-text text-muted">한글·영문·숫자 등 사용 가능합니다.</small>
                         </div>
                         
                         <div class="form-group">
@@ -58,6 +59,16 @@
                         <div class="form-group">
                             <label for="name">성명</label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" required placeholder="성명을 입력하세요">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="department">소속</label>
+                            <input type="text" id="department" name="department" value="{{ old('department') }}" maxlength="255" placeholder="소속을 입력하세요">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="position">직책</label>
+                            <input type="text" id="position" name="position" value="{{ old('position') }}" maxlength="255" placeholder="직책을 입력하세요">
                         </div>
                         
                         <div class="form-group">

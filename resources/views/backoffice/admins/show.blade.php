@@ -34,12 +34,12 @@
                 </div>
                 
                 <div class="detail-item">
-                    <label>부서</label>
+                    <label>소속</label>
                     <span>{{ $admin->department ?: '-' }}</span>
                 </div>
                 
                 <div class="detail-item">
-                    <label>직위</label>
+                    <label>직책</label>
                     <span>{{ $admin->position ?: '-' }}</span>
                 </div>
                 

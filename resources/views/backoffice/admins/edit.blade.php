@@ -37,7 +37,8 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="login_id">아이디</label>
-                            <input type="text" id="login_id" name="login_id" value="{{ old('login_id', $admin->login_id) }}" placeholder="로그인 아이디를 입력하세요" readonly>
+                            <input type="text" id="login_id" name="login_id" value="{{ old('login_id', $admin->login_id) }}" placeholder="로그인 아이디" readonly>
+                            <small class="form-text text-muted">로그인 ID는 생성 후 변경할 수 없습니다.</small>
                         </div>
                         
                         <div class="form-group">
@@ -54,6 +55,16 @@
                         <div class="form-group">
                             <label for="name">성명</label>
                             <input type="text" id="name" name="name" value="{{ old('name', $admin->name) }}" required placeholder="성명을 입력하세요">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="department">소속</label>
+                            <input type="text" id="department" name="department" value="{{ old('department', $admin->department) }}" maxlength="255" placeholder="소속을 입력하세요">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="position">직책</label>
+                            <input type="text" id="position" name="position" value="{{ old('position', $admin->position) }}" maxlength="255" placeholder="직책을 입력하세요">
                         </div>
                         
                         <div class="form-group">

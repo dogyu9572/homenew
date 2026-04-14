@@ -17,6 +17,7 @@ use App\Http\Controllers\Backoffice\LogController;
 use App\Http\Controllers\Backoffice\PopupController;
 use App\Http\Controllers\Backoffice\PortfolioController;
 use App\Http\Controllers\Backoffice\SettingController;
+use App\Http\Controllers\Backoffice\StaffAttendanceController;
 use App\Http\Controllers\Backoffice\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -139,6 +140,17 @@ Route::prefix('backoffice')->middleware(['backoffice'])->group(function () {
         ->name('backoffice.admin-groups.permissions.edit');
     Route::post('admin-groups/{admin_group}/permissions', [AdminGroupController::class, 'updatePermissions'])
         ->name('backoffice.admin-groups.permissions.update');
+
+    // 출퇴근
+    Route::get('attendance', [StaffAttendanceController::class, 'index'])
+        ->name('backoffice.attendance.index');
+    Route::get('attendance/create', [StaffAttendanceController::class, 'create'])
+        ->name('backoffice.attendance.create');
+    Route::post('attendance/quick', [StaffAttendanceController::class, 'quickStore'])
+        ->middleware('throttle:30,1')
+        ->name('backoffice.attendance.quick-store');
+    Route::post('attendance', [StaffAttendanceController::class, 'store'])
+        ->name('backoffice.attendance.store');
 
     // -------------------------------------------------------------------------
     // 콘텐츠 관리

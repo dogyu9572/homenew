@@ -113,6 +113,14 @@ class User extends Authenticatable
     }
 
     /**
+     * 출퇴근 기록
+     */
+    public function staffAttendanceRecords()
+    {
+        return $this->hasMany(StaffAttendanceRecord::class)->orderByDesc('recorded_at');
+    }
+
+    /**
      * 사용자가 접근 가능한 메뉴들
      */
     public function accessibleMenus()
@@ -121,7 +129,7 @@ class User extends Authenticatable
         if ($this->admin_group_id && $this->adminGroup) {
             return $this->adminGroup->menus();
         }
-        
+
         // 그룹이 없으면 빈 관계 반환
         return AdminMenu::whereRaw('1 = 0');
     }
@@ -156,6 +164,7 @@ class User extends Authenticatable
             foreach ($allMenus as $menu) {
                 $result[$menu->id] = true;
             }
+
             return $result;
         }
 
@@ -183,7 +192,7 @@ class User extends Authenticatable
         foreach ($allMenus as $menu) {
             $result[$menu->id] = false;
         }
-        
+
         return $result;
     }
 }

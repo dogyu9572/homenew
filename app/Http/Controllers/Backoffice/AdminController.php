@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
-use App\Services\Backoffice\AdminService;
-use App\Models\User;
 use App\Models\AdminGroup;
+use App\Models\User;
+use App\Services\Backoffice\AdminService;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -35,6 +35,7 @@ class AdminController extends Controller
     public function create()
     {
         $groups = AdminGroup::where('is_active', true)->get();
+
         return view('backoffice.admins.create', compact('groups'));
     }
 
@@ -56,6 +57,7 @@ class AdminController extends Controller
     public function show($id)
     {
         $admin = $this->adminService->getAdmin($id);
+
         return view('backoffice.admins.show', compact('admin'));
     }
 
@@ -66,6 +68,7 @@ class AdminController extends Controller
     {
         $admin = $this->adminService->getAdmin($id);
         $groups = AdminGroup::where('is_active', true)->get();
+
         return view('backoffice.admins.edit', compact('admin', 'groups'));
     }
 
@@ -101,24 +104,24 @@ class AdminController extends Controller
     {
         $request->validate([
             'admin_ids' => 'required|array',
-            'admin_ids.*' => 'integer|exists:users,id'
+            'admin_ids.*' => 'integer|exists:users,id',
         ]);
 
         $adminIds = $request->input('admin_ids');
-        
+
         try {
             // 서비스를 통해 일괄 삭제
             $deletedCount = $this->adminService->bulkDelete($adminIds);
 
             return response()->json([
                 'success' => true,
-                'message' => $deletedCount . '명의 관리자가 삭제되었습니다.',
-                'deleted_count' => $deletedCount
+                'message' => $deletedCount.'명의 관리자가 삭제되었습니다.',
+                'deleted_count' => $deletedCount,
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => '삭제 중 오류가 발생했습니다: ' . $e->getMessage()
+                'message' => '삭제 중 오류가 발생했습니다: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -129,15 +132,15 @@ class AdminController extends Controller
     public function checkLoginId(Request $request)
     {
         $request->validate([
-            'login_id' => 'required|string|max:255'
+            'login_id' => 'required|string|max:255',
         ]);
 
-        $loginId = $request->input('login_id');
+        $loginId = trim((string) $request->input('login_id', ''));
         $exists = User::where('login_id', $loginId)->exists();
 
         return response()->json([
-            'available' => !$exists,
-            'message' => $exists ? '이미 사용 중인 아이디입니다.' : '사용 가능한 아이디입니다.'
+            'available' => ! $exists,
+            'message' => $exists ? '이미 사용 중인 아이디입니다.' : '사용 가능한 아이디입니다.',
         ]);
     }
 }

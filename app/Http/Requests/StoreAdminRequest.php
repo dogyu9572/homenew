@@ -15,6 +15,19 @@ class StoreAdminRequest extends FormRequest
     }
 
     /**
+     * 검증 전 입력 정리 (로그인 ID 앞뒤 공백 제거, 빈 문자열은 null)
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('login_id')) {
+            $trimmed = trim((string) $this->input('login_id', ''));
+            $this->merge([
+                'login_id' => $trimmed === '' ? null : $trimmed,
+            ]);
+        }
+    }
+
+    /**
      * 유효성 검사 규칙을 정의합니다.
      */
     public function rules(): array

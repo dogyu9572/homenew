@@ -22,8 +22,8 @@ class AdminValidationMessages
             'email.unique' => '이미 사용 중인 이메일입니다.',
             'password.min' => '비밀번호는 최소 8자 이상이어야 합니다.',
             'password.confirmed' => '비밀번호 확인이 일치하지 않습니다.',
-            'department.max' => '부서명은 255자를 초과할 수 없습니다.',
-            'position.max' => '직위는 255자를 초과할 수 없습니다.',
+            'department.max' => '소속은 255자를 초과할 수 없습니다.',
+            'position.max' => '직책은 255자를 초과할 수 없습니다.',
             'contact.max' => '연락처는 50자를 초과할 수 없습니다.',
             'permissions.array' => '권한 설정이 올바르지 않습니다.',
         ];

@@ -94,24 +94,36 @@
     }
 
     /**
-     * 문의 접수 완료 시 네이버 전환 추적(lead). wcslog.js·wcs_add는 layouts/app 하단에서 선로드됨.
+     * 문의 접수 완료 시 네이버 전환 추적(lead).
+     * 주의: contact-form.js가 wcslog.js보다 먼저 실행될 수 있어 재시도 방식으로 호출한다.
      */
-    function fireNaverContactLeadConversion() {
-        if (!window.wcs) {
-            return;
+    function fireNaverContactLeadConversionWithRetry() {
+        var maxAttempts = 20;
+        var attempt = 0;
+
+        function tryFire() {
+            attempt += 1;
+
+            if (!window.wcs) {
+                if (attempt < maxAttempts) {
+                    window.setTimeout(tryFire, 200);
+                }
+                return;
+            }
+            if (!window.wcs_add) {
+                window.wcs_add = {};
+            }
+            window.wcs_add.wa = 's_379aa81fac95';
+            window.wcs.trans({ type: 'lead' });
         }
-        if (!window.wcs_add) {
-            window.wcs_add = {};
-        }
-        window.wcs_add.wa = 's_379aa81fac95';
-        var conv = { type: 'lead' };
-        window.wcs.trans(conv);
+
+        tryFire();
     }
 
     const $pageRoot = $('#contact_page_root');
     if ($pageRoot.length && $pageRoot.attr('data-contact-success') === '1') {
         openPopup('popup_complete').addClass('on');
-        fireNaverContactLeadConversion();
+        fireNaverContactLeadConversionWithRetry();
     }
 
     function focusFirstFieldError() {

@@ -3,6 +3,7 @@
 <head>
     @include('backoffice.layouts.header')
     <link rel="stylesheet" href="{{ asset('css/backoffice/session-timer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/backoffice/boards.css') }}">
     @yield('styles')
 </head>
 <body class="backoffice">
@@ -24,10 +25,18 @@
                 </a>
                 <h2>@yield('title', '백오피스')</h2>
 
+                <div id="backofficeAttendanceConfig" class="sound_only" hidden
+                    data-quick-store-url="{{ route('backoffice.attendance.quick-store') }}"
+                ></div>
+
                 <!-- 유저 드롭다운과 세션 타이머를 함께 배치 -->
                 <div class="user-dropdown">
 					<img src="/images/img_human.svg" alt="">
                     <span class="name">{{ auth()->user()->name ?? '관리자' }}님</span>
+                    <div class="header-attendance-wrap" role="group" aria-label="출퇴근 빠른 등록">
+                        <button type="button" class="btn btn-attendance-quick btn-success" id="btnAttendanceClockIn">출근</button>
+                        <button type="button" class="btn btn-attendance-quick btn-outline-secondary" id="btnAttendanceClockOut">퇴근</button>
+                    </div>
 					<span class="session-timer" id="sessionTimer">
 						<i class="fas fa-clock"></i>
 						<span class="session-timer-text">
@@ -47,6 +56,59 @@
         </div>
     </div>
 
+    <div id="attendanceQuickOverlay" class="attendance-quick-overlay" hidden>
+        <div class="attendance-quick-panel board-card" role="dialog" aria-modal="true" aria-labelledby="attendanceQuickTitle">
+            <div class="board-card-body">
+                <h3 id="attendanceQuickTitle" class="attendance-quick-modal-title">출퇴근</h3>
+                <p class="attendance-quick-hint" id="attendanceQuickHint"></p>
+
+                @auth
+                <div class="board-template-info attendance-quick-user" aria-label="등록자 정보">
+                    <div class="template-info-header">
+                        <h6><i class="fas fa-user"></i> 내 정보</h6>
+                    </div>
+                    <div class="template-info-content">
+                        <div class="template-info-item">
+                            <span class="template-info-label">이름</span>
+                            <span class="template-info-value">{{ auth()->user()->name }}</span>
+                        </div>
+                        <div class="template-info-item">
+                            <span class="template-info-label">소속</span>
+                            <span class="template-info-value">{{ auth()->user()->department ?: '—' }}</span>
+                        </div>
+                        <div class="template-info-item">
+                            <span class="template-info-label">직책</span>
+                            <span class="template-info-value">{{ auth()->user()->position ?: '—' }}</span>
+                        </div>
+                        <div class="template-info-item">
+                            <span class="template-info-label">접속 IP</span>
+                            <span class="template-info-value"><code>{{ request()->ip() }}</code> (저장 시 동일하게 기록)</span>
+                        </div>
+                    </div>
+                </div>
+                @endauth
+
+                <fieldset class="attendance-quick-fieldset">
+                    <legend class="sound_only">근무지 선택</legend>
+                    <span class="attendance-quick-field-label">근무지</span>
+                    <div class="board-checkbox-group attendance-quick-workplace">
+                        <label class="checkbox-label">
+                            <input type="radio" name="attendance_quick_workplace" value="remote" checked>
+                            <span>재택</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="radio" name="attendance_quick_workplace" value="office">
+                            <span>사무실</span>
+                        </label>
+                    </div>
+                </fieldset>
+                <div class="attendance-quick-actions">
+                    <button type="button" class="btn btn-secondary btn-sm" id="attendanceQuickCancel">취소</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="attendanceQuickSubmit">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @include('backoffice.layouts.footer')
 
@@ -82,6 +144,7 @@
     
     <script src="{{ asset('js/backoffice/button-utils.js') }}"></script>
     <script src="{{ asset('js/backoffice/session-timer.js') }}"></script>
+    <script src="{{ asset('js/backoffice/attendance-quick.js') }}"></script>
     <script src="{{ asset('js/backoffice/backoffice.js') }}"></script>
     <script src="{{ asset('js/common/app.js') }}"></script>
 

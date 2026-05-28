@@ -31,8 +31,8 @@
                 <i class="fas fa-clipboard-list"></i>
             </div>
             <div class="stat-info">
-                <h3>활성 게시판</h3>
-                <p class="stat-number">{{ $totalBoards }}</p>
+                <h3>개인 문서함 &gt; 상신문서</h3>
+                <p class="stat-number">{{ number_format((int) ($approvalStats['personal_submitted'] ?? 0)) }}</p>
             </div>
         </div>
 
@@ -41,39 +41,59 @@
                 <i class="fas fa-file-alt"></i>
             </div>
             <div class="stat-info">
-                <h3>총 게시글</h3>
-                <p class="stat-number">{{ $totalPosts ?? 0 }}</p>
+                <h3>결재할 문서함 &gt; 미결재 문서</h3>
+                <p class="stat-number">{{ number_format((int) ($approvalStats['pending_approval'] ?? 0)) }}</p>
             </div>
         </div>
 
         <div class="stat-card stat-banners">
             <div class="stat-icon">
-                <i class="fas fa-image"></i>
+                <i class="fas fa-handshake"></i>
             </div>
             <div class="stat-info">
-                <h3>활성 배너</h3>
-                <p class="stat-number">{{ $activeBanners ?? 0 }}</p>
+                <h3>협조 문서함 &gt; 미결재 문서</h3>
+                <p class="stat-number">{{ number_format((int) ($approvalStats['pending_cooperation'] ?? 0)) }}</p>
             </div>
         </div>
 
-        <div class="stat-card stat-popups">
+        <div class="stat-card stat-notices">
             <div class="stat-icon">
-                <i class="fas fa-window-restore"></i>
+                <i class="fas fa-calendar-check"></i>
             </div>
             <div class="stat-info">
-                <h3>활성 팝업</h3>
-                <p class="stat-number">{{ $activePopups ?? 0 }}</p>
+                <h3>{{ now()->format('Y') }}년 사용 연차(일)</h3>
+                <p class="stat-number">{{ $usedLeaveDaysThisYearDisplay ?? '0' }}</p>
             </div>
         </div>
     </div>
 
+    <div class="approval-summary-grid dashboard-approval-summary-grid">
+        @foreach($boxSummaries ?? [] as $summary)
+            <div class="grid-item approval-summary-card">
+                <div class="grid-item-body">
+                    <h5 class="approval-summary-title">
+                        <a href="{{ $summary['route'] }}">{{ $summary['title'] }}</a>
+                    </h5>
+                    <div class="approval-summary-list">
+                        @foreach($summary['items'] as $item)
+                            <div class="approval-summary-row">
+                                <span class="approval-summary-label">{{ $item['label'] }}</span>
+                                <strong class="approval-summary-count">{{ number_format((int) $item['count']) }}건</strong>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
     <!-- 데이터 그리드 -->
     <div class="dashboard-grid">
-        <!-- 게시판 현황 -->
+        <!-- 공지사항 미리보기 -->
         <div class="grid-item grid-col-12">
             <div class="grid-item-header">
-                <h3>게시판 현황</h3>
-                <a href="{{ route('backoffice.boards.index') }}" class="more-btn">
+                <h3>공지사항 미리보기</h3>
+                <a href="{{ route('backoffice.board-posts.index', ['slug' => 'notices']) }}" class="more-btn">
                     <i class="fas fa-arrow-right"></i> 더보기
                 </a>
             </div>
@@ -81,32 +101,30 @@
                 <table class="dashboard-table">
                     <thead>
                         <tr>
-                            <th>게시판명</th>
-                            <th>게시글</th>
-                            <th>최근활동</th>
-                            <th>상태</th>
+                            <th>제목</th>
+                            <th>등록일</th>
+                            <th>구분</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($boards as $board)
+                        @forelse($noticePreviewPosts ?? [] as $noticePost)
                             <tr>
                                 <td>
-                                    <a href="{{ route('backoffice.board-posts.index', ['slug' => $board->slug]) }}" 
+                                    <a href="{{ route('backoffice.board-posts.index', ['slug' => 'notices']) }}"
                                        class="text-decoration-none text-dark fw-medium">
-                                        {{ $board->name }}
+                                        {{ $noticePost->title ?? '-' }}
                                     </a>
                                 </td>
-                                <td>{{ $board->getPostsCount() }}</td>
-                                <td>{{ $board->updated_at ? $board->updated_at->diffForHumans() : '-' }}</td>
+                                <td>{{ !empty($noticePost->created_at) ? \Carbon\Carbon::parse($noticePost->created_at)->format('Y-m-d') : '-' }}</td>
                                 <td>
-                                    <span class="table-badge badge-{{ $board->is_active ? 'success' : 'secondary' }}">
-                                        {{ $board->is_active ? '활성' : '비활성' }}
+                                    <span class="table-badge badge-{{ !empty($noticePost->is_notice) ? 'warning' : 'secondary' }}">
+                                        {{ !empty($noticePost->is_notice) ? '공지' : '일반' }}
                                     </span>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center">등록된 게시판이 없습니다.</td>
+                                <td colspan="3" class="text-center">등록된 공지사항이 없습니다.</td>
                             </tr>
                         @endforelse
                     </tbody>

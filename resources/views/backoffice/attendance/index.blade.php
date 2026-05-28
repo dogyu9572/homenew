@@ -42,9 +42,10 @@
                 <table class="board-table">
                     <thead>
                         <tr>
+                            <th>NO</th>
                             <th>이름</th>
                             <th>소속</th>
-                            <th>직책</th>
+                            <th>직급</th>
                             <th class="attendance-col-kind">구분</th>
                             <th>근무지</th>
                             <th>IP</th>
@@ -52,8 +53,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($records as $row)
+                        @forelse($records as $index => $row)
                             <tr>
+                                <td>{{ $records->total() - ($records->currentPage() - 1) * $records->perPage() - $index }}</td>
                                 <td>{{ $row->user->name ?? '-' }}</td>
                                 <td>{{ $row->user->department ?? '-' }}</td>
                                 <td>{{ $row->user->position ?? '-' }}</td>
@@ -65,12 +67,12 @@
                                     @endif
                                 </td>
                                 <td>{{ \App\Models\StaffAttendanceRecord::workplaceLabel($row->workplace) }}</td>
-                                <td><code>{{ $row->ip_address ?? '-' }}</code></td>
+                                <td>{{ $row->ip_address ?? '-' }}</td>
                                 <td>{{ $row->recorded_at->format('Y-m-d H:i:s') }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center">데이터가 없습니다.</td>
+                                <td colspan="8" class="text-center">데이터가 없습니다.</td>
                             </tr>
                         @endforelse
                     </tbody>

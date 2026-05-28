@@ -124,7 +124,8 @@ class BoardSorting {
                         page: parseInt(tbodyEl.dataset.listPage, 10) || 1,
                         per_page: parseInt(tbodyEl.dataset.listPerPage, 10) || 10,
                         category: tbodyEl.dataset.category ?? '',
-                        keyword: tbodyEl.dataset.keyword ?? ''
+                        keyword: tbodyEl.dataset.keyword ?? '',
+                        is_active: tbodyEl.dataset.isActive ?? ''
                     };
                 }
                 response = await fetch(sortEndpoint, {

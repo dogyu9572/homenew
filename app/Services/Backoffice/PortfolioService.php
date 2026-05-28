@@ -23,6 +23,9 @@ class PortfolioService
         if ($request->filled('keyword')) {
             $query->where('title', 'like', '%'.$request->keyword.'%');
         }
+        if ($request->has('is_active') && in_array((string) $request->input('is_active'), ['1', '0'], true)) {
+            $query->where('is_active', (int) $request->input('is_active'));
+        }
 
         $perPage = (int) $request->get('per_page', 10);
         if (! in_array($perPage, [10, 20, 50, 100, 500, 1000], true)) {
@@ -115,7 +118,8 @@ class PortfolioService
         int $page,
         int $perPage,
         ?string $category,
-        ?string $keyword
+        ?string $keyword,
+        ?int $isActive = null
     ): void {
         if (! in_array($perPage, [10, 20, 50, 100, 500, 1000], true)) {
             $perPage = 10;
@@ -127,6 +131,9 @@ class PortfolioService
         }
         if ($keyword !== null && $keyword !== '') {
             $query->where('title', 'like', '%'.$keyword.'%');
+        }
+        if ($isActive !== null && in_array($isActive, [0, 1], true)) {
+            $query->where('is_active', $isActive);
         }
 
         $this->applyBackofficePortfolioListOrdering($query);
@@ -221,6 +228,7 @@ class PortfolioService
             'thumbnail_image' => $data['thumbnail_image'] ?? null,
             'top_image' => $data['top_image'] ?? null,
             'sort_order' => (int) ($data['sort_order'] ?? 0),
+            'is_before_2023' => (bool) ($data['is_before_2023'] ?? false),
             'is_main_display' => (bool) ($data['is_main_display'] ?? false),
             'is_active' => (bool) ($data['is_active'] ?? true),
             'detail_summary' => $data['detail_summary'] ?? null,

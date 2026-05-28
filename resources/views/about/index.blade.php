@@ -1,7 +1,45 @@
 @extends('layouts.app')
 @section('title', $sName)
 @section('sName', $sName)
-@section('description', '홈페이지코리아는 단순한 웹 제작사가 아닙니다. 조직의 핵심 업무를 담는 시스템을 설계하고 구축하는 회사입니다.')
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "AboutPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/about/#aboutpage",
+			"name": "홈페이지코리아 회사소개",
+			"description": "1999년 설립, 4,400+ 프로젝트 성공 실적의 대한민국 1세대 웹 에이전시 홈페이지코리아 ㅣ 1999년 창업 초기부터 Quality 경영을 추구해온 대한민국 1세대 웹 에이전시 입니다. 홈페이지 제작·리뉴얼·유지보수를 중심으로 공공기관, 학회, 대학, 대기업 등 1,100 여곳의 고객사와 오랜 파트너십을 유지하고 있으며, React·Vue·Laravel 등 최신 기술 스택과 AI/ERP 시스템 개발 역량을 보유해 SEO/GEO 최적화 된 홈페이지 설계를 제안합니다.",
+			"url": "https://www.homepagekorea.com/about",
+			"mainEntity": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "회사소개",
+					"item": "https://www.homepagekorea.com/about"
+				}
+			]
+		}
+	]
+}
+@endsection
 
 @section('content')
 <main class="sub_contents_wrap about_wrap" id="contact_page_root">

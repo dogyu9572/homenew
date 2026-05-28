@@ -42,7 +42,7 @@
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data" id="portfolioForm">
     @csrf
     @if($isEdit) @method($method) @endif
-    @foreach(['page' => 'return_page', 'per_page' => 'return_per_page', 'category' => 'return_category', 'keyword' => 'return_keyword'] as $src => $name)
+    @foreach(['page' => 'return_page', 'per_page' => 'return_per_page', 'category' => 'return_category', 'keyword' => 'return_keyword', 'is_active' => 'return_is_active'] as $src => $name)
         @php
             $rv = old($name, $listQuery[$src] ?? '');
         @endphp
@@ -208,6 +208,18 @@
                 <label class="member-form-label">노출 순서</label>
                 <div class="member-form-field">
                     <input type="number" class="board-form-control" name="sort_order" min="0" value="{{ old('sort_order', $portfolio->sort_order ?? 0) }}">
+                </div>
+            </div>
+
+            <div class="member-form-row">
+                <label class="member-form-label">과거 포트폴리오</label>
+                <div class="member-form-field">
+                    <div class="board-checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="is_before_2023" value="1" @checked(old('is_before_2023', $portfolio?->is_before_2023 ?? false))>
+                            <span>2023년 이전</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -399,4 +411,3 @@
 
 <script src="{{ asset('js/backoffice/portfolio.js') }}"></script>
 <script src="{{ asset('js/backoffice/portfolio-file-upload.js') }}"></script>
-

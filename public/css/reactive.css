@@ -409,8 +409,8 @@
 	.pop_notice {right:30px;}
 	.pop_notice .btn_close {top:32px; right:32px;}
 	.pop_notice .flip {width:320px;}
-	.pop_notice h2 {font-size:22px; margin-bottom:10px;}
-	.pop_notice .after p {font-size:15px;}
+	.pop_notice h2 {font-size:18px; margin-bottom:10px;}
+	.pop_notice .after p {font-size:14px;}
 	/* 상세 */
 	.portfolio_head .inner {padding-top:97px;}
 	.portfolio_head .type {font-size:16px; line-height:34px; height:34px; padding:0 20px;}
@@ -420,6 +420,15 @@
 	section[class*="portfolio"] {font-size:18px;}
 	section[class*="portfolio"] .tit_label {font-size:16px; margin-bottom:15px;}
 	section[class*="portfolio"] h3 {font-size:40px;}
+/* 2023년 이전 프로젝트 */
+	.board_before {margin-top:100px;}
+	.board_before .tit {font-size:36px; margin:20px 0 12px; padding-left:18px;}
+	.board_before .tit:before {width:6px;}
+	.board_before .tit strong {font-size:34px;}
+	.board_before .project_list li {padding:20px;}
+	.board_before .info {gap:14px; font-size:15px; margin-bottom:6px;}
+	.board_before .info .date:before {left:-8px; height:12px;}
+	.board_before h3 {font-size:20px;}
 /* Blog */
 	.blog_list {gap:40px 10px;}
 	.blog_list li {width:calc((100% - 20px)/3);}
@@ -857,6 +866,14 @@
 	.portfolio_review .review_list p {font-size:18px;}
 	.portfolio_review .view_btm {padding-top:60px;}
 	.portfolio_production_composition {padding-bottom:50px;}
+/* 2023년 이전 프로젝트 */
+	.board_before {margin-top:80px;}
+	.board_before .tit {font-size:32px; margin:16px 0 8px; padding-left:16px;}
+	.board_before .tit strong {font-size:30px;}
+	.board_before .project_list li {padding:16px;}
+	.board_before .info {gap:12px; font-size:14px; margin-bottom:4px;}
+	.board_before .info .date:before {left:-7px; height:10px;}
+	.board_before h3 {font-size:18px;}
 /* Blog */
 	.blog_main_banner {margin-bottom:60px;}
 	.blog_main_banner .imgfit {width:40%; border-radius:16px;}
@@ -1348,6 +1365,15 @@
 	.portfolio_review .review_list p {font-size:13px;}
 	.portfolio_review .view_btm {padding-top:30px;}
 	.portfolio_production_composition {padding-bottom:40px;}
+/* 2023년 이전 프로젝트 */
+	.board_before {margin-top:60px;}
+	.board_before .tit {font-size:24px; margin:12px 0 6px; padding-left:14px;}
+	.board_before .tit:before {width:4px;}
+	.board_before .tit strong {font-size:22px;}
+	.board_before .project_list li {padding:12px 0; width:100%;}
+	.board_before .info {gap:10px; font-size:13px; margin-bottom:2px;}
+	.board_before .info .date:before {left:-6px; height:8px;}
+	.board_before h3 {font-size:15px;}
 /* Blog */
 	.blog_main_banner {margin-bottom:40px; flex-direction:column; gap:20px;}
 	.blog_main_banner .imgfit {width:100%; border-radius:12px;}

@@ -10,20 +10,20 @@
 		$pageTitle = trim($v->yieldContent('title', ''));
 		$layoutDocumentTitle = $pageTitle !== '' ? $pageTitle : '대한민국 1세대 웹에이전시 홈페이지코리아';
 		$pageDescription = trim($v->yieldContent('description', ''));
-		$layoutMetaDescription = $pageDescription !== '' ? $pageDescription : '홈페이지코리아';
+		$layoutMetaDescription = $pageDescription !== '' ? $pageDescription : '1999년 창업 초기부터 Quality 경영을 추구해온 대한민국 1세대 웹 에이전시 입니다. 홈페이지 제작·리뉴얼·유지보수를 중심으로 공공기관, 학회, 대학, 대기업 등 1,100 여곳의 고객사와 오랜 파트너십을 유지하고 있으며, React·Vue·Laravel 등 최신 기술 스택과 AI/ERP 시스템 개발 역량을 보유해 SEO/GEO 최적화 된 홈페이지 설계를 제안합니다.';
 		// 이중 따옴표 속성 안에서는 작은따옴표를 &#039;로 바꿀 필요 없음(ENT_QUOTES 대신 ENT_COMPAT)
 		$layoutDocumentTitleAttr = htmlspecialchars($layoutDocumentTitle, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
 		$layoutMetaDescriptionAttr = htmlspecialchars($layoutMetaDescription, ENT_COMPAT | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
 	@endphp
 	<title>{!! $layoutDocumentTitleAttr !!}</title>
 	<meta name="title" content="{!! $layoutDocumentTitleAttr !!}" />
-	<meta name="subject" content="홈페이지코리아" />
+	<meta name="subject" content="홈페이지코리아는 홈페이지 제작·리뉴얼·유지보수를 중심으로 공공기관, 학회, 대학, 대기업 등 1,100 여곳의 고객사와 오랜 파트너십을 유지하고 있으며, React·Vue·Laravel 등 최신 기술 스택과 AI/ERP 시스템 개발 역량을 보유해 SEO/GEO/AEO 최적화 된 홈페이지 설계를 제안합니다." />
 	@yield('meta_tags')
     <meta name="description" content="{!! $layoutMetaDescriptionAttr !!}">
     <meta name="author" content="홈페이지코리아">
 	<meta name="copyright" content="홈페이지코리아" />
     <meta property="og:title" content="{!! $layoutDocumentTitleAttr !!}">
-	<meta property="og:subject" content="홈페이지코리아" />
+	<meta property="og:subject" content="홈페이지코리아는 홈페이지 제작·리뉴얼·유지보수를 중심으로 공공기관, 학회, 대학, 대기업 등 1,100 여곳의 고객사와 오랜 파트너십을 유지하고 있으며, React·Vue·Laravel 등 최신 기술 스택과 AI/ERP 시스템 개발 역량을 보유해 SEO/GEO/AEO 최적화 된 홈페이지 설계를 제안합니다." />
     <meta property="og:description" content="{!! $layoutMetaDescriptionAttr !!}">
     <meta property="og:image" content="@yield('og_image', asset('images/og_image.jpg'))">
 	<link rel="icon" href="/images/favicon.png" type="image/x-icon"/>
@@ -43,14 +43,17 @@
 
 	<!-- SEO,GEO 용 사이트 소개 표 - 추가되는 부분은 sga_plus로 각 페이지에서 관리합니다. -->
 	<script type="application/ld+json">
+	@hasSection('schema_json')
+		@yield('schema_json')
+	@else
 	{
 		"{{'@'}}context": "https://schema.org",
 		"{{'@'}}graph": [
 			{
 				"{{'@'}}type": "WebPage",
 				"name": @json($layoutDocumentTitle, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+				"alternateName": [ "HomepageKorea", "주식회사 홈페이지코리아" ],
 				"description": @json($layoutMetaDescription, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-				"keywords": "@yield('keywords', '홈페이지코리아, 웹 에이전시, 홈페이지 제작')",
 				"url": "{{ url()->current() }}",
 				"inLanguage": "ko-KR",
 				"publisher": {
@@ -101,54 +104,10 @@
 					{ "{{'@'}}type": "ListItem", "position": 15, "name": "블로그",               "url": "https://homepagekorea.com/blog/" },
 					{ "{{'@'}}type": "ListItem", "position": 16, "name": "문의하기",             "url": "https://homepagekorea.com/contact/" }
 				]
-			},
-			{
-				"{{'@'}}type": "FAQPage",
-				"mainEntity": [
-					{
-						"{{'@'}}type": "Question",
-						"name": "홈페이지 제작 기간은 얼마나 걸리나요?",
-						"acceptedAnswer": {
-							"{{'@'}}type": "Answer",
-							"text": "프로젝트 규모에 따라 다르지만, 일반적인 기업 홈페이지는 4~6주, 쇼핑몰이나 복잡한 SI 시스템은 8~12주 정도 소요됩니다. 정확한 일정은 초기 상담 시 WBS 기반으로 안내해 드립니다."
-						}
-					},
-					{
-						"{{'@'}}type": "Question",
-						"name": "유지보수는 어떻게 진행되나요?",
-						"acceptedAnswer": {
-							"{{'@'}}type": "Answer",
-							"text": "월 단위 계약으로 콘텐츠 수정, 보안 업데이트, 서버 관리, 기능 개선 등을 전담 매니저가 관리합니다. 긴급 상황 발생 시 24시간 내 대응합니다."
-						}
-					},
-					{
-						"{{'@'}}type": "Question",
-						"name": "홈페이지 제작 비용은 어떻게 책정되나요?",
-						"acceptedAnswer": {
-							"{{'@'}}type": "Answer",
-							"text": "프로젝트의 규모, 기능, 디자인 복잡도에 따라 달라집니다. 기본 홈페이지부터 맞춤형 SI 시스템까지 예산에 맞는 최적의 솔루션을 제안해 드립니다. 무료 상담을 통해 견적을 안내받으실 수 있습니다."
-						}
-					},
-					{
-						"{{'@'}}type": "Question",
-						"name": "반응형 웹으로 제작되나요?",
-						"acceptedAnswer": {
-							"{{'@'}}type": "Answer",
-							"text": "네, 모든 프로젝트는 PC, 태블릿, 모바일에 최적화된 반응형 웹으로 제작됩니다. 각 디바이스에서 최상의 사용자 경험을 제공합니다."
-						}
-					},
-					{
-						"{{'@'}}type": "Question",
-						"name": "SEO 최적화도 함께 진행되나요?",
-						"acceptedAnswer": {
-							"{{'@'}}type": "Answer",
-							"text": "네, 검색 엔진 최적화를 기본으로 적용합니다. 메타 태그 설정, 사이트맵 생성, 페이지 속도 최적화, 구조화된 데이터 마크업 등 검색 노출에 필요한 모든 작업을 포함합니다."
-						}
-					}
-				]
 			}
 		]
 	}
+	@endif
 	</script>
 	
 
@@ -177,9 +136,16 @@
 		gtag('js', new Date());
 		gtag('config', 'G-073X7ZDZQC');
 	</script>
+	<script type="text/javascript">
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+		})(window, document, "clarity", "script", "wsxkvq56pe");
+	</script>
     
     <!-- jQuery -->
-    <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/js/jquery.js"></script>
 	<script src="/js/aos.js"></script>
     <script src="/js/com.js"></script>
 </head>
@@ -300,11 +266,11 @@
 							<li><strong>사업자등록번호</strong> <span>107-86-55192</span></li>
 							<li class="w100p"><strong>주소</strong> <span>서울특별시 영등포구 경인로 775 에이스하이테크시티 2동 202호</span></li>
 							<li class="w100p"><strong>프로젝트 문의</strong> <a href="mailto:sales@homepagekorea.com">sales@homepagekorea.com</a></li>
-							<li class="w100p"><strong>유지보수 문의</strong> <a href="mailto:superweb@homepagerkorea.com ">superweb@homepagerkorea.com</a></li>
+							<li class="w100p"><strong>유지보수 문의</strong> <a href="mailto:superweb@homepagekorea.com">superweb@homepagekorea.com</a></li>
 						</ul>
 					</address>
 					<a href="/terms/privacy_policy" class="btn_privacy_policy">개인정보처리방침</a>
-					<p class="copy"><span class="sound_only">Copyright</span> ⓒ 2026 HOMEPAGEKREA ALL RIGHTS RESERVED.</p>
+					<p class="copy"><span class="sound_only">Copyright</span> ⓒ 2026 HOMEPAGEKOREA ALL RIGHTS RESERVED.</p>
 				</div>
 				<nav class="footer_menus" aria-label="푸터 메뉴">
 					<ul class="flex">
@@ -368,8 +334,9 @@
 	</footer>
 	@endif
 	
-	<script type="text/javascript" src="//wcs.naver.net/wcslog.js"> </script> 
+	<script type="text/javascript" src="//wcs.naver.net/wcslog.js" async> </script> 
 	<script type="text/javascript"> 
+	window.onload = function() {
 	if (!wcs_add) var wcs_add={};
 	wcs_add["wa"] = "s_379aa81fac95";
 	if (!_nasa) var _nasa={};
@@ -377,9 +344,10 @@
 	wcs.inflow();
 	wcs_do();
 	}
+	};
 	</script>
 	<!-- MR Script Ver 2.0 -->
-	<script async="true" src="//log1.toup.net/mirae_log_chat_common.js?adkey=nqscn" charset="UTF-8"></script>
+	<script async src="//log1.toup.net/mirae_log_chat_common.js?adkey=nqscn" charset="UTF-8"></script>
 	<!-- MR Script END Ver 2.0 -->
 	
 	<script type="text/javascript">

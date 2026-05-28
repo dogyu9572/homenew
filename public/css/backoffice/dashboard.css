@@ -195,6 +195,74 @@
     color: #fd7e14;
 }
 
+.stat-notices::before {
+    background: #6f42c1;
+}
+
+.stat-notices .stat-icon {
+    background: #6f42c1;
+}
+
+.stat-notices .stat-info h3 {
+    color: #6f42c1;
+}
+
+/* 대시보드 전자결재 요약 */
+.dashboard-approval-summary-grid {
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-approval-summary-grid .approval-summary-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    border: 1px solid #e9ecef;
+}
+
+.dashboard-approval-summary-grid .grid-item-body {
+    padding: 1rem 1.25rem;
+}
+
+.approval-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.approval-summary-title {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.approval-summary-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.approval-summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.approval-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+
+.approval-summary-label {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.approval-summary-count {
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 700;
+}
+
 .stat-number {
     margin: 0 0 0.25rem 0;
     font-size: 1.5rem;
@@ -381,7 +449,7 @@
 /* 게시판 현황 테이블 컬럼 너비 */
 .dashboard-table th:nth-child(1),
 .dashboard-table td:nth-child(1) {
-    width: 50%; /* 게시판명 */
+    width: 65%; /* 제목 */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -389,19 +457,13 @@
 
 .dashboard-table th:nth-child(2),
 .dashboard-table td:nth-child(2) {
-    width: 15%; /* 게시글 */
+    width: 20%; /* 등록일 */
     text-align: center;
 }
 
 .dashboard-table th:nth-child(3),
 .dashboard-table td:nth-child(3) {
-    width: 20%; /* 최근활동 */
-    text-align: center;
-}
-
-.dashboard-table th:nth-child(4),
-.dashboard-table td:nth-child(4) {
-    width: 15%; /* 상태 */
+    width: 15%; /* 구분 */
     text-align: center;
 }
 
@@ -457,6 +519,11 @@
     color: #0c5460;
 }
 
+.badge-secondary {
+    background: #e9ecef;
+    color: #495057;
+}
+
 /* 테이블 액션 버튼 */
 .table-action {
     display: inline-flex;
@@ -485,6 +552,10 @@
     .stats-row {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
+    }
+
+    .approval-summary-grid {
+        grid-template-columns: 1fr;
     }
 }
 

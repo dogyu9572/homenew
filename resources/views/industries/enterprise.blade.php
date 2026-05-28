@@ -2,8 +2,51 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '대기업·중견기업 IT팀을 위한 맞춤형 웹사이트 구축. 복잡한 시스템 연동부터 보안까지, 27년 경험의 홈페이지코리아가 책임집니다.')
-@section('keywords', '기업 홈페이지 제작(4,150), 대기업 홈페이지(37), 기업 웹사이트 제작(563), 전사적 자원 관리(466), ERP 개발(490), LMS 시스템(423)')
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "WebPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/industries/enterprise/#webpage",
+			"name": "중견/대기업 홈페이지 제작 - 홈페이지코리아",
+			"description": "대기업·중견기업 IT팀을 위한 맞춤형 웹사이트 구축. 복잡한 시스템 연동부터 보안까지, 27년 경험의 홈페이지코리아가 책임집니다.",
+			"url": "https://www.homepagekorea.com/industries/enterprise",
+			"about": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "산업별",
+					"item": "https://www.homepagekorea.com/industries/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "중견/대기업",
+					"item": "https://www.homepagekorea.com/industries/enterprise"
+				}
+			]
+		}
+	]
+}
+@endsection
 
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">

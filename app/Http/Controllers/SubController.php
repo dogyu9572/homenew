@@ -7,8 +7,10 @@ use App\Models\BlogPostEventLog;
 use App\Models\Portfolio;
 use App\Services\BlogService;
 use App\Services\FaqPublicService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -248,12 +250,72 @@ class SubController extends Controller
         $gName = 'Portfolio';
         $sName = '포트폴리오';
         $gSlug = 'portfolio';
-        $query = Portfolio::query()->where('is_active', true);
+        $query = Portfolio::query()
+            ->where('is_active', true)
+            ->where('is_before_2023', false);
+        $before2023Query = Portfolio::query()
+            ->where('is_active', true)
+            ->where('is_before_2023', true);
         $category = (string) $request->input('category', '');
         $keyword = trim((string) $request->input('q', ''));
         $keywordLike = $keyword !== '' ? '%'.addcslashes($keyword, '%_\\').'%' : '';
         $keywordTag = $keyword !== '' ? '#'.ltrim($keyword, '#') : '';
 
+        $this->applyPortfolioListFilters($query, $category, $keyword, $keywordLike, $keywordTag);
+        $this->applyPortfolioListFilters($before2023Query, $category, $keyword, $keywordLike, $keywordTag);
+
+        $perPage = 12;
+        $currentPage = max(1, (int) $request->input('page', 1));
+        $normalPortfolioCount = (clone $query)->count();
+        $before2023Count = (clone $before2023Query)->count();
+        $portfolioCount = $normalPortfolioCount + $before2023Count;
+        $normalLastPage = max(1, (int) ceil($normalPortfolioCount / $perPage));
+        if ($currentPage > $normalLastPage) {
+            return redirect()->to($request->fullUrlWithQuery(['page' => $normalLastPage]));
+        }
+
+        $normalItems = (clone $query)
+            ->orderBy('sort_order', 'desc')
+            ->orderBy('id', 'desc')
+            ->forPage($currentPage, $perPage)
+            ->get();
+        $portfolios = new LengthAwarePaginator(
+            $normalItems,
+            $normalPortfolioCount,
+            $perPage,
+            $currentPage,
+            [
+                'path' => LengthAwarePaginator::resolveCurrentPath(),
+                'pageName' => 'page',
+            ]
+        );
+        $portfolios->withQueryString();
+        $before2023Items = $currentPage >= $portfolios->lastPage()
+            ? $before2023Query->orderBy('sort_order', 'desc')->orderBy('id', 'desc')->get()
+            : collect();
+        $listItems = [];
+        foreach (array_values($portfolios->items()) as $index => $item) {
+            $listItems[] = [
+                '@type' => 'ListItem',
+                'position' => (($portfolios->currentPage() - 1) * $portfolios->perPage()) + $index + 1,
+                'name' => $item->title,
+                'url' => $item->publicListHref(),
+            ];
+        }
+        foreach ($before2023Items->values() as $index => $item) {
+            $listItems[] = [
+                '@type' => 'ListItem',
+                'position' => (($portfolios->currentPage() - 1) * $portfolios->perPage()) + $portfolios->count() + $index + 1,
+                'name' => $item->title,
+                'url' => filled($item->site_url) ? trim((string) $item->site_url) : $item->publicListHref(),
+            ];
+        }
+
+        return view('portfolio.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'portfolios', 'before2023Items', 'portfolioCount', 'category', 'keyword', 'listItems'));
+    }
+
+    private function applyPortfolioListFilters(Builder $query, string $category, string $keyword, string $keywordLike, string $keywordTag): void
+    {
         if ($category !== '') {
             $query->whereJsonContains('categories', $category);
         }
@@ -277,20 +339,6 @@ class SubController extends Controller
                     });
             });
         }
-
-        $portfolios = $query->orderBy('sort_order', 'desc')->orderBy('id', 'desc')->paginate(12)->withQueryString();
-        $portfolioCount = $portfolios->total();
-        $listItems = [];
-        foreach (array_values($portfolios->items()) as $index => $item) {
-            $listItems[] = [
-                '@type' => 'ListItem',
-                'position' => (($portfolios->currentPage() - 1) * $portfolios->perPage()) + $index + 1,
-                'name' => $item->title,
-                'url' => $item->publicListHref(),
-            ];
-        }
-
-        return view('portfolio.index', compact('gNum', 'sNum', 'gName', 'sName', 'gSlug', 'portfolios', 'portfolioCount', 'category', 'keyword', 'listItems'));
     }
 
     public function portfolio_view(Portfolio $portfolio)

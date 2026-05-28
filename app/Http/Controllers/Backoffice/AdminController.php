@@ -9,6 +9,7 @@ use App\Models\AdminGroup;
 use App\Models\User;
 use App\Services\Backoffice\AdminService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -79,7 +80,16 @@ class AdminController extends Controller
     {
         $admin = $this->adminService->getAdmin($id);
         $data = $request->validated();
+        // validated()는 요청에 키가 없으면 해당 항목을 생략할 수 있어, 연차 수동입력은 원본 입력으로 병합
+        if ($request->exists('manual_used_leave_days')) {
+            $data['manual_used_leave_days'] = $request->input('manual_used_leave_days');
+        }
         $this->adminService->updateAdmin($admin, $data);
+
+        // 본인 정보 수정 시 세션 사용자 갱신(다른 화면에서 Auth 속성이 최신 DB와 일치하도록)
+        if ((int) $admin->id === (int) Auth::id()) {
+            Auth::setUser($admin->fresh());
+        }
 
         return redirect()->route('backoffice.admins.index')
             ->with('success', '관리자 정보가 수정되었습니다.');

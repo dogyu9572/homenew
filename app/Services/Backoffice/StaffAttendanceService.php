@@ -5,6 +5,7 @@ namespace App\Services\Backoffice;
 use App\Models\StaffAttendanceRecord;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -17,14 +18,19 @@ class StaffAttendanceService
     {
         $this->assertEnumKind($kind);
         $this->assertEnumWorkplace($workplace);
-        $this->assertFlowAllows($user, $kind);
 
         return DB::transaction(function () use ($user, $kind, $workplace, $request) {
+            $recordedAtInput = $request->input('recorded_at');
+            $recordedAt = is_string($recordedAtInput) && $recordedAtInput !== ''
+                ? Carbon::createFromFormat('Y-m-d\TH:i', $recordedAtInput)
+                : now();
+
             return StaffAttendanceRecord::query()->create([
                 'user_id' => $user->id,
                 'kind' => $kind,
                 'workplace' => $workplace,
-                'recorded_at' => now(),
+                'adjustment_reason' => $this->normalizedAdjustmentReason($request->input('adjustment_reason')),
+                'recorded_at' => $recordedAt,
                 'ip_address' => $request->ip(),
                 'user_agent' => $this->truncateUserAgent($request->userAgent()),
             ]);
@@ -70,46 +76,6 @@ class StaffAttendanceService
         }
     }
 
-    /**
-     * 당일 마지막 기록 기준 출근→퇴근 교대만 허용
-     */
-    private function assertFlowAllows(User $user, string $kind): void
-    {
-        $last = $this->lastTodayRecord($user);
-
-        if ($kind === StaffAttendanceRecord::KIND_CLOCK_IN) {
-            if ($last !== null && $last->kind === StaffAttendanceRecord::KIND_CLOCK_IN) {
-                throw ValidationException::withMessages([
-                    'kind' => '오늘 이미 출근 처리되었습니다. 퇴근 후 다시 출근할 수 있습니다.',
-                ]);
-            }
-
-            return;
-        }
-
-        if ($last === null) {
-            throw ValidationException::withMessages([
-                'kind' => '오늘 출근 기록이 없어 퇴근할 수 없습니다.',
-            ]);
-        }
-
-        if ($last->kind === StaffAttendanceRecord::KIND_CLOCK_OUT) {
-            throw ValidationException::withMessages([
-                'kind' => '이미 퇴근 처리되었습니다. 출근 후 퇴근할 수 있습니다.',
-            ]);
-        }
-    }
-
-    private function lastTodayRecord(User $user): ?StaffAttendanceRecord
-    {
-        return StaffAttendanceRecord::query()
-            ->where('user_id', $user->id)
-            ->whereDate('recorded_at', now()->toDateString())
-            ->orderByDesc('recorded_at')
-            ->orderByDesc('id')
-            ->first();
-    }
-
     private function truncateUserAgent(?string $ua): ?string
     {
         if ($ua === null || $ua === '') {
@@ -117,5 +83,16 @@ class StaffAttendanceService
         }
 
         return mb_substr($ua, 0, 2000);
+    }
+
+    private function normalizedAdjustmentReason(mixed $reason): ?string
+    {
+        if (! is_string($reason)) {
+            return null;
+        }
+
+        $trimmed = trim($reason);
+
+        return $trimmed === '' ? null : $trimmed;
     }
 }

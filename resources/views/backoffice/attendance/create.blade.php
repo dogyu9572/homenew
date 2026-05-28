@@ -43,7 +43,7 @@
                             <span class="template-info-value">{{ auth()->user()->department ?: '—' }}</span>
                         </div>
                         <div class="template-info-item">
-                            <span class="template-info-label">직책</span>
+                            <span class="template-info-label">직급</span>
                             <span class="template-info-value">{{ auth()->user()->position ?: '—' }}</span>
                         </div>
                         <div class="template-info-item">
@@ -55,7 +55,7 @@
 
                 <div class="member-form-section">
                     <h3 class="member-section-title">출퇴근</h3>
-                    <p class="sub-label">저장 시점의 서버 시간과 위 접속 IP가 함께 저장됩니다.</p>
+                    <p class="sub-label">기본은 현재 시각 저장이며, 누락 보정이 필요하면 기록일시/사유를 함께 입력하세요.</p>
 
                     <div class="member-form-list">
                         <div class="member-form-row">
@@ -89,6 +89,33 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="member-form-row">
+                            <label class="member-form-label" for="recorded_at">기록일시</label>
+                            <div class="member-form-field">
+                                <input
+                                    type="datetime-local"
+                                    id="recorded_at"
+                                    name="recorded_at"
+                                    class="board-form-control"
+                                    value="{{ old('recorded_at') }}"
+                                >
+                                <p class="sub-label" style="margin-top:6px;">비우면 현재 시각으로 저장됩니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="member-form-row">
+                            <label class="member-form-label" for="adjustment_reason">보정 사유</label>
+                            <div class="member-form-field">
+                                <textarea
+                                    id="adjustment_reason"
+                                    name="adjustment_reason"
+                                    rows="3"
+                                    class="board-form-control"                                    
+                                >{{ old('adjustment_reason') }}</textarea>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

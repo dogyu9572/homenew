@@ -1,17 +1,53 @@
 @extends('layouts.app')
 @section('title', $sName)
 @section('sName', $sName)
-@section('description', '홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.')
-@section('sga_plus')
-@php
-	$sgaJsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
-@endphp
-,"mainEntity": {
-	"@@type": "ItemList",
-	"name": @json($sName, $sgaJsonFlags),
-	"description": @json('홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.', $sgaJsonFlags),
-	"numberOfItems": @json($posts->total(), $sgaJsonFlags),
-	"itemListElement": @json($listItems, $sgaJsonFlags)
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "CollectionPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/blog/#collectionpage",
+			"name": "홈페이지코리아 기술 블로그",
+			"description": "홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.",
+			"url": "https://www.homepagekorea.com/blog/",
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"about": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "블로그",
+					"item": "https://www.homepagekorea.com/blog/"
+				}
+			]
+		}
+	]
+	@php
+		$sgaJsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+	@endphp
+	,"mainEntity": {
+		"{{'@'}}@type": "ItemList",
+		"name": @json($sName, $sgaJsonFlags),
+		"description": @json('홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.', $sgaJsonFlags),
+		"numberOfItems": @json($posts->total(), $sgaJsonFlags),
+		"itemListElement": @json($listItems, $sgaJsonFlags)
+	}
 }
 @endsection
 

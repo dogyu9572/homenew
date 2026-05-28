@@ -1,16 +1,188 @@
 @extends('layouts.app')
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "Organization",
+			"{{'@'}}id": "https://www.homepagekorea.com/#organization",
+			"name": "홈페이지코리아",
+			"alternateName": [ "HomepageKorea", "주식회사 홈페이지코리아" ],
+			"legalName": "주식회사 홈페이지코리아",
+			"url": "https://www.homepagekorea.com/",
+			"logo": {
+				"{{'@'}}type": "ImageObject",
+				"url": "https://www.homepagekorea.com/images/logo.svg"
+			},
+			"image": "https://www.homepagekorea.com/images/logo.svg",
+			"description": "1999년 창업 초기부터 Quality 경영을 추구해온 대한민국 1세대 웹 에이전시 입니다. 홈페이지 제작·리뉴얼·유지보수를 중심으로 공공기관, 학회, 대학, 대기업 등 1,100 여곳의 고객사와 오랜 파트너십을 유지하고 있으며, React·Vue·Laravel 등 최신 기술 스택과 AI/ERP 시스템 개발 역량을 보유해 SEO/GEO 최적화 된 홈페이지 설계를 제안합니다.",
+			"foundingDate": "1999",
+			"founder": {
+				"{{'@'}}type": "Person",
+				"name": "염하은"
+			},
+			"address": {
+				"{{'@'}}type": "PostalAddress",
+				"streetAddress": "경인로 775 에이스하이테크시티 2동 202호",
+				"addressLocality": "영등포구",
+				"addressRegion": "서울특별시",
+				"postalCode": "07299",
+				"addressCountry": "KR"
+			},
+			"contactPoint": [
+				{
+					"{{'@'}}type": "ContactPoint",
+					"telephone": "+82-1644-8070",
+					"contactType": "sales",
+					"email": "sales@homepagekorea.com",
+					"availableLanguage": [ "Korean" ]
+				},
+				{
+					"{{'@'}}type": "ContactPoint",
+					"telephone": "+82-2-6340-7723",
+					"contactType": "customer support",
+					"email": "superweb@homepagekorea.com",
+					"availableLanguage": [ "Korean" ]
+				}
+			],
+			"sameAs": [
+				"https://www.youtube.com/@homepagekorea",
+				"https://www.instagram.com/homepagekorea_official/"
+			],
+			"taxID": "107-86-55192",
+			"areaServed": {
+				"{{'@'}}type": "Country",
+				"name": "KR"
+			},
+			"knowsAbout": [
+				"홈페이지 제작",
+				"웹사이트 리뉴얼",
+				"홈페이지 유지보수",
+				"온라인 쇼핑몰 제작",
+				"통합 SI 시스템 개발",
+				"앱 개발",
+				"맞춤형 AI 솔루션",
+				"SEO 최적화",
+				"GEO 최적화",
+				"UI/UX 디자인",
+				"반응형 웹",
+				"웹접근성"
+			],
+			"award": [
+				"웹어워드코리아 14년 연속 수상",
+				"IT서비스 분야 최우수상 (2024)"
+			],
+			"hasCredential": [
+				{
+					"{{'@'}}type": "EducationalOccupationalCredential",
+					"credentialCategory": "이노비즈 기술혁신형 기업"
+				},
+				{
+					"{{'@'}}type": "EducationalOccupationalCredential",
+					"credentialCategory": "벤처기업 인증"
+				},
+				{
+					"{{'@'}}type": "EducationalOccupationalCredential",
+					"credentialCategory": "강소기업 선정"
+				},
+				{
+					"{{'@'}}type": "EducationalOccupationalCredential",
+					"credentialCategory": "청년친화기업"
+				}
+			]
+		},
+		{
+			"{{'@'}}type": "WebSite",
+			"{{'@'}}id": "https://www.homepagekorea.com/#website",
+			"name": "홈페이지코리아",
+			"url": "https://www.homepagekorea.com/",
+			"publisher": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "SiteNavigationElement",
+			"{{'@'}}id": "https://homepagekorea.com/#main-navi",
+			"name": "홈페이지코리아 메인 네비게이션",
+			"itemListElement": [
+				{ "{{'@'}}type": "ListItem", "position": 1,  "name": "홈페이지코리아 소개",  "url": "https://homepagekorea.com/about" },
+				{ "{{'@'}}type": "ListItem", "position": 2,  "name": "SEO·GEO 최적화",      "url": "https://homepagekorea.com/service/homepage-seo-geo" },
+				{ "{{'@'}}type": "ListItem", "position": 3,  "name": "홈페이지 제작",        "url": "https://homepagekorea.com/service/homepage-development" },
+				{ "{{'@'}}type": "ListItem", "position": 4,  "name": "홈페이지 유지보수",    "url": "https://homepagekorea.com/service/website-maintenance" },
+				{ "{{'@'}}type": "ListItem", "position": 5,  "name": "온라인 쇼핑몰 제작",   "url": "https://homepagekorea.com/service/ecommerce-website-development" },
+				{ "{{'@'}}type": "ListItem", "position": 6,  "name": "통합 SI 시스템 개발",  "url": "https://homepagekorea.com/service/integrated-si-system-development" },
+				{ "{{'@'}}type": "ListItem", "position": 7,  "name": "앱 개발",             "url": "https://homepagekorea.com/service/mobile-app-development" },
+				{ "{{'@'}}type": "ListItem", "position": 8,  "name": "맞춤형 AI 솔루션",     "url": "https://homepagekorea.com/service/ai-solution" },
+				{ "{{'@'}}type": "ListItem", "position": 9,  "name": "중견/대기업",          "url": "https://homepagekorea.com/industries/enterprise" },
+				{ "{{'@'}}type": "ListItem", "position": 10, "name": "학회/협회",            "url": "https://homepagekorea.com/industries/academic-association" },
+				{ "{{'@'}}type": "ListItem", "position": 11, "name": "공공기관",             "url": "https://homepagekorea.com/industries/government" },
+				{ "{{'@'}}type": "ListItem", "position": 12, "name": "병원/의료",            "url": "https://homepagekorea.com/industries/hospital-medical-website-development" },
+				{ "{{'@'}}type": "ListItem", "position": 13, "name": "대학·연구실",          "url": "https://homepagekorea.com/industries/university-research-lab-website" },
+				{ "{{'@'}}type": "ListItem", "position": 14, "name": "포트폴리오",           "url": "https://homepagekorea.com/portfolio" },
+				{ "{{'@'}}type": "ListItem", "position": 15, "name": "블로그",               "url": "https://homepagekorea.com/blog/" },
+				{ "{{'@'}}type": "ListItem", "position": 16, "name": "문의하기",             "url": "https://homepagekorea.com/contact/" }
+			]
+		},
+		{
+			"{{'@'}}type": "FAQPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/#faq",
+			"mainEntity": [
+				{
+					"{{'@'}}type": "Question",
+					"name": "홈페이지 제작 기간은 얼마나 걸리나요?",
+					"acceptedAnswer": {
+						"{{'@'}}type": "Answer",
+						"text": "프로젝트 규모에 따라 다르지만, 일반적인 기업 홈페이지는 4~6주, 쇼핑몰이나 복잡한 SI 시스템은 8~12주 정도 소요됩니다. 정확한 일정은 초기 상담 시 WBS 기반으로 안내해 드립니다."
+					}
+				},
+				{
+					"{{'@'}}type": "Question",
+					"name": "유지보수는 어떻게 진행되나요?",
+					"acceptedAnswer": {
+						"{{'@'}}type": "Answer",
+						"text": "월 단위 계약으로 콘텐츠 수정, 보안 업데이트, 서버 관리, 기능 개선 등을 전담 매니저가 관리합니다. 긴급 상황 발생 시 24시간 내 대응합니다."
+					}
+				},
+				{
+					"{{'@'}}type": "Question",
+					"name": "홈페이지 제작 비용은 어떻게 책정되나요?",
+					"acceptedAnswer": {
+						"{{'@'}}type": "Answer",
+						"text": "프로젝트의 규모, 기능, 디자인 복잡도에 따라 달라집니다. 기본 홈페이지부터 맞춤형 SI 시스템까지 예산에 맞는 최적의 솔루션을 제안해 드립니다. 무료 상담을 통해 견적을 안내받으실 수 있습니다."
+					}
+				},
+				{
+					"{{'@'}}type": "Question",
+					"name": "반응형 웹으로 제작되나요?",
+					"acceptedAnswer": {
+						"{{'@'}}type": "Answer",
+						"text": "네, 모든 프로젝트는 PC, 태블릿, 모바일에 최적화된 반응형 웹으로 제작됩니다. 각 디바이스에서 최상의 사용자 경험을 제공합니다."
+					}
+				},
+				{
+					"{{'@'}}type": "Question",
+					"name": "SEO 최적화도 함께 진행되나요?",
+					"acceptedAnswer": {
+						"{{'@'}}type": "Answer",
+						"text": "네, 검색 엔진 최적화를 기본으로 적용합니다. 메타 태그 설정, 사이트맵 생성, 페이지 속도 최적화, 구조화된 데이터 마크업 등 검색 노출에 필요한 모든 작업을 포함합니다."
+					}
+				}
+			]
+		}
+	]
+}
+@endsection
 
 @section('content')
 <main class="main_wrap">
     
 	<!-- intro -->
-	<section class="intro" aria-label="WHAT WE DO">
+	<!-- <section class="intro" aria-label="WHAT WE DO">
 		<div class="intro_fixed">
 			<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="980" viewBox="0 0 1920 980" fill="none" class="svg_scaled" preserveAspectRatio="xMidYMid slice">
-				<!-- 배경 + D, O 글자를 evenodd로 뚫음 -->
 				<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H1920V980H0V0ZM1282.09 446.15C1282.09 440.947 1282.61 436.047 1283.66 431.45C1284.71 426.853 1286.23 422.63 1288.21 418.78C1290.19 414.907 1292.6 411.442 1295.42 408.385C1298.27 405.305 1301.46 402.703 1305.01 400.58C1308.56 398.457 1312.43 396.835 1316.63 395.715C1320.85 394.572 1325.32 394 1330.04 394C1334.75 394 1339.21 394.572 1343.41 395.715C1347.63 396.835 1351.51 398.457 1355.06 400.58C1358.61 402.703 1361.79 405.305 1364.62 408.385C1367.46 411.442 1369.88 414.907 1371.86 418.78C1373.84 422.63 1375.36 426.853 1376.41 431.45C1377.48 436.047 1378.02 440.947 1378.02 446.15C1378.02 451.353 1377.48 456.253 1376.41 460.85C1375.36 465.447 1373.84 469.682 1371.86 473.555C1369.88 477.405 1367.46 480.87 1364.62 483.95C1361.79 487.007 1358.61 489.597 1355.06 491.72C1351.51 493.843 1347.63 495.465 1343.41 496.585C1339.21 497.728 1334.75 498.3 1330.04 498.3C1325.32 498.3 1320.85 497.728 1316.63 496.585C1312.43 495.465 1308.56 493.843 1305.01 491.72C1301.46 489.597 1298.27 487.007 1295.42 483.95C1292.6 480.87 1290.19 477.405 1288.21 473.555C1286.23 469.682 1284.71 465.447 1283.66 460.85C1282.61 456.253 1282.09 451.353 1282.09 446.15ZM1300.57 446.15C1300.57 451.82 1301.23 456.883 1302.56 461.34C1303.89 465.773 1305.82 469.53 1308.34 472.61C1310.86 475.667 1313.94 478 1317.58 479.61C1321.24 481.197 1325.39 481.99 1330.04 481.99C1334.68 481.99 1338.82 481.197 1342.46 479.61C1346.12 478 1349.22 475.667 1351.74 472.61C1354.28 469.53 1356.22 465.773 1357.55 461.34C1358.88 456.883 1359.54 451.82 1359.54 446.15C1359.54 440.48 1358.88 435.428 1357.55 430.995C1356.22 426.538 1354.28 422.782 1351.74 419.725C1349.22 416.645 1346.12 414.312 1342.46 412.725C1338.82 411.115 1334.68 410.31 1330.04 410.31C1325.39 410.31 1321.24 411.115 1317.58 412.725C1313.94 414.312 1310.86 416.645 1308.34 419.725C1305.82 422.782 1303.89 426.538 1302.56 430.995C1301.23 435.428 1300.57 440.48 1300.57 446.15ZM1187.71 396.1H1222.43C1227.51 396.1 1232.31 396.637 1236.81 397.71C1241.31 398.783 1245.46 400.335 1249.24 402.365C1253.02 404.395 1256.4 406.88 1259.39 409.82C1262.4 412.737 1264.94 416.05 1267.02 419.76C1269.09 423.47 1270.68 427.542 1271.78 431.975C1272.9 436.385 1273.46 441.11 1273.46 446.15C1273.46 451.19 1272.9 455.927 1271.78 460.36C1270.68 464.77 1269.09 468.83 1267.02 472.54C1264.94 476.25 1262.4 479.575 1259.39 482.515C1256.4 485.432 1253.02 487.905 1249.24 489.935C1245.46 491.965 1241.31 493.517 1236.81 494.59C1232.31 495.663 1227.51 496.2 1222.43 496.2H1187.71V396.1ZM1222.18 479.89C1227.34 479.89 1231.95 479.132 1236.01 477.615C1240.07 476.098 1243.5 473.905 1246.3 471.035C1249.12 468.142 1251.27 464.607 1252.74 460.43C1254.23 456.253 1254.98 451.493 1254.98 446.15C1254.98 440.807 1254.23 436.047 1252.74 431.87C1251.27 427.693 1249.12 424.17 1246.3 421.3C1243.5 418.407 1240.07 416.202 1236.01 414.685C1231.95 413.168 1227.34 412.41 1222.18 412.41H1205.84V479.89H1222.18Z" fill="#040404"/>
-
-				<!-- 나머지 흰색 글자들 (WHATWE) -->
+	
 				<path shape-rendering="geometricPrecision" d="M1146.31 394V400.405H1089.29V440.935H1142.11V447.375H1089.29V487.695H1147.71V494.1H1082.43V394H1146.31Z" fill="white"/>
 				<path shape-rendering="geometricPrecision" d="M1011.05 394L1040.9 488.185L1071.25 394H1078.42L1046.05 494.1H1036.39L1006.71 401.63L976.678 494.1H967.018L935.098 394H942.378L972.233 488.185L1002.58 394H1011.05Z" fill="white"/>
 				<path shape-rendering="geometricPrecision" d="M910.695 400.405H874.61V494.1H867.75V400.405H831.7V394H910.695V400.405Z" fill="white"/>
@@ -24,7 +196,7 @@
 				<button type="button" class="btn_scroll_down">SCROLL DOWN</button>
 			</div>
 		</div>
-	</section>
+	</section> -->
 	
 	<!-- main_visual -->
 	<section class="main_visual" id="main_visual" aria-labelledby="visual-title" data-header="light">
@@ -533,7 +705,7 @@ $(document).ready(function () {
                 const scrollEnd = offsetTop - windowHeight / 4;
                 const progress = Math.min(Math.max((scrollTop - scrollStart) / (scrollEnd - scrollStart), 0), 1);
                 const rotate = maxRotate * (1 - progress);
-                const translateY = (-(windowHeight / 10) * (1 - progress));
+                const translateY = (-(windowHeight / 50) * (1 - progress));
                 $outbox[0].style.transform = `rotate(${rotate}deg) translate3d(0, ${translateY}px, 0)`;
             }
         });

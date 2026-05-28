@@ -2,8 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '병원 홈페이지 제작을 위한 맞춤형 솔루션. 환자 중심 예약 시스템부터 의료 데이터 보안, 웹 접근성 인증까지, 27년 경험의 홈페이지코리아가 책임집니다.')
-@section('keywords', '병원 홈페이지 제작')
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "WebPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/industries/hospital-medical-website-development/#webpage",
+			"name": "병원/의료 홈페이지 제작 - 홈페이지코리아",
+			"description": "
+			병원 홈페이지 제작을 위한 맞춤형 솔루션. 환자 중심 예약 시스템부터 의료 데이터 보안, 웹 접근성 인증까지, 27년 경험의 홈페이지코리아가 책임집니다.",
+			"url": "https://www.homepagekorea.com/industries/hospital-medical-website-development",
+			"about": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "산업별",
+					"item": "https://www.homepagekorea.com/industries/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "병원/의료",
+					"item": "https://www.homepagekorea.com/industries/hospital-medical-website-development"
+				}
+			]
+		}
+	]
+}
+@endsection
 
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">

@@ -2,8 +2,51 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '27년 경력 홈페이지코리아가 다양한 학회 홈페이지 제작 경험으로 우리 학회에 꼭 맞게 설계합니다.')
-@section('keywords', '학회 홈페이지 제작, 홈페이지 제작 업체')
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "WebPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/industries/academic-association/#webpage",
+			"name": "학회/협회 홈페이지 제작 - 홈페이지코리아",
+			"description": "27년 경력 홈페이지코리아가 다양한 학회 홈페이지 제작 경험으로 우리 학회에 꼭 맞게 설계합니다.",
+			"url": "https://www.homepagekorea.com/industries/academic-association",
+			"about": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "산업별",
+					"item": "https://www.homepagekorea.com/industries/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "학회/협회",
+					"item": "https://www.homepagekorea.com/industries/academic-association"
+				}
+			]
+		}
+	]
+}
+@endsection
 
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
@@ -174,14 +217,14 @@
 			<p class="tit_label">REVIEW</p>
 			<h2 id="industry-review-title">학회·협회를 경험해본 홈페이지 제작 업체와 <br class="pc_vw"><strong>해보지 않은 업체는 결과가 다릅니다.</strong></h2>
 			<ul class="review_list">
-				<li>
+				{{-- <li>
 					<h3 class="sound_only">학회</h3>
 					<div class="flex_tit">
 						<h4>학술대회 등록 과정이 복잡하고 예외 사항도 많아서 개발 중 오류가 발생할까 걱정이 컸습니다. 하지만 <strong>홈페이지코리아는 우리 학회의 업무 흐름을 정확히 	이해</strong>하고, <strong>요구사항을 체계적으로 문서화</strong>해주셨습니다.<br/>
 						덕분에 <strong>개발이 원활하게 진행</strong>되었고, 예외 상황까지 <strong>완벽하게 반영된 시스템</strong>을 받았습니다.</h4>
 					</div>
 					<p><i><img src="/images/icon_review_logo_b3.svg" alt="" aria-hidden="true"></i>고분자학회<span aria-hidden="true">학회</span></p>
-				</li>
+				</li> --}}
 				<li>
 					<h3 class="sound_only">학회</h3>
 					<div class="flex_tit">
@@ -193,7 +236,7 @@
 				<li>
 					<h3 class="sound_only">협회</h3>
 					<div class="flex_tit">
-						<h4>회원 정보, 교육 신청, 지원 사업이 각각 분리되어 있어 데이터를 여러 번 입력해야 했습니다. 홈페이지코리아가 <strong>WBI-net 내부 시스템을 구축</strong>해 <strong>모든 데이터를 통합 	관리</strong>하게 되면서, <strong>담당자 업무 시간이 40% 단축</strong>되었습니다.</h4>
+						<h4>회원 정보, 교육 신청, 지원 사업이 각각 분리되어 있어 데이터를 여러 번 입력해야 했습니다. 홈페이지코리아가 <strong>내부 시스템을 구축</strong>해 <strong>모든 데이터를 통합 	관리</strong>하게 되면서, <strong>담당자 업무 시간이 40% 단축</strong>되었습니다.</h4>
 					</div>
 					<p><i><img src="/images/icon_review_logo_i2.svg" alt="" aria-hidden="true"></i>지질동맥경화학회<span aria-hidden="true">협회</span></p>
 				</li>

@@ -30,7 +30,7 @@
 
 	<section class="portfolio_head" aria-label="portfolio-head-title">
         @if($portfolio->top_image || $portfolio->thumbnail_image)
-		<div class="bg imgfit"><img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->top_image ?: $portfolio->thumbnail_image) }}" alt="" aria-hidden="true"></div>
+		<div class="bg imgfit"><img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->top_image ?: $portfolio->thumbnail_image) }}" alt="제작한 사이트를 대표하는 이미지" aria-hidden="true"></div>
         @endif
 		<div class="inner">
             <span class="type mojo_aos">
@@ -73,7 +73,7 @@
 					<p class="tit">BEFORE</p>
                     <div class="img">
                         @if(!empty($portfolio->solution_before_image))
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->solution_before_image) }}" alt="">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->solution_before_image) }}" alt="이전 홈페이지 이미지">
                         @endif
                     </div>
 				</div>
@@ -81,7 +81,7 @@
 					<p class="tit">AFTER</p>
                     <div class="img">
                         @if(!empty($portfolio->solution_after_image))
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->solution_after_image) }}" alt="">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($portfolio->solution_after_image) }}" alt="리뉴얼 홈페이지 이미지">
                         @endif
                     </div>
 				</div>
@@ -97,7 +97,7 @@
 				<li class="{{ \Illuminate\Support\Str::of($feature->title ?? 'feature')->lower()->replace(' ', '_') }}">
 					<div class="imgfit" aria-hidden="true">
                         @if(!empty($feature->image_path))
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($feature->image_path) }}" alt="">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($feature->image_path) }}" alt="제작 구성 설명 이미지">
                         @endif
                     </div>
 					<div class="txt">

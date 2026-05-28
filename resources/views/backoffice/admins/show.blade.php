@@ -39,7 +39,7 @@
                 </div>
                 
                 <div class="detail-item">
-                    <label>직책</label>
+                    <label>직급</label>
                     <span>{{ $admin->position ?: '-' }}</span>
                 </div>
                 

@@ -18,14 +18,27 @@ class ContactController extends Controller
 
     public function store(StoreContactRequest $request): RedirectResponse
     {
-        $limitKey = 'contact-submit:'.$request->ip();
-        if (RateLimiter::tooManyAttempts($limitKey, 4)) {
+        $ipKey = 'contact-submit:'.$request->ip();
+        if (RateLimiter::tooManyAttempts($ipKey, 3)) {
             return redirect()
                 ->route('contact.contact')
                 ->withErrors(['company' => '짧은 시간 내 접수가 많습니다. 잠시 후 다시 시도해 주세요.'])
                 ->withInput();
         }
-        RateLimiter::hit($limitKey, 600);
+
+        $emailNorm = strtolower(trim((string) $request->input('email', '')));
+        $emailKey = $emailNorm !== '' ? 'contact-submit-email:'.hash('sha256', $emailNorm) : '';
+        if ($emailKey !== '' && RateLimiter::tooManyAttempts($emailKey, 2)) {
+            return redirect()
+                ->route('contact.contact')
+                ->withErrors(['email' => '동일 이메일로 짧은 기간 내 반복 접수되었습니다. 잠시 후 다시 시도해 주세요.'])
+                ->withInput();
+        }
+
+        RateLimiter::hit($ipKey, 3600);
+        if ($emailKey !== '') {
+            RateLimiter::hit($emailKey, 86400);
+        }
 
         $validated = $request->validated();
 

@@ -25,6 +25,9 @@ class AdminValidationMessages
             'department.max' => '소속은 255자를 초과할 수 없습니다.',
             'position.max' => '직책은 255자를 초과할 수 없습니다.',
             'contact.max' => '연락처는 50자를 초과할 수 없습니다.',
+            'manual_used_leave_days.numeric' => '연차 수동입력은 숫자로 입력해주세요.',
+            'manual_used_leave_days.min' => '연차 수동입력은 0 이상이어야 합니다.',
+            'manual_used_leave_days.max' => '연차 수동입력은 999.99를 초과할 수 없습니다.',
             'permissions.array' => '권한 설정이 올바르지 않습니다.',
         ];
     }

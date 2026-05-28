@@ -2,10 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '운영 효율을 높이는 통합 SI 시스템 개발. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 예약·백오피스·ERP·CMS·LMS를 하나로 연결합니다.')
-@section('keywords', 'SI 개발, 시스템개발, 예약페이지, 예약페이지 만들기, 백오피스 개발, ERP 개발, LMS 시스템')
-@section('sga_plus')
-@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "Service",
+			"{{'@'}}id": "https://www.homepagekorea.com/service/integrated-si-system-development/#service",
+			"name": "통합 SI 시스템 개발 - 홈페이지코리아",
+			"description": "운영 효율을 높이는 통합 SI 시스템 개발. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 예약·백오피스·ERP·CMS·LMS를 하나로 연결합니다.",
+			"url": "https://www.homepagekorea.com/service/integrated-si-system-development",
+			"provider": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"areaServed": {
+				"{{'@'}}type": "Country",
+				"name": "KR"
+			},
+			"serviceType": "통합 SI 시스템 개발"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "서비스",
+					"item": "https://www.homepagekorea.com/service/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "통합 SI 시스템 개발",
+					"item": "https://www.homepagekorea.com/service/integrated-si-system-development"
+				}
+			]
+		}
+	]
+	@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+}
 @endsection
 
 @section('content')

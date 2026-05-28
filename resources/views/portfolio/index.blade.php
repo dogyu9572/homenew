@@ -1,17 +1,53 @@
 @extends('layouts.app')
 @section('title', $sName)
 @section('sName', $sName)
-@section('description', '중견/대기업, 학회/협회, 공공기관, 병원/의료, 대학/학원 등 다양한 분야의 홈페이지 제작 포트폴리오를 확인하세요. 홈페이지제작, 유지보수, 온라인쇼핑몰, SI시스템개발, 앱개발, AI솔루션까지 제공합니다.')
-@section('sga_plus')
-@php
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "CollectionPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/portfolio/#collectionpage",
+			"name": "홈페이지코리아 포트폴리오",
+			"description": "홈페이지코리아와 함께 성장한 1,100개의 기업·기관 프로젝트를 확인하세요. 중견/대기업, 학회/협회, 공공기관, 병원/의료, 대학/학원 등 다양한 분야의 홈페이지 제작 포트폴리오를 확인하세요. 홈페이지제작, 유지보수, 온라인쇼핑몰, SI시스템개발, 앱개발, AI솔루션까지 제공합니다.",
+			"url": "https://www.homepagekorea.com/portfolio/",
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"about": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "포트폴리오",
+					"item": "https://www.homepagekorea.com/portfolio/"
+				}
+			]
+		}
+	]
+	@php
     $sgaJsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
-@endphp
-,"mainEntity": {
-    "@@type": "ItemList",
-    "name": "@yield('title', '')",
-    "description": "@yield('description')",
-    "numberOfItems": "{{ $portfolioCount }}",
-    "itemListElement": @json($listItems, $sgaJsonFlags)
+	@endphp
+	,"mainEntity": {
+		"{{'@'}}@type": "ItemList",
+		"name": "{{'@'}}yield('title', '')",
+		"description": "{{'@'}}yield('description')",
+		"numberOfItems": "{{ $portfolioCount }}",
+		"itemListElement": @json($listItems, $sgaJsonFlags)
+	}
 }
 @endsection
 
@@ -65,11 +101,12 @@
 				</div>
 			</div>
 			
-			<ul class="portfolio_list mojo_aos">
-                @forelse($portfolios as $item)
-                @php
-                    $disableDetailLink = $item->is_direct_site_link && blank($item->site_url);
-                @endphp
+				<ul class="portfolio_list mojo_aos">
+	                @if($portfolios->count() > 0)
+	                @foreach($portfolios as $item)
+	                @php
+	                    $disableDetailLink = $item->is_direct_site_link && blank($item->site_url);
+	                @endphp
 				<li>
                     @if($disableDetailLink)
 					<span class="box" aria-disabled="true" tabindex="-1" aria-label="{{ $item->title }} 포트폴리오 링크 정보 없음">
@@ -109,20 +146,46 @@
                     @else
 					</a>
                     @endif
-				</li>
-                @empty
-                <li>
-                    <span class="box">
-                        <span class="txt">
-                            <h3 class="tit">등록된 포트폴리오가 없습니다.</h3>
-                        </span>
-                    </span>
-                </li>
-                @endforelse
-			</ul>
-			
-			{{-- <div class="board-pagination">
-                {{ $portfolios->links() }}
+					</li>
+	                @endforeach
+	                @elseif(($before2023Items ?? collect())->isEmpty())
+	                <li>
+	                    <span class="box">
+	                        <span class="txt">
+	                            <h3 class="tit">등록된 포트폴리오가 없습니다.</h3>
+	                        </span>
+	                    </span>
+	                </li>
+	                @endif
+				</ul>
+
+				@if(($before2023Items ?? collect())->isNotEmpty())
+				<div class="board_before">
+					<h2 class="tit"><strong>2023</strong>년 이전 프로젝트</h2>
+					<ul class="project_list">
+						@foreach($before2023Items as $item)
+						@php
+							$itemHref = filled($item->site_url) ? trim((string) $item->site_url) : $item->publicListHref();
+							$openInNewTab = filled($item->site_url) || $item->publicListOpensInNewTab();
+						@endphp
+						<li>
+							<a href="{{ $itemHref }}" @if($openInNewTab) target="_blank" rel="noopener noreferrer" @endif>
+								<span class="info">
+									<span class="type"><span class="sound_only">분류: </span>{{ $item->category ?: ($item->categories[0] ?? '-') }}</span>
+									@if(filled($item->development_summary))
+									<span class="date"><span class="sound_only">주요 개발 내용: </span>{{ $item->development_summary }}</span>
+									@endif
+								</span>
+								<h3>{{ $item->title }}</h3>
+							</a>
+						</li>
+						@endforeach
+					</ul>
+				</div>
+				@endif
+				
+				{{-- <div class="board-pagination">
+	                {{ $portfolios->links() }}
 			</div> --}}
 			<div class="board-pagination">
 				@php
@@ -171,16 +234,16 @@
 					@endif
 				</ul>
 			</div>
-		</div>
-	</section>
-	
-	<aside class="pop_notice" role="dialog" aria-labelledby="notice-title" aria-modal="false">
+			</div>
+		</section>
+		
+		<aside class="pop_notice" role="dialog" aria-labelledby="notice-title" aria-modal="false">
 		<button type="button" class="btn_close" aria-label="공지사항 닫기"></button>
 		<div class="flip">
 			<div class="before" aria-hidden="true"></div>
 			<div class="after">
 				<h2 id="notice-title">안녕하세요!<br/> 홈코 포트폴리오에 <br class="pc_vw"/>관심 가져주셔서 감사합니다.</h2>
-				<p>현재 사이트 리뉴얼 이후 <br class="mo_vw">포트폴리오를 정리 중입니다.<br/>더 좋은 내용으로 곧 업데이트될 <br class="mo_vw">예정이에요. 😎<br/>잠시만 기다려주시고, 다른 메뉴도 <br class="pc_vw"/>함께 둘러봐 주세요! 감사합니다.</p>
+				<p>현재 포트폴리오를 정리 중입니다.<br/>더 좋은 내용으로 곧 업데이트될 <br class="mo_vw">예정이에요. 😎<br/>잠시만 기다려주시고, 다른 메뉴도 <br class="pc_vw"/>함께 둘러봐 주세요! 감사합니다.</p>
 			</div>
 		</div>
 	</aside>

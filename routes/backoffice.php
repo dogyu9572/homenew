@@ -4,6 +4,7 @@ use App\Http\Controllers\Backoffice\AccessStatisticsController;
 use App\Http\Controllers\Backoffice\AdminController;
 use App\Http\Controllers\Backoffice\AdminGroupController;
 use App\Http\Controllers\Backoffice\AdminMenuController;
+use App\Http\Controllers\Backoffice\ApprovalController;
 use App\Http\Controllers\Backoffice\AuthController;
 use App\Http\Controllers\Backoffice\BannerController;
 use App\Http\Controllers\Backoffice\BlogPostController;
@@ -13,9 +14,11 @@ use App\Http\Controllers\Backoffice\BoardSkinController;
 use App\Http\Controllers\Backoffice\BoardTemplateController;
 use App\Http\Controllers\Backoffice\CategoryController;
 use App\Http\Controllers\Backoffice\ContactController;
+use App\Http\Controllers\Backoffice\IntraTaxController;
 use App\Http\Controllers\Backoffice\LogController;
 use App\Http\Controllers\Backoffice\PopupController;
 use App\Http\Controllers\Backoffice\PortfolioController;
+use App\Http\Controllers\Backoffice\ProjectManageController;
 use App\Http\Controllers\Backoffice\SettingController;
 use App\Http\Controllers\Backoffice\StaffAttendanceController;
 use App\Http\Controllers\Backoffice\UserController;
@@ -152,6 +155,84 @@ Route::prefix('backoffice')->middleware(['backoffice'])->group(function () {
     Route::post('attendance', [StaffAttendanceController::class, 'store'])
         ->name('backoffice.attendance.store');
 
+    // 전자결재 URL 구조
+    Route::get('approval-main', [ApprovalController::class, 'index'])
+        ->name('backoffice.approvals.index');
+    Route::get('approval-main/create', [ApprovalController::class, 'create'])
+        ->name('backoffice.approvals.create');
+    Route::post('approval-main/create', [ApprovalController::class, 'store'])
+        ->name('backoffice.approvals.store');
+    Route::get('approval-main/create/{templateKey}', [ApprovalController::class, 'createDraft'])
+        ->name('backoffice.approvals.drafts.create');
+    Route::get('approval-main/users', [ApprovalController::class, 'approverUsers'])
+        ->name('backoffice.approvals.users');
+    Route::get('approval-personal', [ApprovalController::class, 'personal'])
+        ->name('backoffice.approvals.personal');
+    Route::get('approval-pending', [ApprovalController::class, 'pending'])
+        ->name('backoffice.approvals.pending');
+    Route::get('approval-cooperation', [ApprovalController::class, 'cooperation'])
+        ->name('backoffice.approvals.cooperation');
+    Route::get('approval-personal/documents/{docNo}', [ApprovalController::class, 'showPersonal'])
+        ->name('backoffice.approvals.personal.show');
+    Route::put('approval-personal/documents/{docNo}', [ApprovalController::class, 'updatePersonalDraft'])
+        ->name('backoffice.approvals.personal.update');
+    Route::post('approval-personal/documents/{docNo}/approve', [ApprovalController::class, 'approve'])
+        ->name('backoffice.approvals.personal.approve');
+    Route::post('approval-personal/documents/{docNo}/delegate', [ApprovalController::class, 'delegate'])
+        ->name('backoffice.approvals.personal.delegate');
+    Route::post('approval-personal/documents/{docNo}/hold', [ApprovalController::class, 'hold'])
+        ->name('backoffice.approvals.personal.hold');
+    Route::post('approval-personal/documents/{docNo}/reject', [ApprovalController::class, 'reject'])
+        ->name('backoffice.approvals.personal.reject');
+
+    Route::get('approval-pending/documents/{docNo}', [ApprovalController::class, 'showPending'])
+        ->name('backoffice.approvals.pending.show');
+    Route::post('approval-pending/documents/{docNo}/approve', [ApprovalController::class, 'approve'])
+        ->name('backoffice.approvals.pending.approve');
+    Route::post('approval-pending/documents/{docNo}/delegate', [ApprovalController::class, 'delegate'])
+        ->name('backoffice.approvals.pending.delegate');
+    Route::post('approval-pending/documents/{docNo}/hold', [ApprovalController::class, 'hold'])
+        ->name('backoffice.approvals.pending.hold');
+    Route::post('approval-pending/documents/{docNo}/reject', [ApprovalController::class, 'reject'])
+        ->name('backoffice.approvals.pending.reject');
+
+    Route::get('approval-cooperation/documents/{docNo}', [ApprovalController::class, 'showCooperation'])
+        ->name('backoffice.approvals.cooperation.show');
+    Route::post('approval-cooperation/documents/{docNo}/confirm', [ApprovalController::class, 'confirm'])
+        ->name('backoffice.approvals.cooperation.confirm');
+    Route::post('approval-cooperation/documents/{docNo}/delegate', [ApprovalController::class, 'delegate'])
+        ->name('backoffice.approvals.cooperation.delegate');
+    Route::post('approval-cooperation/documents/{docNo}/hold', [ApprovalController::class, 'hold'])
+        ->name('backoffice.approvals.cooperation.hold');
+    Route::post('approval-cooperation/documents/{docNo}/reject', [ApprovalController::class, 'rejectCooperation'])
+        ->name('backoffice.approvals.cooperation.reject');
+
+    // 구 URL 호환 리다이렉트
+    Route::redirect('approval-create', 'approval-main/create', 301);
+    Route::get('approval-drafts/create/{templateKey}', function (string $templateKey) {
+        return redirect()->to('/backoffice/approval-main/create/'.$templateKey, 301);
+    });
+    Route::get('approval-main/personal', function () {
+        return redirect()->route('backoffice.approvals.personal', request()->query(), 301);
+    });
+    Route::get('approval-main/pending', function () {
+        return redirect()->route('backoffice.approvals.pending', request()->query(), 301);
+    });
+    Route::get('approval-main/cooperation', function () {
+        return redirect()->route('backoffice.approvals.cooperation', request()->query(), 301);
+    });
+    Route::get('approval-main/documents/{docNo}', function (string $docNo) {
+        $box = (string) request()->query('box', 'pending');
+        $routeName = match ($box) {
+            'personal' => 'backoffice.approvals.personal.show',
+            'cooperation' => 'backoffice.approvals.cooperation.show',
+            default => 'backoffice.approvals.pending.show',
+        };
+        $params = ['docNo' => $docNo, 'tab' => request()->query('tab')];
+
+        return redirect()->route($routeName, array_filter($params, fn ($v) => $v !== null && $v !== ''), 301);
+    });
+
     // -------------------------------------------------------------------------
     // 콘텐츠 관리
     // -------------------------------------------------------------------------
@@ -261,6 +342,32 @@ Route::prefix('backoffice')->middleware(['backoffice'])->group(function () {
         ->name('backoffice.portfolio.update-order');
     Route::post('portfolio/delete-multiple', [PortfolioController::class, 'deleteMultiple'])
         ->name('backoffice.portfolio.delete-multiple');
+
+    // -------------------------------------------------------------------------
+    // 레거시 이관 메뉴 (intraTax / 프로젝트 관리)
+    // -------------------------------------------------------------------------
+    Route::get('intra-tax', [IntraTaxController::class, 'index'])->name('backoffice.intra-tax.index');
+    Route::get('intra-tax/create', [IntraTaxController::class, 'create'])->name('backoffice.intra-tax.create');
+    Route::post('intra-tax', [IntraTaxController::class, 'store'])->name('backoffice.intra-tax.store');
+    Route::get('intra-tax/{idx}', [IntraTaxController::class, 'edit'])->name('backoffice.intra-tax.edit');
+    Route::put('intra-tax/{idx}', [IntraTaxController::class, 'update'])->name('backoffice.intra-tax.update');
+    Route::delete('intra-tax/{idx}', [IntraTaxController::class, 'destroy'])->name('backoffice.intra-tax.destroy');
+    Route::post('intra-tax/delete-multiple', [IntraTaxController::class, 'destroyMultiple'])->name('backoffice.intra-tax.delete-multiple');
+    Route::post('intra-tax/{idx}/unlock', [IntraTaxController::class, 'unlock'])->name('backoffice.intra-tax.unlock');
+    Route::get('intra-tax/{idx}/files/{fileIdx}/download', [IntraTaxController::class, 'downloadFile'])->name('backoffice.intra-tax.files.download');
+    Route::post('intra-tax/{idx}/comments', [IntraTaxController::class, 'commentStore'])->name('backoffice.intra-tax.comments.store');
+    Route::delete('intra-tax/{idx}/comments/{commentIdx}', [IntraTaxController::class, 'commentDestroy'])->name('backoffice.intra-tax.comments.destroy');
+
+    Route::get('project-manages', [ProjectManageController::class, 'index'])->name('backoffice.project-manages.index');
+    Route::get('project-manages/create', [ProjectManageController::class, 'create'])->name('backoffice.project-manages.create');
+    Route::post('project-manages', [ProjectManageController::class, 'store'])->name('backoffice.project-manages.store');
+    Route::get('project-manages/{idx}', [ProjectManageController::class, 'show'])->name('backoffice.project-manages.show');
+    Route::get('project-manages/{idx}/edit', [ProjectManageController::class, 'edit'])->name('backoffice.project-manages.edit');
+    Route::put('project-manages/{idx}', [ProjectManageController::class, 'update'])->name('backoffice.project-manages.update');
+    Route::delete('project-manages/{idx}', [ProjectManageController::class, 'destroy'])->name('backoffice.project-manages.destroy');
+    Route::get('project-manages/{idx}/attachments/{attachmentIdx}/download', [ProjectManageController::class, 'downloadAttachment'])->name('backoffice.project-manages.attachments.download');
+    Route::post('project-manages/delete-multiple', [ProjectManageController::class, 'destroyMultiple'])->name('backoffice.project-manages.delete-multiple');
+    Route::get('project-manages/export', [ProjectManageController::class, 'export'])->name('backoffice.project-manages.export');
 
     // 세션 연장
     Route::post('session/extend', [App\Http\Controllers\Backoffice\SessionController::class, 'extend'])

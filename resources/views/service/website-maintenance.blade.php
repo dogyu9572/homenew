@@ -2,10 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '구축부터 운영까지 책임지는 홈페이지 유지보수 서비스. 홈페이지코리아입니다.')
-@section('keywords', '홈페이지 유지보수, 홈페이지 관리업체, 홈페이지 유지보수 업체, 홈페이지 수정, 홈페이지 오류, 웹사이트 관리')
-@section('sga_plus')
-@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "Service",
+			"{{'@'}}id": "https://www.homepagekorea.com/service/website-maintenance/#service",
+			"name": "홈페이지 유지보수 - 홈페이지코리아",
+			"description": "전문가가 직접 관리하는 홈페이지 유지보수 서비스로 콘텐츠 수정, 보안 업데이트, 서버 관리를 제공합니다.",
+			"url": "https://www.homepagekorea.com/service/website-maintenance",
+			"provider": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"areaServed": {
+				"{{'@'}}type": "Country",
+				"name": "KR"
+			},
+			"serviceType": "홈페이지 유지보수"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "서비스",
+					"item": "https://www.homepagekorea.com/service/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "홈페이지 유지보수",
+					"item": "https://www.homepagekorea.com/service/website-maintenance"
+				}
+			]
+		}
+	]
+	@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+}
 @endsection
 
 @section('content')

@@ -25,7 +25,7 @@ class StoreContactRequest extends FormRequest
             'phone' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'agree-terms' => ['accepted'],
-            'service' => ['required', 'array', 'min:1'],
+            'service' => ['required', 'array', 'min:1', 'max:5'],
             'service.*' => ['string', Rule::in(Contact::SERVICE_OPTIONS)],
             'current_site' => ['nullable', 'string', 'max:2048'],
             'message' => ['nullable', 'string', 'max:10000'],
@@ -80,6 +80,7 @@ class StoreContactRequest extends FormRequest
             'agree-terms.accepted' => '개인정보 이용 및 수집 동의는 필수입니다.',
             'service.required' => '관심 서비스를 1개 이상 선택해 주세요.',
             'service.min' => '관심 서비스를 1개 이상 선택해 주세요.',
+            'service.max' => '관심 서비스는 최대 5개까지 선택할 수 있습니다. (전 항목 선택은 접수가 제한될 수 있습니다.)',
             'service.*.in' => '선택한 관심 서비스를 확인해 주세요.',
             'current_site.max' => '현재 사이트 주소는 2048자 이내로 입력해 주세요.',
             'message.max' => '문의 내용은 10000자 이내로 입력해 주세요.',
@@ -123,6 +124,26 @@ class StoreContactRequest extends FormRequest
                 $value = (string) $this->input($field, '');
                 if ($value !== '' && preg_match('/(?:https?:\/\/|www\.)/i', $value)) {
                     $validator->errors()->add($field, '정상적인 입력값을 입력해 주세요.');
+
+                    return;
+                }
+            }
+
+            // 4) 설정 기반 스팸 문구(영문 링크교환·SEO 아웃리치 등)
+            $blob = mb_strtolower(implode("\n", array_filter([
+                (string) $this->input('message', ''),
+                (string) $this->input('company', ''),
+                (string) $this->input('contact_person', ''),
+                (string) $this->input('current_site', ''),
+                (string) $this->input('budget', ''),
+            ])), 'UTF-8');
+
+            foreach (config('contact.spam_content_patterns', []) as $pattern) {
+                if (! is_string($pattern) || $pattern === '') {
+                    continue;
+                }
+                if (@preg_match($pattern, $blob) === 1) {
+                    $validator->errors()->add('message', '정상적인 문의로 확인되지 않습니다. 내용을 수정해 주세요.');
 
                     return;
                 }

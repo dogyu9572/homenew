@@ -40,6 +40,14 @@
                 <form method="GET" action="{{ route('backoffice.portfolio.index') }}" class="filter-form">
                     <div class="filter-row">
                         <div class="filter-group">
+                            <label for="is_active" class="filter-label">노출 설정</label>
+                            <select id="is_active" name="is_active" class="filter-select">
+                                <option value="">전체</option>
+                                <option value="1" @selected(request('is_active') === '1')>노출</option>
+                                <option value="0" @selected(request('is_active') === '0')>숨김</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
                             <label for="category" class="filter-label">카테고리</label>
                             <select id="category" name="category" class="filter-select">
                                 <option value="">전체 카테고리</option>
@@ -90,7 +98,7 @@
 
             <form id="bulkDeleteForm" method="POST" action="{{ route('backoffice.portfolio.delete-multiple') }}">
                 @csrf
-                @foreach(['page' => 'return_page', 'per_page' => 'return_per_page', 'category' => 'return_category', 'keyword' => 'return_keyword'] as $src => $name)
+                @foreach(['page' => 'return_page', 'per_page' => 'return_per_page', 'category' => 'return_category', 'keyword' => 'return_keyword', 'is_active' => 'return_is_active'] as $src => $name)
                     @if(!empty($listQuery[$src]))
                         <input type="hidden" name="{{ $name }}" value="{{ $listQuery[$src] }}">
                     @endif
@@ -121,6 +129,7 @@
                             data-list-per-page="{{ $portfolios->perPage() }}"
                             data-category="{{ e(request('category', '')) }}"
                             data-keyword="{{ e(request('keyword', '')) }}"
+                            data-is-active="{{ e(request('is_active', '')) }}"
                         @endif>
                         @forelse($portfolios as $index => $portfolio)
                             <tr @if($portfolios->count()) data-post-id="{{ $portfolio->id }}" @endif>
@@ -165,4 +174,3 @@
     </div>
 </div>
 @endsection
-

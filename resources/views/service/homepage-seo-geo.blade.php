@@ -2,10 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '검색엔진과 AI가 이해하는 웹사이트 개발. Schema 마크업, sitemap 자동 생성, AI 검색 최적화까지. 1,100개 고객사가 선택한 홈페이지코리아의 SEO·GEO 솔루션을 만나보세요.')
-@section('keywords', 'SEO, GEO, AEO, 검색엔진 최적화, AI 검색 최적화, SEO 최적화, GEO 최적화, AI 검색')
-@section('sga_plus')
-@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "Service",
+			"{{'@'}}id": "https://www.homepagekorea.com/service/homepage-seo-geo/#service",
+			"name": "SEO·GEO 최적화 - 홈페이지코리아",
+			"description": "검색엔진과 AI가 이해하는 웹사이트 개발. Schema 마크업, sitemap 자동 생성, AI 검색 최적화까지. 1,100개 고객사가 선택한 홈페이지코리아의 SEO·GEO 솔루션을 만나보세요.",
+			"url": "https://www.homepagekorea.com/service/homepage-seo-geo",
+			"provider": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"areaServed": {
+				"{{'@'}}type": "Country",
+				"name": "KR"
+			},
+			"serviceType": "SEO·GEO 최적화"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "서비스",
+					"item": "https://www.homepagekorea.com/service/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "SEO·GEO 최적화",
+					"item": "https://www.homepagekorea.com/service/homepage-seo-geo"
+				}
+			]
+		}
+	]
+	@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+}
 @endsection
 
 @section('content')

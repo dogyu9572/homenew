@@ -10,6 +10,9 @@
 
 @section('content')
 <div class="board-container admins-page">
+    @php
+        $departmentOptions = ['CEO', '컨설팅본부', '제작본부', '영업본부', '기획본부', '기타', '경영지원팀'];
+    @endphp
     <div class="board-header">
         <a href="{{ route('backoffice.admins.index') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> <span class="btn-text">목록으로</span>
@@ -59,12 +62,17 @@
                         
                         <div class="form-group">
                             <label for="department">소속</label>
-                            <input type="text" id="department" name="department" value="{{ old('department', $admin->department) }}" maxlength="255" placeholder="소속을 입력하세요">
+                            <select id="department" name="department">
+                                <option value="">소속을 선택하세요</option>
+                                @foreach($departmentOptions as $departmentOption)
+                                    <option value="{{ $departmentOption }}" @selected(old('department', $admin->department) === $departmentOption)>{{ $departmentOption }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="position">직책</label>
-                            <input type="text" id="position" name="position" value="{{ old('position', $admin->position) }}" maxlength="255" placeholder="직책을 입력하세요">
+                            <label for="position">직급</label>
+                            <input type="text" id="position" name="position" value="{{ old('position', $admin->position) }}" maxlength="255" placeholder="직급을 입력하세요">
                         </div>
                         
                         <div class="form-group">
@@ -75,6 +83,20 @@
                         <div class="form-group">
                             <label for="email">이메일</label>
                             <input type="email" id="email" name="email" value="{{ old('email', $admin->email) }}" required placeholder="이메일을 입력하세요">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="manual_used_leave_days">연차 수동입력(일)</label>
+                            <input
+                                type="number"
+                                id="manual_used_leave_days"
+                                name="manual_used_leave_days"
+                                value="{{ old('manual_used_leave_days', $admin->manual_used_leave_days) }}"
+                                step="0.01"
+                                min="0"
+                                placeholder="0"
+                            >
+                            <small class="form-text text-muted">대시보드의 올해 사용 연차(일)에 전자결재 집계와 합산되어 표시됩니다.</small>
                         </div>
                     </div>
                 </div>

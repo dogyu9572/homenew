@@ -19,6 +19,7 @@ class StaffAttendanceRecord extends Model
         'user_id',
         'kind',
         'workplace',
+        'adjustment_reason',
         'recorded_at',
         'ip_address',
         'user_agent',

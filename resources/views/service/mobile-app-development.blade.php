@@ -2,10 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '아이디어를 현실로 만드는 앱 개발 서비스. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 기획·개발·스토어 출시·운영까지 책임집니다.')
-@section('keywords', '앱 개발, 앱 개발 업체')
-@section('sga_plus')
-@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "Service",
+			"{{'@'}}id": "https://www.homepagekorea.com/service/mobile-app-development/#service",
+			"name": "앱 개발 - 홈페이지코리아",
+			"description": "아이디어를 현실로 만드는 앱 개발 서비스. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 기획·개발·스토어 출시·운영까지 책임집니다.",
+			"url": "https://www.homepagekorea.com/service/mobile-app-development",
+			"provider": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"areaServed": {
+				"{{'@'}}type": "Country",
+				"name": "KR"
+			},
+			"serviceType": "앱 개발"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "서비스",
+					"item": "https://www.homepagekorea.com/service/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "앱 개발",
+					"item": "https://www.homepagekorea.com/service/mobile-app-development"
+				}
+			]
+		}
+	]
+	@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+}
 @endsection
 
 @section('content')

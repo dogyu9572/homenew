@@ -2,10 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '매출 성장을 만드는 온라인 쇼핑몰 제작. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 귀사에 맞는 자사몰을 설계합니다.')
-@section('keywords', '이커머스, 온라인 쇼핑몰, 쇼핑몰, 쇼핑몰 제작, 쇼핑몰 제작 업체, 자사몰, 자사몰 제작, 웹빌더')
-@section('sga_plus')
-@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "Service",
+			"{{'@'}}id": "https://www.homepagekorea.com/service/ecommerce-website-development/#service",
+			"name": "온라인 쇼핑몰 제작 - 홈페이지코리아",
+			"description": "매출 성장을 만드는 온라인 쇼핑몰 제작. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 귀사에 맞는 자사몰을 설계합니다.",
+			"url": "https://www.homepagekorea.com/service/ecommerce-website-development",
+			"provider": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"areaServed": {
+				"{{'@'}}type": "Country",
+				"name": "KR"
+			},
+			"serviceType": "온라인 쇼핑몰 제작"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "서비스",
+					"item": "https://www.homepagekorea.com/service/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "온라인 쇼핑몰 제작",
+					"item": "https://www.homepagekorea.com/service/ecommerce-website-development"
+				}
+			]
+		}
+	]
+	@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+}
 @endsection
 
 @section('content')

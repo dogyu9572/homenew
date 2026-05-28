@@ -54,6 +54,7 @@ Route::prefix('portfolio')->name('portfolio.')->group(function () {
     Route::get('/view/{legacyId}', function (string $legacyId) {
         return redirect()->route('portfolio.portfolio_view', Portfolio::query()->findOrFail((int) $legacyId), 301);
     })->whereNumber('legacyId');
+    Route::get('/{portfolio:slug}', [SubController::class, 'portfolio_view'])->name('portfolio_view');
 });
 
 Route::prefix('blog')->name('blog.')->group(function () {
@@ -132,9 +133,10 @@ Route::prefix('auth')->name('auth.')->group(function () {
 // 백오피스 라우트 (관리자 전용)
 require __DIR__.'/backoffice.php';
 
-// 포트폴리오 상세 (루트 슬러그 — 고정 라우트보다 반드시 아래에 둔다)
-Route::get('/{portfolio:slug}', [SubController::class, 'portfolio_view'])
-    ->name('portfolio.portfolio_view')
+// 기존 루트 포트폴리오 상세 URL(/slug)은 /portfolio/slug로 영구 이동
+Route::get('/{portfolio:slug}', function (Portfolio $portfolio) {
+    return redirect()->route('portfolio.portfolio_view', $portfolio, 301);
+})
     ->missing(fn () => redirect()->route('home', [], 301));
 
 // 존재하지 않는 모든 경로(레거시 .php 포함)는 메인으로 리다이렉트

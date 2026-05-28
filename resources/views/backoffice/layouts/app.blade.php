@@ -77,7 +77,7 @@
                             <span class="template-info-value">{{ auth()->user()->department ?: '—' }}</span>
                         </div>
                         <div class="template-info-item">
-                            <span class="template-info-label">직책</span>
+                            <span class="template-info-label">직급</span>
                             <span class="template-info-value">{{ auth()->user()->position ?: '—' }}</span>
                         </div>
                         <div class="template-info-item">

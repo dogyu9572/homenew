@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserAccessLog;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -13,9 +14,17 @@ class AuthController extends Controller
     /**
      * 로그인 폼 표시
      */
-    public function showLoginForm()
+    public function showLoginForm(Request $request): Response
     {
-        return view('backoffice.login');
+        // 오래된 로그인 페이지 캐시/토큰 재사용으로 인한 419를 줄이기 위해
+        // 로그인 화면 진입 시 CSRF 토큰을 재생성하고 no-store 캐시 헤더를 강제한다.
+        $request->session()->regenerateToken();
+
+        return response()
+            ->view('backoffice.login')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
     }
 
     /**
@@ -30,24 +39,24 @@ class AuthController extends Controller
 
         // login_id로 사용자 찾기
         $user = User::where('login_id', $credentials['login_id'])
-                                ->where('is_active', true)
-                                ->first();
+            ->where('is_active', true)
+            ->first();
 
-        if (!$user) {
+        if (! $user) {
             return back()->withErrors([
                 'login_id' => '존재하지 않는 로그인 ID입니다.',
             ])->withInput();
         }
 
         // 비밀번호 확인
-        if (!\Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password)) {
+        if (! \Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password)) {
             return back()->withErrors([
                 'login_id' => '로그인 ID 또는 비밀번호가 일치하지 않습니다.',
             ])->withInput();
         }
 
         // 관리자 권한 확인
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             return back()->withErrors([
                 'login_id' => '백오피스 접근 권한이 없습니다.',
             ])->withInput();
@@ -55,10 +64,10 @@ class AuthController extends Controller
 
         // 로그인 성공
         \Illuminate\Support\Facades\Auth::login($user);
-        
+
         // 마지막 로그인 시간 업데이트
         $user->update(['last_login_at' => now()]);
-        
+
         // 접속 로그 기록
         UserAccessLog::create([
             'user_id' => $user->id,
@@ -68,15 +77,15 @@ class AuthController extends Controller
             'referer' => $request->header('referer'),
             'login_at' => now(),
         ]);
-        
+
         // 세션에 로그인 시간 저장 (세션 타이머용)
         $request->session()->put('login_time', now()->timestamp);
-        
+
         // localStorage 초기화를 위한 플래그 설정 (프론트엔드에서 감지)
         $request->session()->put('session_reset', true);
-        
+
         $request->session()->regenerate();
-        
+
         return redirect()->intended('/backoffice');
     }
 

@@ -2,8 +2,51 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '공공기관 웹사이트 구축을 위한 맞춤형 솔루션. 전자정부 프레임워크부터 웹접근성 인증까지, 27년 경험의 홈페이지코리아가 책임집니다.')
-@section('keywords', '전자정부 프레임워크, 웹접근성, 개인정보 유출, 전자정부법, 소프트웨어 개발보안 가이드, 홈페이지 제작 업체')
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "WebPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/industries/government/#webpage",
+			"name": "공공기관 홈페이지 제작 - 홈페이지코리아",
+			"description": "공공기관 웹사이트 구축을 위한 맞춤형 솔루션. 전자정부 프레임워크부터 웹접근성 인증까지, 27년 경험의 홈페이지코리아가 책임집니다.",
+			"url": "https://www.homepagekorea.com/industries/government",
+			"about": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "산업별",
+					"item": "https://www.homepagekorea.com/industries/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "공공기관",
+					"item": "https://www.homepagekorea.com/industries/government"
+				}
+			]
+		}
+	]
+}
+@endsection
 
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">

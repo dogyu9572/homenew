@@ -14,7 +14,11 @@
 	                // 현재 메뉴가 활성화되어야 하는지 확인
 	                $isActive = false;
 	                $hasActiveChild = false;
-	
+                    $isApprovalPersonalDetail = $currentPath === 'backoffice/approval-personal/documents' || str_starts_with($currentPath, 'backoffice/approval-personal/documents/');
+                    $isApprovalPendingDetail = $currentPath === 'backoffice/approval-pending/documents' || str_starts_with($currentPath, 'backoffice/approval-pending/documents/');
+                    $isApprovalCooperationDetail = $currentPath === 'backoffice/approval-cooperation/documents' || str_starts_with($currentPath, 'backoffice/approval-cooperation/documents/');
+                    $isApprovalCreate = $currentPath === 'backoffice/approval-main/create' || str_starts_with($currentPath, 'backoffice/approval-main/create/');
+
 	                // URL이 있는 메뉴인 경우 직접 확인
 	                if($menu->url) {
 	                    $menuPath = trim($menu->url, '/');
@@ -22,6 +26,9 @@
 	                    if(!empty($menuPath)) {
 	                        // 정확한 경로 매칭만 사용 (하위 경로는 제외)
 	                        $isActive = $currentPath === $menuPath;
+                            if (! $isActive && $menuPath === 'backoffice/approval-main' && $isApprovalCreate) {
+                                $isActive = true;
+                            }
 	                    }
 	                }
 	
@@ -36,14 +43,33 @@
 	                                $hasActiveChild = true;
 	                                break;
 	                            }
+                                if($isApprovalPersonalDetail && $childPath === 'backoffice/approval-personal') {
+                                    $hasActiveChild = true;
+                                    break;
+                                }
+                                if($isApprovalPendingDetail && $childPath === 'backoffice/approval-pending') {
+                                    $hasActiveChild = true;
+                                    break;
+                                }
+                                if($isApprovalCooperationDetail && $childPath === 'backoffice/approval-cooperation') {
+                                    $hasActiveChild = true;
+                                    break;
+                                }
+                                if($isApprovalCreate) {
+                                    if($childPath === 'backoffice/approval-main') {
+                                        $hasActiveChild = true;
+                                        break;
+                                    }
+                                }
 	                        }
 	                    }
 	                }
 	
 	                // 자식 메뉴가 활성화되어 있다면 부모도 활성화
-	                if($hasActiveChild) {
-	                    $isActive = true;
-	                }
+                    $isOpen = $isActive || $hasActiveChild;
+                    if($hasActiveChild && $menu->children && $menu->children->count() > 0) {
+                        $isActive = false;
+                    }
 	            @endphp
 	            <li class="{{ $isActive ? 'active' : '' }}">
 	                @if($menu->url)
@@ -54,7 +80,7 @@
 	                        <span>{{ $menu->name }}</span>
 	                    </a>
 	                @else
-	                    <a href="#" class="has-submenu {{ $isActive ? 'open' : '' }}">
+	                    <a href="#" class="has-submenu {{ $isOpen ? 'open' : '' }}">
 	                        @if($menu->icon)
 	                            <i class="fa {{ $menu->icon }}"></i>
 	                        @endif
@@ -68,6 +94,17 @@
 	                                    @php
 	                                        $childPath = trim($child->url, '/');
 	                                        $isChildActive = !empty($childPath) && $currentPath === $childPath;
+                                            if(! $isChildActive) {
+                                                if($isApprovalPersonalDetail && $childPath === 'backoffice/approval-personal') {
+                                                    $isChildActive = true;
+                                                } elseif($isApprovalPendingDetail && $childPath === 'backoffice/approval-pending') {
+                                                    $isChildActive = true;
+                                                } elseif($isApprovalCooperationDetail && $childPath === 'backoffice/approval-cooperation') {
+                                                    $isChildActive = true;
+                                                } elseif($isApprovalCreate && $childPath === 'backoffice/approval-main') {
+                                                    $isChildActive = true;
+                                                }
+                                            }
 	                                    @endphp
 	                                    <li class="{{ $isChildActive ? 'active' : '' }}">
 	                                        <a href="{{ is_string($child->url) ? url($child->url) : $child->url }}">

@@ -2,10 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '비즈니스 생산성을 높이는 맞춤형 AI 솔루션. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 AI 챗봇·QA 자동화·기업용 AI 구축까지 책임집니다.')
-@section('keywords', 'AI 솔루션, AI 챗봇, AI QA, AX 솔루션, 기업용 llm, 기업용 ai')
-@section('sga_plus')
-@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "Service",
+			"{{'@'}}id": "https://www.homepagekorea.com/service/ai-solution/#service",
+			"name": "맞춤형 AI 솔루션 - 홈페이지코리아",
+			"description": "비즈니스 생산성을 높이는 맞춤형 AI 솔루션. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 AI 챗봇·QA 자동화·기업용 AI 구축까지 책임집니다.",
+			"url": "https://www.homepagekorea.com/service/ai-solution",
+			"provider": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"areaServed": {
+				"{{'@'}}type": "Country",
+				"name": "KR"
+			},
+			"serviceType": "맞춤형 AI 솔루션"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "서비스",
+					"item": "https://www.homepagekorea.com/service/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "맞춤형 AI 솔루션",
+					"item": "https://www.homepagekorea.com/service/ai-solution"
+				}
+			]
+		}
+	]
+	@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+}
 @endsection
 
 @section('content')

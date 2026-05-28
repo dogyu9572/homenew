@@ -76,6 +76,7 @@ class AdminService
             'department' => $data['department'] ?? null,
             'position' => $data['position'] ?? null,
             'contact' => $data['contact'] ?? null,
+            'manual_used_leave_days' => (float) ($data['manual_used_leave_days'] ?? 0),
         ];
 
         return User::create($adminData);
@@ -101,6 +102,11 @@ class AdminService
         $admin->department = $data['department'] ?? null;
         $admin->position = $data['position'] ?? null;
         $admin->contact = $data['contact'] ?? null;
+        if (array_key_exists('manual_used_leave_days', $data)) {
+            $admin->manual_used_leave_days = $data['manual_used_leave_days'] === null
+                ? 0.0
+                : (float) $data['manual_used_leave_days'];
+        }
 
         if (!empty($data['password'])) {
             $admin->password = Hash::make($data['password']);

@@ -106,6 +106,7 @@ class PortfolioController extends Controller
                 'portfolio_list_context.per_page' => ['required', 'integer', 'in:10,20,50,100,500,1000'],
                 'portfolio_list_context.category' => ['nullable', 'string'],
                 'portfolio_list_context.keyword' => ['nullable', 'string'],
+                'portfolio_list_context.is_active' => ['nullable', 'in:1,0'],
             ]);
 
             try {
@@ -114,7 +115,10 @@ class PortfolioController extends Controller
                     (int) $validated['portfolio_list_context']['page'],
                     (int) $validated['portfolio_list_context']['per_page'],
                     $validated['portfolio_list_context']['category'] ?? null,
-                    $validated['portfolio_list_context']['keyword'] ?? null
+                    $validated['portfolio_list_context']['keyword'] ?? null,
+                    isset($validated['portfolio_list_context']['is_active'])
+                        ? (int) $validated['portfolio_list_context']['is_active']
+                        : null
                 );
             } catch (InvalidArgumentException $e) {
                 return response()->json([
@@ -187,6 +191,7 @@ class PortfolioController extends Controller
             'per_page' => $request->input('per_page'),
             'category' => $request->input('category'),
             'keyword' => $request->input('keyword'),
+            'is_active' => $request->input('is_active'),
         ]);
     }
 
@@ -202,6 +207,7 @@ class PortfolioController extends Controller
             'per_page' => $request->input('return_per_page'),
             'category' => $request->input('return_category'),
             'keyword' => $request->input('return_keyword'),
+            'is_active' => $request->input('return_is_active'),
         ]);
     }
 
@@ -217,6 +223,7 @@ class PortfolioController extends Controller
             'per_page' => $request->query('per_page'),
             'category' => $request->query('category'),
             'keyword' => $request->query('keyword'),
+            'is_active' => $request->query('is_active'),
         ]);
     }
 
@@ -239,6 +246,9 @@ class PortfolioController extends Controller
         }
         if (! empty($raw['keyword'])) {
             $out['keyword'] = (string) $raw['keyword'];
+        }
+        if (isset($raw['is_active']) && in_array((string) $raw['is_active'], ['1', '0'], true)) {
+            $out['is_active'] = (string) $raw['is_active'];
         }
 
         return $out;
@@ -288,6 +298,7 @@ class PortfolioController extends Controller
                 'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:'.self::PORTFOLIO_IMAGE_MAX_KB,
                 'top_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:'.self::PORTFOLIO_IMAGE_MAX_KB,
                 'sort_order' => 'nullable|integer|min:0',
+                'is_before_2023' => 'nullable|boolean',
                 'is_main_display' => 'nullable|boolean',
                 'is_active' => 'nullable|boolean',
                 'is_direct_site_link' => 'nullable|boolean',
@@ -390,6 +401,7 @@ class PortfolioController extends Controller
         $payload['category'] = $categories[0] ?? null;
         $payload['slug'] = $validated['slug'] ?? null;
         $payload['keywords'] = $this->parseKeywords($request->input('keywords_input'));
+        $payload['is_before_2023'] = $request->boolean('is_before_2023', false);
         $payload['is_main_display'] = $request->boolean('is_main_display');
         // 체크 해제 시 name 자체가 전송되지 않으므로 기본값 true 금지(숨김 저장 불가 버그)
         $payload['is_active'] = $request->boolean('is_active', false);

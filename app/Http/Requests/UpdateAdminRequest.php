@@ -27,6 +27,13 @@ class UpdateAdminRequest extends FormRequest
                 'login_id' => $trimmed === '' ? null : $trimmed,
             ]);
         }
+
+        if ($this->has('manual_used_leave_days')) {
+            $raw = $this->input('manual_used_leave_days');
+            $this->merge([
+                'manual_used_leave_days' => ($raw === '' || $raw === null) ? null : $raw,
+            ]);
+        }
     }
 
     /**
@@ -58,6 +65,7 @@ class UpdateAdminRequest extends FormRequest
             'department' => 'nullable|string|max:255',
             'position' => 'nullable|string|max:255',
             'contact' => 'nullable|string|max:50',
+            'manual_used_leave_days' => ['nullable', 'numeric', 'min:0', 'max:999.99'],
             'is_active' => 'boolean',
             'admin_group_id' => 'nullable|exists:admin_groups,id',
         ];

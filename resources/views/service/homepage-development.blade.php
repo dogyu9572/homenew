@@ -2,10 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '비즈니스를 성장시키는 기업 홈페이지 제작. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 귀사에 맞는 웹사이트를 설계합니다.')
-@section('keywords', '홈페이지 제작, 기업 홈페이지 제작, 웹사이트 제작, 홈페이지 리뉴얼, 홈페이지 제작 업체')
-@section('sga_plus')
-@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "Service",
+			"{{'@'}}id": "https://www.homepagekorea.com/service/homepage-development/#service",
+			"name": "홈페이지 제작 - 홈페이지코리아",
+			"description": "비즈니스를 성장시키는 기업 홈페이지 제작. 1,100개 조직이 선택한 홈페이지코리아가 27년 경험으로 귀사에 맞는 웹사이트를 설계합니다.",
+			"url": "https://www.homepagekorea.com/service/homepage-development",
+			"provider": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"areaServed": {
+				"{{'@'}}type": "Country",
+				"name": "KR"
+			},
+			"serviceType": "홈페이지 제작"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "서비스",
+					"item": "https://www.homepagekorea.com/service/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "홈페이지 제작",
+					"item": "https://www.homepagekorea.com/service/homepage-development"
+				}
+			]
+		}
+	]
+	@include('partials.service-faq-sga-jsonld', ['faqItems' => $faqItems])
+}
 @endsection
 
 @section('content')

@@ -2,8 +2,52 @@
 @section('title'){{ $gName }} | {{ $sName }}@endsection
 @section('gName', $gName)
 @section('sName', $sName)
-@section('description', '대학·연구실 홈페이지 제작을 위한 맞춤형 솔루션. 장비 예약 자동화부터 정부 시스템(ZEUS) 연동, 논문 아카이브 통합까지, 27년 경험의 홈페이지코리아가 책임집니다.')
-@section('keywords', '연구실 홈페이지 제작, 연구실 홈페이지')
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "WebPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/industries/university-research-lab-website/#webpage",
+			"name": "대학·연구실 홈페이지 제작 - 홈페이지코리아",
+			"description": "
+			대학·연구실 홈페이지 제작을 위한 맞춤형 솔루션. 장비 예약 자동화부터 정부 시스템(ZEUS) 연동, 논문 아카이브 통합까지, 27년 경험의 홈페이지코리아가 책임집니다.",
+			"url": "https://www.homepagekorea.com/industries/university-research-lab-website",
+			"about": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "산업별",
+					"item": "https://www.homepagekorea.com/industries/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 3,
+					"name": "대학·연구실",
+					"item": "https://www.homepagekorea.com/industries/university-research-lab-website"
+				}
+			]
+		}
+	]
+}
+@endsection
 
 @section('content')
 <main class="sub_contents_wrap infopage_wrap">
@@ -135,28 +179,29 @@
 		</div>
 		<div class="inner">
 			<p class="tit_label">REVIEW</p>
-			<h2 id="industry-review-title">미 많은 대학·연구실이 <br class="pc_vw"><strong>홈페이지코리아를 선택했습니다.</strong></h2>
+			<h2 id="industry-review-title">이미 많은 대학·연구실이 <br class="pc_vw"><strong>홈페이지코리아를 선택했습니다.</strong></h2>
 			<ul class="review_list">
 				<li>
-					<h3 class="sound_only">공공기관</h3>
+					<h3 class="sound_only">대학교</h3>
 					<div class="flex_tit">
-						<h4>전자정부 프레임워크 기반 구축과 웹접근성 인증이 필수였지만, 이전 업체는 공공기관 요구사항을 제대로 이해하지 못해 프로젝트가 지연되었습니다. 홈페이지코리아는 <strong>전자정부법과 관련 지침을 정확히 	숙지</strong>하고 있어 <strong>초기 기획 단계부터 법적 요구사항을 빠짐없이 반영</strong>해주셨습니다.</h4>
+						<h4>행정 업무를 시스템으로 얼마나 효과적으로 전환할 수 있는지가 핵심이었던 프로젝트였습니다. <strong>실제 행정 담당자의 업무 흐름을 기준으로 기능과 화면을 설계</strong>하며, 시스템 도입이 곧 <strong>실질적인 업무 효율 개선</strong>으로 이어질 수 있도록 구성해주셨습니다. </h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_j1.svg" alt="" aria-hidden="true"></i>환경부<span aria-hidden="true">공공기관</span></p>
+					<p><i><img src="/images/icon_review_logo_u1.svg" alt="" aria-hidden="true"></i>서울대학교<span aria-hidden="true">농생명공동기기원</span></p>
 				</li>
 				<li>
-					<h3 class="sound_only">공공기관</h3>
+					<h3 class="sound_only">대학교</h3>
 					<div class="flex_tit">
-						<h4>DMZ 구성과 내외부망 분리 등 복잡한 보안 환경 때문에 일반 웹 개발 업체와는 협업이 어려웠습니다. 홈페이지코리아는 <strong>자체 모듈 기반 개발</strong>로 외부 서비스 의존 없이 <strong>우리 기관의 보안 정책에 맞춰 시스템을 유연하게 배치</strong>해주셨습니다.</h4>
+						<h4>기존의 복잡하고 직관적이지 못했던 인터페이스를 완전히 탈바꿈시켰습니다. 개편 과정에서 <strong>사용자 경험(UX)을 최우선</strong>으로 고려하여 정보 구조를 재설계하고, 모바일 친화적인 반응형 웹으로 전환한 점이 인상적이었습니다. 특히 기관의 모든 연구장비를 집적화하여 원하는 정보에 빠르게 접근할 수 있게 구현했습니다. <strong>사용자 1.5배 증가, 업무 처리 시간 2배 단축, 설문조사 조사 95% 만족 달성</strong>
+						</h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_j2.png" alt="" aria-hidden="true"></i>과학기술정보통신부<span aria-hidden="true">공공기관</span></p>
+					<p><i><img src="/images/icon_review_logo_u2.svg" alt="" aria-hidden="true"></i>한양대학교<span aria-hidden="true">연구장비활용네트워크(HY-RUN)</span></p>
 				</li>
 				<li>
-					<h3 class="sound_only">공공기관</h3>
+					<h3 class="sound_only">연구기관</h3>
 					<div class="flex_tit">
-						<h4>담당자가 IT 전문가가 아니다 보니 업체에서 설명하는 기술 용어를 이해하기 어려워 소통에 어려움을 겪었습니다. 홈페이지코리아는 쉬운 언어로 설명해주셨고, <strong>예산 집행부터 감리 대응까지 복잡한 	절차도 단계별로 명확하게 안내</strong>해주셨습니다. 덕분에 <strong>프로젝트가 막힘 없이 진행</strong>되었고, <strong>최종 결과물도 매우 만족</strong>스러웠습니다.</h4>
+						<h4>정부·지자체·협회와 협력하다보니 요구사항이 수시로 변경되는데도 <strong>신속하고 적극적으로 반영</strong>해주셨습니다. 깊은 감사드립니다.</h4>
 					</div>
-					<p><i><img src="/images/icon_review_logo_j3.png" alt="" aria-hidden="true"></i>국립체육진흥공단<span aria-hidden="true">공공기관</span></p>
+					<p><i><img src="/images/icon_review_logo_u3.svg" alt="" aria-hidden="true"></i>한국전자기술연구원<span aria-hidden="true">공공기관</span></p>
 				</li>
 			</ul>
 		</div>

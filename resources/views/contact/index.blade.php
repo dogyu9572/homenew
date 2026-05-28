@@ -2,32 +2,69 @@
 @section('title', $sName)
 @section('sName', $sName)
 @section('description', '홈페이지 기획부터 SEO 최적화, 사용자 경험 개선까지, 성공적인 온라인 비즈니스를 위한 유용한 인사이트를 만나보세요.')
-@section('sga_plus')
-,"mainEntity": {
-    "@@type": "Organization",
-    "name": "홈페이지코리아",
-    "url": "https://homepagekorea.com",
-    "email": "sales@homepagekorea.com",
-    "address": {
-        "@@type": "PostalAddress",
-        "addressCountry": "KR",
-        "addressRegion": "서울특별시",
-		"addressLocality": "영등포구",
-        "streetAddress": "경인로 775 에이스하이테크시티 2동 202호",
-		"postalCode": "07295"
-    },
-    "contactPoint": {
-        "@@type": "ContactPoint",
-        "contactType": "customer service",
-        "email": "sales@homepagekorea.com",
-        "availableLanguage": "Korean",
-        "hoursAvailable": {
-            "@@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "09:00",
-            "closes": "18:00"
-        }
-    }
+@section('schema_json')
+{
+	"{{'@'}}context": "https://schema.org",
+	"{{'@'}}graph": [
+		{
+			"{{'@'}}type": "ContactPage",
+			"{{'@'}}id": "https://www.homepagekorea.com/contact/#contactpage",
+			"name": "홈페이지코리아 프로젝트 문의",
+			"description": "홈페이지 제작, 유지보수, 쇼핑몰, SI 시스템 등 프로젝트 견적을 문의하세요.",
+			"url": "https://www.homepagekorea.com/contact/",
+			"isPartOf": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#website"
+			},
+			"about": {
+				"{{'@'}}id": "https://www.homepagekorea.com/#organization"
+			},
+			"inLanguage": "ko-KR"
+		},
+		{
+			"{{'@'}}type": "BreadcrumbList",
+			"name": "홈페이지코리아 네비게이션",
+			"itemListElement": [
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 1,
+					"name": "홈",
+					"item": "https://www.homepagekorea.com/"
+				},
+				{
+					"{{'@'}}type": "ListItem",
+					"position": 2,
+					"name": "문의하기",
+					"item": "https://www.homepagekorea.com/contact/"
+				}
+			]
+		}
+	]
+	,"mainEntity": {
+		"{{'@'}}@type": "Organization",
+		"name": "홈페이지코리아",
+		"url": "https://homepagekorea.com",
+		"email": "sales@homepagekorea.com",
+		"address": {
+			"{{'@'}}@type": "PostalAddress",
+			"addressCountry": "KR",
+			"addressRegion": "서울특별시",
+			"addressLocality": "영등포구",
+			"streetAddress": "경인로 775 에이스하이테크시티 2동 202호",
+			"postalCode": "07295"
+		},
+		"contactPoint": {
+			"{{'@'}}@type": "ContactPoint",
+			"contactType": "customer service",
+			"email": "sales@homepagekorea.com",
+			"availableLanguage": "Korean",
+			"hoursAvailable": {
+				"{{'@'}}@type": "OpeningHoursSpecification",
+				"dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+				"opens": "09:00",
+				"closes": "18:00"
+			}
+		}
+	}
 }
 @endsection
 
@@ -245,12 +282,14 @@ $(".popup .btn_close,.popup .dm").click(function(){
 
 </main>
 
+@if (session('contact_submitted'))
 <!-- MR Script Analysis Conversion Script Ver 1.0 -->
 <script type="text/javascript">
 var mi_type = "CV_2828";
 var mi_val = "Y";
 </script>
 <!-- MR Script Analysis Conversion Script END -->
+@endif
 
 @endsection
 

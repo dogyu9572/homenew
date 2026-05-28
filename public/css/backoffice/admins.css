@@ -251,9 +251,9 @@
 .admins-page .board-table th:nth-child(5),
 .admins-page .board-table td:nth-child(5) { width: 100px; }
 .admins-page .board-table th:nth-child(6),
-.admins-page .board-table td:nth-child(6) { width: 100px; }
+.admins-page .board-table td:nth-child(6) { width: 130px; }
 .admins-page .board-table th:nth-child(7),
-.admins-page .board-table td:nth-child(7) { width: 200px; }
+.admins-page .board-table td:nth-child(7) { width: 120px; }
 .admins-page .board-table th:nth-child(8),
 .admins-page .board-table td:nth-child(8) { width: 120px; }
 .admins-page .board-table th:nth-child(9),
@@ -262,6 +262,12 @@
 .admins-page .board-table td:nth-child(10) { width: 100px; }
 .admins-page .board-table th:nth-child(11),
 .admins-page .board-table td:nth-child(11) { width: 250px; }
+
+/* 연락처 컬럼 줄바꿈 방지 */
+.admins-page .board-table th:nth-child(6),
+.admins-page .board-table td:nth-child(6) {
+    white-space: nowrap;
+}
 
 /* 역할 배지 */
 .role-badge {

@@ -16,7 +16,11 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/.vscode-server
+/.codex
+/.agents
 /.history
+/.dotnet
 *.log
 *.cache
 .DS_Store
@@ -41,6 +45,7 @@ Thumbs.db
 # 백업 파일
 *.backup
 public.backup/
+tests/
 setup-*-server.sh.backup
 
 # 임시 파일

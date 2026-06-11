@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BoardPostRequest;
 use App\Services\Backoffice\BoardPostService;
 use App\Models\Board;
+use App\Models\BoardComment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BoardPostController extends Controller
@@ -110,13 +112,20 @@ class BoardPostController extends Controller
         
         // 서비스를 통해 게시글 조회
         $post = $this->boardPostService->getPost($slug, $postId);
-        
+
         if (!$post) {
             abort(404, '게시글을 찾을 수 없습니다.');
         }
 
+        $comments = $slug === 'notices'
+            ? BoardComment::query()
+                ->where('post_id', $postId)
+                ->orderBy('created_at')
+                ->get()
+            : collect();
+
         // 자동 생성된 뷰 사용
-        return view("backoffice.board-posts.{$slug}.show", compact('board', 'post'));
+        return view("backoffice.board-posts.{$slug}.show", compact('board', 'post', 'comments'));
     }
 
     /**
@@ -146,7 +155,14 @@ class BoardPostController extends Controller
     public function update(BoardPostRequest $request, $slug, $postId)
     {
         $board = Board::where('slug', $slug)->firstOrFail();
+        $post = $this->boardPostService->getPost($slug, $postId);
         
+        if (!$post) {
+            abort(404, '게시글을 찾을 수 없습니다.');
+        }
+
+        $this->authorizeNoticeOwner($slug, $post);
+
         // 유효성 검사는 BoardPostRequest에서 처리됨
         $validated = $request->validated();
         
@@ -170,7 +186,14 @@ class BoardPostController extends Controller
     public function destroy($slug, $postId)
     {
         $board = Board::where('slug', $slug)->firstOrFail();
-        
+        $post = $this->boardPostService->getPost($slug, $postId);
+
+        if (!$post) {
+            abort(404, '게시글을 찾을 수 없습니다.');
+        }
+
+        $this->authorizeNoticeOwner($slug, $post);
+
         // 서비스를 통해 게시글 삭제
         $success = $this->boardPostService->deletePost($slug, $postId);
         
@@ -195,6 +218,16 @@ class BoardPostController extends Controller
         ]);
 
         $postIds = $request->input('post_ids');
+
+        if ($slug === 'notices') {
+            $selectedPosts = DB::table($this->boardPostService->getTableName($slug))
+                ->whereIn('id', $postIds)
+                ->get();
+
+            if ($selectedPosts->count() !== count($postIds) || $selectedPosts->contains(fn ($post) => !$this->isNoticeOwner($post))) {
+                abort(403, '작성자만 게시글을 삭제할 수 있습니다.');
+            }
+        }
         
         try {
             // 서비스를 통해 일괄 삭제
@@ -211,6 +244,106 @@ class BoardPostController extends Controller
                 'message' => '삭제 중 오류가 발생했습니다: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function commentStore(Request $request, string $slug, int $postId)
+    {
+        if ($slug !== 'notices') {
+            abort(404);
+        }
+
+        $board = Board::where('slug', $slug)->firstOrFail();
+        $post = $this->boardPostService->getPost($slug, $postId);
+
+        if (!$post) {
+            abort(404, '게시글을 찾을 수 없습니다.');
+        }
+
+        $validated = $request->validate([
+            'content' => ['required', 'string', 'max:2000'],
+        ]);
+
+        BoardComment::create([
+            'post_id' => $postId,
+            'user_id' => Auth::id(),
+            'author_name' => Auth::user()->name ?? '관리자',
+            'content' => $validated['content'],
+            'depth' => 0,
+            'is_secret' => false,
+        ]);
+
+        return redirect()
+            ->route('backoffice.board-posts.show', [$board->slug, $postId])
+            ->with('success', '댓글이 등록되었습니다.');
+    }
+
+    public function commentDestroy(string $slug, int $postId, int $commentId)
+    {
+        if ($slug !== 'notices') {
+            abort(404);
+        }
+
+        Board::where('slug', $slug)->firstOrFail();
+        $post = $this->boardPostService->getPost($slug, $postId);
+
+        if (!$post) {
+            abort(404, '게시글을 찾을 수 없습니다.');
+        }
+
+        $comment = BoardComment::query()
+            ->where('post_id', $postId)
+            ->where('id', $commentId)
+            ->firstOrFail();
+
+        $isCommentOwner = (int) ($comment->user_id ?? 0) === (int) Auth::id();
+        if (!$isCommentOwner && !$this->isNoticeOwner($post)) {
+            abort(403, '댓글 작성자만 댓글을 삭제할 수 있습니다.');
+        }
+
+        $comment->delete();
+
+        return redirect()
+            ->route('backoffice.board-posts.show', [$slug, $postId])
+            ->with('success', '댓글이 삭제되었습니다.');
+    }
+
+    private function authorizeNoticeOwner(string $slug, object $post): void
+    {
+        if ($slug !== 'notices') {
+            return;
+        }
+
+        if (!$this->isNoticeOwner($post)) {
+            abort(403, '작성자만 게시글을 수정하거나 삭제할 수 있습니다.');
+        }
+    }
+
+    private function isNoticeOwner(object $post): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        if ((int) ($post->user_id ?? 0) === (int) $user->id) {
+            return true;
+        }
+
+        if (!empty($post->user_id)) {
+            return false;
+        }
+
+        $authorName = (string) ($post->author_name ?? '');
+
+        foreach ([$user->name ?? null, $user->login_id ?? null] as $identifier) {
+            $identifier = trim((string) $identifier);
+            if ($identifier !== '' && mb_strpos($authorName, $identifier) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

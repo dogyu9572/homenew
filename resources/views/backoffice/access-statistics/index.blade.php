@@ -138,22 +138,24 @@
             </div>
         </div>
 
-        <!-- 연별 방문자 -->
+        <!-- 일자별 방문자 -->
         <div class="stats-section">
             <div class="section-header">
-                <h5>연도별 방문자</h5>
+                <h5>일자별 방문자</h5>
                 <div class="date-filter">
-                    <label>연도:</label>
-                    <input type="number" id="year-filter" min="{{ now()->year - 4 }}" max="{{ now()->year }}" value="{{ $selected_year }}" class="form-control" style="width: 100px;">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="loadYearStats()">조회</button>
+                    <label>시작일:</label>
+                    <input type="date" id="date-start-filter" value="{{ $selected_date }}" class="form-control" style="width: 150px;">
+                    <label style="margin-left: 10px;">종료일:</label>
+                    <input type="date" id="date-end-filter" value="{{ $selected_date }}" class="form-control" style="width: 150px;">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="loadDateStats()">조회</button>
                 </div>
             </div>
-            <div id="year-stats-table">
+            <div id="date-stats-table">
                 <table class="stats-table">
                     <thead>
                         <tr>
-                            <th>연도</th>
-                            @foreach($year_stats as $stat)
+                            <th>일자</th>
+                            @foreach($date_stats as $stat)
                                 <th>{{ $stat['label'] }}</th>
                             @endforeach
                         </tr>
@@ -161,7 +163,44 @@
                     <tbody>
                         <tr>
                             <td>방문자수</td>
-                            @foreach($year_stats as $stat)
+                            @foreach($date_stats as $stat)
+                                <td>{{ number_format($stat['count']) }}명</td>
+                            @endforeach
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 시간별 방문자: 당일 IP별 최초 접속 시각 기준 -->
+        <div class="stats-section">
+            <div class="section-header">
+                <div>
+                    <h5>시간별 방문자 (당일 최초 접속)</h5>
+                    <p style="margin: 6px 0 0; font-size: 12px; color: #666; font-weight: normal;">
+                        선택한 날짜에 처음 기록된 시각이 속한 시간대에만 IP를 1번씩 넣습니다. 일자별·오늘 방문자 수(고유 IP)와 시간대 합계가 같습니다.
+                    </p>
+                </div>
+                <div class="date-filter">
+                    <label>날짜:</label>
+                    <input type="date" id="hour-date-filter" value="{{ $selected_date }}" class="form-control" style="width: 150px;">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="loadHourStats()">조회</button>
+                </div>
+            </div>
+            <div id="hour-stats-table">
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>시간</th>
+                            @foreach($hour_stats as $stat)
+                                <th>{{ $stat['label'] }}</th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>방문자(명)</td>
+                            @foreach($hour_stats as $stat)
                                 <td>{{ number_format($stat['count']) }}명</td>
                             @endforeach
                         </tr>
@@ -204,24 +243,22 @@
             </div>
         </div>
 
-        <!-- 날짜별 방문자 -->
+        <!-- 연별 방문자 -->
         <div class="stats-section">
             <div class="section-header">
-                <h5>날짜별 방문자</h5>
+                <h5>연도별 방문자</h5>
                 <div class="date-filter">
-                    <label>시작일:</label>
-                    <input type="date" id="date-start-filter" value="{{ $selected_date }}" class="form-control" style="width: 150px;">
-                    <label style="margin-left: 10px;">종료일:</label>
-                    <input type="date" id="date-end-filter" value="{{ $selected_date }}" class="form-control" style="width: 150px;">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="loadDateStats()">조회</button>
+                    <label>연도:</label>
+                    <input type="number" id="year-filter" min="{{ now()->year - 4 }}" max="{{ now()->year }}" value="{{ $selected_year }}" class="form-control" style="width: 100px;">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="loadYearStats()">조회</button>
                 </div>
             </div>
-            <div id="date-stats-table">
+            <div id="year-stats-table">
                 <table class="stats-table">
                     <thead>
                         <tr>
-                            <th>날짜</th>
-                            @foreach($date_stats as $stat)
+                            <th>연도</th>
+                            @foreach($year_stats as $stat)
                                 <th>{{ $stat['label'] }}</th>
                             @endforeach
                         </tr>
@@ -229,44 +266,7 @@
                     <tbody>
                         <tr>
                             <td>방문자수</td>
-                            @foreach($date_stats as $stat)
-                                <td>{{ number_format($stat['count']) }}명</td>
-                            @endforeach
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 시간대별 방문자: 당일 IP별 최초 접속 시각 기준 -->
-        <div class="stats-section">
-            <div class="section-header">
-                <div>
-                    <h5>시간대별 방문자 (당일 최초 접속)</h5>
-                    <p style="margin: 6px 0 0; font-size: 12px; color: #666; font-weight: normal;">
-                        선택한 날짜에 처음 기록된 시각이 속한 시간대에만 IP를 1번씩 넣습니다. 날짜별·오늘 방문자 수(고유 IP)와 시간대 합계가 같습니다.
-                    </p>
-                </div>
-                <div class="date-filter">
-                    <label>날짜:</label>
-                    <input type="date" id="hour-date-filter" value="{{ $selected_date }}" class="form-control" style="width: 150px;">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="loadHourStats()">조회</button>
-                </div>
-            </div>
-            <div id="hour-stats-table">
-                <table class="stats-table">
-                    <thead>
-                        <tr>
-                            <th>시간</th>
-                            @foreach($hour_stats as $stat)
-                                <th>{{ $stat['label'] }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>방문자(명)</td>
-                            @foreach($hour_stats as $stat)
+                            @foreach($year_stats as $stat)
                                 <td>{{ number_format($stat['count']) }}명</td>
                             @endforeach
                         </tr>
@@ -281,5 +281,3 @@
 @section('scripts')
 <script src="{{ asset('js/backoffice/access-statistics.js') }}"></script>
 @endsection
-
-

@@ -120,10 +120,30 @@
         tryFire();
     }
 
+    function gtag_report_conversion(url) {
+        var callback = function () {
+            if (typeof url !== 'undefined') {
+                window.location = url;
+            }
+        };
+
+        if (typeof window.gtag !== 'function') {
+            callback();
+            return false;
+        }
+
+        window.gtag('event', 'conversion', {
+            send_to: 'AW-16657635730/m2N-CMi16I0bEJKz_YY-',
+            event_callback: callback,
+        });
+        return false;
+    }
+
     const $pageRoot = $('#contact_page_root');
     if ($pageRoot.length && $pageRoot.attr('data-contact-success') === '1') {
         openPopup('popup_complete').addClass('on');
         fireNaverContactLeadConversionWithRetry();
+        gtag_report_conversion();
     }
 
     function focusFirstFieldError() {

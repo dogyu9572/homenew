@@ -50,7 +50,7 @@ function loadMonthStats() {
 }
 
 /**
- * 날짜별 통계 조회
+ * 일자별 통계 조회
  */
 function loadDateStats() {
     const startDate = document.getElementById('date-start-filter').value;
@@ -184,7 +184,7 @@ function updateMonthStatsTable(stats) {
 }
 
 /**
- * 날짜별 통계 테이블 업데이트
+ * 일자별 통계 테이블 업데이트
  */
 function updateDateStatsTable(stats) {
     const tableContainer = document.getElementById('date-stats-table');
@@ -193,7 +193,7 @@ function updateDateStatsTable(stats) {
     }
 
     let html = '<table class="stats-table">';
-    html += '<thead><tr><th>날짜</th>';
+    html += '<thead><tr><th>일자</th>';
     stats.forEach(function(stat) {
         html += '<th>' + stat.label + '</th>';
     });
@@ -208,7 +208,7 @@ function updateDateStatsTable(stats) {
 }
 
 /**
- * 시간대별 방문자(당일 IP 최초 접속 시각) 테이블 업데이트
+ * 시간별 방문자(당일 IP 최초 접속 시각) 테이블 업데이트
  */
 function updateHourStatsTable(stats) {
     const tableContainer = document.getElementById('hour-stats-table');
@@ -237,5 +237,3 @@ function updateHourStatsTable(stats) {
 function formatNumber(num) {
     return new Intl.NumberFormat('ko-KR').format(num);
 }
-
-

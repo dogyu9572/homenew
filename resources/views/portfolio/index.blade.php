@@ -234,10 +234,10 @@
 					@endif
 				</ul>
 			</div>
-			</div>
-		</section>
-		
-		<aside class="pop_notice" role="dialog" aria-labelledby="notice-title" aria-modal="false">
+		</div>
+	</section>
+	
+	<!-- <aside class="pop_notice" role="dialog" aria-labelledby="notice-title" aria-modal="false">
 		<button type="button" class="btn_close" aria-label="공지사항 닫기"></button>
 		<div class="flip">
 			<div class="before" aria-hidden="true"></div>
@@ -246,7 +246,7 @@
 				<p>현재 포트폴리오를 정리 중입니다.<br/>더 좋은 내용으로 곧 업데이트될 <br class="mo_vw">예정이에요. 😎<br/>잠시만 기다려주시고, 다른 메뉴도 <br class="pc_vw"/>함께 둘러봐 주세요! 감사합니다.</p>
 			</div>
 		</div>
-	</aside>
+	</aside> -->
 
 </main>
 @endsection

@@ -161,7 +161,7 @@
 	@if(isset($gNum) && $gNum !== '99')
     <header class="header {{ (isset($gNum) && $gNum == 'main') ? 'main' : '' }} {{ (isset($gNum) && $gNum == '03' && ($page ?? '') == 'view' || $gNum == '01' || $gNum == '02') ? 'white_mode' : '' }}">
 		<div class="inbox flex items-center justify-between">
-			<a href="/" class="logo" aria-label="홈페이지코리아 홈으로 이동"><img src="/images/logo.svg" alt="사이트 로고"></a>
+			<a href="/" class="logo" aria-label="홈페이지코리아 홈으로 이동"><img src="/images/logo.svg" alt="사이트 로고" decoding="async" fetchpriority="high"></a>
 			<div class="gnb_wrap">
 				<nav class="gnb" id="main-navi" aria-label="주 메뉴">
 					<ul class="flex">
@@ -253,11 +253,11 @@
 			<div class="inbox">
 				<div class="address_area">
 					<ul class="award_list">
-						<li><img src="/images/icon_award01.png" alt="벤처확인기업"></li>
-						<li><img src="/images/icon_award02.svg" alt="SA 인증"></li>
-						<li><img src="/images/icon_award03.svg" alt="WA 인증"></li>
-						<li><img src="/images/icon_award04.svg" alt="이노비즈 인증"></li>
-						<li><img src="/images/icon_award05.svg" alt="가족친화 우수기업 인증"></li>
+						<li><img src="/images/icon_award01.png" alt="벤처확인기업" loading="lazy" decoding="async"></li>
+						<li><img src="/images/icon_award02.svg" alt="SA 인증" loading="lazy" decoding="async"></li>
+						<li><img src="/images/icon_award03.svg" alt="WA 인증" loading="lazy" decoding="async"></li>
+						<li><img src="/images/icon_award04.svg" alt="이노비즈 인증" loading="lazy" decoding="async"></li>
+						<li><img src="/images/icon_award05.svg" alt="가족친화 우수기업 인증" loading="lazy" decoding="async"></li>
 					</ul>
 					<address>
 						<div class="homepagename">홈페이지코리아</div>
@@ -328,7 +328,7 @@
 						</li>
 					</ul>
 				</nav>
-				<div class="btm_space" aria-hidden="true"><img src="/images/txt_btm_space.svg" alt="HOMEPAGEKOREA"></div>
+				<div class="btm_space" aria-hidden="true"><img src="/images/txt_btm_space.svg" alt="HOMEPAGEKOREA" loading="lazy" decoding="async"></div>
 			</div>
 		</section>
 	</footer>

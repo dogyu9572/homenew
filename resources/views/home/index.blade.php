@@ -338,7 +338,7 @@
 						<li>
 							<a href="{{ $item->publicListHref() }}" class="box" @if($item->publicListOpensInNewTab()) target="_blank" rel="noopener noreferrer" @endif aria-label="{{ $item->title }} — {{ $marqueeTypeLabel }} 포트폴리오 보기">
 								<span class="flip">
-									<span class="before" aria-hidden="true"><img src="{{ $marqueeThumb }}" alt="" class="bg">
+									<span class="before" aria-hidden="true"><img src="{{ $marqueeThumb }}" alt="" class="bg" loading="lazy" decoding="async">
 										<span class="tit"><p>{{ $marqueeTypeLabel }}</p><strong>{{ $item->title }}</strong></span>
 									</span>
 									<!-- <span class="after" aria-hidden="true">
@@ -353,7 +353,7 @@
 						<li>
 							<span class="box" tabindex="-1" aria-hidden="true">
 								<span class="flip">
-									<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg"><img src="/images/main_service_08.svg" alt="" class="logo"></span>
+									<span class="before" aria-hidden="true"><img src="/images/img_portfolio_sample.png" alt="" class="bg" loading="lazy" decoding="async"><img src="/images/main_service_08.svg" alt="" class="logo" loading="lazy" decoding="async"></span>
 									<span class="after" aria-hidden="true">
 										<span class="type">-</span>
 										<span class="tit">등록된 포트폴리오가 없습니다.</span>
@@ -375,7 +375,7 @@
 	
 	<!-- 문의하기 -->
 	<section class="main_experience" aria-labelledby="experience-title" data-header="dark">
-		<video class="bg_video" autoplay muted loop playsinline aria-hidden="true">
+		<video class="bg_video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
 			<source src="/video/video_main_experience.mov" type="video/quicktime">
 			<source src="/video/video_main_experience.mp4" type="video/mp4">
 		</video>
@@ -816,10 +816,10 @@ $(document).ready(function () {
                     @if($popup->popup_type === 'image' && $popup->popup_image)
                         @if($popup->url)
                             <a href="{{ $popup->url }}" target="{{ $popup->url_target }}">
-                                <img src="{{ asset('storage/' . $popup->popup_image) }}" alt="{{ $popup->title }}">
+                                <img src="{{ asset('storage/' . $popup->popup_image) }}" alt="{{ $popup->title }}" loading="lazy" decoding="async">
                             </a>
                         @else
-                            <img src="{{ asset('storage/' . $popup->popup_image) }}" alt="{{ $popup->title }}">
+                            <img src="{{ asset('storage/' . $popup->popup_image) }}" alt="{{ $popup->title }}" loading="lazy" decoding="async">
                         @endif
                     @elseif($popup->popup_type === 'html' && $popup->popup_content)
                         {!! $popup->popup_content !!}

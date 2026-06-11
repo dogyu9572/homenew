@@ -7,6 +7,7 @@ use App\Http\Requests\Backoffice\StoreApprovalDraftRequest;
 use App\Http\Requests\Backoffice\UpdateApprovalDraftRequest;
 use App\Models\ApprovalDocument;
 use App\Models\ApprovalLine;
+use App\Models\ApprovalOpinion;
 use App\Models\User;
 use App\Services\Backoffice\ApprovalWorkflowService;
 use Illuminate\Http\Request;
@@ -312,6 +313,11 @@ class ApprovalController extends BaseController
         $canEditDraft = $this->canEditPersonalDraft($document, $user, $boxType);
         $canApproveOrReject = $this->canActLine($document, $user, ApprovalLine::TYPE_APPROVAL);
         $canConfirmCooperation = $this->canActLine($document, $user, ApprovalLine::TYPE_COOPERATION);
+        $canComment = $this->canCommentOnDocument($document, $user);
+        $comments = $document->opinions
+            ->where('type', ApprovalOpinion::TYPE_COMMENT)
+            ->sortBy('created_at')
+            ->values();
 
         return $this->view('backoffice.approval.show', [
             'pageKey' => $pageKey,
@@ -326,6 +332,8 @@ class ApprovalController extends BaseController
             'canEditDraft' => $canEditDraft,
             'canApproveOrReject' => $canApproveOrReject,
             'canConfirmCooperation' => $canConfirmCooperation,
+            'canComment' => $canComment,
+            'comments' => $comments,
         ]);
     }
 
@@ -417,6 +425,50 @@ class ApprovalController extends BaseController
         $this->workflowService->rejectCooperation($document, $user, (string) $request->input('opinion', ''));
 
         return back()->with('success', '협조 기각 처리되었습니다.');
+    }
+
+    public function commentStore(Request $request, string $docNo)
+    {
+        $user = Auth::user();
+        abort_unless($user instanceof User, 401);
+
+        $document = ApprovalDocument::query()
+            ->with(['lines'])
+            ->where('doc_no', $docNo)
+            ->firstOrFail();
+
+        abort_unless($this->canCommentOnDocument($document, $user), 403);
+
+        $validated = $request->validate([
+            'content' => ['required', 'string', 'max:2000'],
+        ]);
+
+        ApprovalOpinion::query()->create([
+            'document_id' => $document->id,
+            'user_id' => $user->id,
+            'type' => ApprovalOpinion::TYPE_COMMENT,
+            'content' => $validated['content'],
+        ]);
+
+        return back()->with('success', '댓글이 등록되었습니다.');
+    }
+
+    public function commentDestroy(string $docNo, ApprovalOpinion $opinion)
+    {
+        $user = Auth::user();
+        abort_unless($user instanceof User, 401);
+
+        $document = ApprovalDocument::query()
+            ->where('doc_no', $docNo)
+            ->firstOrFail();
+
+        abort_unless((int) $opinion->document_id === (int) $document->id, 404);
+        abort_unless($opinion->type === ApprovalOpinion::TYPE_COMMENT, 404);
+        abort_unless((int) $opinion->user_id === (int) $user->id, 403);
+
+        $opinion->delete();
+
+        return back()->with('success', '댓글이 삭제되었습니다.');
     }
 
     private function boxView(string $boxType, Request $request, string $viewName)
@@ -743,6 +795,21 @@ class ApprovalController extends BaseController
         }
 
         return true;
+    }
+
+    private function canCommentOnDocument(ApprovalDocument $document, User $user): bool
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        if ((int) $document->writer_id === (int) $user->id) {
+            return true;
+        }
+
+        return $document->lines
+            ->where('user_id', $user->id)
+            ->isNotEmpty();
     }
 
     private function resolveLineTypeByBox(string $boxType): string

@@ -136,8 +136,55 @@
                 </div>
             @endif
 
+            <div class="approval-comments">
+                <div class="approval-comments-header">
+                    <h4>댓글 {{ ($comments ?? collect())->count() }}개</h4>
+                </div>
+
+                @if($canComment ?? false)
+                    <form method="POST" action="{{ route('backoffice.approvals.comments.store', ['docNo' => $document['doc_no']]) }}" class="approval-comment-form">
+                        @csrf
+                        @if(isset($errors) && $errors->has('content'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('content') }}
+                            </div>
+                        @endif
+                        <textarea name="content" class="board-form-control approval-comment-textarea" rows="4" required placeholder="댓글 내용을 입력하세요.">{{ old('content') }}</textarea>
+                        <div class="approval-comment-actions">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-comment"></i> 댓글 등록
+                            </button>
+                        </div>
+                    </form>
+                @endif
+
+                <div class="approval-comment-list">
+                    @forelse(($comments ?? collect()) as $comment)
+                        <div class="approval-comment-item">
+                            <div class="approval-comment-meta">
+                                <strong>{{ $comment->user?->name ?? '작성자' }}</strong>
+                                <span>{{ optional($comment->created_at)->format('Y-m-d H:i') }}</span>
+                            </div>
+                            <div class="approval-comment-content">
+                                {!! nl2br(e($comment->content)) !!}
+                            </div>
+                            @if((int) ($comment->user_id ?? 0) === (int) auth()->id())
+                                <form method="POST" action="{{ route('backoffice.approvals.comments.destroy', ['docNo' => $document['doc_no'], 'opinion' => $comment->id]) }}" class="approval-comment-delete-form" onsubmit="return confirm('댓글을 삭제하시겠습니까?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> 삭제
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                    @empty
+                        <div class="approval-comment-empty">등록된 댓글이 없습니다.</div>
+                    @endforelse
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 @endsection
-

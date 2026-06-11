@@ -166,6 +166,10 @@ Route::prefix('backoffice')->middleware(['backoffice'])->group(function () {
         ->name('backoffice.approvals.drafts.create');
     Route::get('approval-main/users', [ApprovalController::class, 'approverUsers'])
         ->name('backoffice.approvals.users');
+    Route::post('approval-main/documents/{docNo}/comments', [ApprovalController::class, 'commentStore'])
+        ->name('backoffice.approvals.comments.store');
+    Route::delete('approval-main/documents/{docNo}/comments/{opinion}', [ApprovalController::class, 'commentDestroy'])
+        ->name('backoffice.approvals.comments.destroy');
     Route::get('approval-personal', [ApprovalController::class, 'personal'])
         ->name('backoffice.approvals.personal');
     Route::get('approval-pending', [ApprovalController::class, 'pending'])
@@ -263,6 +267,8 @@ Route::prefix('backoffice')->middleware(['backoffice'])->group(function () {
         Route::get('/', [BoardPostController::class, 'index'])->name('index');
         Route::get('/create', [BoardPostController::class, 'create'])->name('create');
         Route::post('/', [BoardPostController::class, 'store'])->name('store');
+        Route::post('/{post}/comments', [BoardPostController::class, 'commentStore'])->name('comments.store');
+        Route::delete('/{post}/comments/{comment}', [BoardPostController::class, 'commentDestroy'])->name('comments.destroy');
         Route::get('/{post}', [BoardPostController::class, 'show'])->name('show');
         Route::get('/{post}/edit', [BoardPostController::class, 'edit'])->name('edit');
         Route::put('/{post}', [BoardPostController::class, 'update'])->name('update');

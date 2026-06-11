@@ -4,6 +4,7 @@ namespace App\Services\Backoffice;
 
 use App\Models\Board;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -133,8 +134,8 @@ class BoardPostService
         }
 
         return [
-            'user_id' => null,
-            'author_name' => $validated['author_name'] ?? '관리자',
+            'user_id' => Auth::id(),
+            'author_name' => $validated['author_name'] ?? (Auth::user()->name ?? '관리자'),
             'title' => $validated['title'],
             'content' => $this->sanitizeContent($validated['content']),
             'category' => $validated['category'] ?? null,

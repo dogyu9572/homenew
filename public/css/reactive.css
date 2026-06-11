@@ -1395,7 +1395,7 @@
 	.index_area.on .tit:after {transform:rotate(180deg);}
 	.index_area .index_list {max-height:50vh; padding-bottom:10px; display:none;}
 	.index_area li + li {margin-top:12px;}
-	.index_area a {font-size:13px; padding:0 15px 0 27px; text-indent:-12px;}
+	.index_area a {font-size:13px; padding:0 15px;}
 	.blog_view_con {width:100%; max-width:100%;}
 	.wrap_color_box {padding:15px;}
 	.blog_view_head {padding-bottom:20px;}

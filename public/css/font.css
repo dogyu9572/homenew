@@ -4,8 +4,7 @@ font-family:'Pretendard';
 font-weight:200;
 font-style:normal;
 src:local(''),
-url('/css/font/Pretendard-ExtraLight.woff2') format('woff2'),
-url('/css/font/Pretendard-ExtraLight.woff') format('woff');
+url('/css/font/Pretendard-ExtraLight.woff2') format('woff2');
 font-display:swap;
 }
 @font-face {
@@ -13,8 +12,7 @@ font-family:'Pretendard';
 font-weight:300;
 font-style:normal;
 src:local(''),
-url('/css/font/Pretendard-Light.woff2') format('woff2'),
-url('/css/font/Pretendard-Light.woff') format('woff');
+url('/css/font/Pretendard-Light.woff2') format('woff2');
 font-display:swap;
 }
 @font-face {
@@ -22,8 +20,7 @@ font-family:'Pretendard';
 font-weight:400;
 font-style:normal;
 src:local(''),
-url('/css/font/Pretendard-Regular.woff2') format('woff2'),
-url('/css/font/Pretendard-Regular.woff') format('woff');
+url('/css/font/Pretendard-Regular.woff2') format('woff2');
 font-display:swap;
 }
 @font-face {
@@ -31,8 +28,7 @@ font-family:'Pretendard';
 font-weight:500;
 font-style:normal;
 src:local(''),
-url('/css/font/Pretendard-Medium.woff2') format('woff2'),
-url('/css/font/Pretendard-Medium.woff') format('woff');
+url('/css/font/Pretendard-Medium.woff2') format('woff2');
 font-display:swap;
 }
 @font-face {
@@ -40,8 +36,7 @@ font-family:'Pretendard';
 font-weight:600;
 font-style:normal;
 src:local(''),
-url('/css/font/Pretendard-SemiBold.woff2') format('woff2'),
-url('/css/font/Pretendard-SemiBold.woff') format('woff');
+url('/css/font/Pretendard-SemiBold.woff2') format('woff2');
 font-display:swap;
 }
 @font-face {
@@ -49,8 +44,7 @@ font-family:'Pretendard';
 font-weight:700;
 font-style:normal;
 src:local(''),
-url('font/Pretendard-Bold.woff2') format('woff2'),
-url('/css/font/Pretendard-Bold.woff') format('woff');
+url('/css/font/Pretendard-Bold.woff2') format('woff2');
 font-display:swap;
 }
 @font-face {
@@ -58,8 +52,7 @@ font-family:'Nohemi';
 font-weight:200;
 font-style:normal;
 src:local(''),
-url('/css/font/Nohemi-ExtraLight.woff2') format('woff2'),
-url('/css/font/Nohemi-ExtraLight.woff') format('woff');
+url('/css/font/Nohemi-ExtraLight.woff2') format('woff2');
 font-display:swap;
 unicode-range:U+0020-007E;
 }
@@ -68,8 +61,7 @@ font-family:'Nohemi';
 font-weight:300;
 font-style:normal;
 src:local(''),
-url('/css/font/Nohemi-Light.woff2') format('woff2'),
-url('/css/font/Nohemi-Light.woff') format('woff');
+url('/css/font/Nohemi-Light.woff2') format('woff2');
 font-display:swap;
 unicode-range:U+0020-007E;
 }
@@ -78,8 +70,7 @@ font-family:'Nohemi';
 font-weight:400;
 font-style:normal;
 src:local(''),
-url('/css/font/Nohemi-Regular.woff2') format('woff2'),
-url('/css/font/Nohemi-Regular.woff') format('woff');
+url('/css/font/Nohemi-Regular.woff2') format('woff2');
 font-display:swap;
 unicode-range:U+0020-007E;
 }
@@ -88,8 +79,7 @@ font-family:'Nohemi';
 font-weight:500;
 font-style:normal;
 src:local(''),
-url('/css/font/Nohemi-Medium.woff2') format('woff2'),
-url('/css/font/Nohemi-Medium.woff') format('woff');
+url('/css/font/Nohemi-Medium.woff2') format('woff2');
 font-display:swap;
 unicode-range:U+0020-007E;
 }
@@ -98,8 +88,7 @@ font-family:'Nohemi';
 font-weight:600;
 font-style:normal;
 src:local(''),
-url('/css/font/Nohemi-SemiBold.woff2') format('woff2'),
-url('/css/font/Nohemi-SemiBold.woff') format('woff');
+url('/css/font/Nohemi-SemiBold.woff2') format('woff2');
 font-display:swap;
 unicode-range:U+0020-007E;
 }
@@ -108,8 +97,7 @@ font-family:'Nohemi';
 font-weight:700;
 font-style:normal;
 src:local(''),
-url('font/Nohemi-Bold.woff2') format('woff2'),
-url('font/Nohemi-Bold.woff') format('woff');
+url('/css/font/Nohemi-Bold.woff2') format('woff2');
 font-display:swap;
 unicode-range:U+0020-007E;
 }

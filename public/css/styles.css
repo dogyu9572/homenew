@@ -712,7 +712,7 @@
 	.index_area .tit {font-size:18px; color:#1E2124; font-weight:500; margin-bottom:24px; cursor:default;}
 	.index_area .index_list {max-height:calc(100vh - 238px); overflow:auto;}
 	.index_area li + li {margin-top:16px;}
-	.index_area a {display:block; font-size:14px; color:#666; line-height:1.7; padding-left:16px; text-indent:-16px; letter-spacing:-.42px; word-break:break-word;}
+	.index_area a {display:block; font-size:14px; color:#666; line-height:1.7; letter-spacing:-.42px; word-break:break-word;}
 	.index_area .on a {color:#0169D8; font-weight:600;}
 	.blog_view_con {width:100%; max-width:760px; margin:0 auto;}
 	.wrap_color_box {background:#f5f5f5; border-radius:10px; padding:20px;}
@@ -740,7 +740,7 @@
 	.blog_view_body code {font-size:87.5%; color:#e83e8c; background:#c7c7c74d; font-family:inherit;}
 	.blog_view_body a {color:#007bff;}
 	.blog_view_body a * {font-family:inherit; color:inherit !important; background:none !important;}
-	.blog_view_body p {}
+	.blog_view_body ul {list-style-type:unset; padding-left:20px;}
 	.recommended_area {position:fixed; top:184px; right:50%; width:280px; margin-right:-740px;}
 	.recommended_area.unfixed {position:absolute; top:auto; bottom:0;}
 	.recommended_area .tit {font-size:20px; color:#1E2124; font-weight:600; line-height:1.6; margin-bottom:16px;letter-spacing:-.6px;}

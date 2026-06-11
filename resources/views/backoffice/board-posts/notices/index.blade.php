@@ -115,9 +115,26 @@
                         </thead>
                         <tbody @if($board->enable_sorting) id="sortable-tbody" @endif>
                             @forelse($posts as $post)
+                                @php
+                                    $currentUser = auth()->user();
+                                    $authorName = (string) ($post->author_name ?? '');
+                                    $canManagePost = $currentUser
+                                        && (
+                                            (int) ($post->user_id ?? 0) === (int) $currentUser->id
+                                            || (
+                                                empty($post->user_id)
+                                                && (
+                                                    ($currentUser->name && str_contains($authorName, $currentUser->name))
+                                                    || ($currentUser->login_id && str_contains($authorName, $currentUser->login_id))
+                                                )
+                                            )
+                                        );
+                                @endphp
                                 <tr @if($board->enable_sorting) data-post-id="{{ $post->id }}" @endif>
                                     <td>
-                                        <input type="checkbox" name="selected_posts[]" value="{{ $post->id }}" class="form-check-input post-checkbox">
+                                        @if($canManagePost)
+                                            <input type="checkbox" name="selected_posts[]" value="{{ $post->id }}" class="form-check-input post-checkbox">
+                                        @endif
                                     </td>
                                     @if($board->enable_sorting)
                                         <td class="sort-handle-cell">
@@ -138,27 +155,31 @@
                                         <span class="status-badge status-general">일반</span>
                                     </td>
                                     <td>
-                                        {{ $post->title }}
+                                        <a href="{{ route('backoffice.board-posts.show', [$board->slug ?? 'notice', $post->id]) }}" class="board-title-link">
+                                            {{ $post->title }}
+                                        </a>
                                     </td>
                                     <td>{{ $post->author_name ?? '알 수 없음' }}</td>
                                     <td>{{ $post->created_at->format('Y-m-d') }}</td>
                                     <td>
-                                        <div class="board-btn-group">
-                                            <a href="{{ route('backoffice.board-posts.edit', [$board->slug ?? 'notice', $post->id]) }}"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="fas fa-edit"></i> 수정
-                                            </a>
-                                            <form
-                                                action="{{ route('backoffice.board-posts.destroy', [$board->slug ?? 'notice', $post->id]) }}"
-                                                method="POST" class="d-inline"
-                                                onsubmit="return confirm('정말 이 게시글을 삭제하시겠습니까?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-trash"></i> 삭제
-                                                </button>
-                                            </form>
-                                        </div>
+                                        @if($canManagePost)
+                                            <div class="board-btn-group">
+                                                <a href="{{ route('backoffice.board-posts.edit', [$board->slug ?? 'notice', $post->id]) }}"
+                                                    class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-edit"></i> 수정
+                                                </a>
+                                                <form
+                                                    action="{{ route('backoffice.board-posts.destroy', [$board->slug ?? 'notice', $post->id]) }}"
+                                                    method="POST" class="d-inline"
+                                                    onsubmit="return confirm('정말 이 게시글을 삭제하시겠습니까?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash"></i> 삭제
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

@@ -19,6 +19,7 @@ use App\Http\Controllers\Backoffice\LogController;
 use App\Http\Controllers\Backoffice\PopupController;
 use App\Http\Controllers\Backoffice\PortfolioController;
 use App\Http\Controllers\Backoffice\ProjectManageController;
+use App\Http\Controllers\Backoffice\ProjectProvisionController;
 use App\Http\Controllers\Backoffice\SettingController;
 use App\Http\Controllers\Backoffice\StaffAttendanceController;
 use App\Http\Controllers\Backoffice\UserController;
@@ -363,6 +364,11 @@ Route::prefix('backoffice')->middleware(['backoffice'])->group(function () {
     Route::get('intra-tax/{idx}/files/{fileIdx}/download', [IntraTaxController::class, 'downloadFile'])->name('backoffice.intra-tax.files.download');
     Route::post('intra-tax/{idx}/comments', [IntraTaxController::class, 'commentStore'])->name('backoffice.intra-tax.comments.store');
     Route::delete('intra-tax/{idx}/comments/{commentIdx}', [IntraTaxController::class, 'commentDestroy'])->name('backoffice.intra-tax.comments.destroy');
+
+    Route::get('project-provisions', [ProjectProvisionController::class, 'index'])->name('backoffice.project-provisions.index');
+    Route::get('project-provisions/create', [ProjectProvisionController::class, 'create'])->name('backoffice.project-provisions.create');
+    Route::post('project-provisions', [ProjectProvisionController::class, 'store'])->name('backoffice.project-provisions.store');
+    Route::get('project-provisions/{projectProvision}', [ProjectProvisionController::class, 'show'])->whereNumber('projectProvision')->name('backoffice.project-provisions.show');
 
     Route::get('project-manages', [ProjectManageController::class, 'index'])->name('backoffice.project-manages.index');
     Route::get('project-manages/create', [ProjectManageController::class, 'create'])->name('backoffice.project-manages.create');

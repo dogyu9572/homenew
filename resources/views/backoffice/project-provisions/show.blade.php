@@ -1,0 +1,98 @@
+@extends('backoffice.layouts.app')
+
+@section('title', '프로젝트 생성')
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/backoffice/boards.css') }}">
+@endsection
+
+@section('content')
+    @if (session('success'))
+        <div class="board-alert board-alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="board-container" id="project-provision-show" data-status="{{ $provision->status }}">
+        <div class="board-header">
+            <a href="{{ route('backoffice.project-provisions.index') }}" class="btn btn-secondary btn-sm">
+                <i class="fas fa-arrow-left"></i> 목록으로
+            </a>
+        </div>
+
+        <div class="board-card">
+            <div class="board-card-body">
+                <div class="board-form-group">
+                    <label class="board-form-label">프로젝트명</label>
+                    <input type="text" class="board-form-control" value="{{ $provision->project_name }}" readonly>
+                </div>
+
+                <div class="board-form-group">
+                    <label class="board-form-label">종류</label>
+                    <input type="text" class="board-form-control" value="{{ $provision->stackLabel() }}" readonly>
+                </div>
+
+                <div class="board-form-group">
+                    <label class="board-form-label">상태</label>
+                    <input type="text" class="board-form-control" value="{{ $provision->statusLabel() }}" readonly>
+                    @if(in_array($provision->status, ['queued', 'running'], true))
+                        <small class="board-form-text">진행 중이면 이 화면이 자동으로 새로고침됩니다. 대기가 계속되면 서버 큐 워커를 확인하세요.</small>
+                    @endif
+                </div>
+
+                <div class="board-form-group">
+                    <label class="board-form-label">단계</label>
+                    <input type="text" class="board-form-control" value="{{ $provision->stepLabel() }}" readonly>
+                </div>
+
+                <div class="board-form-group">
+                    <label class="board-form-label">FTP 아이디</label>
+                    <input type="text" class="board-form-control" value="{{ $provision->ftp_username }}" readonly>
+                </div>
+
+                <div class="board-form-group">
+                    <label class="board-form-label">DB 아이디</label>
+                    <input type="text" class="board-form-control" value="{{ $provision->db_username }}" readonly>
+                </div>
+
+                <div class="board-form-group">
+                    <label class="board-form-label">DB 이름</label>
+                    <input type="text" class="board-form-control" value="{{ $provision->db_database }}" readonly>
+                </div>
+
+                <div class="board-form-group">
+                    <label class="board-form-label">접속 주소</label>
+                    @if($provision->site_url)
+                        <div class="board-form-text">
+                            <a href="{{ $provision->site_url }}" target="_blank" rel="noopener noreferrer">{{ $provision->site_url }}</a>
+                        </div>
+                    @else
+                        <input type="text" class="board-form-control" value="-" readonly>
+                    @endif
+                </div>
+
+                <div class="board-form-group">
+                    <label class="board-form-label">깃 저장소</label>
+                    @if($provision->git_url)
+                        <div class="board-form-text">
+                            <a href="{{ $provision->git_url }}" target="_blank" rel="noopener noreferrer">{{ $provision->git_url }}</a>
+                        </div>
+                    @else
+                        <input type="text" class="board-form-control" value="-" readonly>
+                    @endif
+                </div>
+
+                <div class="board-form-group">
+                    <label for="provision-log" class="board-form-label">단계 로그</label>
+                    <textarea id="provision-log" class="board-form-control board-form-textarea" rows="18" readonly>{{ $provision->log }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    @if(in_array($provision->status, ['queued', 'running'], true))
+        <script src="{{ asset('js/backoffice/project-provisions.js') }}"></script>
+    @endif
+@endsection

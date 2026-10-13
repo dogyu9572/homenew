@@ -1711,14 +1711,13 @@ function ia_entry_form(array $spec, array $popups, bool $edit, string $formText 
  */
 function ia_described_form(array $items, bool $edit): string
 {
-    $fields = '';
+    $fields = ia_layout_described_items($items, $edit);
     $modals = '';
     $showThumbnail = false;
     $showAttachments = false;
     $showEditor = false;
     $showCustomFile = false;
     foreach ($items as $item) {
-        $fields .= ia_described_control($item, $edit);
         if (($item['kind'] ?? '') === 'popup') {
             $modals .= ia_picker_modal([
                 'name' => (string) ($item['fills'] !== '' ? $item['fills'] : $item['name']),
@@ -1858,6 +1857,148 @@ BLADE;
 }
 
 /**
+ * 짧은 입력은 두 칸, 내용·파일·구역 제목은 한 줄입니다.
+ *
+ * @param  list<array<string, mixed>>  $items
+ */
+function ia_layout_described_items(array $items, bool $edit): string
+{
+    $html = '';
+    $pair = [];
+    $sectionCount = 0;
+    $flush = function () use (&$html, &$pair, $edit): void {
+        if ($pair === []) {
+            return;
+        }
+        $html .= '<div class="board-form-row">';
+        foreach ($pair as $item) {
+            $html .= '<div class="board-form-col-6">'.ia_described_control($item, $edit).'</div>';
+        }
+        if (count($pair) === 1) {
+            $html .= '<div class="board-form-col-6"></div>';
+        }
+        $html .= '</div>';
+        $pair = [];
+    };
+
+    foreach ($items as $item) {
+        if (! is_array($item)) {
+            continue;
+        }
+        if (! ia_field_is_wide($item)) {
+            $pair[] = $item;
+            if (count($pair) === 2) {
+                $flush();
+            }
+            continue;
+        }
+        $flush();
+        if (($item['kind'] ?? '') === 'heading') {
+            $sectionCount++;
+            $margin = $sectionCount === 1 ? '0 0 0.75rem' : '1.35rem 0 0.75rem';
+            $html .= '<div style="margin:'.$margin.';padding-bottom:0.45rem;border-bottom:1px solid #dee2e6;font-size:1rem;font-weight:700">'.e((string) ($item['label'] ?? '')).'</div>';
+            continue;
+        }
+        $html .= ia_described_control($item, $edit);
+    }
+    $flush();
+
+    return $html;
+}
+
+/**
+ * @param  array<string, mixed>  $item
+ */
+function ia_field_is_wide(array $item): bool
+{
+    $kind = (string) ($item['kind'] ?? '');
+    if (in_array($kind, ['heading', 'note', 'editor', 'file', 'dates'], true)) {
+        return true;
+    }
+    $label = (string) ($item['label'] ?? '');
+    if (preg_match('/내용|설명|상세|소개|주소|비고|메모|구성|본문|문의/u', $label)) {
+        return true;
+    }
+    if (preg_match('/제목|강의명|강좌명|상품명/u', $label)) {
+        return true;
+    }
+    if ($kind !== 'select') {
+        return false;
+    }
+    $longest = 0;
+    foreach ((array) ($item['options'] ?? []) as $option) {
+        $longest = max($longest, mb_strlen(trim((string) $option)));
+    }
+
+    return $longest >= 16;
+}
+
+/**
+ * 예상 글자 수에 맞춰 입력창 너비를 정합니다. 빈 문자열이면 칸을 채웁니다.
+ *
+ * @param  array<string, mixed>  $item
+ */
+function ia_input_max_width(array $item): string
+{
+    $kind = (string) ($item['kind'] ?? '');
+    if (in_array($kind, ['heading', 'note', 'editor', 'file', 'check', 'radio', 'popup'], true) || ia_field_is_wide($item)) {
+        return '';
+    }
+    $label = (string) ($item['label'] ?? '');
+    if ($kind === 'dates') {
+        return '26rem';
+    }
+    if ($kind === 'date') {
+        return '11rem';
+    }
+    if ($kind === 'select') {
+        $longest = 0;
+        foreach ((array) ($item['options'] ?? []) as $option) {
+            $longest = max($longest, mb_strlen(trim((string) $option)));
+        }
+        if ($longest <= 3) {
+            return '8rem';
+        }
+        if ($longest <= 8) {
+            return '12rem';
+        }
+
+        return '16rem';
+    }
+    if (preg_match('/성별|여부|인원|수량/u', $label)) {
+        return '8rem';
+    }
+    if (preg_match('/연락처|전화|휴대폰|금액|가격|요금|번호|코드|아이디|일시/u', $label)) {
+        return '14rem';
+    }
+    if (preg_match('/이메일|메일/u', $label)) {
+        return '18rem';
+    }
+    if (preg_match('/이름|성명|닉네임|작성자/u', $label)) {
+        return '12rem';
+    }
+    if (preg_match('/병원|소속|상호|업체/u', $label)) {
+        return '16rem';
+    }
+
+    return '16rem';
+}
+
+/**
+ * @param  array<string, mixed>  $item
+ */
+function ia_limit_group(array $item, string $html): string
+{
+    $max = ia_input_max_width($item);
+    $open = '<div class="board-form-group">';
+    if ($max === '' || ! str_starts_with($html, $open)) {
+        return $html;
+    }
+
+    return '<div class="board-form-group" style="max-width:'.$max.'">'.substr($html, strlen($open));
+}
+
+/**
  * @param  array<string, mixed>  $item
  */
 function ia_described_control(array $item, bool $edit): string
@@ -1867,7 +2008,7 @@ function ia_described_control(array $item, bool $edit): string
     $hint = trim((string) ($item['hint'] ?? ''));
     $hintHtml = $hint !== '' ? '<p class="board-form-text">'.e($hint).'</p>' : '';
     if ($kind === 'heading') {
-        return '<div class="board-form-group"><strong class="board-form-label">'.$label.'</strong></div>';
+        return '<div style="margin:1.35rem 0 0.75rem;padding-bottom:0.45rem;border-bottom:1px solid #dee2e6;font-size:1rem;font-weight:700">'.$label.'</div>';
     }
     if ($kind === 'note') {
         return '<p class="board-form-text">'.$label.'</p>';
@@ -1876,7 +2017,7 @@ function ia_described_control(array $item, bool $edit): string
         $start = ia_described_date((string) $item['start_name'], (string) $item['start_label'], $edit);
         $end = ia_described_date((string) $item['end_name'], (string) $item['end_label'], $edit);
 
-        return '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div style="display:flex;gap:8px;align-items:center">'.$start.'<span>~</span>'.$end.'</div>'.$hintHtml.'</div>';
+        return ia_limit_group($item, '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'.$start.'<span>~</span>'.$end.'</div>'.$hintHtml.'</div>');
     }
     if ($kind === 'popup') {
         $name = e((string) (($item['fills'] ?? '') !== '' ? $item['fills'] : $item['name']));
@@ -1884,7 +2025,7 @@ function ia_described_control(array $item, bool $edit): string
             ? '<input type="hidden" name="custom_field_'.$name.'" id="custom_field_'.$name.'" value="{{ old(\'custom_field_'.$name.'\', $iaSaved[\''.$name.'\'] ?? \'\') }}"><span id="ia-picked-'.$name.'">{{ old(\'custom_field_'.$name.'\', $iaSaved[\''.$name.'\'] ?? \'\') }}</span>'
             : '';
 
-        return '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div class="board-page-buttons">'.$hidden.'<button type="button" class="btn btn-primary btn-sm" data-ia-open="'.$name.'">'.$label.'</button></div>'.$hintHtml.'</div>';
+        return ia_limit_group($item, '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div class="board-page-buttons">'.$hidden.'<button type="button" class="btn btn-primary btn-sm" data-ia-open="'.$name.'">'.$label.'</button></div>'.$hintHtml.'</div>');
     }
     if ($kind === 'file') {
         return ia_described_file($item);
@@ -1900,7 +2041,7 @@ function ia_described_control(array $item, bool $edit): string
             $html = preg_replace('/<\/label>/', '</label>'.$hintHtml, $html, 1) ?? $html;
         }
 
-        return $html;
+        return ia_limit_group($item, $html);
     }
     if ($kind === 'editor') {
         return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.' <span class="required">*</span></label><textarea class="board-form-control board-form-textarea" id="'.$inputId.'" name="'.$inputName.'" rows="12" data-backoffice-ckeditor data-source-editing="true" required>{{ '.$current.' }}</textarea>'.$hintHtml.'</div>';
@@ -1910,16 +2051,16 @@ function ia_described_control(array $item, bool $edit): string
             ? "@checked(old('is_notice', isset(\$post) ? \$post->is_notice : 0) == 1)"
             : '@checked('.$current.' == \'1\')';
 
-        return '<div class="board-form-group"><div class="board-checkbox-item"><input type="checkbox" class="board-checkbox-input" id="'.$inputId.'" name="'.$inputName.'" value="1" '.$checked.'><label for="'.$inputId.'" class="board-form-label">'.$label.'</label></div>'.$hintHtml.'</div>';
+        return ia_limit_group($item, '<div class="board-form-group"><div class="board-checkbox-item"><input type="checkbox" class="board-checkbox-input" id="'.$inputId.'" name="'.$inputName.'" value="1" '.$checked.'><label for="'.$inputId.'" class="board-form-label">'.$label.'</label></div>'.$hintHtml.'</div>');
     }
     if ($kind === 'date') {
-        return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.'</label>'.ia_described_date($name, '', $edit).$hintHtml.'</div>';
+        return ia_limit_group($item, '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.'</label>'.ia_described_date($name, '', $edit).$hintHtml.'</div>');
     }
 
     $required = in_array($name, ['title', 'content'], true) ? ' required' : '';
     $star = $required !== '' ? ' <span class="required">*</span>' : '';
 
-    return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.$star.'</label><input type="text" class="board-form-control" id="'.$inputId.'" name="'.$inputName.'" value="{{ '.$current.' }}"'.$required.'>'.$hintHtml.'</div>';
+    return ia_limit_group($item, '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.$star.'</label><input type="text" class="board-form-control" id="'.$inputId.'" name="'.$inputName.'" value="{{ '.$current.' }}"'.$required.'>'.$hintHtml.'</div>');
 }
 
 /**
@@ -1955,7 +2096,7 @@ function ia_described_date(string $name, string $label, bool $edit): string
     $current = ia_old_expression($name, $edit);
     $caption = $label !== '' ? '<span class="board-form-text">'.e($label).'</span>' : '';
 
-    return $caption.'<input type="date" class="board-form-control" id="'.$inputId.'" name="'.$inputName.'" value="{{ '.$current.' }}">';
+    return $caption.'<input type="date" class="board-form-control" id="'.$inputId.'" name="'.$inputName.'" value="{{ '.$current.' }}" style="width:11rem">';
 }
 
 /**

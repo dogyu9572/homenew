@@ -7,7 +7,7 @@
  */
 function ia_list_spec(string $text): ?array
 {
-    $text = trim($text);
+    $text = ia_text($text);
     if ($text === '' || ! preg_match('/리스트\s*:/u', $text)) {
         return null;
     }
@@ -94,9 +94,10 @@ function ia_list_spec(string $text): ?array
             ];
         }
     }
-    if ($showKeyword && $keywordOptions === []) {
-        $keywordOptions[] = ['label' => '전체', 'value' => 'all'];
-    }
+    $keywordOptions = array_values(array_filter(
+        $keywordOptions,
+        static fn (array $option): bool => $option['label'] !== ''
+    ));
 
     $selects = [];
     if (preg_match_all('/([가-힣A-Za-z]{2,12})\s*(?:\(Text\))?\s*[:：]?\s*[\{\(]\s*(전체[^}\)]+)[\}\)]/u', $text, $matched, PREG_SET_ORDER)) {
@@ -120,35 +121,9 @@ function ia_list_spec(string $text): ?array
         }
     }
 
-    $dateLabel = '';
-    if (preg_match('/등록일\s*시작/u', $text)) {
-        $dateLabel = '등록일';
-    } elseif (preg_match('/([가-힣A-Za-z][가-힣A-Za-z0-9\s]{1,20}?)\s*(?:시작)?\s*[:：]?\s*(?:\([^)]*\)|\[[^\]]*\]|\([Cc]all?ender\))\s*~/u', $text, $matched)) {
-        $dateLabel = trim(preg_replace('/시작$/u', '', trim($matched[1])) ?? trim($matched[1]));
-    }
-
-    $dateField = '';
-    $dateColumn = null;
-    if ($dateLabel !== '') {
-        foreach ($columns as $column) {
-            if ($column['label'] === $dateLabel || str_contains($column['label'], $dateLabel) || str_contains($dateLabel, $column['label'])) {
-                $dateColumn = $column;
-                break;
-            }
-        }
-    }
-    if ($dateColumn === null) {
-        foreach ($columns as $column) {
-            if (preg_match('/일시|가입일|등록일/u', $column['label'])) {
-                $dateColumn = $column;
-                $dateLabel = $column['label'];
-                break;
-            }
-        }
-    }
-    if ($dateColumn !== null && $dateColumn['source'] !== 'created_at') {
-        $dateField = $dateColumn['name'];
-    }
+    $dateFilters = ia_date_filters($text, $columns);
+    $dateLabel = $dateFilters[0]['label'] ?? '';
+    $dateField = $dateFilters[0]['field'] ?? '';
 
     $statusField = 'status';
     foreach ($columns as $column) {
@@ -163,6 +138,7 @@ function ia_list_spec(string $text): ?array
         'toolbar' => $toolbar,
         'keyword_options' => $keywordOptions,
         'selects' => $selects,
+        'date_filters' => $dateFilters,
         'date_label' => $dateLabel,
         'date_field' => $dateField,
         'checkbox' => (bool) preg_match('/check\s*box|선택\s*\(\s*CheckBox/iu', $text) || array_intersect($toolbar, ['bulk_restore', 'bulk_approve', 'bulk_delete']) !== [],
@@ -171,6 +147,109 @@ function ia_list_spec(string $text): ?array
         'show_per_page' => str_contains($text, '목록개수'),
         'show_number' => (bool) preg_match('/번호|(?:^|[,\s])No(?:$|[,\s])/iu', $list),
     ];
+}
+
+/**
+ * 검색 설명에 적힌 날짜 이름을 그대로 씁니다. 목록 컬럼 이름으로 바꾸지 않습니다.
+ *
+ * @param  list<array{label: string, source: string, name: string}>  $columns
+ * @return list<array{label: string, field: string}>
+ */
+function ia_date_filters(string $text, array $columns): array
+{
+    $search = preg_split('/리스트\s*:/u', $text, 2)[0] ?? $text;
+    $filters = [];
+    $pattern = '/([가-힣A-Za-z][가-힣A-Za-z0-9\s]{0,18})\s*:?\s*(?:\[[^\]]*\]|\((?:Calender|Calendar|Callender)\))?\s*~\s*(?:\[[^\]]*\]|\((?:Calender|Calendar|Callender)\)|([가-힣A-Za-z][가-힣A-Za-z0-9\s]{0,18}))(?:\s*\((?:Calender|Calendar|Callender)\))?/iu';
+    if (preg_match_all($pattern, $search, $matches, PREG_SET_ORDER)) {
+        foreach ($matches as $match) {
+            $left = ia_clean_date_label($match[1]);
+            $right = ia_clean_date_label($match[2] ?? '');
+            if ($left === '' || ! preg_match('/Calender|Calendar|Callender|체크인|체크아웃|일시|등록일|가입/iu', $match[0])) {
+                continue;
+            }
+            $leftBase = ia_date_base($left);
+            $rightBase = $right === '' ? '' : ia_date_base($right);
+            $label = $right === '' || $leftBase === $rightBase ? $leftBase : $left.' ~ '.$right;
+            $filters[] = ['label' => $label, 'span' => $match[0]];
+        }
+    }
+
+    $rest = $search;
+    foreach ($filters as $filter) {
+        $rest = str_replace($filter['span'], ' ', $rest);
+    }
+    if (preg_match_all('/([가-힣A-Za-z][가-힣A-Za-z0-9]{1,16})\s*\((?:Calender|Calendar|Callender)\)/iu', $rest, $singles, PREG_SET_ORDER)) {
+        foreach ($singles as $single) {
+            $filters[] = ['label' => trim($single[1]), 'span' => $single[0]];
+        }
+    }
+
+    $unique = [];
+    foreach ($filters as $filter) {
+        if ($filter['label'] === '' || isset($unique[$filter['label']])) {
+            continue;
+        }
+        $unique[$filter['label']] = [
+            'label' => $filter['label'],
+            'field' => ia_date_field_for($filter['label'], $columns),
+        ];
+    }
+
+    return array_values($unique);
+}
+
+function ia_clean_date_label(string $label): string
+{
+    $label = trim(preg_replace('/\((?:Calender|Calendar|Callender)\)|\[[^\]]*\]/iu', '', $label) ?? $label);
+
+    return trim($label, " :/");
+}
+
+function ia_date_base(string $label): string
+{
+    return trim(preg_replace('/(시작|끝)$/u', '', trim($label)) ?? $label);
+}
+
+/**
+ * @param  list<array{label: string, source: string, name: string}>  $columns
+ */
+function ia_date_field_for(string $label, array $columns): string
+{
+    $plain = preg_replace('/\s+/u', '', $label) ?? $label;
+    foreach ($columns as $column) {
+        $columnPlain = preg_replace('/\s+/u', '', $column['label']) ?? $column['label'];
+        if ($columnPlain !== '' && ($columnPlain === $plain || str_contains($plain, $columnPlain))) {
+            return $column['source'] === 'created_at' ? '' : (string) $column['name'];
+        }
+    }
+
+    $known = [
+        '체크인' => 'check_in',
+        '체크아웃' => 'check_out',
+        '탈퇴일시' => 'withdrawn_at',
+        '가입일시' => 'joined_at',
+        '가입일' => 'joined_at',
+        '결제일시' => 'paid_at',
+        '강의일시' => 'lecture_at',
+    ];
+    foreach ($known as $key => $name) {
+        if (str_contains($plain, $key)) {
+            return $name;
+        }
+    }
+
+    return '';
+}
+
+function ia_is_calendar_list(string $text): bool
+{
+    $text = trim($text);
+    if ($text === '' || preg_match('/리스트\s*:/u', $text)) {
+        return false;
+    }
+
+    return preg_match('/캘린더|Calender|Calendar/iu', $text) === 1
+        && preg_match('/형태|전환|일정/u', $text) === 1;
 }
 
 /**
@@ -419,10 +498,23 @@ function ia_write_index(string $slug, array $spec): void
     $dateFilter = '';
     $selectFilters = '';
     $keywordFilters = '';
-    if ($spec['date_label'] !== '') {
-        $dateFilter .= '<div class="filter-group"><label class="filter-label">'.e($spec['date_label']).'</label><div style="display:flex;gap:8px;align-items:center"><input type="date" name="start_date" class="filter-input" value="{{ request(\'start_date\') }}"><span>~</span><input type="date" name="end_date" class="filter-input" value="{{ request(\'end_date\') }}"></div>';
-        if ($spec['date_field'] !== '') {
-            $dateFilter .= '<input type="hidden" name="date_field" value="'.e($spec['date_field']).'">';
+    foreach ($spec['date_filters'] ?? [] as $index => $filter) {
+        if ($index === 0) {
+            $startName = 'start_date';
+            $endName = 'end_date';
+            $fieldName = 'date_field';
+            $startValue = "request('start_date')";
+            $endValue = "request('end_date')";
+        } else {
+            $startName = 'dates['.$index.'][start]';
+            $endName = 'dates['.$index.'][end]';
+            $fieldName = 'dates['.$index.'][field]';
+            $startValue = "request('dates.".$index.".start')";
+            $endValue = "request('dates.".$index.".end')";
+        }
+        $dateFilter .= '<div class="filter-group"><label class="filter-label">'.e($filter['label']).'</label><div style="display:flex;gap:8px;align-items:center"><input type="date" name="'.$startName.'" class="filter-input" value="{{ '.$startValue.' }}"><span>~</span><input type="date" name="'.$endName.'" class="filter-input" value="{{ '.$endValue.' }}"></div>';
+        if (($filter['field'] ?? '') !== '') {
+            $dateFilter .= '<input type="hidden" name="'.$fieldName.'" value="'.e($filter['field']).'">';
         }
         $dateFilter .= '</div>';
     }
@@ -437,10 +529,14 @@ function ia_write_index(string $slug, array $spec): void
     }
     if (! empty($spec['show_keyword'])) {
         $keyword = '';
+        $hasKeywordChoice = false;
         foreach ($spec['keyword_options'] as $option) {
+            if ($option['value'] !== 'all') {
+                $hasKeywordChoice = true;
+            }
             $keyword .= '<option value="'.e($option['value']).'" @selected(request(\'search_type\', \'all\') == \''.e($option['value']).'\')>'.e($option['label']).'</option>';
         }
-        if ($keyword !== '') {
+        if ($hasKeywordChoice) {
             $keywordFilters .= '<div class="filter-group"><label class="filter-label">필터</label><select name="search_type" class="filter-select">'.$keyword.'</select></div>';
         }
         $keywordFilters .= '<div class="filter-group"><label class="filter-label">검색어</label><input type="text" name="keyword" class="filter-input" placeholder="검색어" value="{{ request(\'keyword\') }}"></div>';
@@ -457,7 +553,7 @@ function ia_write_index(string $slug, array $spec): void
         $tools .= '<button type="button" class="btn btn-primary" onclick="iaBulk(\'승인\', \'선택한 항목을 승인하시겠습니까?\')">일괄 승인</button>';
     }
     if (in_array('bulk_delete', $spec['toolbar'], true)) {
-        $tools .= '<button type="button" id="bulk-delete-btn" class="btn btn-danger"><i class="fas fa-trash"></i> 선택 삭제</button>';
+        $tools .= '<button type="button" id="bulk-delete-btn" class="btn btn-danger" disabled><i class="fas fa-trash"></i> 선택 삭제</button>';
     }
     if (in_array('create', $spec['toolbar'], true)) {
         $tools .= '<a href="{{ route(\'backoffice.board-posts.create\', $board->slug) }}" class="btn btn-success"><i class="fas fa-plus"></i> 등록</a>';
@@ -594,6 +690,182 @@ BLADE;
             document.getElementById('ia-bulk-form').submit();
         }
     </script>
+@endsection
+BLADE;
+
+    file_put_contents($directory.'/index.blade.php', $blade);
+}
+
+function ia_write_single_index(string $slug): void
+{
+    $directory = resource_path('views/backoffice/board-posts/'.$slug);
+    if (! is_dir($directory)) {
+        mkdir($directory, 0775, true);
+    }
+
+    file_put_contents($directory.'/index.blade.php', <<<'BLADE'
+@extends('backoffice.layouts.app')
+
+@section('title', $board->name)
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/backoffice/boards.css') }}">
+@endsection
+
+@section('content')
+    <div class="board-container">
+        <div class="board-card">
+            <div class="board-card-body">
+                <div class="board-list-header">
+                    <div class="list-info"><span class="list-count">{{ $board->name }}</span></div>
+                    <div class="list-controls"><div class="board-page-buttons">
+                        @if($posts->count() > 0)
+                            <a href="{{ route('backoffice.board-posts.edit', [$board->slug, $posts->first()->id]) }}" class="btn btn-primary">수정</a>
+                        @else
+                            <a href="{{ route('backoffice.board-posts.create', $board->slug) }}" class="btn btn-success">등록</a>
+                        @endif
+                    </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+BLADE);
+}
+
+function ia_write_calendar_index(string $slug, string $text, bool $hasForm): void
+{
+    $directory = resource_path('views/backoffice/board-posts/'.$slug);
+    if (! is_dir($directory)) {
+        mkdir($directory, 0775, true);
+    }
+
+    $columns = [];
+    if (preg_match('/클릭\s*시\s*(.+)$/us', $text, $matched)) {
+        foreach (preg_split('/[,，]/u', $matched[1]) ?: [] as $piece) {
+            $label = trim(preg_replace('/표시.*$/u', '', (string) $piece) ?? (string) $piece);
+            if ($label === '' || mb_strlen($label) > 24) {
+                continue;
+            }
+            $columns[] = ia_column($label, count($columns) + 1);
+        }
+    }
+    $headers = '';
+    $cells = '';
+    foreach ($columns as $column) {
+        $headers .= '<th>'.e($column['label']).'</th>';
+        $cells .= '<td>'.ia_cell($column).'</td>';
+    }
+    if ($headers === '') {
+        $headers = '<th>제목</th><th>날짜</th>';
+        $cells = '<td><a href="{{ route(\'backoffice.board-posts.edit\', [$board->slug, $post->id]) }}">{{ $post->title }}</a></td><td>{{ optional($post->created_at)->format(\'Y-m-d\') }}</td>';
+    }
+    $create = $hasForm
+        ? '<a href="{{ route(\'backoffice.board-posts.create\', $board->slug) }}" class="btn btn-success"><i class="fas fa-plus"></i> 등록</a>'
+        : '';
+    $toggle = str_contains($text, '리스트로 전환')
+        ? '<a href="{{ route(\'backoffice.board-posts.index\', $board->slug) }}?view={{ request(\'view\') === \'list\' ? \'calendar\' : \'list\' }}" class="btn btn-secondary">{{ request(\'view\') === \'list\' ? \'캘린더로 전환\' : \'리스트로 전환\' }}</a>'
+        : '';
+
+    $blade = <<<'BLADE'
+@extends('backoffice.layouts.app')
+
+@section('title', $board->name)
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/backoffice/boards.css') }}">
+@endsection
+
+@section('content')
+    @php
+        $iaMonthText = (string) request('month', '');
+        if ($iaMonthText === '' && $posts->count() > 0) {
+            $iaMonthText = optional($posts->first()->created_at)->format('Y-m') ?: now()->format('Y-m');
+        }
+        try {
+            $iaCursor = \Illuminate\Support\Carbon::createFromFormat('Y-m', $iaMonthText !== '' ? $iaMonthText : now()->format('Y-m'))->startOfMonth();
+        } catch (\Throwable $exception) {
+            $iaCursor = now()->startOfMonth();
+        }
+        $iaEvents = [];
+        foreach ($posts as $iaPost) {
+            $iaCustom = json_decode((string) ($iaPost->custom_fields ?? ''), true);
+            $iaCustom = is_array($iaCustom) ? $iaCustom : [];
+            $iaDay = '';
+            foreach ($iaCustom as $iaValue) {
+                if (is_string($iaValue) && preg_match('/^\d{4}-\d{2}-\d{2}/', $iaValue)) {
+                    $iaDay = substr($iaValue, 0, 10);
+                    break;
+                }
+            }
+            if ($iaDay === '' && $iaPost->created_at) {
+                $iaDay = $iaPost->created_at->format('Y-m-d');
+            }
+            if ($iaDay !== '' && str_starts_with($iaDay, $iaCursor->format('Y-m'))) {
+                $iaEvents[$iaDay][] = $iaPost;
+            }
+        }
+        $iaGridStart = $iaCursor->copy()->startOfWeek(\Illuminate\Support\Carbon::SUNDAY);
+        $iaGridEnd = $iaCursor->copy()->endOfMonth()->endOfWeek(\Illuminate\Support\Carbon::SATURDAY);
+    @endphp
+    <div class="board-container">
+        <div class="board-card">
+            <div class="board-card-body">
+                <div class="board-list-header">
+                    <div class="list-info">
+                        <a class="btn btn-secondary btn-sm" href="{{ route('backoffice.board-posts.index', $board->slug) }}?month={{ $iaCursor->copy()->subMonth()->format('Y-m') }}&view={{ request('view') }}">이전달</a>
+                        <span class="list-count">{{ $iaCursor->format('Y-m') }}</span>
+                        <a class="btn btn-secondary btn-sm" href="{{ route('backoffice.board-posts.index', $board->slug) }}?month={{ $iaCursor->copy()->addMonth()->format('Y-m') }}&view={{ request('view') }}">다음달</a>
+                    </div>
+                    <div class="list-controls"><div class="board-page-buttons">
+BLADE;
+    $blade .= $toggle.$create;
+    $blade .= <<<'BLADE'
+                    </div></div>
+                </div>
+                @if(request('view') === 'list')
+                    <div class="table-responsive">
+                        <table class="board-table">
+                            <thead><tr>
+BLADE;
+    $blade .= $headers;
+    $blade .= <<<'BLADE'
+                            </tr></thead>
+                            <tbody>
+                                @forelse($posts as $post)
+                                    @php
+                                        $iaValues = json_decode((string) ($post->custom_fields ?? ''), true);
+                                        $iaValues = is_array($iaValues) ? $iaValues : [];
+                                    @endphp
+                                    <tr>
+BLADE;
+    $blade .= $cells;
+    $blade .= <<<'BLADE'
+                                    </tr>
+                                @empty
+                                    <tr><td class="text-center">등록된 일정이 없습니다.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;">
+                        @foreach(['일','월','화','수','목','금','토'] as $iaWeek)
+                            <div style="text-align:center;font-weight:600;">{{ $iaWeek }}</div>
+                        @endforeach
+                        @for($iaDate = $iaGridStart->copy(); $iaDate->lte($iaGridEnd); $iaDate->addDay())
+                            <div style="min-height:88px;border:1px solid #e5e7eb;border-radius:8px;padding:6px;{{ $iaDate->format('Y-m') === $iaCursor->format('Y-m') ? '' : 'opacity:.4;' }}">
+                                <div>{{ $iaDate->day }}</div>
+                                @foreach($iaEvents[$iaDate->format('Y-m-d')] ?? [] as $iaEvent)
+                                    <a href="{{ route('backoffice.board-posts.edit', [$board->slug, $iaEvent->id]) }}" style="display:block;font-size:12px;">{{ $iaEvent->title }}</a>
+                                @endforeach
+                            </div>
+                        @endfor
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
 @endsection
 BLADE;
 
@@ -784,7 +1056,7 @@ function ia_description_items(string $text): array
 {
     $lines = [];
     foreach (preg_split('/\R/u', $text) ?: [] as $line) {
-        $line = trim(ia_utf8((string) $line));
+        $line = ia_text((string) $line);
         if ($line !== '') {
             $lines[] = $line;
         }
@@ -804,6 +1076,11 @@ function ia_description_items(string $text): array
         if (preg_match('/^(.+?)\s*:\s*$/u', $line, $matched)) {
             $label = trim($matched[1]);
             $next = $lines[$index + 1] ?? '';
+            if (ia_label_from_control($next) !== '') {
+                $items[] = ia_blank_item('heading', $label);
+                $index++;
+                continue;
+            }
             if ($next !== '' && (ia_is_noise_line($next) || ia_is_intro_line($next))) {
                 $index += 2;
                 continue;
@@ -981,6 +1258,11 @@ function ia_utf8(string $value): string
     return is_string($clean) ? $clean : '';
 }
 
+function ia_text(string $value): string
+{
+    return trim(html_entity_decode(ia_utf8($value), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+}
+
 function ia_is_builtin_field(string $name): bool
 {
     return in_array($name, ['title', 'content', 'category', 'author_name', 'thumbnail', 'attachments', 'is_notice'], true);
@@ -1032,6 +1314,10 @@ function ia_is_sentence_line(string $line): bool
 
 function ia_is_screen_title(string $line): bool
 {
+    if (preg_match('/등록\s*\(\s*Text\s*\)\s*$/iu', $line) && ! preg_match('/input|Select|Radio|file|Editor|Drop/iu', $line)) {
+        return true;
+    }
+
     return ia_control_kind($line) === ''
         && preg_match('/:\s*$/u', $line) !== 1
         && preg_match('/등록$/u', $line) === 1
@@ -2002,6 +2288,15 @@ function ia_picker_modal(array $popup): string
                         \$iaRows = Illuminate\Support\Facades\Schema::hasTable('board_{$slug}')
                             ? Illuminate\Support\Facades\DB::table('board_{$slug}')->whereNull('deleted_at')->orderByDesc('id')->limit(50)->get()
                             : collect();
+                        \$iaSelects = [];
+                        \$iaConfig = json_decode((string) (Illuminate\Support\Facades\DB::table('boards')->where('slug', '{$slug}')->value('custom_fields_config') ?? ''), true);
+                        if (is_array(\$iaConfig)) {
+                            foreach (\$iaConfig as \$iaField) {
+                                if (is_array(\$iaField) && (\$iaField['type'] ?? '') === 'select' && preg_match('/카테고리|역할|분류/u', (string) (\$iaField['label'] ?? ''))) {
+                                    \$iaSelects[] = (string) (\$iaField['name'] ?? '');
+                                }
+                            }
+                        }
                         \$iaShown = 0;
                     @endphp
                     @foreach(\$iaRows as \$iaRow)
@@ -2012,6 +2307,12 @@ function ia_picker_modal(array $popup): string
                             if (\$iaName === '') \$iaName = trim((string) (\$iaRow->title ?? ''));
                             \$iaCategory = trim((string) (\$iaRow->category ?? ''));
                             if (\$iaCategory === '') \$iaCategory = trim((string) (\$iaCustom['category'] ?? ''));
+                            if (\$iaCategory === '' && isset(\$iaSelects)) {
+                                foreach (\$iaSelects as \$iaSelectName) {
+                                    \$iaPicked = trim((string) (\$iaCustom[\$iaSelectName] ?? ''));
+                                    if (\$iaPicked !== '') { \$iaCategory = \$iaPicked; break; }
+                                }
+                            }
                         @endphp
                         @if(\$iaName !== '')
                             @php \$iaShown++; @endphp
@@ -2060,7 +2361,7 @@ function ia_seed_samples(): array
     $notes = [];
     foreach (App\Models\Board::query()->where('is_active', true)->get() as $board) {
         $slug = (string) $board->slug;
-        if (! preg_match('/^[a-z0-9-]+$/', $slug) || in_array($slug, ['company', 'companyintro', 'company-intro', 'privacy-policy', 'terms', 'email-policy', 'register', 'announcements', 'calendar', 'login', 'dashboard'], true)) {
+        if (! preg_match('/^[a-z0-9-]+$/', $slug) || $board->is_single_page) {
             if (preg_match('/^[a-z0-9-]+$/', $slug) && Illuminate\Support\Facades\Schema::hasTable('board_'.$slug)) {
                 Illuminate\Support\Facades\DB::table('board_'.$slug)->where('author_name', '샘플')->delete();
             }
@@ -2075,6 +2376,9 @@ function ia_seed_samples(): array
         $count = ia_sample_count($slug, (string) $board->name);
         $fields = is_array($board->custom_fields_config) ? $board->custom_fields_config : [];
         $categories = ia_sample_categories($slug);
+        if ($categories === []) {
+            $categories = ia_sample_role_options($fields);
+        }
         $rows = [];
         for ($index = 1; $index <= $count; $index++) {
             $custom = ['ia_sample' => '1'];
@@ -2188,6 +2492,32 @@ function ia_sample_field_value(array $field, int $index): string
 }
 
 /**
+ * @param  list<array<string, mixed>>  $fields
+ * @return list<string>
+ */
+function ia_sample_role_options(array $fields): array
+{
+    foreach ($fields as $field) {
+        if (! is_array($field) || ($field['type'] ?? '') !== 'select') {
+            continue;
+        }
+        if (! preg_match('/카테고리|역할|분류/u', (string) ($field['label'] ?? ''))) {
+            continue;
+        }
+        $raw = $field['options'] ?? '';
+        $options = array_values(array_filter(array_map(
+            'trim',
+            is_array($raw) ? $raw : explode(',', (string) $raw)
+        )));
+        if ($options !== []) {
+            return $options;
+        }
+    }
+
+    return [];
+}
+
+/**
  * @return list<string>
  */
 function ia_sample_categories(string $slug): array
@@ -2202,5 +2532,8 @@ function ia_sample_categories(string $slug): array
     }
     preg_match_all('/<option value="([^"]+)"/', $matched[0], $options);
 
-    return array_values(array_filter($options[1] ?? []));
+    return array_values(array_filter(array_map(
+        static fn (string $option): string => html_entity_decode($option, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+        $options[1] ?? []
+    )));
 }

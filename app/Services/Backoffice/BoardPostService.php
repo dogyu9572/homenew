@@ -110,6 +110,33 @@ class BoardPostService
             }
         }
 
+        $extraDates = $request->input('dates', []);
+        if (is_array($extraDates)) {
+            foreach ($extraDates as $range) {
+                if (! is_array($range)) {
+                    continue;
+                }
+                $extraField = $this->safeCustomField((string) ($range['field'] ?? ''));
+                $extraStart = (string) ($range['start'] ?? '');
+                $extraEnd = (string) ($range['end'] ?? '');
+                if ($extraField !== '') {
+                    if ($extraStart !== '') {
+                        $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_fields, '$.\"{$extraField}\"')) >= ?", [$extraStart]);
+                    }
+                    if ($extraEnd !== '') {
+                        $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_fields, '$.\"{$extraField}\"')) <= ?", [$extraEnd.' 23:59:59']);
+                    }
+                    continue;
+                }
+                if ($extraStart !== '') {
+                    $query->whereDate('created_at', '>=', $extraStart);
+                }
+                if ($extraEnd !== '') {
+                    $query->whereDate('created_at', '<=', $extraEnd);
+                }
+            }
+        }
+
         if ($request->filled('category')) {
             $query->where('category', $request->category);
         }

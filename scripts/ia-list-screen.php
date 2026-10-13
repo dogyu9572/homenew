@@ -1741,6 +1741,21 @@ function ia_described_form(array $items, bool $edit): string
     }
 
     $extraStyles = $modals !== '' ? "\n    <link rel=\"stylesheet\" href=\"{{ asset('css/backoffice/approval.css') }}?v=2\">" : '';
+    $extraStyles .= <<<'CSS'
+
+<style>
+.ia-entry .bo-form-row { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 12px; }
+.ia-entry .bo-form-label { width: 120px; min-width: 120px; margin: 8px 0 0; font-weight: 600; font-size: 13px; line-height: 1.3; }
+.ia-entry .bo-form-field { flex: 1; min-width: 0; }
+.ia-entry .bo-form-field .board-form-control { width: 100%; }
+.ia-entry .bo-form-row-2 { display: grid; grid-template-columns: 120px minmax(0, 1fr) 120px minmax(0, 1fr); column-gap: 16px; row-gap: 8px; align-items: center; }
+.ia-entry .bo-form-row-2 .bo-form-label { width: auto; min-width: 0; margin: 0; }
+.ia-entry .bo-form-row-2 .bo-form-field { flex: none; }
+@media (max-width: 768px) {
+    .ia-entry .bo-form-row-2 { grid-template-columns: 120px minmax(0, 1fr); }
+}
+</style>
+CSS;
     $extraScripts = ($showThumbnail || $showAttachments) ? "\n<script src=\"{{ asset('js/backoffice/board-post-form.js') }}\"></script>" : '';
     $editorAssets = $showEditor ? "\n<x-backoffice-ckeditor-assets />" : '';
     $customFileScript = '';
@@ -1792,7 +1807,7 @@ JS;
             @if (\$errors->any())
                 <div class="board-alert board-alert-danger"><ul>@foreach (\$errors->all() as \$error)<li>{{ \$error }}</li>@endforeach</ul></div>
             @endif
-            <form action="{$action}" method="POST" enctype="multipart/form-data">
+            <form class="ia-entry" action="{$action}" method="POST" enctype="multipart/form-data">
                 @csrf{$method}
                 {$fields}
                 <div class="board-form-actions">
@@ -1865,24 +1880,44 @@ function ia_layout_described_items(array $items, bool $edit): string
 {
     $html = '';
     $pair = [];
-    $sectionCount = 0;
+    $open = false;
     $flush = function () use (&$html, &$pair, $edit): void {
         if ($pair === []) {
             return;
         }
-        $html .= '<div class="board-form-row">';
+        $html .= '<div class="bo-form-row bo-form-row-2">';
         foreach ($pair as $item) {
-            $html .= '<div class="board-form-col-6">'.ia_described_control($item, $edit).'</div>';
-        }
-        if (count($pair) === 1) {
-            $html .= '<div class="board-form-col-6"></div>';
+            $html .= ia_described_control($item, $edit);
         }
         $html .= '</div>';
         $pair = [];
     };
+    $ensure = function () use (&$html, &$open): void {
+        if ($open) {
+            return;
+        }
+        $html .= '<div class="bo-form-section"><div class="bo-form-list">';
+        $open = true;
+    };
 
     foreach ($items as $item) {
         if (! is_array($item)) {
+            continue;
+        }
+        if (($item['kind'] ?? '') === 'heading') {
+            $flush();
+            if ($open) {
+                $html .= '</div></div>';
+                $open = false;
+            }
+            $html .= '<div class="bo-form-section"><h3 class="bo-section-title" style="margin:1.25rem 0 0.5rem;padding-bottom:0.35rem;border-bottom:1px solid #dee2e6;font-size:1rem;font-weight:700">'.e((string) ($item['label'] ?? '')).'</h3><div class="bo-form-list">';
+            $open = true;
+            continue;
+        }
+        $ensure();
+        if (($item['kind'] ?? '') === 'note') {
+            $flush();
+            $html .= '<p class="board-form-text">'.e((string) ($item['label'] ?? '')).'</p>';
             continue;
         }
         if (! ia_field_is_wide($item)) {
@@ -1893,15 +1928,12 @@ function ia_layout_described_items(array $items, bool $edit): string
             continue;
         }
         $flush();
-        if (($item['kind'] ?? '') === 'heading') {
-            $sectionCount++;
-            $margin = $sectionCount === 1 ? '0 0 0.75rem' : '1.35rem 0 0.75rem';
-            $html .= '<div style="margin:'.$margin.';padding-bottom:0.45rem;border-bottom:1px solid #dee2e6;font-size:1rem;font-weight:700">'.e((string) ($item['label'] ?? '')).'</div>';
-            continue;
-        }
-        $html .= ia_described_control($item, $edit);
+        $html .= '<div class="bo-form-row">'.ia_described_control($item, $edit).'</div>';
     }
     $flush();
+    if ($open) {
+        $html .= '</div></div>';
+    }
 
     return $html;
 }
@@ -1987,15 +2019,13 @@ function ia_input_max_width(array $item): string
 /**
  * @param  array<string, mixed>  $item
  */
-function ia_limit_group(array $item, string $html): string
+function ia_side_control(array $item, string $labelHtml, string $controlHtml, string $for = ''): string
 {
     $max = ia_input_max_width($item);
-    $open = '<div class="board-form-group">';
-    if ($max === '' || ! str_starts_with($html, $open)) {
-        return $html;
-    }
+    $style = $max !== '' ? ' style="max-width:'.$max.'"' : '';
+    $forAttr = $for !== '' ? ' for="'.$for.'"' : '';
 
-    return '<div class="board-form-group" style="max-width:'.$max.'">'.substr($html, strlen($open));
+    return '<label class="bo-form-label"'.$forAttr.'>'.$labelHtml.'</label><div class="bo-form-field"'.$style.'>'.$controlHtml.'</div>';
 }
 
 /**
@@ -2008,7 +2038,7 @@ function ia_described_control(array $item, bool $edit): string
     $hint = trim((string) ($item['hint'] ?? ''));
     $hintHtml = $hint !== '' ? '<p class="board-form-text">'.e($hint).'</p>' : '';
     if ($kind === 'heading') {
-        return '<div style="margin:1.35rem 0 0.75rem;padding-bottom:0.45rem;border-bottom:1px solid #dee2e6;font-size:1rem;font-weight:700">'.$label.'</div>';
+        return '<h3 class="bo-section-title">'.$label.'</h3>';
     }
     if ($kind === 'note') {
         return '<p class="board-form-text">'.$label.'</p>';
@@ -2017,7 +2047,7 @@ function ia_described_control(array $item, bool $edit): string
         $start = ia_described_date((string) $item['start_name'], (string) $item['start_label'], $edit);
         $end = ia_described_date((string) $item['end_name'], (string) $item['end_label'], $edit);
 
-        return ia_limit_group($item, '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'.$start.'<span>~</span>'.$end.'</div>'.$hintHtml.'</div>');
+        return ia_side_control($item, $label, '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'.$start.'<span>~</span>'.$end.'</div>'.$hintHtml);
     }
     if ($kind === 'popup') {
         $name = e((string) (($item['fills'] ?? '') !== '' ? $item['fills'] : $item['name']));
@@ -2025,7 +2055,7 @@ function ia_described_control(array $item, bool $edit): string
             ? '<input type="hidden" name="custom_field_'.$name.'" id="custom_field_'.$name.'" value="{{ old(\'custom_field_'.$name.'\', $iaSaved[\''.$name.'\'] ?? \'\') }}"><span id="ia-picked-'.$name.'">{{ old(\'custom_field_'.$name.'\', $iaSaved[\''.$name.'\'] ?? \'\') }}</span>'
             : '';
 
-        return ia_limit_group($item, '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div class="board-page-buttons">'.$hidden.'<button type="button" class="btn btn-primary btn-sm" data-ia-open="'.$name.'">'.$label.'</button></div>'.$hintHtml.'</div>');
+        return ia_side_control($item, $label, '<div class="board-page-buttons">'.$hidden.'<button type="button" class="btn btn-primary btn-sm" data-ia-open="'.$name.'">'.$label.'</button></div>'.$hintHtml);
     }
     if ($kind === 'file') {
         return ia_described_file($item);
@@ -2036,31 +2066,26 @@ function ia_described_control(array $item, bool $edit): string
     $inputId = e(ia_input_id($name));
     $current = ia_old_expression($name, $edit);
     if ($kind === 'radio' || $kind === 'select') {
-        $html = ia_described_choice($item, $inputName, $inputId, $current);
-        if ($hintHtml !== '') {
-            $html = preg_replace('/<\/label>/', '</label>'.$hintHtml, $html, 1) ?? $html;
-        }
-
-        return ia_limit_group($item, $html);
+        return ia_side_control($item, $label, ia_described_choice($item, $inputName, $inputId, $current).$hintHtml, $inputId);
     }
     if ($kind === 'editor') {
-        return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.' <span class="required">*</span></label><textarea class="board-form-control board-form-textarea" id="'.$inputId.'" name="'.$inputName.'" rows="12" data-backoffice-ckeditor data-source-editing="true" required>{{ '.$current.' }}</textarea>'.$hintHtml.'</div>';
+        return ia_side_control($item, $label.' <span class="required">*</span>', '<textarea class="board-form-control board-form-textarea" id="'.$inputId.'" name="'.$inputName.'" rows="12" data-backoffice-ckeditor data-source-editing="true" required>{{ '.$current.' }}</textarea>'.$hintHtml, $inputId);
     }
     if ($kind === 'check') {
         $checked = $name === 'is_notice'
             ? "@checked(old('is_notice', isset(\$post) ? \$post->is_notice : 0) == 1)"
             : '@checked('.$current.' == \'1\')';
 
-        return ia_limit_group($item, '<div class="board-form-group"><div class="board-checkbox-item"><input type="checkbox" class="board-checkbox-input" id="'.$inputId.'" name="'.$inputName.'" value="1" '.$checked.'><label for="'.$inputId.'" class="board-form-label">'.$label.'</label></div>'.$hintHtml.'</div>');
+        return ia_side_control($item, $label, '<input type="checkbox" class="board-checkbox-input" id="'.$inputId.'" name="'.$inputName.'" value="1" '.$checked.'>'.$hintHtml, $inputId);
     }
     if ($kind === 'date') {
-        return ia_limit_group($item, '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.'</label>'.ia_described_date($name, '', $edit).$hintHtml.'</div>');
+        return ia_side_control($item, $label, ia_described_date($name, '', $edit).$hintHtml, $inputId);
     }
 
     $required = in_array($name, ['title', 'content'], true) ? ' required' : '';
     $star = $required !== '' ? ' <span class="required">*</span>' : '';
 
-    return ia_limit_group($item, '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.$star.'</label><input type="text" class="board-form-control" id="'.$inputId.'" name="'.$inputName.'" value="{{ '.$current.' }}"'.$required.'>'.$hintHtml.'</div>');
+    return ia_side_control($item, $label.$star, '<input type="text" class="board-form-control" id="'.$inputId.'" name="'.$inputName.'" value="{{ '.$current.' }}"'.$required.'>'.$hintHtml, $inputId);
 }
 
 /**
@@ -2068,7 +2093,6 @@ function ia_described_control(array $item, bool $edit): string
  */
 function ia_described_choice(array $item, string $inputName, string $inputId, string $current): string
 {
-    $label = e((string) $item['label']);
     if (($item['kind'] ?? '') === 'select') {
         $options = '<option value="">선택</option>';
         foreach ((array) $item['options'] as $option) {
@@ -2076,7 +2100,7 @@ function ia_described_choice(array $item, string $inputName, string $inputId, st
             $options .= '<option value="'.e((string) $option).'" @selected('.$current.' == \''.$quoted.'\')>'.e((string) $option).'</option>';
         }
 
-        return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.'</label><select class="board-form-control" id="'.$inputId.'" name="'.$inputName.'">'.$options.'</select></div>';
+        return '<select class="board-form-control" id="'.$inputId.'" name="'.$inputName.'">'.$options.'</select>';
     }
 
     $radios = '';
@@ -2086,7 +2110,7 @@ function ia_described_choice(array $item, string $inputName, string $inputId, st
         $radios .= '<div class="board-option-item"><input type="radio" id="'.$optionId.'" name="'.$inputName.'" value="'.e((string) $option).'" @checked('.$current.' == \''.$quoted.'\')><label for="'.$optionId.'">'.e((string) $option).'</label></div>';
     }
 
-    return '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div class="board-options-list board-options-horizontal">'.$radios.'</div></div>';
+    return '<div class="board-options-list board-options-horizontal">'.$radios.'</div>';
 }
 
 function ia_described_date(string $name, string $label, bool $edit): string
@@ -2108,22 +2132,20 @@ function ia_described_file(array $item): string
     $hint = trim((string) ($item['hint'] ?? ''));
     $mode = (string) ($item['file'] ?? 'custom');
     if ($mode === 'thumbnail') {
-        return <<<HTML
-<div class="board-form-group">
-    <label for="thumbnail" class="board-form-label">{$label}</label>
-    <div class="board-file-upload">
-        <div class="board-file-input-wrapper">
-            <input type="file" class="board-file-input" id="thumbnail" name="thumbnail" accept=".jpg,.jpeg,.png,.gif">
-            <div class="board-file-input-content">
-                <i class="fas fa-image"></i>
-                <span class="board-file-input-text">썸네일 이미지를 선택하거나 여기로 드래그하세요</span>
-                <span class="board-file-input-subtext">JPG, PNG, GIF 파일만 가능 (최대 5MB)</span>
-            </div>
+        return ia_side_control($item, $label, <<<'HTML'
+<div class="board-file-upload">
+    <div class="board-file-input-wrapper">
+        <input type="file" class="board-file-input" id="thumbnail" name="thumbnail" accept=".jpg,.jpeg,.png,.gif">
+        <div class="board-file-input-content">
+            <i class="fas fa-image"></i>
+            <span class="board-file-input-text">썸네일 이미지를 선택하거나 여기로 드래그하세요</span>
+            <span class="board-file-input-subtext">JPG, PNG, GIF 파일만 가능 (최대 5MB)</span>
         </div>
-        <div class="board-file-preview" id="thumbnailPreview"></div>
     </div>
+    <div class="board-file-preview" id="thumbnailPreview"></div>
 </div>
-HTML;
+HTML
+        , 'thumbnail');
     }
     if ($mode === 'attachments') {
         $maxFiles = (int) ($item['max_files'] ?? 5);
@@ -2131,23 +2153,20 @@ HTML;
         $sub = e('최대 '.$maxFiles.'개, 각 파일 '.$maxMb.'MB 이하');
         $note = $hint !== '' ? '<p class="board-form-text">'.e($hint).'</p>' : '';
 
-        return <<<HTML
-<div class="board-form-group">
-    <label class="board-form-label">{$label}</label>
-    {$note}
-    <div class="board-file-upload">
-        <div class="board-file-input-wrapper">
-            <input type="file" class="board-file-input" id="attachments" name="attachments[]" multiple>
-            <div class="board-file-input-content">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <span class="board-file-input-text">파일을 선택하거나 여기로 드래그하세요</span>
-                <span class="board-file-input-subtext">{$sub}</span>
-            </div>
+        return ia_side_control($item, $label, $note.<<<HTML
+<div class="board-file-upload">
+    <div class="board-file-input-wrapper">
+        <input type="file" class="board-file-input" id="attachments" name="attachments[]" multiple>
+        <div class="board-file-input-content">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span class="board-file-input-text">파일을 선택하거나 여기로 드래그하세요</span>
+            <span class="board-file-input-subtext">{$sub}</span>
         </div>
-        <div class="board-file-preview" id="filePreview"></div>
     </div>
+    <div class="board-file-preview" id="filePreview"></div>
 </div>
-HTML;
+HTML
+        );
     }
 
     $name = (string) $item['name'];
@@ -2155,26 +2174,23 @@ HTML;
     $inputId = e(ia_input_id($name));
     $note = $hint !== '' ? '<p class="board-form-text">'.e($hint).'</p>' : '';
 
-    return <<<HTML
-<div class="board-form-group">
-    <label class="board-form-label" for="{$inputId}">{$label}</label>
-    {$note}
-    @if(!empty(\$iaSaved['{$name}']))
-        <p class="board-form-text">현재 파일: {{ \$iaSaved['{$name}'] }}</p>
-        <input type="hidden" name="existing_custom_field_{$name}" value="{{ \$iaSaved['{$name}'] }}">
-    @endif
-    <div class="board-file-upload" data-ia-file="{$inputId}">
-        <div class="board-file-input-wrapper">
-            <input type="file" class="board-file-input" id="{$inputId}" name="{$inputName}">
-            <div class="board-file-input-content">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <span class="board-file-input-text">파일을 선택하거나 여기로 드래그하세요</span>
-                <span class="board-file-input-subtext">파일을 선택해 주세요</span>
-            </div>
+    return ia_side_control($item, $label, $note.<<<HTML
+@if(!empty(\$iaSaved['{$name}']))
+    <p class="board-form-text">현재 파일: {{ \$iaSaved['{$name}'] }}</p>
+    <input type="hidden" name="existing_custom_field_{$name}" value="{{ \$iaSaved['{$name}'] }}">
+@endif
+<div class="board-file-upload" data-ia-file="{$inputId}">
+    <div class="board-file-input-wrapper">
+        <input type="file" class="board-file-input" id="{$inputId}" name="{$inputName}">
+        <div class="board-file-input-content">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span class="board-file-input-text">파일을 선택하거나 여기로 드래그하세요</span>
+            <span class="board-file-input-subtext">파일을 선택해 주세요</span>
         </div>
     </div>
 </div>
-HTML;
+HTML
+    , $inputId);
 }
 
 function ia_input_name(string $name): string

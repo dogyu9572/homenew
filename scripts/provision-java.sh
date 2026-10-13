@@ -257,7 +257,10 @@ echo "템플릿 복제를 시작합니다."
 if [ ! -d "$TEMPLATE_MIRROR" ]; then
     echo "자바 공통모듈 미러를 만듭니다."
     as_root mkdir -p "$(dirname "$TEMPLATE_MIRROR")"
-    as_root git -c "safe.directory=${JAVA_TEMPLATE_SOURCE}" clone --bare "$JAVA_TEMPLATE_SOURCE" "$TEMPLATE_MIRROR"
+    as_root cp -a "${JAVA_TEMPLATE_SOURCE}/.git" "$TEMPLATE_MIRROR"
+    as_root chown -R root:root "$TEMPLATE_MIRROR"
+    as_root git --git-dir="$TEMPLATE_MIRROR" config --bool core.bare true
+    as_root git --git-dir="$TEMPLATE_MIRROR" config --unset core.worktree || true
 fi
 
 MIRROR_PUBLIC_URL="https://github.com/${GITHUB_ORG}/hk-java.git"
@@ -273,9 +276,9 @@ as_root git --git-dir="$TEMPLATE_MIRROR" remote set-url origin "$MIRROR_PUBLIC_U
 rm -f "$MIRROR_FETCH_LOG"
 MIRROR_FETCH_LOG=""
 
-if git --git-dir="$TEMPLATE_MIRROR" show-ref --verify --quiet refs/heads/main; then
+if as_root git --git-dir="$TEMPLATE_MIRROR" show-ref --verify --quiet refs/heads/main; then
     BRANCH=main
-elif git --git-dir="$TEMPLATE_MIRROR" show-ref --verify --quiet refs/heads/master; then
+elif as_root git --git-dir="$TEMPLATE_MIRROR" show-ref --verify --quiet refs/heads/master; then
     BRANCH=master
 else
     echo "템플릿 미러에 main 또는 master 브랜치가 없습니다." >&2

@@ -17,7 +17,10 @@ class ProjectProvision extends Model
 
     public const STACK_LARAVEL = 'laravel';
 
+    public const STACK_JAVA = 'java';
+
     protected $fillable = [
+        'customer_name',
         'project_name',
         'stack',
         'root_password',
@@ -30,7 +33,10 @@ class ProjectProvision extends Model
         'step',
         'log',
         'site_url',
+        'pub_site_url',
         'git_url',
+        'ia_file_path',
+        'ia_apply_note',
         'created_by',
     ];
 
@@ -73,7 +79,9 @@ class ProjectProvision extends Model
             'clone' => '템플릿 복제',
             'github' => '깃 저장소 생성',
             'laravel' => '라라벨 설치',
+            'java' => '자바 서비스',
             'permission' => '권한 및 FTP',
+            'publish' => '퍼블 사이트',
             'nginx' => '웹서버 설정',
             'done' => '완료',
             default => $this->step ? (string) $this->step : '-',
@@ -82,6 +90,10 @@ class ProjectProvision extends Model
 
     public function stackLabel(): string
     {
-        return $this->stack === self::STACK_LARAVEL ? '라라벨' : (string) $this->stack;
+        return match ($this->stack) {
+            self::STACK_LARAVEL => '라라벨',
+            self::STACK_JAVA => '자바',
+            default => (string) $this->stack,
+        };
     }
 }

@@ -29,6 +29,7 @@ class ProjectProvisionService
             (string) config('provision.db_admin_password'),
             (string) config('provision.github_token'),
             (string) config('provision.github_webhook_secret'),
+            $provision->stack === ProjectProvision::STACK_JAVA ? 'homepagekorea' : '',
         ]));
 
         $missing = $this->missingConfig($provision);

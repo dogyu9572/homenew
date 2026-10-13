@@ -225,6 +225,30 @@ if ! mysqldump --defaults-extra-file="$MYSQL_CNF" --single-transaction --skip-ad
     echo "공통모듈 기본 데이터를 넣지 못했습니다." >&2
     exit 1
 fi
+
+php <<'PHP'
+<?php
+$db = (string) getenv('DB_DATABASE');
+$hash = password_hash('homepagekorea', PASSWORD_BCRYPT);
+if (! is_string($hash) || $hash === '' || ! password_verify('homepagekorea', $hash)) {
+    fwrite(STDERR, "기본 관리자 계정을 넣지 못했습니다.\n");
+    exit(1);
+}
+if (str_starts_with($hash, '$2y$')) {
+    $hash = '$2a$'.substr($hash, 4);
+}
+$hashSql = str_replace(["\\", "'"], ["\\\\", "\\'"], (string) $hash);
+$sql = "INSERT INTO `{$db}`.`ADMIN_INFO` (AI_ID, AI_NAME, AI_EMAIL, AI_PASSWORD, AI_STATUS, AI_ROLE, AI_CREATED_AT, AI_UPDATED_AT) "
+    ."VALUES ('homepage', '관리자', 'homepage@hk-test.co.kr', '{$hashSql}', 'ACTIVE', 'SUPER', NOW(), NOW()) "
+    ."ON DUPLICATE KEY UPDATE AI_NAME='관리자', AI_EMAIL='homepage@hk-test.co.kr', AI_PASSWORD='{$hashSql}', AI_STATUS='ACTIVE', AI_ROLE='SUPER', AI_UPDATED_AT=NOW();\n";
+file_put_contents((string) getenv('SQL_FILE'), $sql);
+PHP
+
+if ! mysql --defaults-extra-file="$MYSQL_CNF" < "$SQL_FILE"; then
+    echo "기본 관리자 계정을 넣지 못했습니다." >&2
+    exit 1
+fi
+echo "기본 관리자 계정을 넣었습니다."
 echo "데이터베이스와 사용자를 만들었습니다."
 
 step clone

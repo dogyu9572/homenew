@@ -150,15 +150,17 @@ foreach ($items as $item) {
         $formText = (string) ($item['form_text'] ?? '');
         $spec = ia_list_spec($listText);
         $popups = ia_form_popups($formText);
-        $customFields = $spec ? ia_custom_fields($spec) : $storedFields;
+        $described = ia_description_items($formText);
+        $useDescribed = ia_description_has_inputs($described);
+        $customFields = $useDescribed ? ia_fields_from_items($described) : ($spec ? ia_custom_fields($spec) : $storedFields);
         $payload = [
             'name' => $label,
             'is_active' => true,
             'is_single_page' => (bool) ($item['single'] ?? false),
             'permission_read' => ($item['read'] ?? '') === 'all' ? 'all' : 'member',
             'list_count' => 10,
-            'field_config' => $spec ? ia_field_config_from($spec, $formText) : ia_field_config(),
-            'custom_fields_config' => ia_merge_popups($customFields, $popups),
+            'field_config' => $useDescribed ? ia_field_config_from_items($described) : ($spec ? ia_field_config_from($spec, $formText) : ia_field_config()),
+            'custom_fields_config' => $useDescribed ? $customFields : ia_merge_popups($customFields, $popups),
         ];
         $board = App\Models\Board::withTrashed()->where('slug', $slug)->first();
         if ($board) {

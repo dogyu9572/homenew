@@ -3,10 +3,10 @@
 namespace App\Services\Backoffice;
 
 use App\Models\Board;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class BoardPostService
 {
@@ -15,7 +15,7 @@ class BoardPostService
      */
     public function getTableName(string $slug): string
     {
-        return 'board_' . $slug;
+        return 'board_'.$slug;
     }
 
     /**
@@ -24,13 +24,13 @@ class BoardPostService
     public function getPosts(string $slug, Request $request)
     {
         $query = DB::table($this->getTableName($slug));
-        
+
         $this->applySearchFilters($query, $request);
-        
+
         // 목록 개수 설정
         $perPage = $request->get('per_page', 10);
         $perPage = in_array($perPage, [10, 20, 50, 100]) ? $perPage : 10;
-        
+
         // 정렬 기능이 활성화된 게시판인지 확인
         $board = Board::where('slug', $slug)->first();
         if ($board && $board->enable_sorting) {
@@ -49,29 +49,105 @@ class BoardPostService
         }
 
         $this->transformDates($posts);
+
         return $posts;
     }
 
     /**
      * 검색 필터 적용
      */
-    private function applySearchFilters($query, Request $request): void
+    public function matchingPosts(string $slug, Request $request)
     {
-        if ($request->filled('start_date')) {
-            $query->whereDate('created_at', '>=', $request->start_date);
+        $query = DB::table($this->getTableName($slug));
+        $this->applySearchFilters($query, $request);
+
+        return $query->orderByDesc('id')->limit(5000)->get();
+    }
+
+    public function setCustomStatus(string $slug, array $ids, string $field, string $value): int
+    {
+        if (! preg_match('/^[a-z][a-z0-9_]{0,40}$/', $field)) {
+            return 0;
         }
 
-        if ($request->filled('end_date')) {
-            $query->whereDate('created_at', '<=', $request->end_date);
+        $count = 0;
+        foreach ($ids as $id) {
+            $row = DB::table($this->getTableName($slug))->where('id', (int) $id)->first();
+            if (! $row) {
+                continue;
+            }
+            $data = json_decode((string) ($row->custom_fields ?? ''), true);
+            if (! is_array($data)) {
+                $data = [];
+            }
+            $data[$field] = $value;
+            DB::table($this->getTableName($slug))->where('id', (int) $id)->update([
+                'custom_fields' => json_encode($data, JSON_UNESCAPED_UNICODE),
+                'updated_at' => now(),
+            ]);
+            $count++;
+        }
+
+        return $count;
+    }
+
+    private function applySearchFilters($query, Request $request): void
+    {
+        $dateField = $this->safeCustomField((string) $request->input('date_field', ''));
+        if ($dateField !== '') {
+            if ($request->filled('start_date')) {
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_fields, '$.\"{$dateField}\"')) >= ?", [$request->start_date]);
+            }
+            if ($request->filled('end_date')) {
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_fields, '$.\"{$dateField}\"')) <= ?", [$request->end_date.' 23:59:59']);
+            }
+        } else {
+            if ($request->filled('start_date')) {
+                $query->whereDate('created_at', '>=', $request->start_date);
+            }
+            if ($request->filled('end_date')) {
+                $query->whereDate('created_at', '<=', $request->end_date);
+            }
         }
 
         if ($request->filled('category')) {
             $query->where('category', $request->category);
         }
 
-        if ($request->filled('keyword')) {
-            $this->applyKeywordSearch($query, $request->keyword, $request->search_type);
+        $filters = $request->input('cf', []);
+        if (is_array($filters)) {
+            foreach ($filters as $name => $value) {
+                $field = $this->safeCustomField((string) $name);
+                if ($field === '' || ! is_string($value) || $value === '') {
+                    continue;
+                }
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_fields, '$.\"{$field}\"')) = ?", [$value]);
+            }
         }
+
+        if ($request->filled('keyword')) {
+            $searchType = (string) $request->input('search_type', '');
+            $field = $this->safeCustomField($searchType);
+            if (in_array($searchType, ['title', 'content'], true)) {
+                $this->applyKeywordSearch($query, $request->keyword, $searchType);
+            } elseif ($searchType === 'all' || $searchType === '') {
+                $keyword = '%'.$request->keyword.'%';
+                $query->where(function ($inner) use ($keyword) {
+                    $inner->where('title', 'like', $keyword)
+                        ->orWhere('content', 'like', $keyword)
+                        ->orWhere('custom_fields', 'like', $keyword);
+                });
+            } elseif ($field !== '') {
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_fields, '$.\"{$field}\"')) like ?", ['%'.$request->keyword.'%']);
+            } else {
+                $this->applyKeywordSearch($query, $request->keyword, $searchType);
+            }
+        }
+    }
+
+    private function safeCustomField(string $name): string
+    {
+        return preg_match('/^[a-z][a-z0-9_]{0,40}$/', $name) ? $name : '';
     }
 
     /**
@@ -84,9 +160,9 @@ class BoardPostService
         } elseif ($searchType === 'content') {
             $query->where('content', 'like', "%{$keyword}%");
         } else {
-            $query->where(function($q) use ($keyword) {
+            $query->where(function ($q) use ($keyword) {
                 $q->where('title', 'like', "%{$keyword}%")
-                  ->orWhere('content', 'like', "%{$keyword}%");
+                    ->orWhere('content', 'like', "%{$keyword}%");
             });
         }
     }
@@ -102,6 +178,7 @@ class BoardPostService
                     $post->$dateField = Carbon::parse($post->$dateField);
                 }
             }
+
             return $post;
         });
     }
@@ -112,7 +189,7 @@ class BoardPostService
     public function storePost(string $slug, array $validated, Request $request, $board): int
     {
         $data = $this->preparePostData($validated, $request, $slug, $board);
-        
+
         return DB::table($this->getTableName($slug))->insertGetId($data);
     }
 
@@ -126,18 +203,18 @@ class BoardPostService
         if ($board && $board->enable_sorting) {
             $sortOrder = $this->getNextSortOrder($slug);
         }
-        
+
         // is_active 필드 처리: 필드가 활성화되어 있고 요청에 있으면 사용, 없으면 기본값 true
         $isActive = true;
         if ($board && $board->isFieldEnabled('is_active')) {
-            $isActive = $request->has('is_active') ? (bool)$request->input('is_active') : true;
+            $isActive = $request->has('is_active') ? (bool) $request->input('is_active') : true;
         }
 
         return [
             'user_id' => Auth::id(),
             'author_name' => $validated['author_name'] ?? (Auth::user()->name ?? '관리자'),
-            'title' => $validated['title'],
-            'content' => $this->sanitizeContent($validated['content']),
+            'title' => (string) ($validated['title'] ?? ''),
+            'content' => $this->sanitizeContent((string) ($validated['content'] ?? '')),
             'category' => $validated['category'] ?? null,
             'is_notice' => $request->has('is_notice'),
             'is_secret' => $request->has('is_secret'),
@@ -149,7 +226,7 @@ class BoardPostService
             'view_count' => 0,
             'sort_order' => $sortOrder,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ];
     }
 
@@ -160,7 +237,7 @@ class BoardPostService
     {
         $maxSortOrder = DB::table($this->getTableName($slug))
             ->max('sort_order');
-        
+
         return ($maxSortOrder ?? 0) + 1;
     }
 
@@ -178,6 +255,7 @@ class BoardPostService
     private function sanitizeContent(string $content): string
     {
         $allowedTags = '<p><br><strong><em><u><ol><ul><li><h1><h2><h3><h4><h5><h6><blockquote><pre><code><table><thead><tbody><tr><td><th><a><img><div><span><iframe><video><source>';
+
         return strip_tags($content, $allowedTags);
     }
 
@@ -190,17 +268,17 @@ class BoardPostService
         if ($request->has('remove_thumbnail')) {
             return null;
         }
-        
+
         // 새 썸네일이 업로드된 경우
         if ($request->hasFile('thumbnail')) {
-            return $request->file('thumbnail')->store('thumbnails/' . $slug, 'public');
+            return $request->file('thumbnail')->store('thumbnails/'.$slug, 'public');
         }
-        
+
         // 기존 썸네일이 있는 경우 보존
         if ($request->has('existing_thumbnail')) {
             return $request->input('existing_thumbnail');
         }
-        
+
         return null;
     }
 
@@ -211,7 +289,7 @@ class BoardPostService
     {
         $attachments = [];
         $removeIndices = $request->input('remove_attachments', []);
-        
+
         // 기존 첨부파일 보존 (제거 요청이 없는 것만)
         if ($request->has('existing_attachments')) {
             $existingAttachments = $request->input('existing_attachments', []);
@@ -220,7 +298,7 @@ class BoardPostService
                 if (in_array($index, $removeIndices)) {
                     continue;
                 }
-                
+
                 if (is_string($attachment)) {
                     $attachment = json_decode($attachment, true);
                 }
@@ -229,19 +307,19 @@ class BoardPostService
                 }
             }
         }
-        
+
         // 새 첨부파일 추가
         if ($request->hasFile('attachments')) {
             foreach ($request->file('attachments') as $file) {
                 $attachments[] = [
                     'name' => $file->getClientOriginalName(),
-                    'path' => $file->store('uploads/' . $slug, 'public'),
+                    'path' => $file->store('uploads/'.$slug, 'public'),
                     'size' => $file->getSize(),
-                    'type' => $file->getMimeType()
+                    'type' => $file->getMimeType(),
                 ];
             }
         }
-        
+
         return $attachments;
     }
 
@@ -251,7 +329,8 @@ class BoardPostService
     private function getCustomFieldsJson(Request $request, $board): ?string
     {
         $customFields = $this->processCustomFields($request, $board);
-        return !empty($customFields) ? json_encode($customFields) : null;
+
+        return ! empty($customFields) ? json_encode($customFields) : null;
     }
 
     /**
@@ -259,15 +338,26 @@ class BoardPostService
      */
     private function processCustomFields(Request $request, $board): array
     {
-        if (!$board->custom_fields_config || !is_array($board->custom_fields_config)) {
+        if (! $board->custom_fields_config || ! is_array($board->custom_fields_config)) {
             return [];
         }
 
         $customFields = [];
         foreach ($board->custom_fields_config as $fieldConfig) {
             $fieldName = $fieldConfig['name'];
-            $customFields[$fieldName] = $request->input("custom_field_{$fieldName}");
+            $value = $request->input("custom_field_{$fieldName}");
+            if (($fieldConfig['type'] ?? null) === 'file') {
+                if ($request->hasFile("custom_field_{$fieldName}")) {
+                    $value = $request->file("custom_field_{$fieldName}")->store('board-files/'.$board->slug, 'public');
+                } else {
+                    $value = $request->input('existing_custom_field_'.$fieldName, $value);
+                }
+            }
+            $customFields[$fieldName] = ($fieldConfig['type'] ?? null) === 'editor'
+                ? $this->sanitizeContent((string) $value)
+                : $value;
         }
+
         return $customFields;
     }
 
@@ -277,12 +367,13 @@ class BoardPostService
     public function getPost(string $slug, int $postId)
     {
         $post = DB::table($this->getTableName($slug))->where('id', $postId)->first();
-        
-        if (!$post) {
+
+        if (! $post) {
             return null;
         }
 
         $this->transformSinglePostDates($post);
+
         return $post;
     }
 
@@ -305,9 +396,9 @@ class BoardPostService
     {
         // 기존 게시물 조회
         $existingPost = $this->getPost($slug, $postId);
-        
+
         $data = $this->prepareUpdateData($validated, $request, $slug, $board, $existingPost);
-        
+
         return DB::table($this->getTableName($slug))
             ->where('id', $postId)
             ->update($data);
@@ -324,15 +415,15 @@ class BoardPostService
         // 필드가 활성화되어 있지만 요청에 없으면 기본값 true
         $isActive = true;
         if ($board && $board->isFieldEnabled('is_active')) {
-            $isActive = $request->has('is_active') ? (bool)$request->input('is_active') : true;
+            $isActive = $request->has('is_active') ? (bool) $request->input('is_active') : true;
         } elseif ($existingPost && isset($existingPost->is_active)) {
             // 필드가 비활성화되어 있으면 기존 값 유지
-            $isActive = (bool)$existingPost->is_active;
+            $isActive = (bool) $existingPost->is_active;
         }
 
         return [
-            'title' => $validated['title'],
-            'content' => $this->sanitizeContent($validated['content']),
+            'title' => (string) ($validated['title'] ?? ''),
+            'content' => $this->sanitizeContent((string) ($validated['content'] ?? '')),
             'category' => $validated['category'] ?? null,
             'is_notice' => $request->has('is_notice'),
             'is_secret' => $request->has('is_secret'),
@@ -343,7 +434,7 @@ class BoardPostService
             'attachments' => json_encode($this->handleAttachments($request, $slug)),
             'custom_fields' => $this->getCustomFieldsJson($request, $board),
             'sort_order' => $request->input('sort_order', 0),
-            'updated_at' => now()
+            'updated_at' => now(),
         ];
     }
 
@@ -370,13 +461,13 @@ class BoardPostService
     public function deletePost(string $slug, int $postId): bool
     {
         $post = DB::table($this->getTableName($slug))->where('id', $postId)->first();
-        
-        if (!$post) {
+
+        if (! $post) {
             return false;
         }
 
         $this->deleteAttachments($post);
-        
+
         return DB::table($this->getTableName($slug))->where('id', $postId)->delete();
     }
 
@@ -385,18 +476,18 @@ class BoardPostService
      */
     private function deleteAttachments($post): void
     {
-        if (!$post->attachments) {
+        if (! $post->attachments) {
             return;
         }
 
         $attachments = json_decode($post->attachments, true);
-        if (!is_array($attachments)) {
+        if (! is_array($attachments)) {
             return;
         }
 
         foreach ($attachments as $attachment) {
             if (isset($attachment['path'])) {
-                $filePath = storage_path('app/public/' . $attachment['path']);
+                $filePath = storage_path('app/public/'.$attachment['path']);
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 }

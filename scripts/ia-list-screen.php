@@ -674,6 +674,7 @@ function ia_refresh_from_rows(array $rows): array
             continue;
         }
         $popups = ia_form_popups($form);
+        $described = ia_description_items($form);
         $hasCreate = false;
         foreach ($group as $row) {
             $depth2 = (string) ($row['depth2'] ?? '');
@@ -685,7 +686,11 @@ function ia_refresh_from_rows(array $rows): array
         if ($hasCreate && ! in_array('create', $spec['toolbar'], true)) {
             $spec['toolbar'][] = 'create';
         }
-        $boardService->updateBoard($board, [
+        $boardService->updateBoard($board, ia_description_has_inputs($described) ? [
+            'field_config' => ia_field_config_from_items($described),
+            'custom_fields_config' => ia_fields_from_items($described),
+            'is_active' => true,
+        ] : [
             'field_config' => ia_field_config_from($spec, $form),
             'custom_fields_config' => ia_merge_popups(ia_custom_fields($spec), $popups),
             'is_active' => true,
@@ -770,6 +775,572 @@ function ia_form_is_picker(string $form, array $popups): bool
 }
 
 /**
+ * 등록·상세 설명에 적힌 순서 그대로 입력 항목을 만듭니다.
+ *
+ * @return list<array<string, mixed>>
+ */
+function ia_description_items(string $text): array
+{
+    $lines = [];
+    foreach (preg_split('/\R/u', $text) ?: [] as $line) {
+        $line = trim(ia_utf8((string) $line));
+        if ($line !== '') {
+            $lines[] = $line;
+        }
+    }
+
+    $items = [];
+    $used = [];
+    $count = count($lines);
+    $index = 0;
+    while ($index < $count) {
+        $line = $lines[$index];
+        if (ia_is_intro_line($line) || ia_is_noise_line($line)) {
+            $index++;
+            continue;
+        }
+
+        if (preg_match('/^(.+?)\s*:\s*$/u', $line, $matched)) {
+            $label = trim($matched[1]);
+            $next = $lines[$index + 1] ?? '';
+            if ($next !== '' && (ia_is_noise_line($next) || ia_is_intro_line($next))) {
+                $index += 2;
+                continue;
+            }
+            if ($next !== '' && (ia_control_kind($next) !== '' || ia_is_option_line($next) || (preg_match('/첨부|파일|썸네일/u', $label) && ia_is_follow_hint($next)))) {
+                $index += 2;
+                $hint = ia_is_follow_hint($next) && ia_control_kind($next) === '' ? $next : '';
+                $control = $hint === '' ? $next : '';
+                while (isset($lines[$index]) && ia_is_follow_hint($lines[$index])) {
+                    $hint = trim($hint.' '.$lines[$index]);
+                    $index++;
+                }
+                foreach (ia_make_items($label, $control, trim($hint), $used) as $item) {
+                    $items[] = $item;
+                }
+                continue;
+            }
+            $items[] = ia_blank_item('heading', $label);
+            $index++;
+            continue;
+        }
+
+        if (ia_is_screen_title($line)) {
+            $index++;
+            continue;
+        }
+
+        $kind = ia_control_kind($line);
+        $next = $lines[$index + 1] ?? '';
+        $third = $lines[$index + 2] ?? '';
+        if ($kind === '' && ! ia_is_option_line($line) && ! ia_is_sentence_line($line) && ia_control_kind($third) === 'radio' && ia_is_plain_label($next)) {
+            $index += 3;
+            $hint = $next;
+            while (isset($lines[$index]) && ia_is_follow_hint($lines[$index])) {
+                $hint = trim($hint.' '.$lines[$index]);
+                $index++;
+            }
+            foreach (ia_make_items($line, $third, $hint, $used) as $item) {
+                $items[] = $item;
+            }
+            continue;
+        }
+        if ($kind === '' && ! ia_is_option_line($line) && ! ia_is_sentence_line($line) && ia_control_kind($next) === 'radio') {
+            $index += 2;
+            $hint = '';
+            while (isset($lines[$index]) && ia_is_follow_hint($lines[$index])) {
+                $hint = trim($hint.' '.$lines[$index]);
+                $index++;
+            }
+            foreach (ia_make_items($line, $next, $hint, $used) as $item) {
+                $items[] = $item;
+            }
+            continue;
+        }
+        if ($kind === '' && ! ia_is_option_line($line) && ia_is_sentence_line($line)) {
+            $items[] = ia_blank_item('note', $line);
+            $index++;
+            continue;
+        }
+
+        $made = ia_make_items('', $line, '', $used);
+        $index++;
+        while (isset($lines[$index]) && ia_is_follow_hint($lines[$index])) {
+            $last = count($made) - 1;
+            if ($last >= 0) {
+                $made[$last]['hint'] = trim(((string) ($made[$last]['hint'] ?? '')).' '.$lines[$index]);
+            }
+            $index++;
+        }
+        foreach ($made as $item) {
+            $items[] = $item;
+        }
+    }
+
+    return $items;
+}
+
+function ia_description_has_inputs(array $items): bool
+{
+    foreach ($items as $item) {
+        if (in_array($item['kind'] ?? '', ['text', 'radio', 'select', 'date', 'dates', 'file', 'editor', 'check', 'popup'], true)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * @param  list<array<string, mixed>>  $items
+ * @return list<array<string, mixed>>
+ */
+function ia_fields_from_items(array $items): array
+{
+    $fields = [];
+    foreach ($items as $item) {
+        $kind = (string) ($item['kind'] ?? '');
+        if ($kind === 'dates') {
+            foreach ([['start_name', 'start_label'], ['end_name', 'end_label']] as $pair) {
+                $name = (string) ($item[$pair[0]] ?? '');
+                if ($name === '' || ia_is_builtin_field($name)) {
+                    continue;
+                }
+                $fields[] = ia_field_row($name, (string) ($item[$pair[1]] ?? ''), 'date', '');
+            }
+            continue;
+        }
+        $name = (string) ($item['name'] ?? '');
+        if ($name === '' || ia_is_builtin_field($name) || ($kind === 'popup' && ($item['fills'] ?? '') !== '')) {
+            continue;
+        }
+        $type = match ($kind) {
+            'radio' => 'radio',
+            'select' => 'select',
+            'date' => 'date',
+            'file' => 'file',
+            'editor' => 'editor',
+            'check' => 'checkbox',
+            'popup' => 'popup',
+            default => 'text',
+        };
+        $options = $kind === 'popup' ? (string) ($item['popup_slug'] ?? '') : implode(',', (array) ($item['options'] ?? []));
+        $fields[] = ia_field_row($name, (string) ($item['label'] ?? ''), $type, $options);
+    }
+
+    return $fields;
+}
+
+/**
+ * @param  list<array<string, mixed>>  $items
+ * @return array<string, array{enabled: bool, required: bool, label: string}>
+ */
+function ia_field_config_from_items(array $items): array
+{
+    $names = [];
+    foreach ($items as $item) {
+        foreach (['name', 'start_name', 'end_name'] as $key) {
+            if (($item[$key] ?? '') !== '') {
+                $names[] = (string) $item[$key];
+            }
+        }
+    }
+    $config = [
+        'title' => ['enabled' => false, 'required' => false, 'label' => '제목'],
+        'content' => ['enabled' => false, 'required' => false, 'label' => '내용'],
+        'category' => ['enabled' => false, 'required' => false, 'label' => '카테고리'],
+        'author_name' => ['enabled' => false, 'required' => false, 'label' => '작성자'],
+        'password' => ['enabled' => false, 'required' => false, 'label' => '비밀번호'],
+        'attachments' => ['enabled' => false, 'required' => false, 'label' => '첨부파일'],
+        'thumbnail' => ['enabled' => false, 'required' => false, 'label' => '썸네일'],
+        'is_secret' => ['enabled' => false, 'required' => false, 'label' => '비밀글'],
+        'is_active' => ['enabled' => false, 'required' => false, 'label' => '노출여부'],
+    ];
+    $config['title']['enabled'] = in_array('title', $names, true);
+    $config['content']['enabled'] = in_array('content', $names, true);
+    $config['category']['enabled'] = in_array('category', $names, true);
+    $config['author_name']['enabled'] = in_array('author_name', $names, true);
+    $config['attachments']['enabled'] = in_array('attachments', $names, true);
+    $config['thumbnail']['enabled'] = in_array('thumbnail', $names, true);
+    $config['is_active']['enabled'] = false;
+    $config['is_secret']['enabled'] = false;
+    foreach (['title', 'content', 'author_name'] as $key) {
+        if ($config[$key]['enabled']) {
+            $config[$key]['required'] = true;
+        }
+    }
+
+    return $config;
+}
+
+function ia_utf8(string $value): string
+{
+    $clean = iconv('UTF-8', 'UTF-8//IGNORE', $value);
+
+    return is_string($clean) ? $clean : '';
+}
+
+function ia_is_builtin_field(string $name): bool
+{
+    return in_array($name, ['title', 'content', 'category', 'author_name', 'thumbnail', 'attachments', 'is_notice'], true);
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function ia_blank_item(string $kind, string $label): array
+{
+    return [
+        'kind' => $kind,
+        'label' => $label,
+        'name' => '',
+        'start_name' => '',
+        'end_name' => '',
+        'start_label' => '',
+        'end_label' => '',
+        'options' => [],
+        'hint' => '',
+        'file' => '',
+        'fills' => '',
+        'popup_slug' => '',
+        'popup_column' => '',
+        'max_files' => 5,
+        'max_mb' => 10,
+    ];
+}
+
+function ia_is_intro_line(string $line): bool
+{
+    return preg_match('/확인할 수 있는 페이지|고객사 로그인|^대시보드/u', $line) === 1;
+}
+
+function ia_is_noise_line(string $line): bool
+{
+    if (preg_match('/Alert|하시겠습니까|CASE\s*\d|팝업 형태|확인\s*->|취소\s*->/iu', $line)) {
+        return true;
+    }
+
+    return preg_match('/Button/iu', $line) === 1
+        && preg_match('/추가하기|Radio|Select|input|Editor|Drop|파일|:/iu', $line) !== 1;
+}
+
+function ia_is_sentence_line(string $line): bool
+{
+    return ia_control_kind($line) === '' && preg_match('/까지|입니다|해주세요|있는 페이지|활성화/u', $line) === 1;
+}
+
+function ia_is_screen_title(string $line): bool
+{
+    return ia_control_kind($line) === ''
+        && preg_match('/:\s*$/u', $line) !== 1
+        && preg_match('/등록$/u', $line) === 1
+        && mb_strlen($line) <= 24;
+}
+
+function ia_is_plain_label(string $line): bool
+{
+    return $line !== '' && ia_control_kind($line) === '' && ! ia_is_option_line($line) && ! ia_is_sentence_line($line) && ! ia_is_noise_line($line) && preg_match('/:\s*$/u', $line) !== 1;
+}
+
+function ia_is_unlabeled_control(string $line): bool
+{
+    return $line !== '' && (ia_control_kind($line) !== '' || ia_is_option_line($line)) && ia_label_from_control($line) === '';
+}
+
+function ia_is_follow_hint(string $line): bool
+{
+    return str_starts_with($line, '*') || preg_match('/최대|업로드|클릭\s*시|활성화/u', $line) === 1;
+}
+
+function ia_is_option_line(string $line): bool
+{
+    return substr_count($line, ',') >= 2 && ia_control_kind($line) === '' && mb_strlen($line) < 220;
+}
+
+function ia_control_kind(string $line): string
+{
+    if (preg_match('/추가하기/u', $line) && preg_match('/강사|강의/u', $line)) {
+        return 'popup';
+    }
+    if (preg_match('/Radio\s*Button/iu', $line)) {
+        return 'radio';
+    }
+    if (preg_match('/Editor|글쓰기/iu', $line) && preg_match('/Drop\s*Box|파일첨부|파일선택|\bfile\b/iu', $line)) {
+        return 'editor_file';
+    }
+    if (preg_match('/Editor|글쓰기/iu', $line)) {
+        return 'editor';
+    }
+    if (preg_match('/Drop\s*Box|file\s*select|파일선택|파일첨부|\bfile\b/iu', $line)) {
+        return 'file';
+    }
+    if (preg_match('/Select\s*Box/iu', $line)) {
+        return 'select';
+    }
+    if ((str_contains($line, '~') || str_contains($line, '～')) && preg_match('/Calender|Calendar|캘린더|체크인|마감/iu', $line)) {
+        return 'dates';
+    }
+    if (preg_match('/Calender|Calendar/iu', $line)) {
+        return 'date';
+    }
+    if (preg_match('/Check\s*Box|checkbox/iu', $line)) {
+        return 'check';
+    }
+    if (preg_match('/등록\s*\(\s*Button/iu', $line)) {
+        return 'check';
+    }
+    if (preg_match('/input\s*Text|\(Text\)|:\s*Text\b/iu', $line)) {
+        return 'text';
+    }
+
+    return '';
+}
+
+function ia_label_from_control(string $line): string
+{
+    if (ia_control_kind($line) === 'radio') {
+        return '';
+    }
+    if (preg_match('/^(.+?)\s*:\s*\S/u', $line, $matched)) {
+        $label = trim($matched[1]);
+        if ($label !== '' && mb_strlen($label) <= 40) {
+            return $label;
+        }
+    }
+    if (preg_match('/^(.+?)\s*\(\s*(?:Radio|Button|Drop|Select|input|Text|Check|file|Editor)/iu', $line, $matched)) {
+        return trim($matched[1], ' :');
+    }
+    if (preg_match('/Select\s*Box/iu', $line) && preg_match('/^(.+?)\s*[\({]/u', $line, $matched)) {
+        return trim($matched[1], ' :');
+    }
+
+    return '';
+}
+
+/**
+ * @param  array<string, bool>  $used
+ * @return list<array<string, mixed>>
+ */
+function ia_make_items(string $label, string $control, string $hint, array &$used): array
+{
+    $source = trim($control !== '' ? $control : $label);
+    $kind = ia_control_kind($source);
+    if ($kind === '' && ia_is_option_line($control)) {
+        $kind = 'select';
+    }
+    if ($kind === '' && $control === '' && ia_is_sentence_line($label)) {
+        return [ia_blank_item('note', $label)];
+    }
+    if ($label === '') {
+        $label = ia_label_from_control($source);
+    }
+    if ($kind === 'editor_file') {
+        $editor = ia_make_items($label !== '' ? $label : '내용', '글쓰기 Editor', '', $used);
+        $file = ia_make_items('파일첨부', '파일첨부', $hint, $used);
+
+        return array_merge($editor, $file);
+    }
+    if ($kind === '' && preg_match('/첨부|썸네일/u', $label)) {
+        $kind = 'file';
+    }
+    if ($kind === '') {
+        $kind = 'text';
+    }
+    if (preg_match('/input\s*Text/iu', $source) && preg_match_all('/input\s*Text/iu', $source) >= 2) {
+        $first = ia_blank_item('text', $label !== '' ? $label : '입력');
+        $second = ia_blank_item('text', ($label !== '' ? $label : '입력').' 2');
+        $first['name'] = ia_reserve_name($first['label'], $used, 'text');
+        $second['name'] = ia_reserve_name($second['label'], $used, 'text');
+        $first['hint'] = $hint;
+
+        return [$first, $second];
+    }
+
+    $item = ia_blank_item($kind, $label !== '' ? $label : $source);
+    $item['hint'] = $hint;
+    if ($kind === 'radio' || $kind === 'select') {
+        $item['options'] = $kind === 'radio' ? ia_radio_options($source) : ia_select_options($control !== '' ? $control : $source);
+    }
+    if ($kind === 'dates') {
+        $range = ia_date_range($source, $label);
+        $item['label'] = $range['label'];
+        $item['start_label'] = $range['start'];
+        $item['end_label'] = $range['end'];
+        $item['start_name'] = ia_reserve_name($range['start'], $used, 'date');
+        $item['end_name'] = ia_reserve_name($range['end'], $used, 'date');
+        if (preg_match('/강의\s*기간/u', $item['label']) && ! isset($used['lecture_at'])) {
+            unset($used[$item['start_name']]);
+            $item['start_name'] = 'lecture_at';
+            $used['lecture_at'] = true;
+            unset($used[$item['end_name']]);
+            $item['end_name'] = 'lecture_end';
+            $used['lecture_end'] = true;
+        }
+
+        return [$item];
+    }
+    if ($kind === 'popup') {
+        $popup = ia_popup_target($label.' '.$source);
+        $item['label'] = $popup['label'];
+        $item['popup_slug'] = $popup['slug'];
+        $item['popup_column'] = $popup['column'];
+        $item['fills'] = isset($used[$popup['name']]) ? $popup['name'] : '';
+        $item['name'] = $item['fills'] !== '' ? $popup['name'] : ia_reserve_name($popup['name'], $used, 'popup');
+
+        return [$item];
+    }
+    if ($kind === 'file') {
+        $item['file'] = str_contains($item['label'], '썸네일') ? 'thumbnail' : (preg_match('/첨부/u', $item['label']) ? 'attachments' : 'custom');
+        $item['name'] = $item['file'] === 'custom' ? ia_reserve_name($item['label'], $used, 'file') : $item['file'];
+        $used[$item['name']] = true;
+        if (preg_match('/(\d+)\s*개/u', $hint, $matched)) {
+            $item['max_files'] = (int) $matched[1];
+        }
+        if (preg_match('/(\d+)\s*MB/iu', $hint, $matched)) {
+            $item['max_mb'] = (int) $matched[1];
+        }
+
+        return [$item];
+    }
+    if ($kind === 'check' && preg_match('/공지/u', $item['label'])) {
+        $item['name'] = 'is_notice';
+        $used['is_notice'] = true;
+
+        return [$item];
+    }
+
+    $item['name'] = ia_reserve_name($item['label'], $used, $kind);
+
+    return [$item];
+}
+
+/**
+ * @return array{label: string, start: string, end: string}
+ */
+function ia_date_range(string $line, string $label): array
+{
+    $clean = trim((string) preg_replace('/\((?:Calender|Calendar)\)/iu', '', $line));
+    if (preg_match('/^(.*?)\s*:\s*(.+?)\s*~\s*(.+)$/u', $clean, $matched)) {
+        return [
+            'label' => trim($matched[1]) !== '' ? trim($matched[1]) : ($label !== '' ? $label : '기간'),
+            'start' => trim($matched[2]),
+            'end' => trim($matched[3]),
+        ];
+    }
+    if (preg_match('/^(.+?)\s*~\s*(.+)$/u', $clean, $matched)) {
+        return [
+            'label' => $label !== '' ? $label : trim($matched[1]).' ~ '.trim($matched[2]),
+            'start' => trim($matched[1]),
+            'end' => trim($matched[2]),
+        ];
+    }
+
+    return ['label' => $label !== '' ? $label : '기간', 'start' => '시작', 'end' => '종료'];
+}
+
+/**
+ * @return list<string>
+ */
+function ia_radio_options(string $line): array
+{
+    $options = [];
+    foreach (preg_split('/\(\s*Radio\s*Button\s*\)?/iu', $line) ?: [] as $part) {
+        $part = trim((string) $part, " ,()（）");
+        if ($part !== '') {
+            $options[] = $part;
+        }
+    }
+
+    return $options;
+}
+
+/**
+ * @return list<string>
+ */
+function ia_select_options(string $line): array
+{
+    $body = $line;
+    if (preg_match('/\(([^)]*,[^)]*)\)/u', $line, $matched)) {
+        $body = $matched[1];
+    }
+    $body = preg_replace('/[\({]?\s*Select\s*Box\s*[\)\}]?/iu', '', $body) ?? $body;
+    $body = preg_replace('/^[^:]*:/u', '', $body) ?? $body;
+    $options = [];
+    foreach (preg_split('/[,，]/u', $body) ?: [] as $option) {
+        $option = trim((string) $option);
+        if ($option !== '' && $option !== '전체') {
+            $options[] = $option;
+        }
+    }
+
+    return $options;
+}
+
+/**
+ * @return array{name: string, label: string, slug: string, column: string}
+ */
+function ia_popup_target(string $text): array
+{
+    if (preg_match('/강의/u', $text) && ! preg_match('/강사/u', $text)) {
+        return ['name' => 'lecture', 'label' => '강의 추가하기', 'slug' => 'lecture', 'column' => '강의명'];
+    }
+
+    return ['name' => 'instructor', 'label' => '강사 추가하기', 'slug' => 'instructor', 'column' => '강사명'];
+}
+
+/**
+ * @param  array<string, bool>  $used
+ */
+function ia_reserve_name(string $label, array &$used, string $kind): string
+{
+    $plain = preg_replace('/\s+/u', '', $label) ?? $label;
+    if ($kind === 'editor' || preg_match('/내용|답변|강의구성/u', $plain)) {
+        $name = 'content';
+    } elseif (str_contains($plain, '제목')) {
+        $name = 'title';
+    } elseif (str_contains($plain, '썸네일')) {
+        $name = 'thumbnail';
+    } elseif (str_contains($plain, '첨부')) {
+        $name = 'attachments';
+    } elseif ($plain === '작성자') {
+        $name = 'author_name';
+    } elseif (str_contains($plain, '카테고리')) {
+        $name = 'category';
+    } elseif (preg_match('/공지글/u', $plain)) {
+        $name = 'is_notice';
+    } elseif (preg_match('/결제.*금액|결제금액/u', $plain)) {
+        $name = 'amount';
+    } elseif (preg_match('/금액|가격/u', $plain)) {
+        $name = 'price';
+    } elseif (preg_match('/캘린더등록/u', $plain)) {
+        $name = 'calendar_flag';
+    } elseif (preg_match('/강사명|^강사$/u', $plain)) {
+        $name = 'instructor';
+    } elseif (str_contains($plain, '강의명')) {
+        $name = 'lecture';
+    } elseif (str_contains($plain, '체크인')) {
+        $name = 'check_in';
+    } elseif (str_contains($plain, '체크아웃')) {
+        $name = 'check_out';
+    } elseif (in_array($kind, ['popup'], true) && in_array($label, ['instructor', 'lecture'], true)) {
+        $name = $label;
+    } else {
+        $column = ia_column($label, count($used) + 1);
+        $name = str_starts_with($column['name'], 'col_') ? 'f_'.substr(md5($plain), 0, 8) : $column['name'];
+    }
+
+    $base = $name;
+    $suffix = 2;
+    while (isset($used[$name])) {
+        $name = $base.'_'.$suffix;
+        $suffix++;
+    }
+    $used[$name] = true;
+
+    return $name;
+}
+
+/**
  * @param  list<array<string, string>>  $popups
  */
 function ia_write_entry_forms(string $slug, array $spec, array $popups, string $formText = '', array $orderedFields = []): void
@@ -777,6 +1348,14 @@ function ia_write_entry_forms(string $slug, array $spec, array $popups, string $
     $directory = resource_path('views/backoffice/board-posts/'.$slug);
     if (! is_dir($directory)) {
         mkdir($directory, 0775, true);
+    }
+
+    $items = ia_description_items($formText);
+    if (ia_description_has_inputs($items)) {
+        file_put_contents($directory.'/create.blade.php', ia_described_form($items, false));
+        file_put_contents($directory.'/edit.blade.php', ia_described_form($items, true));
+
+        return;
     }
 
     file_put_contents($directory.'/create.blade.php', ia_entry_form($spec, $popups, false, $formText, $orderedFields));
@@ -838,6 +1417,364 @@ function ia_write_picker_forms(string $slug, array $popups): void
 function ia_entry_form(array $spec, array $popups, bool $edit, string $formText = '', array $orderedFields = []): string
 {
     return ia_picker_form($spec, $popups, $edit, $formText, $orderedFields);
+}
+
+/**
+ * @param  list<array<string, mixed>>  $items
+ */
+function ia_described_form(array $items, bool $edit): string
+{
+    $fields = '';
+    $modals = '';
+    $showThumbnail = false;
+    $showAttachments = false;
+    $showEditor = false;
+    $showCustomFile = false;
+    foreach ($items as $item) {
+        $fields .= ia_described_control($item, $edit);
+        if (($item['kind'] ?? '') === 'popup') {
+            $modals .= ia_picker_modal([
+                'name' => (string) ($item['fills'] !== '' ? $item['fills'] : $item['name']),
+                'label' => (string) $item['label'],
+                'slug' => (string) $item['popup_slug'],
+                'column' => (string) $item['popup_column'],
+            ]);
+        }
+        if (($item['file'] ?? '') === 'thumbnail') {
+            $showThumbnail = true;
+        }
+        if (($item['file'] ?? '') === 'attachments') {
+            $showAttachments = true;
+        }
+        if (($item['file'] ?? '') === 'custom') {
+            $showCustomFile = true;
+        }
+        if (($item['kind'] ?? '') === 'editor') {
+            $showEditor = true;
+        }
+    }
+
+    $extraStyles = $modals !== '' ? "\n    <link rel=\"stylesheet\" href=\"{{ asset('css/backoffice/approval.css') }}?v=2\">" : '';
+    $extraScripts = ($showThumbnail || $showAttachments) ? "\n<script src=\"{{ asset('js/backoffice/board-post-form.js') }}\"></script>" : '';
+    $editorAssets = $showEditor ? "\n<x-backoffice-ckeditor-assets />" : '';
+    $customFileScript = '';
+    if ($showCustomFile) {
+        $customFileScript = <<<'JS'
+<script>
+document.querySelectorAll('[data-ia-file]').forEach(function (box) {
+    var input = box.querySelector('input[type="file"]');
+    if (!input) return;
+    box.addEventListener('dragover', function (event) { event.preventDefault(); box.classList.add('board-file-drag-over'); });
+    box.addEventListener('dragleave', function () { box.classList.remove('board-file-drag-over'); });
+    box.addEventListener('drop', function (event) {
+        event.preventDefault();
+        box.classList.remove('board-file-drag-over');
+        if (event.dataTransfer && event.dataTransfer.files.length) input.files = event.dataTransfer.files;
+    });
+});
+</script>
+JS;
+    }
+    $action = $edit
+        ? "{{ route('backoffice.board-posts.update', [\$board->slug, \$post->id]) }}"
+        : "{{ route('backoffice.board-posts.store', \$board->slug) }}";
+    $method = $edit ? "\n                @method('PUT')" : '';
+
+    return <<<BLADE
+@extends('backoffice.layouts.app')
+
+@section('title', \$board->name)
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/backoffice/boards.css') }}">{$extraStyles}
+@endsection
+
+@section('content')
+@php
+    \$iaSaved = [];
+    if (isset(\$post)) {
+        \$decoded = json_decode((string) (\$post->custom_fields ?? ''), true);
+        \$iaSaved = is_array(\$decoded) ? \$decoded : [];
+    }
+@endphp
+<div class="board-container">
+    <div class="board-header">
+        <a href="{{ route('backoffice.board-posts.index', \$board->slug) }}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> 목록으로</a>
+    </div>
+    <div class="board-card">
+        <div class="board-card-body">
+            @if (\$errors->any())
+                <div class="board-alert board-alert-danger"><ul>@foreach (\$errors->all() as \$error)<li>{{ \$error }}</li>@endforeach</ul></div>
+            @endif
+            <form action="{$action}" method="POST" enctype="multipart/form-data">
+                @csrf{$method}
+                {$fields}
+                <div class="board-form-actions">
+                    <button type="submit" class="btn btn-primary">저장</button>
+                    <a href="{{ route('backoffice.board-posts.index', \$board->slug) }}" class="btn btn-secondary">취소</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{$modals}
+@endsection
+
+@section('scripts')
+{$editorAssets}{$extraScripts}{$customFileScript}
+<script>
+document.querySelectorAll('[data-ia-open]').forEach(function (button) {
+    button.addEventListener('click', function () {
+        var popup = document.getElementById('ia-popup-' + button.dataset.iaOpen);
+        if (popup) popup.hidden = false;
+    });
+});
+document.querySelectorAll('[data-ia-clear]').forEach(function (button) {
+    button.addEventListener('click', function () {
+        var name = button.dataset.iaClear;
+        var input = document.getElementById('custom_field_' + name);
+        if (input) input.value = '';
+        var picked = document.getElementById('ia-picked-' + name);
+        if (picked) picked.textContent = '';
+    });
+});
+document.querySelectorAll('[data-ia-pick]').forEach(function (button) {
+    button.addEventListener('click', function () {
+        var name = button.dataset.iaPick;
+        var input = document.getElementById('custom_field_' + name);
+        if (input) input.value = button.dataset.iaValue;
+        var picked = document.getElementById('ia-picked-' + name);
+        if (picked) picked.textContent = button.dataset.iaValue;
+        if (button.dataset.iaCategory && document.getElementById('category')) {
+            document.getElementById('category').value = button.dataset.iaCategory;
+        }
+        document.getElementById('ia-popup-' + name).hidden = true;
+    });
+});
+document.querySelectorAll('[data-ia-close]').forEach(function (button) {
+    button.addEventListener('click', function () {
+        var popup = document.getElementById('ia-popup-' + button.dataset.iaClose);
+        if (popup) popup.hidden = true;
+    });
+});
+document.querySelectorAll('[data-ia-filter]').forEach(function (input) {
+    input.addEventListener('input', function () {
+        var keyword = input.value.trim().toLowerCase();
+        document.querySelectorAll('#ia-popup-' + input.dataset.iaFilter + ' tr[data-ia-row]').forEach(function (row) {
+            row.hidden = keyword !== '' && row.textContent.toLowerCase().indexOf(keyword) < 0;
+        });
+    });
+});
+</script>
+@endsection
+BLADE;
+}
+
+/**
+ * @param  array<string, mixed>  $item
+ */
+function ia_described_control(array $item, bool $edit): string
+{
+    $kind = (string) ($item['kind'] ?? '');
+    $label = e((string) ($item['label'] ?? ''));
+    $hint = trim((string) ($item['hint'] ?? ''));
+    $hintHtml = $hint !== '' ? '<p class="board-form-text">'.e($hint).'</p>' : '';
+    if ($kind === 'heading') {
+        return '<div class="board-form-group"><strong class="board-form-label">'.$label.'</strong></div>';
+    }
+    if ($kind === 'note') {
+        return '<p class="board-form-text">'.$label.'</p>';
+    }
+    if ($kind === 'dates') {
+        $start = ia_described_date((string) $item['start_name'], (string) $item['start_label'], $edit);
+        $end = ia_described_date((string) $item['end_name'], (string) $item['end_label'], $edit);
+
+        return '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div style="display:flex;gap:8px;align-items:center">'.$start.'<span>~</span>'.$end.'</div>'.$hintHtml.'</div>';
+    }
+    if ($kind === 'popup') {
+        $name = e((string) (($item['fills'] ?? '') !== '' ? $item['fills'] : $item['name']));
+        $hidden = ($item['fills'] ?? '') === ''
+            ? '<input type="hidden" name="custom_field_'.$name.'" id="custom_field_'.$name.'" value="{{ old(\'custom_field_'.$name.'\', $iaSaved[\''.$name.'\'] ?? \'\') }}"><span id="ia-picked-'.$name.'">{{ old(\'custom_field_'.$name.'\', $iaSaved[\''.$name.'\'] ?? \'\') }}</span>'
+            : '';
+
+        return '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div class="board-page-buttons">'.$hidden.'<button type="button" class="btn btn-primary btn-sm" data-ia-open="'.$name.'">'.$label.'</button></div>'.$hintHtml.'</div>';
+    }
+    if ($kind === 'file') {
+        return ia_described_file($item);
+    }
+
+    $name = (string) ($item['name'] ?? '');
+    $inputName = e(ia_input_name($name));
+    $inputId = e(ia_input_id($name));
+    $current = ia_old_expression($name, $edit);
+    if ($kind === 'radio' || $kind === 'select') {
+        $html = ia_described_choice($item, $inputName, $inputId, $current);
+        if ($hintHtml !== '') {
+            $html = preg_replace('/<\/label>/', '</label>'.$hintHtml, $html, 1) ?? $html;
+        }
+
+        return $html;
+    }
+    if ($kind === 'editor') {
+        return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.' <span class="required">*</span></label><textarea class="board-form-control board-form-textarea" id="'.$inputId.'" name="'.$inputName.'" rows="12" data-backoffice-ckeditor data-source-editing="true" required>{{ '.$current.' }}</textarea>'.$hintHtml.'</div>';
+    }
+    if ($kind === 'check') {
+        $checked = $name === 'is_notice'
+            ? "@checked(old('is_notice', isset(\$post) ? \$post->is_notice : 0) == 1)"
+            : '@checked('.$current.' == \'1\')';
+
+        return '<div class="board-form-group"><div class="board-checkbox-item"><input type="checkbox" class="board-checkbox-input" id="'.$inputId.'" name="'.$inputName.'" value="1" '.$checked.'><label for="'.$inputId.'" class="board-form-label">'.$label.'</label></div>'.$hintHtml.'</div>';
+    }
+    if ($kind === 'date') {
+        return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.'</label>'.ia_described_date($name, '', $edit).$hintHtml.'</div>';
+    }
+
+    $required = in_array($name, ['title', 'content'], true) ? ' required' : '';
+    $star = $required !== '' ? ' <span class="required">*</span>' : '';
+
+    return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.$star.'</label><input type="text" class="board-form-control" id="'.$inputId.'" name="'.$inputName.'" value="{{ '.$current.' }}"'.$required.'>'.$hintHtml.'</div>';
+}
+
+/**
+ * @param  array<string, mixed>  $item
+ */
+function ia_described_choice(array $item, string $inputName, string $inputId, string $current): string
+{
+    $label = e((string) $item['label']);
+    if (($item['kind'] ?? '') === 'select') {
+        $options = '<option value="">선택</option>';
+        foreach ((array) $item['options'] as $option) {
+            $quoted = str_replace(['\\', '\''], ['\\\\', '\\\''], (string) $option);
+            $options .= '<option value="'.e((string) $option).'" @selected('.$current.' == \''.$quoted.'\')>'.e((string) $option).'</option>';
+        }
+
+        return '<div class="board-form-group"><label class="board-form-label" for="'.$inputId.'">'.$label.'</label><select class="board-form-control" id="'.$inputId.'" name="'.$inputName.'">'.$options.'</select></div>';
+    }
+
+    $radios = '';
+    foreach ((array) $item['options'] as $index => $option) {
+        $quoted = str_replace(['\\', '\''], ['\\\\', '\\\''], (string) $option);
+        $optionId = $inputId.'_'.$index;
+        $radios .= '<div class="board-option-item"><input type="radio" id="'.$optionId.'" name="'.$inputName.'" value="'.e((string) $option).'" @checked('.$current.' == \''.$quoted.'\')><label for="'.$optionId.'">'.e((string) $option).'</label></div>';
+    }
+
+    return '<div class="board-form-group"><label class="board-form-label">'.$label.'</label><div class="board-options-list board-options-horizontal">'.$radios.'</div></div>';
+}
+
+function ia_described_date(string $name, string $label, bool $edit): string
+{
+    $inputName = e(ia_input_name($name));
+    $inputId = e(ia_input_id($name));
+    $current = ia_old_expression($name, $edit);
+    $caption = $label !== '' ? '<span class="board-form-text">'.e($label).'</span>' : '';
+
+    return $caption.'<input type="date" class="board-form-control" id="'.$inputId.'" name="'.$inputName.'" value="{{ '.$current.' }}">';
+}
+
+/**
+ * @param  array<string, mixed>  $item
+ */
+function ia_described_file(array $item): string
+{
+    $label = e((string) $item['label']);
+    $hint = trim((string) ($item['hint'] ?? ''));
+    $mode = (string) ($item['file'] ?? 'custom');
+    if ($mode === 'thumbnail') {
+        return <<<HTML
+<div class="board-form-group">
+    <label for="thumbnail" class="board-form-label">{$label}</label>
+    <div class="board-file-upload">
+        <div class="board-file-input-wrapper">
+            <input type="file" class="board-file-input" id="thumbnail" name="thumbnail" accept=".jpg,.jpeg,.png,.gif">
+            <div class="board-file-input-content">
+                <i class="fas fa-image"></i>
+                <span class="board-file-input-text">썸네일 이미지를 선택하거나 여기로 드래그하세요</span>
+                <span class="board-file-input-subtext">JPG, PNG, GIF 파일만 가능 (최대 5MB)</span>
+            </div>
+        </div>
+        <div class="board-file-preview" id="thumbnailPreview"></div>
+    </div>
+</div>
+HTML;
+    }
+    if ($mode === 'attachments') {
+        $maxFiles = (int) ($item['max_files'] ?? 5);
+        $maxMb = (int) ($item['max_mb'] ?? 10);
+        $sub = e('최대 '.$maxFiles.'개, 각 파일 '.$maxMb.'MB 이하');
+        $note = $hint !== '' ? '<p class="board-form-text">'.e($hint).'</p>' : '';
+
+        return <<<HTML
+<div class="board-form-group">
+    <label class="board-form-label">{$label}</label>
+    {$note}
+    <div class="board-file-upload">
+        <div class="board-file-input-wrapper">
+            <input type="file" class="board-file-input" id="attachments" name="attachments[]" multiple>
+            <div class="board-file-input-content">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span class="board-file-input-text">파일을 선택하거나 여기로 드래그하세요</span>
+                <span class="board-file-input-subtext">{$sub}</span>
+            </div>
+        </div>
+        <div class="board-file-preview" id="filePreview"></div>
+    </div>
+</div>
+HTML;
+    }
+
+    $name = (string) $item['name'];
+    $inputName = e(ia_input_name($name));
+    $inputId = e(ia_input_id($name));
+    $note = $hint !== '' ? '<p class="board-form-text">'.e($hint).'</p>' : '';
+
+    return <<<HTML
+<div class="board-form-group">
+    <label class="board-form-label" for="{$inputId}">{$label}</label>
+    {$note}
+    @if(!empty(\$iaSaved['{$name}']))
+        <p class="board-form-text">현재 파일: {{ \$iaSaved['{$name}'] }}</p>
+        <input type="hidden" name="existing_custom_field_{$name}" value="{{ \$iaSaved['{$name}'] }}">
+    @endif
+    <div class="board-file-upload" data-ia-file="{$inputId}">
+        <div class="board-file-input-wrapper">
+            <input type="file" class="board-file-input" id="{$inputId}" name="{$inputName}">
+            <div class="board-file-input-content">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span class="board-file-input-text">파일을 선택하거나 여기로 드래그하세요</span>
+                <span class="board-file-input-subtext">파일을 선택해 주세요</span>
+            </div>
+        </div>
+    </div>
+</div>
+HTML;
+}
+
+function ia_input_name(string $name): string
+{
+    return match ($name) {
+        'title', 'content', 'category', 'author_name', 'thumbnail', 'is_notice' => $name,
+        'attachments' => 'attachments[]',
+        default => 'custom_field_'.$name,
+    };
+}
+
+function ia_input_id(string $name): string
+{
+    return match ($name) {
+        'title', 'content', 'category', 'author_name', 'thumbnail', 'attachments', 'is_notice' => $name,
+        default => 'custom_field_'.$name,
+    };
+}
+
+function ia_old_expression(string $name, bool $edit): string
+{
+    return match ($name) {
+        'title' => "old('title', isset(\$post) ? \$post->title : '')",
+        'content' => "old('content', isset(\$post) ? \$post->content : '')",
+        'category' => "old('category', isset(\$post) ? \$post->category : '')",
+        'author_name' => "old('author_name', isset(\$post) ? \$post->author_name : '')",
+        default => "old('custom_field_{$name}', \$iaSaved['{$name}'] ?? '')",
+    };
 }
 
 function ia_picker_form(array $spec, array $popups, bool $edit, string $formText = '', array $orderedFields = []): string

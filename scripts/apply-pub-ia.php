@@ -103,7 +103,13 @@ foreach ($items as $item) {
         $fieldName = strtolower((string) preg_replace('/[^a-zA-Z0-9_]/', '', (string) ($field['name'] ?? '')));
         $fieldLabel = trim((string) ($field['label'] ?? ''));
         $type = (string) ($field['type'] ?? '');
-        if ($fieldName === '' || $fieldLabel === '' || ! in_array($type, ['text', 'select', 'checkbox', 'radio', 'date', 'editor'], true)) {
+        if (str_contains($fieldLabel, '썸네일')) {
+            $type = 'file';
+        }
+        if ($type === '' && preg_match('/강사|강의/u', $fieldLabel) && str_contains($fieldLabel, '추가')) {
+            $type = 'popup';
+        }
+        if ($fieldName === '' || $fieldLabel === '' || ! in_array($type, ['text', 'select', 'checkbox', 'radio', 'date', 'editor', 'file', 'popup'], true)) {
             continue;
         }
         if (in_array($fieldLabel, ['제목', '내용', '본문'], true) || in_array($fieldName, ['title', 'content'], true)) {
@@ -175,7 +181,7 @@ foreach ($items as $item) {
         }
         if ($spec) {
             ia_write_index($board->slug, $spec);
-            ia_write_entry_forms($board->slug, $spec, $popups, $formText);
+            ia_write_entry_forms($board->slug, $spec, $popups, $formText, ia_ordered_form_fields($storedFields, $spec));
         } else {
             apply_ia_list($board->slug, $fields);
         }

@@ -772,15 +772,59 @@ function ia_form_is_picker(string $form, array $popups): bool
 /**
  * @param  list<array<string, string>>  $popups
  */
-function ia_write_entry_forms(string $slug, array $spec, array $popups, string $formText = ''): void
+function ia_write_entry_forms(string $slug, array $spec, array $popups, string $formText = '', array $orderedFields = []): void
 {
     $directory = resource_path('views/backoffice/board-posts/'.$slug);
     if (! is_dir($directory)) {
         mkdir($directory, 0775, true);
     }
 
-    file_put_contents($directory.'/create.blade.php', ia_entry_form($spec, $popups, false, $formText));
-    file_put_contents($directory.'/edit.blade.php', ia_entry_form($spec, $popups, true, $formText));
+    file_put_contents($directory.'/create.blade.php', ia_entry_form($spec, $popups, false, $formText, $orderedFields));
+    file_put_contents($directory.'/edit.blade.php', ia_entry_form($spec, $popups, true, $formText, $orderedFields));
+}
+
+/**
+ * 클로드가 컴포넌트 규칙으로 돌려준 입력 순서를 유지하고, 목록에만 있는 항목은 뒤에 붙입니다.
+ *
+ * @param  list<array<string, mixed>>  $claudeFields
+ * @param  array<string, mixed>  $spec
+ * @return list<array<string, mixed>>
+ */
+function ia_ordered_form_fields(array $claudeFields, array $spec): array
+{
+    $ordered = [];
+    foreach ($claudeFields as $field) {
+        if (! is_array($field) || ! in_array($field['show'] ?? 'both', ['form', 'both'], true)) {
+            continue;
+        }
+        $ordered[] = $field;
+    }
+    foreach ($spec['columns'] ?? [] as $column) {
+        if (($column['source'] ?? '') !== 'custom') {
+            continue;
+        }
+        foreach ($ordered as $field) {
+            if (($field['name'] ?? '') === $column['name'] || ($field['label'] ?? '') === $column['label']) {
+                continue 2;
+            }
+        }
+        $type = 'text';
+        $options = '';
+        foreach ($spec['selects'] ?? [] as $select) {
+            if ($select['name'] === $column['name']) {
+                $type = 'select';
+                $options = implode(',', array_values(array_filter($select['options'], static fn (string $option): bool => $option !== '전체')));
+            }
+        }
+        if (str_contains((string) $column['label'], '썸네일')) {
+            $type = 'file';
+        } elseif ($type === 'text' && preg_match('/일시|일자|등록일|가입일/u', (string) $column['label'])) {
+            $type = 'date';
+        }
+        $ordered[] = ia_field_row((string) $column['name'], (string) $column['label'], $type, $options);
+    }
+
+    return $ordered;
 }
 
 function ia_write_picker_forms(string $slug, array $popups): void
@@ -791,12 +835,12 @@ function ia_write_picker_forms(string $slug, array $popups): void
 /**
  * @param  list<array<string, string>>  $popups
  */
-function ia_entry_form(array $spec, array $popups, bool $edit, string $formText = ''): string
+function ia_entry_form(array $spec, array $popups, bool $edit, string $formText = '', array $orderedFields = []): string
 {
-    return ia_picker_form($spec, $popups, $edit, $formText);
+    return ia_picker_form($spec, $popups, $edit, $formText, $orderedFields);
 }
 
-function ia_picker_form(array $spec, array $popups, bool $edit, string $formText = ''): string
+function ia_picker_form(array $spec, array $popups, bool $edit, string $formText = '', array $orderedFields = []): string
 {
     $fields = '';
     $modals = '';
@@ -808,18 +852,58 @@ function ia_picker_form(array $spec, array $popups, bool $edit, string $formText
     foreach ($spec['selects'] ?? [] as $select) {
         $selects[$select['name']] = $select;
     }
-    foreach ($spec['columns'] ?? [] as $column) {
-        if (($column['source'] ?? '') === 'title') {
-            $showTitle = true;
+    if ($orderedFields !== []) {
+        foreach ($orderedFields as $field) {
+            $label = (string) ($field['label'] ?? '');
+            $type = (string) ($field['type'] ?? 'text');
+            if (str_contains($label, '제목')) {
+                $showTitle = true;
+            }
+            if ($type === 'file' || str_contains($label, '썸네일')) {
+                $showThumbnail = true;
+                continue;
+            }
+            if ($type === 'editor' || in_array($label, ['내용', '본문'], true)) {
+                $showContent = true;
+                continue;
+            }
+            if ($type === 'popup' || in_array($field['name'] ?? '', $popupNames, true)) {
+                continue;
+            }
+            $select = null;
+            if ($type === 'select') {
+                $select = [
+                    'label' => $label,
+                    'name' => (string) $field['name'],
+                    'options' => array_values(array_filter(array_map('trim', explode(',', (string) ($field['options'] ?? ''))))),
+                ];
+            }
+            $column = ['name' => (string) $field['name'], 'label' => $label, 'source' => 'custom'];
+            if ($type !== 'date' && $type !== 'select' && preg_match('/일시|일자|등록일|가입일/u', $label)) {
+                $type = 'date';
+            }
+            if ($type === 'date') {
+                $safe = preg_replace('/[^a-z0-9_]/', '', (string) $field['name']) ?? '';
+                $current = "old('custom_field_{$safe}', \$iaSaved['{$safe}'] ?? '')";
+                $fields .= '<div class="board-form-group"><label class="board-form-label" for="custom_field_'.$safe.'">'.e($label).'</label><input type="date" class="board-form-control" id="custom_field_'.$safe.'" name="custom_field_'.$safe.'" value="{{ '.$current.' }}"></div>';
+                continue;
+            }
+            $fields .= ia_form_control($column, $select);
         }
-        if (($column['name'] ?? '') === 'thumbnail' || str_contains((string) ($column['label'] ?? ''), '썸네일')) {
-            $showThumbnail = true;
-            continue;
+    } else {
+        foreach ($spec['columns'] ?? [] as $column) {
+            if (($column['source'] ?? '') === 'title') {
+                $showTitle = true;
+            }
+            if (($column['name'] ?? '') === 'thumbnail' || str_contains((string) ($column['label'] ?? ''), '썸네일')) {
+                $showThumbnail = true;
+                continue;
+            }
+            if (($column['source'] ?? '') !== 'custom' || in_array($column['name'] ?? '', $popupNames, true)) {
+                continue;
+            }
+            $fields .= ia_form_control($column, $selects[$column['name']] ?? null);
         }
-        if (($column['source'] ?? '') !== 'custom' || in_array($column['name'] ?? '', $popupNames, true)) {
-            continue;
-        }
-        $fields .= ia_form_control($column, $selects[$column['name']] ?? null);
     }
     foreach ($popups as $popup) {
         $name = e($popup['name']);
@@ -1038,7 +1122,7 @@ function ia_seed_samples(): array
     $notes = [];
     foreach (App\Models\Board::query()->where('is_active', true)->get() as $board) {
         $slug = (string) $board->slug;
-        if (! preg_match('/^[a-z0-9-]+$/', $slug) || in_array($slug, ['companyintro', 'company-intro', 'privacy-policy', 'terms', 'email-policy', 'register', 'announcements', 'calendar', 'login', 'dashboard'], true)) {
+        if (! preg_match('/^[a-z0-9-]+$/', $slug) || in_array($slug, ['company', 'companyintro', 'company-intro', 'privacy-policy', 'terms', 'email-policy', 'register', 'announcements', 'calendar', 'login', 'dashboard'], true)) {
             if (preg_match('/^[a-z0-9-]+$/', $slug) && Illuminate\Support\Facades\Schema::hasTable('board_'.$slug)) {
                 Illuminate\Support\Facades\DB::table('board_'.$slug)->where('author_name', '샘플')->delete();
             }

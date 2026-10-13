@@ -88,6 +88,9 @@ foreach ($items as $item) {
     if ($depth1 !== '' && $depth2 !== '' && $depth2 !== $depth1 && preg_match('/등록|상세|환불/u', $depth2)) {
         continue;
     }
+    if (in_array($depth2, ['삭제', '삭제/선택삭제', '삭제 / 선택삭제'], true) || str_ends_with($label, '삭제/선택삭제')) {
+        continue;
+    }
 
     $slug = Illuminate\Support\Str::slug($slugSource !== '' ? $slugSource : $label);
     if ($slug === '') {

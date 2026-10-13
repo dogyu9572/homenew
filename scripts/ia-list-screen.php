@@ -43,12 +43,13 @@ function ia_list_spec(string $text): ?array
     $actions = [];
     foreach (['복구', '삭제', '수정', '상세', '환불', '정지', '승인', '거절'] as $action) {
         $position = mb_strpos($actionText, $action);
-        if ($position !== false) {
-            $actions[$position] = $action;
+        if ($position === false) {
+            continue;
         }
+        $actions[$position] = $action === '상세' ? '수정' : $action;
     }
     ksort($actions);
-    $actions = array_values($actions);
+    $actions = array_values(array_unique($actions));
     if ($actions === []) {
         $actions = ['수정', '삭제'];
     }
@@ -619,7 +620,7 @@ function ia_action_button(string $action, string $field): string
 {
     return match ($action) {
         '수정' => '<a href="{{ route(\'backoffice.board-posts.edit\', [$board->slug, $post->id]) }}" class="btn btn-primary btn-sm">수정</a>',
-        '상세' => '<a href="{{ route(\'backoffice.board-posts.show\', [$board->slug, $post->id]) }}" class="btn btn-primary btn-sm">상세</a>',
+        '상세' => '<a href="{{ route(\'backoffice.board-posts.edit\', [$board->slug, $post->id]) }}" class="btn btn-primary btn-sm">수정</a>',
         '삭제' => '<form action="{{ route(\'backoffice.board-posts.destroy\', [$board->slug, $post->id]) }}" method="POST" class="d-inline" onsubmit="return confirm(\'삭제하시겠습니까?\')">@csrf @method(\'DELETE\')<button type="submit" class="btn btn-danger btn-sm">삭제</button></form>',
         default => '<form action="{{ route(\'backoffice.board-posts.bulk_status\', $board->slug) }}" method="POST" class="d-inline" onsubmit="return confirm(\''.$action.' 하시겠습니까?\')">@csrf<input type="hidden" name="field" value="'.e($field).'"><input type="hidden" name="status" value="'.e($action).'"><input type="hidden" name="post_ids[]" value="{{ $post->id }}"><button type="submit" class="btn btn-secondary btn-sm">'.$action.'</button></form>',
     };

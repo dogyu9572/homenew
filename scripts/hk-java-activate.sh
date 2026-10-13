@@ -10,7 +10,7 @@ if [ "$#" -ne 2 ]; then
     exit 1
 fi
 
-if ! [[ "$name" =~ ^[a-z][a-z0-9-]{1,30}$ ]]; then
+if ! [[ "$name" =~ ^[a-z][a-z0-9-]{1,40}$ ]]; then
     echo "프로젝트명이 올바르지 않습니다." >&2
     exit 1
 fi

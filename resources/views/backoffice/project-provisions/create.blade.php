@@ -96,9 +96,9 @@
         }
         var sync = function () {
             if (stack.value === 'java') {
-                projectHelp.textContent = '영문 소문자로 시작하며, 소문자·숫자·하이픈만 사용할 수 있습니다. 주소는 https://프로젝트명.hk-test.co.kr, 관리자 주소는 https://프로젝트명-adm.hk-test.co.kr 입니다.';
-                ftpHelp.textContent = '이 계정으로 자바 소스를 소유합니다. 프로젝트명과 다른 아이디를 사용하세요.';
-                iaHelp.textContent = '엑셀(.xlsx)만 올릴 수 있습니다. 서버 생성이 끝나면 이 IA의 메뉴와 게시판을 자바 관리자에 넣습니다.';
+                projectHelp.textContent = '영문 소문자로 시작하며, 소문자·숫자·하이픈만 사용할 수 있습니다. 주소는 https://프로젝트명.hk-test.co.kr, 퍼블 관리자는 https://pub프로젝트명-adm.hk-test.co.kr 입니다.';
+                ftpHelp.textContent = '퍼블 사이트는 이 아이디 앞에 pub를 붙인 계정으로 관리합니다.';
+                iaHelp.textContent = '엑셀(.xlsx)만 올릴 수 있습니다. 서버 생성이 끝나면 이 IA의 메뉴와 게시판을 퍼블 관리자에 넣습니다.';
                 return;
             }
             projectHelp.textContent = '영문 소문자로 시작하며, 소문자·숫자·하이픈만 사용할 수 있습니다. 주소는 https://프로젝트명.hk-test.co.kr, 퍼블 주소는 https://pub프로젝트명.hk-test.co.kr 입니다.';

@@ -163,7 +163,7 @@ class ProjectProvisionController extends Controller
         }
         $projectProvision->ia_file_path = $path;
         $projectProvision->ia_apply_note = $projectProvision->stack === ProjectProvision::STACK_JAVA
-            ? 'IA 재적용을 시작했습니다. 자바 관리자 메뉴와 게시판을 다시 넣습니다.'
+            ? 'IA 재적용을 시작했습니다. 퍼블 관리자 메뉴와 게시판을 다시 넣습니다.'
             : 'IA 재적용을 시작했습니다. 퍼블 관리자를 기존 모듈로 되돌린 뒤 다시 넣습니다.';
         $projectProvision->save();
 

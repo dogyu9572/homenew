@@ -100,10 +100,6 @@ class StoreProjectProvisionRequest extends FormRequest
     public function withValidator($validator): void
     {
         $validator->after(function ($validator): void {
-            if ($this->input('stack') === ProjectProvision::STACK_JAVA) {
-                return;
-            }
-
             $projectName = (string) $this->input('project_name');
             $ftpUsername = (string) $this->input('ftp_username');
             $pubFtpUsername = 'pub'.$ftpUsername;

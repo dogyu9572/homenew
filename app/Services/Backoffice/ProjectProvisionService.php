@@ -561,10 +561,10 @@ class ProjectProvisionService
             if ($provision->stack === ProjectProvision::STACK_JAVA) {
                 $this->stopJava($provision);
                 $this->removeSites(
-                    [$provision->project_name],
-                    [$provision->db_database],
+                    [$provision->project_name, 'pub'.$provision->project_name],
+                    [$provision->db_database, 'pub'.$provision->db_database],
                     [$provision->db_username],
-                    [$provision->ftp_username],
+                    [$provision->ftp_username, 'pub'.$provision->ftp_username],
                     $metaFile
                 );
             } else {
@@ -606,9 +606,11 @@ class ProjectProvisionService
             throw new RuntimeException('자바 정리 스크립트가 없습니다.');
         }
 
-        $process = Process::timeout(120)->run(['sudo', '-n', '/bin/bash', $script, 'stop', $name]);
-        if (! $process->successful()) {
-            throw new RuntimeException('자바 서비스를 끄지 못했습니다.');
+        foreach ([$name, 'pub'.$name] as $unit) {
+            $process = Process::timeout(120)->run(['sudo', '-n', '/bin/bash', $script, 'stop', $unit]);
+            if (! $process->successful()) {
+                throw new RuntimeException('자바 서비스를 끄지 못했습니다.');
+            }
         }
     }
 

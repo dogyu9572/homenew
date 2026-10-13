@@ -178,9 +178,9 @@ class JavaIaApplyService
 
     private function pdo(ProjectProvision $provision): PDO
     {
-        $database = (string) $provision->db_database;
+        $database = 'pub'.(string) $provision->db_database;
         $user = (string) $provision->db_username;
-        if (! preg_match('/^[a-z][a-z0-9-]{1,30}$/', $database) || ! preg_match('/^[a-z][a-z0-9-]{1,30}$/', $user)) {
+        if (! preg_match('/^[a-z][a-z0-9-]{1,40}$/', $database) || ! preg_match('/^[a-z][a-z0-9-]{1,30}$/', $user)) {
             throw new RuntimeException('데이터베이스 정보가 올바르지 않습니다.');
         }
 

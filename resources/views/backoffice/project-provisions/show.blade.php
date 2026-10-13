@@ -49,9 +49,7 @@
                 <div class="board-form-group">
                     <label class="board-form-label">FTP 아이디</label>
                     <input type="text" class="board-form-control" value="{{ $provision->ftp_username }}" readonly>
-                    @if($provision->stack !== \App\Models\ProjectProvision::STACK_JAVA)
-                        <small class="board-form-text">퍼블 사이트 계정은 pub{{ $provision->ftp_username }} 입니다.</small>
-                    @endif
+                    <small class="board-form-text">퍼블 사이트 계정은 pub{{ $provision->ftp_username }} 입니다.</small>
                 </div>
 
                 <div class="board-form-group">
@@ -86,7 +84,7 @@
                 </div>
 
                 <div class="board-form-group">
-                    <label class="board-form-label">{{ $provision->stack === \App\Models\ProjectProvision::STACK_JAVA ? '관리자 주소' : '퍼블 주소' }}</label>
+                    <label class="board-form-label">퍼블 주소</label>
                     @if($provision->pub_site_url)
                         <div class="board-form-text">
                             <a href="{{ $provision->pub_site_url }}" target="_blank" rel="noopener noreferrer">{{ $provision->pub_site_url }}</a>
@@ -132,7 +130,7 @@
                             <label for="ia_file" class="board-form-label">IA 재적용</label>
                             <input type="file" class="board-form-control" id="ia_file" name="ia_file" accept=".xlsx" required>
                             @if($provision->stack === \App\Models\ProjectProvision::STACK_JAVA)
-                                <small class="board-form-text">엑셀을 올리고 저장하면 자바 관리자의 IA 메뉴와 게시판을 지우고 다시 넣습니다. 공통모듈 기본 메뉴는 그대로 둡니다.</small>
+                                <small class="board-form-text">엑셀을 올리고 저장하면 퍼블 관리자의 IA 메뉴와 게시판을 지우고 다시 넣습니다. 개발 사이트는 그대로 둡니다.</small>
                             @else
                                 <small class="board-form-text">엑셀을 올리고 저장하면 퍼블 관리자 화면만 지우고 기존 모듈을 다시 받은 뒤, IA를 다시 넣습니다. 사용자 화면과 개발 사이트는 그대로 둡니다.</small>
                             @endif

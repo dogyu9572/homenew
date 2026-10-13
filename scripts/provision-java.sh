@@ -136,8 +136,14 @@ case "$PROJECT_DIR" in
     /var/www/html/*) ;;
     *) echo "프로젝트 경로가 올바르지 않습니다." >&2; exit 1 ;;
 esac
+PUB_NAME="pub${PROJECT_NAME}"
+PUB_DIR="${BASE_PATH}/${PUB_NAME}"
+PUB_FTP="pub${FTP_USERNAME}"
+PUB_DB="pub${PROJECT_NAME}"
 APP_URL="${PROVISION_URL_SCHEME}://${PROJECT_NAME}.${DOMAIN_SUFFIX}"
 ADMIN_URL="${PROVISION_URL_SCHEME}://${PROJECT_NAME}-adm.${DOMAIN_SUFFIX}"
+PUB_URL="${PROVISION_URL_SCHEME}://${PUB_NAME}.${DOMAIN_SUFFIX}"
+PUB_ADMIN_URL="${PROVISION_URL_SCHEME}://${PUB_NAME}-adm.${DOMAIN_SUFFIX}"
 ADM_ARTIFACT=$(basename "$JAVA_ADM_JAR")
 USER_ARTIFACT=$(basename "$JAVA_USER_JAR")
 export GIT_TERMINAL_PROMPT=0
@@ -150,8 +156,18 @@ if [ -e "$PROJECT_DIR" ]; then
     exit 1
 fi
 
+if [ -e "$PUB_DIR" ]; then
+    echo "퍼블 디렉터리가 이미 있습니다: ${PUB_DIR}" >&2
+    exit 1
+fi
+
 if id "$FTP_USERNAME" >/dev/null 2>&1; then
     echo "FTP 계정이 이미 있습니다: ${FTP_USERNAME}" >&2
+    exit 1
+fi
+
+if id "$PUB_FTP" >/dev/null 2>&1; then
+    echo "퍼블 FTP 계정이 이미 있습니다: ${PUB_FTP}" >&2
     exit 1
 fi
 
@@ -212,23 +228,23 @@ if ! mysql --defaults-extra-file="$MYSQL_CNF" < "$SQL_FILE"; then
     exit 1
 fi
 
-echo "공통모듈 테이블을 넣습니다."
-if ! mysqldump --defaults-extra-file="$MYSQL_CNF" --single-transaction --skip-add-locks --no-data --skip-comments --default-character-set=utf8mb4 "$JAVA_TEMPLATE_DATABASE" \
-    | mysql --defaults-extra-file="$MYSQL_CNF" --database="${DB_DATABASE}"; then
-    echo "공통모듈 테이블을 만들지 못했습니다." >&2
-    exit 1
-fi
-
-if ! mysqldump --defaults-extra-file="$MYSQL_CNF" --single-transaction --skip-add-locks --no-create-info --skip-comments --default-character-set=utf8mb4 \
-    "$JAVA_TEMPLATE_DATABASE" CODE_MA CODE_DT AUTH_GROUP AUTH_INFO ADMIN_INFO BBS_MASTER \
-    | mysql --defaults-extra-file="$MYSQL_CNF" --database="${DB_DATABASE}"; then
-    echo "공통모듈 기본 데이터를 넣지 못했습니다." >&2
-    exit 1
-fi
-
-php <<'PHP'
+load_module_db() {
+    local target="$1"
+    export HK_SEED_DB="$target"
+    if ! mysqldump --defaults-extra-file="$MYSQL_CNF" --single-transaction --skip-add-locks --no-data --skip-comments --default-character-set=utf8mb4 "$JAVA_TEMPLATE_DATABASE" \
+        | mysql --defaults-extra-file="$MYSQL_CNF" --database="${target}"; then
+        echo "공통모듈 테이블을 만들지 못했습니다." >&2
+        exit 1
+    fi
+    if ! mysqldump --defaults-extra-file="$MYSQL_CNF" --single-transaction --skip-add-locks --no-create-info --skip-comments --default-character-set=utf8mb4 \
+        "$JAVA_TEMPLATE_DATABASE" CODE_MA CODE_DT AUTH_GROUP AUTH_INFO ADMIN_INFO BBS_MASTER \
+        | mysql --defaults-extra-file="$MYSQL_CNF" --database="${target}"; then
+        echo "공통모듈 기본 데이터를 넣지 못했습니다." >&2
+        exit 1
+    fi
+    php <<'PHP'
 <?php
-$db = (string) getenv('DB_DATABASE');
+$db = (string) getenv('HK_SEED_DB');
 $hash = password_hash('homepagekorea', PASSWORD_BCRYPT);
 if (! is_string($hash) || $hash === '' || ! password_verify('homepagekorea', $hash)) {
     fwrite(STDERR, "기본 관리자 계정을 넣지 못했습니다.\n");
@@ -243,11 +259,34 @@ $sql = "INSERT INTO `{$db}`.`ADMIN_INFO` (AI_ID, AI_NAME, AI_EMAIL, AI_PASSWORD,
     ."ON DUPLICATE KEY UPDATE AI_NAME='관리자', AI_EMAIL='homepage@hk-test.co.kr', AI_PASSWORD='{$hashSql}', AI_STATUS='ACTIVE', AI_ROLE='SUPER', AI_UPDATED_AT=NOW();\n";
 file_put_contents((string) getenv('SQL_FILE'), $sql);
 PHP
+    if ! mysql --defaults-extra-file="$MYSQL_CNF" < "$SQL_FILE"; then
+        echo "기본 관리자 계정을 넣지 못했습니다." >&2
+        exit 1
+    fi
+}
 
+echo "공통모듈 테이블을 넣습니다."
+load_module_db "$DB_DATABASE"
+
+export PUB_DB
+php <<'PHP'
+<?php
+$db = getenv('PUB_DB');
+$user = getenv('DB_USERNAME');
+$sql = <<<SQL
+CREATE DATABASE `{$db}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON `{$db}`.* TO '{$user}'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON `{$db}`.* TO '{$user}'@'localhost';
+GRANT ALL PRIVILEGES ON `{$db}`.* TO '{$user}'@'%';
+FLUSH PRIVILEGES;
+SQL;
+file_put_contents(getenv('SQL_FILE'), $sql);
+PHP
 if ! mysql --defaults-extra-file="$MYSQL_CNF" < "$SQL_FILE"; then
-    echo "기본 관리자 계정을 넣지 못했습니다." >&2
+    echo "퍼블 데이터베이스를 만들지 못했습니다." >&2
     exit 1
 fi
+load_module_db "$PUB_DB"
 echo "기본 관리자 계정을 넣었습니다."
 echo "데이터베이스와 사용자를 만들었습니다."
 
@@ -433,10 +472,14 @@ write_runtime() {
     local work="$2"
     local jar="$3"
     local unit="$4"
+    local database="$5"
+    local upload="$6"
+    local cors="$7"
+    local owner="$8"
     ENV_FILE=$(mktemp)
     UNIT_FILE=$(mktemp)
     chmod 600 "$ENV_FILE"
-    export ENV_FILE UNIT_FILE HK_PORT="$port" HK_WORK="$work" HK_JAR="$jar" HK_UNIT="$unit" HK_USER="$FTP_USERNAME"
+    export ENV_FILE UNIT_FILE HK_PORT="$port" HK_WORK="$work" HK_JAR="$jar" HK_UNIT="$unit" HK_USER="$owner" HK_DB="$database" HK_UPLOAD="$upload" HK_CORS="$cors"
     php <<'PHP'
 <?php
 $quote = static function (string $value): string {
@@ -444,10 +487,11 @@ $quote = static function (string $value): string {
 };
 $lines = [
     'SERVER_PORT='.$quote((string) getenv('HK_PORT')),
-    'SPRING_DATASOURCE_URL='.$quote('jdbc:p6spy:mariadb://127.0.0.1:3306/'.getenv('DB_DATABASE')),
+    'SPRING_DATASOURCE_URL='.$quote('jdbc:p6spy:mariadb://127.0.0.1:3306/'.getenv('HK_DB')),
     'SPRING_DATASOURCE_USERNAME='.$quote((string) getenv('DB_USERNAME')),
     'SPRING_DATASOURCE_PASSWORD='.$quote((string) getenv('DB_PASSWORD')),
-    'FILE_UPLOAD_PATH='.$quote((string) getenv('BASE_PATH').'/'.getenv('PROJECT_NAME').'/uploads'),
+    'FILE_UPLOAD_PATH='.$quote((string) getenv('HK_UPLOAD')),
+    'APP_CORS_ALLOWED_ORIGINS='.$quote((string) getenv('HK_CORS')),
 ];
 file_put_contents(getenv('ENV_FILE'), implode("\n", $lines)."\n");
 $unit = "[Unit]\n"
@@ -473,8 +517,9 @@ PHP
     UNIT_FILE=""
 }
 
-write_runtime "$ADM_PORT" "/opt/${PROJECT_NAME}/adm" "/opt/${PROJECT_NAME}/adm/${ADM_ARTIFACT}" "${PROJECT_NAME}-adm"
-write_runtime "$USER_PORT" "/opt/${PROJECT_NAME}/user" "/opt/${PROJECT_NAME}/user/${USER_ARTIFACT}" "${PROJECT_NAME}-user"
+DEV_CORS="${ADMIN_URL},${APP_URL}"
+write_runtime "$ADM_PORT" "/opt/${PROJECT_NAME}/adm" "/opt/${PROJECT_NAME}/adm/${ADM_ARTIFACT}" "${PROJECT_NAME}-adm" "$DB_DATABASE" "${PROJECT_DIR}/uploads" "$DEV_CORS" "$FTP_USERNAME"
+write_runtime "$USER_PORT" "/opt/${PROJECT_NAME}/user" "/opt/${PROJECT_NAME}/user/${USER_ARTIFACT}" "${PROJECT_NAME}-user" "$DB_DATABASE" "${PROJECT_DIR}/uploads" "$DEV_CORS" "$FTP_USERNAME"
 
 if [ ! -x /usr/local/sbin/hk-java-activate.sh ]; then
     echo "자바 기동 스크립트가 없습니다." >&2
@@ -482,6 +527,31 @@ if [ ! -x /usr/local/sbin/hk-java-activate.sh ]; then
 fi
 as_root /bin/bash /usr/local/sbin/hk-java-activate.sh start "$PROJECT_NAME"
 echo "자바 서비스를 켰습니다."
+
+echo "퍼블 사이트를 준비합니다."
+as_root mkdir -p "$PUB_DIR/uploads" "/opt/${PUB_NAME}/adm" "/opt/${PUB_NAME}/user"
+if [ -d "$PROJECT_DIR/www" ]; then
+    as_root cp -a "$PROJECT_DIR/www" "$PUB_DIR/www"
+fi
+if [ -d "$PROJECT_DIR/www-adm" ]; then
+    as_root cp -a "$PROJECT_DIR/www-adm" "$PUB_DIR/www-adm"
+fi
+as_root cp "$JAVA_ADM_JAR" "/opt/${PUB_NAME}/adm/${ADM_ARTIFACT}"
+as_root cp "$JAVA_USER_JAR" "/opt/${PUB_NAME}/user/${USER_ARTIFACT}"
+as_root useradd -d "$PUB_DIR" -s /bin/bash -G "$WEB_USER" "$PUB_FTP"
+printf '%s:%s\n' "$PUB_FTP" "$FTP_PASSWORD" | as_root chpasswd
+as_root chown -R "${PUB_FTP}:${WEB_USER}" "$PUB_DIR" "/opt/${PUB_NAME}"
+as_root find "$PUB_DIR" -type d -exec chmod 2775 {} \;
+as_root find "$PUB_DIR" -type f -exec chmod 664 {} \;
+
+PUB_ADM_PORT=$(pick_port $((USER_PORT + 1)))
+PUB_USER_PORT=$(pick_port $((PUB_ADM_PORT + 1)))
+echo "퍼블 관리자 포트 ${PUB_ADM_PORT}, 퍼블 사용자 포트 ${PUB_USER_PORT}"
+PUB_CORS="${PUB_ADMIN_URL},${PUB_URL}"
+write_runtime "$PUB_ADM_PORT" "/opt/${PUB_NAME}/adm" "/opt/${PUB_NAME}/adm/${ADM_ARTIFACT}" "${PUB_NAME}-adm" "$PUB_DB" "${PUB_DIR}/uploads" "$PUB_CORS" "$PUB_FTP"
+write_runtime "$PUB_USER_PORT" "/opt/${PUB_NAME}/user" "/opt/${PUB_NAME}/user/${USER_ARTIFACT}" "${PUB_NAME}-user" "$PUB_DB" "${PUB_DIR}/uploads" "$PUB_CORS" "$PUB_FTP"
+as_root /bin/bash /usr/local/sbin/hk-java-activate.sh start "$PUB_NAME"
+echo "퍼블 자바 서비스를 켰습니다."
 
 step nginx
 echo "웹서버 설정을 반영합니다."
@@ -574,6 +644,8 @@ EOF
 
 install_site "$PROJECT_NAME" "${PROJECT_NAME}.${DOMAIN_SUFFIX}" "${PROJECT_DIR}/www" "$USER_PORT"
 install_site "${PROJECT_NAME}-adm" "${PROJECT_NAME}-adm.${DOMAIN_SUFFIX}" "${PROJECT_DIR}/www-adm" "$ADM_PORT"
+install_site "$PUB_NAME" "${PUB_NAME}.${DOMAIN_SUFFIX}" "${PUB_DIR}/www" "$PUB_USER_PORT"
+install_site "${PUB_NAME}-adm" "${PUB_NAME}-adm.${DOMAIN_SUFFIX}" "${PUB_DIR}/www-adm" "$PUB_ADM_PORT"
 as_root nginx -t
 as_root systemctl reload nginx
 if [ -d /etc/apache2/sites-available ]; then
@@ -581,5 +653,5 @@ if [ -d /etc/apache2/sites-available ]; then
 fi
 
 echo "[[RESULT_URL]] ${APP_URL}"
-echo "[[RESULT_PUB_URL]] ${ADMIN_URL}"
+echo "[[RESULT_PUB_URL]] ${PUB_ADMIN_URL}"
 echo "웹서버 설정을 반영했습니다."

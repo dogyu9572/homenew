@@ -276,6 +276,7 @@ class JavaIaApplyService
             }
         }
 
+        $this->arrangeMenus($pdo);
         $this->writeScreenFile($provision, $screens);
 
         return $created;
@@ -445,6 +446,48 @@ class JavaIaApplyService
         }
 
         throw new RuntimeException('관리자 메뉴를 더 추가할 수 없습니다.');
+    }
+
+    /**
+     * IA 대메뉴를 시트 순서대로 앞에 두고, 같은 이름의 기본 메뉴는 숨긴다.
+     */
+    private function arrangeMenus(PDO $pdo): void
+    {
+        $parents = $pdo->query("SELECT CODE, CODE_NM, SEQ, IFNULL(CODE_ETC1, '') AS CODE_ETC1 FROM CODE_DT WHERE CODE_ID = 'COM001' AND USE_YN = 'Y' ORDER BY SEQ, CODE")->fetchAll(PDO::FETCH_ASSOC);
+        $iaNames = [];
+        foreach ($parents as $parent) {
+            if ($parent['CODE_ETC1'] === 'ia') {
+                $iaNames[$parent['CODE_NM']] = true;
+            }
+        }
+
+        $hideParent = $pdo->prepare("UPDATE CODE_DT SET USE_YN = 'N' WHERE CODE_ID = 'COM001' AND CODE = ?");
+        $hideChildren = $pdo->prepare("UPDATE CODE_DT SET USE_YN = 'N' WHERE CODE_ID = 'COM002' AND CHAR_LENGTH(CODE) = 4 AND CODE LIKE ?");
+        $kept = [];
+        foreach ($parents as $parent) {
+            if ($parent['CODE_ETC1'] !== 'ia' && isset($iaNames[$parent['CODE_NM']]) && strlen((string) $parent['CODE']) === 2) {
+                $hideParent->execute([$parent['CODE']]);
+                $hideChildren->execute([$parent['CODE'].'%']);
+                continue;
+            }
+            $kept[] = $parent;
+        }
+
+        usort($kept, function (array $left, array $right): int {
+            $leftIa = $left['CODE_ETC1'] === 'ia' ? 0 : 1;
+            $rightIa = $right['CODE_ETC1'] === 'ia' ? 0 : 1;
+            if ($leftIa !== $rightIa) {
+                return $leftIa <=> $rightIa;
+            }
+            $bySeq = ((int) $left['SEQ']) <=> ((int) $right['SEQ']);
+
+            return $bySeq !== 0 ? $bySeq : strcmp((string) $left['CODE'], (string) $right['CODE']);
+        });
+
+        $update = $pdo->prepare("UPDATE CODE_DT SET SEQ = ? WHERE CODE_ID = 'COM001' AND CODE = ?");
+        foreach ($kept as $index => $parent) {
+            $update->execute([$index + 1, $parent['CODE']]);
+        }
     }
 
     private function insertCode(PDO $pdo, string $codeId, string $code, string $name, string $url, int $seq): void

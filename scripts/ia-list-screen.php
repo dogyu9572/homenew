@@ -2513,6 +2513,106 @@ function ia_row_label(string $depth1, string $depth2): string
     return trim($depth1.' '.$depth2);
 }
 
+/**
+ * 기간 안내 문장은 날짜 범위 필드로, 추가하기는 대상 화면 단어로 맞춘다.
+ *
+ * @param  list<array<string, mixed>>  $form
+ * @return list<array<string, mixed>>
+ */
+function ia_normalize_ia_form(array $form): array
+{
+    $used = [];
+    $normalized = [];
+    foreach ($form as $field) {
+        if (! is_array($field)) {
+            continue;
+        }
+        $label = (string) ($field['label'] ?? '');
+        if (($field['kind'] ?? '') === 'note' && preg_match('/^(.{2,16}기간)\s+(.+)$/u', $label, $matched)) {
+            $period = preg_replace('/\s+/u', '', $matched[1]) ?? $matched[1];
+            $base = ia_reserve_name($period, $used, 'dates');
+            $field['kind'] = 'dates';
+            $field['label'] = $period;
+            $field['hint'] = trim($matched[2]);
+            $field['name'] = $base;
+            $field['start_name'] = $base.'_start';
+            $field['end_name'] = $base.'_end';
+            $field['start_label'] = $period.' 시작';
+            $field['end_label'] = $period.' 종료';
+            $field['wide'] = true;
+        }
+        if (($field['kind'] ?? '') === 'popup') {
+            $field['target'] = trim((string) (preg_replace('/추가하기|선택/u', '', $label) ?? $label));
+        }
+        $normalized[] = $field;
+    }
+
+    return $normalized;
+}
+
+/**
+ * @param  list<array<string, mixed>>  $form
+ * @return array<string, string>
+ */
+function ia_sample_form_values(array $form, int $index, string $screenName = ''): array
+{
+    $values = [];
+    $titled = false;
+    foreach ($form as $field) {
+        if (! is_array($field)) {
+            continue;
+        }
+        $kind = (string) ($field['kind'] ?? $field['type'] ?? 'text');
+        $label = (string) ($field['label'] ?? '');
+        $name = (string) ($field['name'] ?? '');
+        if (in_array($kind, ['heading', 'note', 'file'], true)) {
+            continue;
+        }
+        if ($kind === 'dates') {
+            $start = (string) ($field['start_name'] ?? '');
+            $end = (string) ($field['end_name'] ?? '');
+            $day = now()->addDays($index * 3);
+            if ($start !== '') {
+                $values[$start] = $day->format('Y-m-d');
+            }
+            if ($end !== '') {
+                $values[$end] = $day->copy()->addDay()->format('Y-m-d');
+            }
+            continue;
+        }
+        if ($kind === 'editor' && $name !== '') {
+            $values[$name] = '<p>샘플 내용 '.$index.'입니다.</p>';
+            continue;
+        }
+        if ($kind === 'popup' && $name !== '') {
+            $values[$name] = '샘플 '.$index;
+            continue;
+        }
+        if (in_array($kind, ['select', 'radio', 'check'], true)) {
+            $options = array_values(array_filter(array_map('strval', (array) ($field['options'] ?? []))));
+            if ($name !== '' && $options !== []) {
+                $values[$name] = $options[$index % count($options)];
+            }
+            continue;
+        }
+        if ($name === '') {
+            continue;
+        }
+        if (! $titled && $kind === 'text' && $screenName !== '') {
+            $values[$name] = ia_sample_title($screenName, $index);
+            $titled = true;
+            continue;
+        }
+        $values[$name] = ia_sample_field_value([
+            'label' => $label,
+            'type' => $kind,
+            'options' => $field['options'] ?? [],
+        ], $index);
+    }
+
+    return $values;
+}
+
 function ia_seed_samples(): array
 {
     $notes = [];

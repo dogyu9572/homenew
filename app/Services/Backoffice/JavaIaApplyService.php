@@ -200,6 +200,7 @@ class JavaIaApplyService
                 }
             }
 
+            $form = ia_normalize_ia_form($form);
             $screens[] = [
                 'parent' => $group['parent'],
                 'name' => $group['name'],
@@ -268,8 +269,8 @@ class JavaIaApplyService
                     'list' => $board['list'],
                     'form' => $board['form'],
                 ];
-                if ($board['name'] === '회원목록') {
-                    $this->seedMember($pdo, $bbsId, $board['form']);
+                if (! $board['single']) {
+                    $this->seedSamples($pdo, $bbsId, $board['name'], $board['form']);
                 }
                 $created[] = $parentName.' > '.$board['name'];
             }
@@ -308,56 +309,74 @@ class JavaIaApplyService
     }
 
     /**
+     * 이미 만들어진 퍼블 화면 JSON을 정리하고 목록 샘플을 다시 넣는다.
+     */
+    public function refreshSamples(ProjectProvision $provision): string
+    {
+        require_once base_path('scripts/ia-list-screen.php');
+        $name = (string) $provision->project_name;
+        $path = rtrim((string) config('provision.base_path'), '/').'/pub'.$name.'/www-adm/ia-screens.json';
+        $decoded = json_decode((string) file_get_contents($path), true);
+        $screens = is_array($decoded['screens'] ?? null) ? $decoded['screens'] : [];
+        $pdo = $this->pdo($provision);
+        $notes = [];
+        foreach ($screens as $bbsId => $screen) {
+            if (! is_array($screen)) {
+                continue;
+            }
+            $form = ia_normalize_ia_form(is_array($screen['form'] ?? null) ? $screen['form'] : []);
+            $screens[$bbsId]['form'] = $form;
+            if (! empty($screen['single'])) {
+                continue;
+            }
+            $screenName = (string) ($screen['name'] ?? '');
+            $this->seedSamples($pdo, (string) $bbsId, $screenName, $form);
+            $notes[] = $screenName.' 샘플 '.ia_sample_count('', $screenName).'건';
+        }
+        $this->writeScreenFile($provision, $screens);
+
+        return implode("\n", $notes);
+    }
+
+    /**
      * @param  list<array<string, mixed>>  $form
      */
-    private function seedMember(PDO $pdo, string $bbsId, array $form): void
+    private function seedSamples(PDO $pdo, string $bbsId, string $screenName, array $form): void
     {
-        $samples = [
-            '이름(국문)' => '김도현',
-            '이름(영문)' => 'Kim Dohyun',
-            '연락처' => '010-1001-2007',
-            '이메일' => 'kimdohyun1@example.com',
-            '가입일' => '2026-03-02',
-            '아이디' => 'kimdohyun1',
-            '병원명' => '신교동물병원',
-            '병원연락처' => '02-000-0000',
-            '최근 참가 강의' => '종양 연수',
-            '누적 참가 횟수' => '3',
-            '승인 일시' => '2026-03-02 10:00',
-        ];
-        $values = [];
-        foreach ($form as $field) {
-            $label = (string) ($field['label'] ?? '');
-            $name = (string) ($field['name'] ?? '');
-            if ($name !== '' && isset($samples[$label])) {
-                $values[$name] = $samples[$label];
-            }
-        }
-        if ($values === []) {
-            return;
-        }
-
-        $postId = 'IA'.substr(md5($bbsId.'member'), 0, 10);
-        $stmt = $pdo->prepare(
+        $pdo->prepare("DELETE FROM BBS_POST WHERE BBS_ID = ? AND NTT_ID = 'sample'")->execute([$bbsId]);
+        $insert = $pdo->prepare(
             'INSERT INTO BBS_POST (BBS_ID, POST_ID, NTT_SJ, NTT_CN, NTT_NM, NTT_ID, NTT_SEQ, IS_NOTICE, IS_TOP, IS_LOCK, NTT_LINK, NTT_REGDT, USE_YN, RDCNT, REGDT, REGID, MODDT, MODID)
-             VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?, 0, NOW(), ?, NOW(), ?)'
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, NOW(), ?, NOW(), ?)'
         );
-        $stmt->execute([
-            $bbsId,
-            $postId,
-            '김도현',
-            json_encode(['values' => $values], JSON_UNESCAPED_UNICODE),
-            '관리자',
-            'homepage',
-            'N',
-            'N',
-            'N',
-            '',
-            '',
-            'Y',
-            'ia',
-            'ia',
-        ]);
+        $count = ia_sample_count('', $screenName);
+        for ($index = 1; $index <= $count; $index++) {
+            $values = ia_sample_form_values($form, $index, $screenName);
+            $title = ia_sample_title($screenName, $index);
+            foreach ($form as $field) {
+                $fieldName = (string) ($field['name'] ?? '');
+                if ($fieldName !== '' && ($field['kind'] ?? '') === 'text' && ($values[$fieldName] ?? '') !== '') {
+                    $title = (string) $values[$fieldName];
+                    break;
+                }
+            }
+            $insert->execute([
+                $bbsId,
+                'S'.substr(md5($bbsId.'|'.$index), 0, 12),
+                $this->cut($title, 200),
+                json_encode(['values' => $values], JSON_UNESCAPED_UNICODE),
+                '샘플',
+                'sample',
+                $index,
+                'N',
+                'N',
+                'N',
+                '',
+                '',
+                'Y',
+                'ia',
+                'ia',
+            ]);
+        }
     }
 
     private function pdo(ProjectProvision $provision): PDO

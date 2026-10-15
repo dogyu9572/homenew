@@ -10,10 +10,59 @@
     <div id="provision-alert" hidden data-success="{{ session('success') }}" data-error="{{ session('error') }}"></div>
 
     <div class="board-container" id="project-provision-show" data-status="{{ $provision->status }}">
-        <div class="board-header">
+        @php
+        $pubAccount = 'pub'.$provision->ftp_username;
+        $pubBackofficeUrl = rtrim((string) $provision->pub_site_url, '/');
+        if ($pubBackofficeUrl !== '' && ! str_ends_with($pubBackofficeUrl, '/backoffice')) {
+            $pubBackofficeUrl .= '/backoffice';
+        }
+        $developerMemo = implode("\n", [
+            (string) $provision->site_url,
+            (string) $provision->git_url,
+            '',
+            'SFTP 아이디',
+            (string) $provision->ftp_username,
+            '',
+            'SFTP 비밀번호',
+            (string) $provision->ftp_password,
+            '',
+            'DB 아이디',
+            (string) $provision->db_username,
+            'DB 비밀번호',
+            (string) $provision->db_password,
+            'DB 이름',
+            (string) $provision->db_database,
+            '',
+            '깃 pull 받아',
+            '그리고 내가 이제 수정요청하면 깃 커밋&푸시까지 해',
+            '',
+            '그런다음',
+            '',
+            $pubBackofficeUrl,
+            '여기에 있는 소스 관리자만 옮겨',
+            '',
+            'SFTP 52.78.45.187',
+            'SFTP ID '.$pubAccount,
+            'SFTP PW '.$provision->ftp_password,
+        ]);
+    @endphp
+
+    <div class="board-header">
             <a href="{{ route('backoffice.project-provisions.index') }}" class="btn btn-secondary btn-sm">
                 <i class="fas fa-arrow-left"></i> 목록으로
             </a>
+            <button type="button" class="btn btn-primary btn-sm" id="developer-memo-open">개발자 메모</button>
+        </div>
+
+        <div class="board-card" id="developer-memo-panel" hidden>
+            <div class="board-card-body">
+                <div class="board-form-group">
+                    <label for="developer-memo-text" class="board-form-label">개발자 메모</label>
+                    <textarea id="developer-memo-text" class="board-form-control board-form-textarea" rows="24" readonly>{{ $developerMemo }}</textarea>
+                    <small class="board-form-text">버튼을 누르면 메모가 복사됩니다. 아래 내용도 그대로 선택해 복사할 수 있습니다.</small>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" id="developer-memo-copy">복사</button>
+            </div>
         </div>
 
         <div class="board-card">
@@ -161,7 +210,5 @@
 @endsection
 
 @section('scripts')
-    @if(in_array($provision->status, ['queued', 'running'], true))
-        <script src="{{ asset('js/backoffice/project-provisions.js') }}"></script>
-    @endif
+    <script src="{{ asset('js/backoffice/project-provisions.js') }}"></script>
 @endsection

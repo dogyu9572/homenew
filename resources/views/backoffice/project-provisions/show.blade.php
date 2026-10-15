@@ -47,13 +47,14 @@
                 </div>
 
                 <div class="board-form-group">
-                    <label class="board-form-label">FTP 아이디</label>
+                    <label class="board-form-label">SFTP 아이디</label>
                     <input type="text" class="board-form-control" value="{{ $provision->ftp_username }}" readonly>
                     <small class="board-form-text">퍼블 사이트 계정은 pub{{ $provision->ftp_username }} 입니다.</small>
+                    <small class="board-form-text">SFTP 주소는 52.78.45.187 고정 입니다.</small>
                 </div>
 
                 <div class="board-form-group">
-                    <label class="board-form-label">FTP 비밀번호</label>
+                    <label class="board-form-label">SFTP 비밀번호</label>
                     <input type="text" class="board-form-control" value="{{ $provision->ftp_password }}" readonly>
                 </div>
 

@@ -41,13 +41,13 @@
                 </div>
 
                 <div class="board-form-group">
-                    <label for="ftp_username" class="board-form-label">FTP 아이디 <span class="required">*</span></label>
+                    <label for="ftp_username" class="board-form-label">SFTP 아이디 <span class="required">*</span></label>
                     <input type="text" class="board-form-control" id="ftp_username" name="ftp_username" value="{{ old('ftp_username') }}" required maxlength="29">
                     <small class="board-form-text" id="ftp-username-help">퍼블 사이트는 이 아이디 앞에 pub를 붙인 계정으로 관리합니다.</small>
                 </div>
 
                 <div class="board-form-group">
-                    <label for="ftp_password" class="board-form-label">FTP 비밀번호 <span class="required">*</span></label>
+                    <label for="ftp_password" class="board-form-label">SFTP 비밀번호 <span class="required">*</span></label>
                     <input type="password" class="board-form-control" id="ftp_password" name="ftp_password" required minlength="8" maxlength="128" autocomplete="new-password">
                 </div>
 

@@ -66,8 +66,8 @@ class StoreProjectProvisionRequest extends FormRequest
         return [
             'customer_name' => '고객사명',
             'project_name' => '프로젝트명',
-            'ftp_username' => 'FTP 아이디',
-            'ftp_password' => 'FTP 비밀번호',
+            'ftp_username' => 'SFTP 아이디',
+            'ftp_password' => 'SFTP 비밀번호',
             'db_username' => 'DB 아이디',
             'db_password' => 'DB 비밀번호',
             'stack' => '프로젝트 종류',
@@ -81,19 +81,19 @@ class StoreProjectProvisionRequest extends FormRequest
             'project_name.regex' => '프로젝트명은 영문 소문자로 시작하고, 소문자·숫자·하이픈만 사용할 수 있습니다.',
             'project_name.unique' => '이미 등록된 프로젝트명입니다.',
             'project_name.not_in' => '사용할 수 없는 프로젝트명입니다.',
-            'ftp_username.regex' => 'FTP 아이디는 영문 소문자로 시작하고, 소문자·숫자·하이픈만 사용할 수 있습니다.',
-            'ftp_username.different' => 'FTP 아이디는 프로젝트명과 달라야 합니다.',
-            'ftp_username.unique' => '이미 등록된 FTP 아이디입니다.',
-            'ftp_username.not_in' => '사용할 수 없는 FTP 아이디입니다.',
+            'ftp_username.regex' => 'SFTP 아이디는 영문 소문자로 시작하고, 소문자·숫자·하이픈만 사용할 수 있습니다.',
+            'ftp_username.different' => 'SFTP 아이디는 프로젝트명과 달라야 합니다.',
+            'ftp_username.unique' => '이미 등록된 SFTP 아이디입니다.',
+            'ftp_username.not_in' => '사용할 수 없는 SFTP 아이디입니다.',
             'db_username.regex' => 'DB 아이디는 영문 소문자로 시작하고, 소문자·숫자·하이픈만 사용할 수 있습니다.',
             'db_username.unique' => '이미 등록된 DB 아이디입니다.',
             'db_username.not_in' => '사용할 수 없는 DB 아이디입니다.',
-            'ftp_password.min' => 'FTP 비밀번호는 8자 이상이어야 합니다.',
+            'ftp_password.min' => 'SFTP 비밀번호는 8자 이상이어야 합니다.',
             'db_password.min' => 'DB 비밀번호는 8자 이상이어야 합니다.',
             'stack.in' => '라라벨 또는 자바만 생성할 수 있습니다.',
             'ia_file.mimes' => '관리자 IA는 xlsx 파일만 올릴 수 있습니다.',
             'ia_file.max' => '관리자 IA는 10MB 이하만 올릴 수 있습니다.',
-            'ftp_username.max' => 'FTP 아이디는 29자 이하여야 합니다. 앞에 pub를 붙인 계정이 32자를 넘을 수 없습니다.',
+            'ftp_username.max' => 'SFTP 아이디는 29자 이하여야 합니다. 앞에 pub를 붙인 계정이 32자를 넘을 수 없습니다.',
         ];
     }
 
@@ -106,11 +106,11 @@ class StoreProjectProvisionRequest extends FormRequest
             $pubProjectName = 'pub'.$projectName;
 
             if ($pubFtpUsername === $projectName || $pubFtpUsername === $ftpUsername) {
-                $validator->errors()->add('ftp_username', 'pub를 붙인 FTP 아이디가 프로젝트명과 겹칩니다.');
+                $validator->errors()->add('ftp_username', 'pub를 붙인 SFTP 아이디가 프로젝트명과 겹칩니다.');
             }
 
             if (in_array($pubFtpUsername, self::RESERVED, true)) {
-                $validator->errors()->add('ftp_username', '사용할 수 없는 퍼블 FTP 아이디입니다.');
+                $validator->errors()->add('ftp_username', '사용할 수 없는 퍼블 SFTP 아이디입니다.');
             }
 
             $pubTaken = ProjectProvision::query()

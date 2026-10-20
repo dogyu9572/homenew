@@ -79,6 +79,12 @@ class BoardFileGeneratorService
                 $table->index(['sort_order']); // 정렬 성능 최적화
             });
         }
+
+        if (Schema::hasTable($tableName) && ! Schema::hasColumn($tableName, 'is_active')) {
+            Schema::table($tableName, function (Blueprint $table) {
+                $table->boolean('is_active')->default(true)->comment('게시물 노출 여부');
+            });
+        }
     }
 
     /**

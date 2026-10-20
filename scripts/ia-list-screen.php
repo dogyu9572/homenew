@@ -2629,6 +2629,11 @@ function ia_seed_samples(): array
         }
         $table = 'board_'.$slug;
         try {
+        if (! Illuminate\Support\Facades\Schema::hasColumn($table, 'is_active')) {
+            Illuminate\Support\Facades\Schema::table($table, function ($column) {
+                $column->boolean('is_active')->default(true);
+            });
+        }
         Illuminate\Support\Facades\DB::table($table)->where('author_name', '샘플')->delete();
         $count = ia_sample_count($slug, (string) $board->name);
         $fields = is_array($board->custom_fields_config) ? $board->custom_fields_config : [];

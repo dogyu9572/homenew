@@ -1,12 +1,12 @@
 #!/bin/bash
-# 사이트 일일 백업
+# 데이터베이스 일일 백업
 #
 # 대상 목록: /etc/hk-backup/sites.list
 # 형식: 이름|사이트경로|데이터베이스
-# 데이터베이스가 없으면 하이픈(-)을 적는다.
+# 사이트 경로는 접속 정보를 읽을 때만 쓰고, 파일은 백업하지 않는다.
 # 원클릭으로 사이트를 추가할 때는 이 목록에 한 줄만 넣으면 다음 실행부터 백업된다.
 #
-# 결과: /backup/이름/YYYY-MM-DD/
+# 결과: /backup/이름/YYYY-MM-DD/database.sql.gz
 # 사이트마다 최근 5일만 남기고 그보다 오래된 날짜 폴더는 삭제한다.
 
 set -euo pipefail
@@ -91,14 +91,18 @@ backup_site() {
     local name="$1"
     local site_dir="$2"
     local database="$3"
-    local today work parent parent_dir base vhost
+    local today work parent
 
     if ! [[ "$name" =~ ^[a-z][a-z0-9-]{1,30}$ ]]; then
         log "${name}: 사이트 이름 형식이 올바르지 않아 건너뜁니다."
         return 1
     fi
+    if [ "$database" = "-" ]; then
+        log "${name}: 데이터베이스가 없어 건너뜁니다."
+        return 0
+    fi
     if [ ! -d "$site_dir" ]; then
-        log "${name}: 사이트 폴더가 없어 건너뜁니다."
+        log "${name}: 접속 정보를 찾을 수 없어 건너뜁니다."
         return 1
     fi
 
@@ -109,45 +113,17 @@ backup_site() {
     rm -rf "$work"
     mkdir -p "$work"
 
-    parent_dir=$(dirname "$site_dir")
-    base=$(basename "$site_dir")
-    if ! tar -C "$parent_dir" -czf "${work}/files.tar.gz" \
-        --exclude="${base}/storage/framework/cache" \
-        --exclude="${base}/storage/framework/sessions" \
-        --exclude="${base}/storage/framework/views" \
-        --exclude="${base}/storage/logs" \
-        "$base"; then
+    if ! backup_database "$site_dir" "$database" "${work}/database.sql.gz"; then
         rm -rf "$work"
-        log "${name}: 파일 백업에 실패했습니다."
+        log "${name}: 데이터베이스 백업에 실패했습니다."
         return 1
     fi
-
-    if [ "$database" != "-" ]; then
-        if ! backup_database "$site_dir" "$database" "${work}/database.sql.gz"; then
-            rm -rf "$work"
-            log "${name}: 데이터베이스 백업에 실패했습니다."
-            return 1
-        fi
-    fi
-
-    for vhost in \
-        "/etc/apache2/sites-available/${name}.conf" \
-        "/etc/nginx/sites-available/${name}.conf" \
-        "/etc/nginx/conf.d/${name}.conf"
-    do
-        if [ -f "$vhost" ]; then
-            cp "$vhost" "${work}/web.conf"
-            break
-        fi
-    done
 
     cat > "${work}/README.txt" <<EOF
 사이트: ${name}
 날짜: ${today}
-사이트 폴더: ${site_dir}
 데이터베이스: ${database}
-파일: files.tar.gz
-데이터베이스 파일: database.sql.gz
+파일: database.sql.gz
 EOF
 
     rm -rf "${parent}/${today}"
@@ -180,14 +156,12 @@ fi
 
 mkdir -p "$ROOT"
 chmod 755 "$ROOT"
-if [ ! -f "${ROOT}/README.txt" ]; then
-    cat > "${ROOT}/README.txt" <<EOF
-사이트 백업은 사이트 이름 아래 날짜 폴더에 있습니다.
+cat > "${ROOT}/README.txt" <<EOF
+데이터베이스 백업은 사이트 이름 아래 날짜 폴더에 있습니다.
 매일 1회 백업하고, 사이트마다 최근 5일만 보관합니다.
 대상을 추가하려면 /etc/hk-backup/sites.list 에 한 줄을 넣습니다.
 형식: 이름|사이트경로|데이터베이스
 EOF
-fi
 
 failed=0
 while IFS= read -r line || [ -n "$line" ]; do

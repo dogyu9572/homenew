@@ -10,6 +10,8 @@ use RuntimeException;
 
 class ProjectDeployService
 {
+    private const BUILD_GENERATED_PATHSPEC = ':(glob)**/next-env.d.ts';
+
     public function createFromProvision(ProjectProvision $provision): void
     {
         $gitUrl = trim((string) $provision->git_url);
@@ -130,6 +132,8 @@ class ProjectDeployService
         $helper = $this->writeCredentialHelper((string) config('provision.github_token'));
 
         try {
+            $this->restoreLocalBuildFiles($path);
+
             $process = Process::timeout(180)->run([
                 'sudo', '-n', '/usr/bin/git',
                 '-c', 'safe.directory='.$path,
@@ -150,6 +154,27 @@ class ProjectDeployService
             if (is_file($helper)) {
                 @unlink($helper);
             }
+        }
+    }
+
+    // next build가 다시 쓰는 next-env.d.ts 수정이 남으면 다음 pull --ff-only가 중단된다.
+    private function restoreLocalBuildFiles(string $path): void
+    {
+        $git = ['sudo', '-n', '/usr/bin/git', '-c', 'safe.directory='.$path, '-C', $path];
+
+        $list = Process::timeout(30)->run([...$git, 'ls-files', '-m', '-z', '--', self::BUILD_GENERATED_PATHSPEC]);
+        if (! $list->successful()) {
+            throw new RuntimeException('빌드 생성 파일을 확인하지 못했습니다.');
+        }
+
+        $files = array_values(array_filter(explode("\0", $list->output())));
+        if ($files === []) {
+            return;
+        }
+
+        $restore = Process::timeout(30)->run([...$git, 'checkout', '--', ...$files]);
+        if (! $restore->successful()) {
+            throw new RuntimeException('빌드 생성 파일을 되돌리지 못했습니다.');
         }
     }
 
@@ -307,11 +332,18 @@ cat > "$helper" <<EOF
 printf '%s\n' 'username=x-access-token' "password=$(printf '%s' '__TOKEN_B64__' | base64 -d)"
 EOF
 chmod 700 "$helper"
+# next build가 다시 쓰는 next-env.d.ts 수정이 남으면 pull --ff-only가 중단된다.
+git -c safe.directory="$path" -C "$path" ls-files -m -z -- '__BUILD_PATHSPEC__' \
+    | xargs -0 -r git -c safe.directory="$path" -C "$path" checkout --
 git -c safe.directory="$path" -C "$path" -c "credential.helper=!$helper" pull --ff-only origin "$branch"
 rm -f "$helper"
 BASH;
 
-        return str_replace(['__EXPECTED__', '__TOKEN_B64__'], [$expectedUrl, $tokenBase64], $script);
+        return str_replace(
+            ['__EXPECTED__', '__TOKEN_B64__', '__BUILD_PATHSPEC__'],
+            [$expectedUrl, $tokenBase64, self::BUILD_GENERATED_PATHSPEC],
+            $script
+        );
     }
 
     private function buildJava(ProjectDeploy $deploy): void
